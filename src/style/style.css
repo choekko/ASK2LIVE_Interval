@@ -1,0 +1,17 @@
+.call {
+    text-align: center;
+  }  
+
+.centered {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.padding {
+    padding: 5px;
+}
+
+.divider {
+    padding: 3%;
+}
