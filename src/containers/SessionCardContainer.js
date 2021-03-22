@@ -8,6 +8,7 @@ import {MyLiveSessionsCards, OtherLiveSessionsCards, CurrentReserveSessionsCards
 
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
+import Typography from '@material-ui/core/Typography';
 
 let myLiveSessions = []
 let otherLiveSessions = []
@@ -40,6 +41,14 @@ const SessionCardContainer = () => {
 
     return (
         <>
+
+        <br></br>
+        <div className="centered">
+            <Typography variant="h3" gutterBottom>
+                ASK 2 LIVE
+            </Typography>
+        </div>
+
         <Grid container direction="row" justify="center" alignItems="center">
             { myLiveSessions.length != 0 ? <MyLiveSessionsCards myLiveSessions={myLiveSessions}/> : <p>예약한 세션 중에 라이브중인게 없어요</p> }
         </Grid>

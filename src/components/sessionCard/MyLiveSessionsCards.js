@@ -17,7 +17,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-import "../../style/style.css";
+import "../../styles/style.css";
 import { SportsEsportsOutlined } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
@@ -84,7 +84,7 @@ const MyLiveSessionsCard = ({session}) => {
             image={session.imageLink}
             title={session.hostName}
             onClick={()=>{
-                history.push("/session/live?roomId=" + session.roomId)
+                history.push("/session/mylive?roomId=" + session.roomId + "&channelNum=" + session.channelNum)
             }}
             />
             <CardContent className={classes.cardContent}>

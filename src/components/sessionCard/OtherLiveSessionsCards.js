@@ -45,7 +45,7 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
                     시작 시간 = {session.reserveDate}
                 </Typography>
                 <div className={classes.cursor} onClick={()=>{
-                history.push("/session/live?roomId=" + session.roomId)
+                history.push("/session/live?roomId=" + session.roomId + "&channelNum=" + session.channelNum)
                 }}>
                     <Typography variant="h5" component="h2">
                         {session.roomName}

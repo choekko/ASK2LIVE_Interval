@@ -9,7 +9,7 @@ import LoginButton from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
-import "../../style/style.css"
+import "../../styles/style.css"
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';

@@ -1,0 +1,91 @@
+.call {
+    text-align: center;
+  }  
+
+.centered {
+    display: table;
+    margin-left:auto;
+    margin-right:auto;
+} 
+
+.horizentalmid {
+    display: table;
+    margin:auto;
+    height: 100%;
+} 
+/* 위를 부모로, 아래를 자식으로 하면 수직, 수평정렬  */
+.verticalmid {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.padding {
+    padding: 5px;
+}
+
+.divider {
+    padding: 3%;
+}
+
+.block {
+    display: inline-block;
+}
+
+.live_img {
+    height: 1em;
+    vertical-align: middle;
+}
+
+.NotoSans1 {
+    font-family: 'Noto Sans CJK KR';
+    font-style: normal;
+    font-weight: 100;
+}
+.NotoSans2 {
+    font-family: 'Noto Sans CJK KR';
+    font-style: normal;
+    font-weight: normal;
+}
+.NotoSans3 {
+    font-family: 'Noto Sans CJK KR';
+    font-style: normal;
+    font-weight: 500;
+}
+.NotoSans4 {
+    font-family: 'Noto Sans CJK KR';
+    font-style: normal;
+    font-weight: bold;
+}
+
+.BMDOHYEON {
+    font-family: 'BMDOHYEON';
+    font-style: normal;
+    font-weight: normal;
+}
+
+.BMJUA {
+    font-family: 'BMJUA';
+    font-style: normal;
+    font-weight: normal;
+}
+
+.NanumGothic1 {
+    font-family: 'NanumGothic';
+    font-style: normal;
+    font-weight: 100;
+}
+.NanumGothic2 {
+    font-family: 'NanumGothic';
+    font-style: normal;
+    font-weight: normal;
+}
+.NanumGothic3 {
+    font-family: 'NanumGothic';
+    font-style: normal;
+    font-weight: 500;
+}
+.NanumGothic4 {
+    font-family: 'NanumGothic';
+    font-style: normal;
+    font-weight: bold;
+}
