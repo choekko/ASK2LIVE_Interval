@@ -84,7 +84,7 @@ const MyLiveSessionsCard = ({session}) => {
             image={session.imageLink}
             title={session.hostName}
             onClick={()=>{
-                history.push("/session/mylive?roomId=" + session.roomId + "&channelNum=" + session.channelNum)
+                history.push("/session/live?roomId=" + session.roomId + "&channelNum=" + session.channelNum)
             }}
             />
             <CardContent className={classes.cardContent}>

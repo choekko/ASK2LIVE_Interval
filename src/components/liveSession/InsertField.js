@@ -7,22 +7,31 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import DirectionsIcon from '@material-ui/icons/Directions';
+import { SportsRugbySharp } from '@material-ui/icons';
+import QuestionButton from '@material-ui/icons/ContactSupport';
+import QuestionListButton from '@material-ui/icons/FormatListBulleted';
+import SendIcon from '@material-ui/icons/Send';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'block',
+    padding: '2px 4px',
+    margin : "0 0 10px 0",
+    display: 'flex',
     alignItems: 'center',
-    bottom:"0%",
+    backgroundColor: "rgba(0, 0, 0, 0.0)",
+    border: "1px solid rgba(0, 0, 0, 0.3)",
+    boxShadow: "none",
   },
   input: {
     marginLeft: theme.spacing(1),
     flex: 1,
   },
   iconButton: {
-    padding: 3,
+    padding: 2,
   },
   divider: {
-    height: 28,
+    height: 35,
     margin: 4,
   },
 }));
@@ -32,20 +41,21 @@ export default function CustomizedInputBase() {
 
   return (
     <Paper component="form" className={classes.root}>
-      <IconButton className={classes.iconButton} aria-label="menu">
-        <MenuIcon />
-      </IconButton>
       <InputBase
         className={classes.input}
-        placeholder="Search Google Maps"
+        placeholder="채팅을 입력하세요"
         inputProps={{ 'aria-label': 'search google maps' }}
       />
-      <IconButton type="submit" className={classes.iconButton} aria-label="search">
-        <SearchIcon />
+      <IconButton type="submit" className={classes.iconButton} aria-label="send">
+        <SendIcon/>
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />
-      <IconButton color="primary" className={classes.iconButton} aria-label="directions">
-        <DirectionsIcon />
+      <IconButton className={classes.iconButton} aria-label="question">
+        <QuestionButton/>
+      </IconButton>
+      <Divider className={classes.divider} orientation="vertical" />
+      <IconButton className={classes.iconButton} aria-label="question_list">
+        <QuestionListButton/>
       </IconButton>
     </Paper>
   );

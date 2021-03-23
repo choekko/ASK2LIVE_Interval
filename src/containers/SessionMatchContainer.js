@@ -1,8 +1,7 @@
 import React from "react"
 import LiveSessionContainer from "../containers/LiveSessionContainer"
 
-const MYLIVE = "mylive"
-const OTHERLIVE = "Otherlive"
+const LIVE = "live"
 const RESERVE = "reserve" 
 
 const SessionMatchContainer = (props) => {
@@ -11,7 +10,7 @@ const SessionMatchContainer = (props) => {
     let urlSearchParams = new URLSearchParams(props.location.search.slice(1));
     
     switch (sessionKind) {
-        case MYLIVE:
+        case LIVE:
             const roomId = urlSearchParams.get("roomId");
             const channelNum = urlSearchParams.get("channelNum");
             return <LiveSessionContainer roomId={roomId} channelNum={channelNum}/>

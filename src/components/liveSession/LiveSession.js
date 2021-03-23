@@ -4,6 +4,8 @@ import "../../styles/style.css"
 import "../../index.css"
 import InsertField from "./InsertField"
 import Avatar from "../Avatar";
+import Question from "./Question"
+import QuestionSwiper from "./QuestionSwiper"
 
 import { makeStyles } from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -11,10 +13,25 @@ import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import Checkbox from '@material-ui/core/Checkbox';
 import Favorite from '@material-ui/icons/Favorite';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Badge from '@material-ui/core/Badge';
+import { withStyles } from '@material-ui/core/styles';
 
 
 import { Autocomplete } from '@material-ui/lab';
 import { CenterFocusStrong } from '@material-ui/icons';
+
+const StyledBadge = withStyles((theme) => ({
+    badge: {
+        marginRight: theme.spacing(3),
+        width: 30,
+        height: 30,
+      top: 13,
+      borderRadius: "20px",
+      border: `3px solid ${theme.palette.background.paper}`,
+      padding: '0 4px',
+    },
+  }))(Badge);
 
 const style = {
     livewrapper: {
@@ -99,9 +116,15 @@ const style = {
         float: "right",
     },
     Insertfield: {
-        position: "absolute",
+        position: "fixed",
         bottom:"0%",
-        width: "100%",
+        width: "90%",
+        marginLeft:"auto",
+        marginRight:"auto",
+        maxWidth: "44em"
+    },
+    question: {
+        width : "90%",
     }
     
 }
@@ -115,7 +138,7 @@ const LiveSession = (props) => {
                 <div style={style.session_top}>
                     <table style={style.table}>
                         <tr>
-                            <td  colspan="2" className="NanumGothic4" style={style.td1} >QNA 타이틀 영역입니어</td>
+                            <td  colspan="2" className="NanumGothic4" style={style.td1} >QNA 타이틀 영역입니다다다다다</td>
                             <td  rowspan="2">
                                 <div style={style.follow}>
 
@@ -141,7 +164,9 @@ const LiveSession = (props) => {
                     <div className="horizentalmid" >
                         <div className="verticalmid">
                             <tr>
+                            <StyledBadge badgeContent={<FavoriteBorder style={style.checkIcon}/>} color="error">
                                 <Avatar hostName={props.hostName} imageLink={props.imageLink} size="large"/>
+                            </StyledBadge>
                             </tr>
                             <tr className="centered">
                                 <span className="BMDOHYEON">{props.hostName}</span>
@@ -150,11 +175,15 @@ const LiveSession = (props) => {
                     </div>
                 </div>
                 <div style={style.session_bottom}>
-                    <div style={style.Insertfield}>
-                        <div className="horizentalmid" >
-                            <InsertField className="verticalmid"/>
+                    <Grid container justify="center">
+                        <QuestionSwiper/>
+                    </Grid>
+                    <Grid container justify="center">
+                        <div style={style.Insertfield}>
+                                <InsertField/>
+
                         </div>
-                    </div>
+                    </Grid>
                 </div>
 
             </div>

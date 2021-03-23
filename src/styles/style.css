@@ -89,3 +89,7 @@
     font-style: normal;
     font-weight: bold;
 }
+
+.trans {
+    transition: transform 1s;
+}
