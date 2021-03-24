@@ -8,19 +8,26 @@ import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 
+import {useHistory} from "react-router-dom"
+
 let myLiveSessions = []
 let otherLiveSessions = []
 let currentReserveSessions = []
 
 // 서버에서 세션 데이터 받아오기
 const getSessions = () => {
-    const res = axios.get('https://143.248.226.51:8002/api/hole').then(
+    const res = axios.get('https://143.248.226.51:8000/api/hole').then(
         response => response.data)
-        console.log("res", res);
         return res;
+    
+    console.log(res)
 }
     
 const SessionCardContainer = () => {
+
+
+    const [room, setRoom] = useState({});
+    const history = useHistory();
 
     const [load, setLoad] = useState(0);
     const sessions = getSessions()
@@ -35,7 +42,6 @@ const SessionCardContainer = () => {
         myLiveSessions = []
         otherLiveSessions = []
         currentReserveSessions = []
-
 
         sessions.then((e) => (e.map((session) => {
             console.log(session)
@@ -62,6 +68,16 @@ const SessionCardContainer = () => {
                 ASK 2 LIVE
             </Typography>
         </div>
+        <button onClick={()=>{
+            history.push({
+                pathname: "/hole/c9c9dd9bb",
+                state: {
+                    room : room,
+                    windowHeight : "1000px",
+                    onBack: setRoom(null),
+                }
+            })}
+        }/>
 
         <Grid container direction="row" justify="center" alignItems="center">
             { myLiveSessions.length != 0 ? <MyLiveSessionsCards myLiveSessions={myLiveSessions}/> : <p>예약한 세션 중에 라이브중인게 없어요</p> }

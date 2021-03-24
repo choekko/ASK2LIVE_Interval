@@ -22,28 +22,34 @@ function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
   
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      width: '100%',
-      '& > * + *': {
-        marginTop: theme.spacing(2),
-      },
-      '& .MuiTextField-root': {
-        margin: theme.spacing(1),
-        width: '25ch',
-      },
-      '& > *': {
-        margin: theme.spacing(1),
-      },
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
     },
-    list: {
-        width: "100%",
-        maxWidth: 360,
-        backgroundColor: theme.palette.background.paper
-    }
-  }));
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  list: {
+      width: "100%",
+      maxWidth: 360,
+      backgroundColor: theme.palette.background.paper
+  }
+}));
 
+// const getToken = () => {
+//   const res = axios.get('https://143.248.226.51:8000/api/hole').then(
+//       response => response.data)
+//       return res;
   
+//   console.log(res)
+// }
 
 const LoginPage = () => { 
     const [loginId, setLoginId] = useState("")
@@ -62,7 +68,7 @@ const LoginPage = () => {
       setOpen(false);
     };
 
-    const userList = userDummy;
+    const userList = userDummy; //여기 바꾸면 됨!!
     
     const dispatch = useDispatch();
     const history = useHistory();
