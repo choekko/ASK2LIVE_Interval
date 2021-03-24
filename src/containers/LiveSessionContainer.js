@@ -13,11 +13,8 @@ const LiveSessionContainer = (props) => {
     const imageLink = sessionList[listIndex].imageLink;
     const hostName = sessionList[listIndex].hostName;
 
-    return (
-        <>
-            <LiveSession hostName={hostName} imageLink={imageLink}/>
-        </>
-    )
+    return <LiveSession hostName={hostName} imageLink={imageLink}/>
+    
 }
 
 export default LiveSessionContainer

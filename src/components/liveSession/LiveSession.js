@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 import "../../styles/style.css"
 import "../../index.css"
@@ -6,6 +6,7 @@ import InsertField from "./InsertField"
 import Avatar from "../Avatar";
 import Question from "./Question"
 import QuestionSwiper from "./QuestionSwiper"
+import QuestionList from "./QuestionList"
 
 import { makeStyles } from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -19,7 +20,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 
 import { Autocomplete } from '@material-ui/lab';
-import { CenterFocusStrong } from '@material-ui/icons';
+import { CenterFocusStrong, FilterNone, NoEncryption } from '@material-ui/icons';
 
 const StyledBadge = withStyles((theme) => ({
     badge: {
@@ -125,16 +126,21 @@ const style = {
     },
     question: {
         width : "90%",
-    }
-    
+    },
+
+
 }
 
 const LiveSession = (props) => {
+
+    const [listup, setListUp] = useState({transform : "translate(0, 100%)"})
+    const [dark, setDark] = useState({display:"none"})
 
     return (
         <>
         <div style={style.livewrapper}>
             <div style={style.livesession}>
+            {/* <div className="layerfordark"> */}
                 <div style={style.session_top}>
                     <table style={style.table}>
                         <tr>
@@ -180,14 +186,18 @@ const LiveSession = (props) => {
                     </Grid>
                     <Grid container justify="center">
                         <div style={style.Insertfield}>
-                                <InsertField/>
+                                <InsertField goListUp = {setListUp} goDark={setDark}/>
 
                         </div>
                     </Grid>
                 </div>
-
+            
             </div>
         </div>
+        <div style={listup} className="hidden">
+            <QuestionList/>
+        </div>
+        <div style={dark} className="layerfordark"></div>
         </>
     )
 }

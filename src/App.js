@@ -3,7 +3,8 @@ import React from 'react';
 import CounterContainer from './containers/CounterContainer';
 import NavContainer from './containers/NavContainer'
 import SessionCardContainer from './containers/SessionCardContainer';
-import 'fontsource-roboto'
+// import MainPage from "./components/MainPage" 
+// import 'fontsource-roboto'
 
 import { Route, Switch } from 'react-router-dom'
 import Auth from './hoc/auth'
@@ -14,12 +15,12 @@ import {LoginPage} from './components/onBoard'
 const App = () => {
     return (
         <>
+            {/* <Route exact path="/" component={MainPage}/> */}
         <Route exact path="/" component={SessionCardContainer}/>
         <Switch>
             <Route exact path="/login" component={LoginPage}/>
-            {/* <Route exact path="/resister" component={Auth(ResisterPage, false)}/> */}
             <Route exact path="/session/:state" component={SessionMatchContainer}/> 
-            <Route path="/" component={NavContainer}/>
+            <Route exact path="/" component={NavContainer}/>
         </Switch>
         </>
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {giveUser} from "../modules/user";
@@ -48,13 +48,13 @@ HideOnScroll.propTypes = {
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      flexGrow: 1,
+        // flexGrow: 1,
     },
     menuButton: {
-      marginRight: theme.spacing(2),
+        marginRight: theme.spacing(2),
     },
     title: {
-      flexGrow: 1,
+        flexGrow: 1,
     },
     appBar: {
         top: 'auto',
@@ -69,8 +69,8 @@ const NavOfGuest = (props) => {
 
 
   return (
-    <React.Fragment>
-      <CssBaseline />
+    <>
+      {/* <CssBaseline /> */}
       <HideOnScroll {...props}>
         <AppBar className={classes.appBar}>
             <Toolbar>
@@ -98,7 +98,7 @@ const NavOfGuest = (props) => {
             <Container>
             로그인 전
             </Container>
-    </React.Fragment>
+    </>
   );
 }
 
@@ -110,9 +110,12 @@ const NavOfUser = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
 
+    const history = useHistory();
+
+
   return (
-    <React.Fragment>
-      <CssBaseline />
+    <>
+      {/* <CssBaseline /> */}
       <HideOnScroll {...props}>
         <AppBar className={classes.appBar}>
             <Toolbar>
@@ -144,7 +147,7 @@ const NavOfUser = (props) => {
             <Container>
             로그인 후
             </Container>
-    </React.Fragment>
+    </>
   );
 }
 

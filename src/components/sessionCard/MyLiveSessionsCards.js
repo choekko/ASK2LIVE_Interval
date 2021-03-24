@@ -85,6 +85,7 @@ const MyLiveSessionsCard = ({session}) => {
             title={session.hostName}
             onClick={()=>{
                 history.push("/session/live?roomId=" + session.roomId + "&channelNum=" + session.channelNum)
+                // window.location.href = "/session/live?roomId=" + session.roomId + "&channelNum=" + session.channelNum;
             }}
             />
             <CardContent className={classes.cardContent}>

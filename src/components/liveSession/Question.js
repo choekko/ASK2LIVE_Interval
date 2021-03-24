@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     //   width: "95%",
       width: "100%",
       marginBottom: "1em",
+    //   marginBottom: "3px",
       
       '& > *': {
         display: "",
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
         width : "100%",
         float: "left",
         height: theme.spacing(10),
+        // height: "70px",
         borderRadius : "15px",
       },
     },
@@ -34,8 +36,10 @@ const style = {
         borderRadius : "15px 15px 0 0",
         backgroundColor: "#7A6890",
         height: "1.5rem",
+        // height: "20px",
         padding: "0.3rem",
-    }
+        // padding: "3px",
+    },
 }
 
 export default function SimplePaper(props) {
@@ -49,6 +53,8 @@ return (
             <FormControlLabel style={style.lavel}
             control={<Checkbox icon={<FavoriteBorder style={style.checkIcon}/>} checkedIcon={<Favorite style={style.checkIcon}/>} name="checkedH" />}
             />
+            <br/>
+            <button onClick={props.nextmove}>다음 질문</button>
         </div>
     </Paper>
     </div>
