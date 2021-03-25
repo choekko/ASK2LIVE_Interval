@@ -10,6 +10,8 @@ import Typography from '@material-ui/core/Typography';
 
 import {useHistory} from "react-router-dom"
 
+import "../styles/style.css"
+
 let myLiveSessions = []
 let otherLiveSessions = []
 let currentReserveSessions = []
@@ -21,6 +23,12 @@ const getSessions = () => {
         return res;
     
     console.log(res)
+}
+
+const style = {
+    title : {
+        fontSize: "2em"
+    }
 }
     
 const SessionCardContainer = () => {
@@ -63,10 +71,10 @@ const SessionCardContainer = () => {
         <>
         {console.log("1")}
         <br></br>
-        <div className="centered">
-            <Typography variant="h3" gutterBottom>
-                ASK 2 LIVE
-            </Typography>
+        <div className="centered BMDOHYEON" style={style.title}>
+            {/* <Typography variant="h3"  gutterBottom> */}
+                ASK2LIVE
+            {/* </Typography> */}
         </div>
         {/* <button onClick={()=>{
             history.push({

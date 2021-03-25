@@ -209,7 +209,7 @@ const LiveSession = (props) => {
             </div>
         </div>
         <div style={listup} className="hidden">
-            <QuestionList/>
+            <QuestionList goListUp = {setListUp} goDark={setDark}/>
         </div>
         <div style={dark} className="layerfordark"></div>
         </>
