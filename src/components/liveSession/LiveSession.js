@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import { useHistory} from "react-router-dom"
 
 import "../../styles/style.css"
 import "../../index.css"
@@ -136,6 +137,9 @@ const LiveSession = (props) => {
     const [listup, setListUp] = useState({transform : "translate(0, 100%)"})
     const [dark, setDark] = useState({display:"none"})
 
+    const [room, setRoom] = useState({});
+    const history = useHistory();
+
     return (
         <>
         <div style={style.livewrapper}>
@@ -190,6 +194,16 @@ const LiveSession = (props) => {
 
                         </div>
                     </Grid>
+                    <button onClick={()=>{
+                        history.push({
+                            pathname: "/hole/c9c9dd9bb",
+                            state: {
+                                room : room,
+                                windowHeight : "1000px",
+                                onBack: setRoom(null),
+                            }
+                        })}
+                    }>채팅</button>
                 </div>
             
             </div>

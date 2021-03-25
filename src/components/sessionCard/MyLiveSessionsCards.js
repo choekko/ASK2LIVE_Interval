@@ -64,11 +64,11 @@ const MyLiveSessionsCard = ({session}) => {
         pathname: "/session?state=mylive&i_r_d="+ session.roomId + "&channelNum=" + session.channelNum" 
     })}}> */}
     <div className="padding">
-        <Card key={session.roomId} className={classes.root}>
+        <Card key={session.livehole_id} className={classes.root}>
             <CardHeader
             avatar={
                 <Avatar aria-label="recipe" className={classes.avatar}>
-                {session.hostName[0]}
+                {session.host_nickname}
                 </Avatar>
             }
             action={
@@ -76,22 +76,21 @@ const MyLiveSessionsCard = ({session}) => {
                 <MoreVertIcon />
                 </IconButton>
             }
-            title={session.roomName}
-            subheader={session.reserveDate}
+            title={session.title}
+            subheader={Date(session.reserve_date)}
             />
             <CardMedia
             className={classes.media}
-            image={session.imageLink}
-            title={session.hostName}
+            image={"/static/live_IU.png"}
+            title={session.title}
             onClick={()=>{
-                history.push("/session/live?roomId=" + session.roomId + "&channelNum=" + session.channelNum)
-                // window.location.href = "/session/live?roomId=" + session.roomId + "&channelNum=" + session.channelNum;
+                history.push("/session/live?roomId=" + session.livehole_id + "&channelNum=" + session.livehole_id)
             }}
             />
             <CardContent className={classes.cardContent}>
                 <div className="centered">
                     <Typography variant="body2" color="textSecondary" component="p">
-                        {session.roomSubName}
+                        {session.description}
                     </Typography>
                 </div>
             </CardContent>
@@ -132,7 +131,9 @@ const MyLiveSessionsCards = ({myLiveSessions}) => {
     return (
         <>
             {myLiveSessions.map((session) => (
+                <>
                 <MyLiveSessionsCard session={session} />
+                </>
             ))}
         </>
     )

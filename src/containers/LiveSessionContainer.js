@@ -9,12 +9,15 @@ import { sessionDummy } from "../dummydatas/sessionDummy"
 const LiveSessionContainer = (props) => {
 
     const sessionList = sessionDummy;
-    const listIndex = sessionList.findIndex((session) => session.roomId === props.roomId )
+    const listIndex = sessionList.findIndex((session) => session.livehole_id === props.livehole_id )
     const imageLink = sessionList[listIndex].imageLink;
     const hostName = sessionList[listIndex].hostName;
 
-    return <LiveSession hostName={hostName} imageLink={imageLink}/>
-    
+    return (
+        <>
+            <LiveSession hostName={hostName} imageLink={imageLink}/>
+        </>
+    )
 }
 
 export default LiveSessionContainer

@@ -39,19 +39,19 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
         {otherLiveSessions.map((session) => 
         <>
         <div className="padding">
-            <Card key={session.roomId} className={classes.root}>
+            <Card key={session.livehole_id} className={classes.root}>
                 <CardContent>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    시작 시간 = {session.reserveDate}
+                    시작 시간 = {Date(session.reserve_date)}
                 </Typography>
                 <div className={classes.cursor} onClick={()=>{
-                history.push("/session/live?roomId=" + session.roomId + "&channelNum=" + session.channelNum)
+                history.push("/session/live?roomId=" + session.livehole_id + "&channelNum=" + session.livehole_id)
                 }}>
                     <Typography variant="h5" component="h2">
-                        {session.roomName}
+                        {session.title}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
-                        {session.hostName}
+                        {session.host_nickname}
                     </Typography>
                     <Typography variant="body2" component="p">
                         라이브 중인 다른 방입니다.
