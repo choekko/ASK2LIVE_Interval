@@ -80,7 +80,7 @@ const LoginPage = () => {
       const res = await axios.post('https://143.248.226.51:8000/api/user/login', dataToSubmit)
       console.log(res.data)
       // window.localStorage.setItem('userId', res.data.email)
-      userEmail = res.data.email
+      let userEmail = res.data.email
       window.localStorage.setItem('token', res.data.token)
       history.push('/')
     }

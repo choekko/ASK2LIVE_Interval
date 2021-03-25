@@ -28,6 +28,8 @@ const getSessions = () => {
 //DEBUG
 if(window.localStorage.getItem('token')){
     console.log('토큰이 있습니다.')
+}
+
 const style = {
     title : {
         fontSize: "2em"
@@ -79,12 +81,7 @@ const SessionCardContainer = () => {
                 ASK2LIVE
             {/* </Typography> */}
         </div>
-<<<<<<< HEAD
-        
-        <button onClick={()=>{
-=======
         {/* <button onClick={()=>{
->>>>>>> upstream/master
             history.push({
                 pathname: "/hole/c9c9dd9bb",
                 state: {
