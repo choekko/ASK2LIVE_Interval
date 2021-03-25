@@ -81,10 +81,10 @@ const MyLiveSessionsCard = ({session}) => {
             />
             <CardMedia
             className={classes.media}
-            image={session.imageLink}
+            image={"/static/live_IU.png"}
             title={session.title}
             onClick={()=>{
-                history.push("/session/mylive?roomId=" + session.livehole_id + "&channelNum=" + session.livehole_id)
+                history.push("/session/live?roomId=" + session.livehole_id + "&channelNum=" + session.livehole_id)
             }}
             />
             <CardContent className={classes.cardContent}>

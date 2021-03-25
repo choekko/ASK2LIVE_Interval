@@ -18,12 +18,14 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(2),
         width : "100%",
         height: theme.spacing(10),
+        // height: "75px",
         backgroundColor: "rgba(192, 0, 0, 0)",
       },
     },
     border: {
         borderRadius: "15px",
         padding : "0.5em",
+        // padding : "3px",
     }
   }));
 
@@ -43,14 +45,13 @@ export default function QuestionSwiper() {
         <div className={classes.root}>
         <Paper className={classes.border} elevation={0}>
             <Grid style={transStyle} className="trans" container justify="center">
-                <Question value="무"/>
-                <Question value="야"/>
-                <Question value="호"/>
+                <Question value="무" nextmove={()=>{setTransStyle({transform : "translate(0, -6em)"})}}/>
+                <Question value="야" nextmove={()=>{setTransStyle({transform : "translate(0, -12em)"})}}/>
+                <Question value="호" nextmove={()=>{setTransStyle({transform : "translate(0, -18em)"})}}/>
             </Grid>
     
         </Paper>
         </div>
-        <button onClick={()=>{setTransStyle({transform : "translate(0, -6em)"})}}/>
         </>
     );
 }

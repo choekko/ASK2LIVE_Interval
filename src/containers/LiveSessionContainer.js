@@ -10,12 +10,12 @@ const LiveSessionContainer = (props) => {
 
     const sessionList = sessionDummy;
     const listIndex = sessionList.findIndex((session) => session.livehole_id === props.livehole_id )
-    // const imageLink = sessionList[listIndex].imageLink;
+    const imageLink = sessionList[listIndex].imageLink;
     const hostName = sessionList[listIndex].hostName;
 
     return (
         <>
-            <LiveSession hostName={hostName}/>
+            <LiveSession hostName={hostName} imageLink={imageLink}/>
         </>
     )
 }

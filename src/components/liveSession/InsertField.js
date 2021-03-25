@@ -1,5 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import QuestionList from "./QuestionList";
+
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
@@ -36,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomizedInputBase() {
+export default function CustomizedInputBase(props) {
   const classes = useStyles();
 
   return (
@@ -54,7 +56,7 @@ export default function CustomizedInputBase() {
         <QuestionButton/>
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />
-      <IconButton className={classes.iconButton} aria-label="question_list">
+      <IconButton onClick={()=>{props.goListUp(); props.goDark({display: "block", animation: "godark 0.7s"})}} className={classes.iconButton} aria-label="question_list">
         <QuestionListButton/>
       </IconButton>
     </Paper>

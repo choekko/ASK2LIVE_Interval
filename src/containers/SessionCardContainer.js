@@ -10,6 +10,8 @@ import Typography from '@material-ui/core/Typography';
 
 import {useHistory} from "react-router-dom"
 
+import "../styles/style.css"
+
 let myLiveSessions = []
 let otherLiveSessions = []
 let currentReserveSessions = []
@@ -26,13 +28,17 @@ const getSessions = () => {
 //DEBUG
 if(window.localStorage.getItem('token')){
     console.log('토큰이 있습니다.')
+const style = {
+    title : {
+        fontSize: "2em"
+    }
 }
     
 const SessionCardContainer = () => {
 
 
-    const [room, setRoom] = useState({});
-    const history = useHistory();
+    // const [room, setRoom] = useState({});
+    // const history = useHistory();
 
     const [load, setLoad] = useState(0);
     const sessions = getSessions()
@@ -50,7 +56,7 @@ const SessionCardContainer = () => {
 
         sessions.then((e) => (e.map((session) => {
             console.log(session)
-            if (session.status == "DOING" && (session.hole_reservations[0]).guests.indexOf(user.userNickName) != -1) {
+            if (session.status == "DOING" && (session.hole_reservations[0]).guests.indexOf(user.userNum) != -1) {
                 myLiveSessions = [...myLiveSessions, session];
             }
             else if (session.status == "DOING") {
@@ -68,13 +74,17 @@ const SessionCardContainer = () => {
         <>
         {console.log("1")}
         <br></br>
-        <div className="centered">
-            <Typography variant="h3" gutterBottom>
-                ASK 2 LIVE
-            </Typography>
+        <div className="centered BMDOHYEON" style={style.title}>
+            {/* <Typography variant="h3"  gutterBottom> */}
+                ASK2LIVE
+            {/* </Typography> */}
         </div>
+<<<<<<< HEAD
         
         <button onClick={()=>{
+=======
+        {/* <button onClick={()=>{
+>>>>>>> upstream/master
             history.push({
                 pathname: "/hole/c9c9dd9bb",
                 state: {
@@ -83,7 +93,7 @@ const SessionCardContainer = () => {
                     onBack: setRoom(null),
                 }
             })}
-        }/>
+        }/> */}
 
         <Grid container direction="row" justify="center" alignItems="center">
             { myLiveSessions.length != 0 ? <MyLiveSessionsCards myLiveSessions={myLiveSessions}/> : <p>예약한 세션 중에 라이브중인게 없어요</p> }

@@ -3,7 +3,8 @@ import React, {useState} from 'react';
 import CounterContainer from './containers/CounterContainer';
 import NavContainer from './containers/NavContainer'
 import SessionCardContainer from './containers/SessionCardContainer';
-import 'fontsource-roboto'
+// import MainPage from "./components/MainPage" 
+// import 'fontsource-roboto'
 
 import { Route, Switch, useHistory } from 'react-router-dom'
 import Auth from './hoc/auth'
@@ -16,7 +17,7 @@ import Chat from "./components/liveSession/chatting/Chat"
 
 const App = () => {
 
-    //ì—¬ê¸°ì—ì„œ ìœ ì €ì •ë³´ë¥¼ ë°›ì•„ì•¼í•˜ë‚˜?
+    //?—¬ê¸°ì—?„œ ?œ ???? •ë³´ë?? ë°›ì•„?•¼?•˜?‚˜?
 
     const history = useHistory();
 
@@ -27,9 +28,8 @@ const App = () => {
         <Route exact path="/" component={SessionCardContainer}/>
         <Switch>
             <Route exact path="/login" component={LoginPage}/>
-            {/* <Route exact path="/resister" component={Auth(ResisterPage, false)}/> */}
             <Route exact path="/session/:state" component={SessionMatchContainer}/> 
-            <Route path="/" component={NavContainer}/>
+            <Route exact path="/" component={NavContainer}/>
         </Switch>
         </>
 
