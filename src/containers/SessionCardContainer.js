@@ -22,6 +22,11 @@ const getSessions = () => {
     
     console.log(res)
 }
+
+//DEBUG
+if(window.localStorage.getItem('token')){
+    console.log('토큰이 있습니다.')
+}
     
 const SessionCardContainer = () => {
 
@@ -68,6 +73,7 @@ const SessionCardContainer = () => {
                 ASK 2 LIVE
             </Typography>
         </div>
+        
         <button onClick={()=>{
             history.push({
                 pathname: "/hole/c9c9dd9bb",

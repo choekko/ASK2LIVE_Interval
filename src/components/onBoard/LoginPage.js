@@ -18,6 +18,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 
+import axios from "axios";
+
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
@@ -43,19 +45,16 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-// const getToken = () => {
-//   const res = axios.get('https://143.248.226.51:8000/api/hole').then(
-//       response => response.data)
-//       return res;
-  
-//   console.log(res)
-// }
+
+
+
 
 const LoginPage = () => { 
-    const [loginId, setLoginId] = useState("")
+    const [loginId, setLoginId] = useState("");
+    const [loginPassword, setLoginPassword] = useState("");
     
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
   
     const handleClick = () => {
       setOpen(true);
@@ -73,32 +72,51 @@ const LoginPage = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const loginMatch = (loginId) => {
-        const userListIndex = userList.findIndex(e => e.userId === loginId);
-        console.log("userListIndex" + userListIndex);
-        if (userListIndex === -1){
-            handleClick()
-        }
-        else {
-            dispatch(giveUser(userList[userListIndex]));
-            localStorage.setItem("user", JSON.stringify(userList[userListIndex]))
-            history.push('/')
-        }
+    const Login = async({loginId, loginPassword}) => {
+      let dataToSubmit = {
+        username : loginId,
+        password : loginPassword
+      }
+      const res = await axios.post('https://143.248.226.51:8000/api/user/login', dataToSubmit)
+      console.log(res.data)
+      // window.localStorage.setItem('userId', res.data.email)
+      userEmail = res.data.email
+      window.localStorage.setItem('token', res.data.token)
+      history.push('/')
     }
+
+    // const loginMatch = (loginId) => {
+    //     const userListIndex = userList.findIndex(e => e.userId === loginId);
+    //     console.log("userListIndex" + userListIndex);
+    //     if (userListIndex === -1){
+    //         handleClick()
+    //     }
+    //     else {
+    //         dispatch(giveUser(userList[userListIndex]));
+    //         localStorage.setItem("user", JSON.stringify(userList[userListIndex]))
+    //         history.push('/')
+    //     }
+    // }
 
     return (
         <>
             <br/><br/><br/><br/>
             <div className="centered">
                 <TextField 
-                id="outlined-search" label="ID" type="search" variant="outlined"
+                id="outlined-search" label="Id" type="search" variant="outlined"
                 onChange={(event) => setLoginId(event.target.value)}
                 />
                 {/* <input onChange={(event) => setLoginId(event.target.value)}/> */}
+                {"____"}
+                <TextField 
+                id="outlined-search" label="Password" type="search" variant="outlined"
+                onChange={(event) => setLoginPassword(event.target.value)}
+                />
+
             </div>
-            <br></br>
+            <br/> <br/>
             <div className="centered">
-                <LoginButton variant="contained" color="primary" onClick={() => loginMatch(loginId)}>
+                <LoginButton variant="contained" color="primary" onClick={() => Login({loginId, loginPassword})}>
                     로그인
                 </LoginButton>
                 {/* <button type="button" onClick={() => loginMatch(loginId)}/> */}
