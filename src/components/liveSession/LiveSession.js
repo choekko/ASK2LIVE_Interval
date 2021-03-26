@@ -260,7 +260,7 @@ const LiveSession = (props) => {
             <Questioning goQueUp = {setQueUp} goDark={setDark}/>
         </div>
         <div style={dark} className="layerfordark"></div>
-        <div className="agora">
+        {/* <div className="agora"> */}
                 
 
         {/* <div className="button-group">
@@ -289,7 +289,7 @@ const LiveSession = (props) => {
               Leave
             </button>
           </div> */}
-        <div className="host-player">
+        {/* <div className="host-player">
             {client.uid}
             <PlayerWrapper
                 client={client}
@@ -299,10 +299,10 @@ const LiveSession = (props) => {
                 remoteUsers={remoteUsers}
                 channelNum={props.channelNum}
             />
-        </div>
+        </div> */}
 
 
-        </div>
+        {/* </div> */}
         </>
     )
 }
