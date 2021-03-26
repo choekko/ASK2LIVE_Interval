@@ -152,10 +152,14 @@ Chat.propTypes = {
   onRoomMessagesRead: PropTypes.func.isRequired
 }
 
+//상태를 연결시키는 함수는 mapStateToTrops로 만들어서 connect에 전달해준다.
+//Store 안의 state 값을 props로 연결해준다.
 const mapStateToProps = state => {
   const { messages } = state;
   const { username } = state.user;
   return { username, messages };
 }
 
+// chat 컴포넌트를 어플리케이션의 데이터 레이어와 묶는 역할을 한다.
+// 함수가 여러개였다면 mapDispatchProps로 연결해줘야했을듯
 export default connect(mapStateToProps, { onRoomMessagesRead })(Chat);
