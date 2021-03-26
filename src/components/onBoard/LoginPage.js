@@ -3,7 +3,7 @@ import { userDummy } from '../../dummydatas/userDummy';
 import { useSelector, useDispatch } from 'react-redux';
 import SnackBar from '../SnackBar';
 import { useHistory } from 'react-router-dom'
-import { giveUser } from '../../modules/user';
+import { giveUser } from '../../actions/UserActions';
 
 import LoginButton from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -46,9 +46,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-
-
-
 const LoginPage = () => { 
     const [loginId, setLoginId] = useState("");
     const [loginPassword, setLoginPassword] = useState("");
@@ -66,22 +63,21 @@ const LoginPage = () => {
       }
       setOpen(false);
     };
-
-    const userList = userDummy; //여기 바꾸면 됨!!
     
     const dispatch = useDispatch();
     const history = useHistory();
 
     const Login = async({loginId, loginPassword}) => {
+
       let dataToSubmit = {
         username : loginId,
         password : loginPassword
       }
+
       const res = await axios.post('https://143.248.226.51:8000/api/user/login', dataToSubmit)
-      console.log(res.data)
-      // window.localStorage.setItem('userId', res.data.email)
-      let userEmail = res.data.email
+      console.log('1 res : ', res)
       window.localStorage.setItem('token', res.data.token)
+      // dispatch(giveUser(res.data.token)); // 1. 로그인한 유저의 token을 giveUser의 인자로 전달
       history.push('/')
     }
 
@@ -122,7 +118,7 @@ const LoginPage = () => {
                 {/* <button type="button" onClick={() => loginMatch(loginId)}/> */}
             </div>
             <br/><br/><br/>
-            <div className="centered">
+            {/* <div className="centered">
                 <h3>테스트용 유효 아이디</h3>
                 <List component="nav" className={classes.root} aria-label="mailbox folders">
                 {userList.map((user)=>{
@@ -137,7 +133,7 @@ const LoginPage = () => {
                 })}
                 <Divider light />
                 </List>
-            </div>
+            </div> */}
 
             <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">

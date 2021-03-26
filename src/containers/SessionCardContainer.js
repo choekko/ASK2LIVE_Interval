@@ -25,11 +25,6 @@ const getSessions = () => {
     console.log(res)
 }
 
-//DEBUG
-if(window.localStorage.getItem('token')){
-    console.log('토큰이 있습니다.')
-}
-
 const style = {
     title : {
         fontSize: "2em"
@@ -37,7 +32,6 @@ const style = {
 }
     
 const SessionCardContainer = () => {
-
 
     // const [room, setRoom] = useState({});
     // const history = useHistory();
@@ -51,6 +45,15 @@ const SessionCardContainer = () => {
     // })
     const user = useSelector(state => state.user, []);
     
+    let userDetail;
+    if(user.data.detail){
+        console.log('SessionCard-user.pk', user.data.detail)
+        userDetail = user.data.detail
+    }else{
+        userDetail = {pk:-1} // 반찬고 >_<
+    }
+    
+    
     useEffect(()=>{
         myLiveSessions = []
         otherLiveSessions = []
@@ -58,7 +61,7 @@ const SessionCardContainer = () => {
 
         sessions.then((e) => (e.map((session) => {
             console.log(session)
-            if (session.status == "DOING" && (session.hole_reservations[0]).guests.indexOf(user.userNum) != -1) {
+            if (session.status == "DOING" && (session.hole_reservations[0]).guests.indexOf(userDetail.pk) != -1) {
                 myLiveSessions = [...myLiveSessions, session];
             }
             else if (session.status == "DOING") {
@@ -72,9 +75,9 @@ const SessionCardContainer = () => {
 
 
     return (
+        
         load ? 
         <>
-        {console.log("1")}
         <br></br>
         <div className="centered BMDOHYEON" style={style.title}>
             {/* <Typography variant="h3"  gutterBottom> */}
