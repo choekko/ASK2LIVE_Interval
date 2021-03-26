@@ -51,7 +51,7 @@ export default function JoinCard(props) {
             {props.hostName}님의 방에 입장합니다
           </h3>
         </CardContent>
-          <IconButton aria-label="play/pause">
+          <IconButton onClick={() => props.setJoin(1)} aria-label="play/pause">
             <PlayArrowIcon className={classes.playIcon} />
           </IconButton>
       </div>

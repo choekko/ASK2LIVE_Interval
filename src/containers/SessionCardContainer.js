@@ -45,16 +45,19 @@ const SessionCardContainer = () => {
     // })
     const user = useSelector(state => state.user, []);
     
-    let userDetail;
-    if(user.data.detail){
-        console.log('SessionCard-user.pk', user.data.detail)
-        userDetail = user.data.detail
-    }else{
-        userDetail = {pk:-1} // 반찬고 >_<
-    }
+    
     
     
     useEffect(()=>{
+
+        let userDetail;
+        if(user.data.detail){
+            console.log('SessionCard-user.pk', user.data.detail)
+            userDetail = user.data.detail
+        }else{
+            userDetail = {pk:-1} // 반찬고 >_<
+        }
+
         myLiveSessions = []
         otherLiveSessions = []
         currentReserveSessions = []
