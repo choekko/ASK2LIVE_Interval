@@ -8,10 +8,14 @@ import Typography from '@material-ui/core/Typography';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    width : "94%",
+    maxWidth: "23em",
+    height: "13em"
   },
   details: {
     display: 'flex',
@@ -34,6 +38,10 @@ cover: {
     height: 38,
     width: 38,
   },
+  top : {
+      position : "fixed",
+      top: "30%"
+  }
 }));
 
 export default function JoinCard(props) {
@@ -41,6 +49,7 @@ export default function JoinCard(props) {
   const theme = useTheme();
 
   return (
+<Grid className={classes.top} container justify="center">
     <Card className={classes.root}>
       <div className={classes.details}>
         <CardContent className={classes.content}>
@@ -51,9 +60,12 @@ export default function JoinCard(props) {
             {props.hostName}님의 방에 입장합니다
           </h3>
         </CardContent>
-          <IconButton aria-label="play/pause">
+        <div className={classes.controls}>
+
+          <IconButton onClick={()=>props.setJoin(1)} aria-label="play/pause">
             <PlayArrowIcon className={classes.playIcon} />
           </IconButton>
+        </div>
       </div>
       <CardMedia
         className={classes.cover}
@@ -61,5 +73,7 @@ export default function JoinCard(props) {
         title="Live from space album cover"
       />
     </Card>
+
+</Grid>
   );
 }

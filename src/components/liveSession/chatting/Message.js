@@ -10,7 +10,7 @@ const Message = memo(props => {
     <Comment
       style={{ paddingBottom: 0 }}
       author={`@${author}`}
-      content={<p style={{ textAlign: 'left' }}>{text}</p>}
+      content={<p style={{wordBreak: "break-all" , textAlign: 'left' }}>{text}</p>}
     />
   );
 })

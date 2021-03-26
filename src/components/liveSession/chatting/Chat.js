@@ -60,7 +60,7 @@ const Chat = props => {
 
     const scrollToBottom = () => {
         let element = document.querySelector(".chatting");
-        element.scrollTop = element.scrollHeight;
+        element.scrollTop = element.scrollHeight ? element.scrollHeight : 0;
         console.log("Here");
     }
 
@@ -84,7 +84,7 @@ const Chat = props => {
         if (roomSocket) {
             roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: "70@70.com" } }));
             setMessage('');
-            setTimeout(scrollToBottom,500);
+            setTimeout(scrollToBottom,300);
         }
     }
     setTimeout(scrollToBottom,1000);  // 채팅 올라오는 속도 조절은 타임아웃으로.. 
@@ -135,7 +135,7 @@ return (
       <Grid container justify="center">
         
         <div style={style.Insertfield}>
-                <InsertField message={message} goSetMessage={setMessage} goMessageSend={onMessageSend} goListUp = {props.goListUp} goDark={props.goDark}/>
+                <InsertField message={message} goSetMessage={setMessage} goMessageSend={onMessageSend} goListUp = {props.goListUp} goDark={props.goDark} goQueUp={props.goQueUp}/>
         </div>
       </Grid>
       {/* <MessageInput message={message} onChange={e => setMessage(e.target.value)} onSendClick={onMessageSend} /> */}

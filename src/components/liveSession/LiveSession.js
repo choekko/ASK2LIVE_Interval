@@ -10,6 +10,7 @@ import Avatar from "../Avatar";
 import Question from "./Question"
 import QuestionSwiper from "./QuestionSwiper"
 import QuestionList from "./QuestionList"
+import Questioning from "./Questioning"
 
 import { makeStyles } from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -130,6 +131,7 @@ const style = {
 const LiveSession = (props) => {
 
     const [listup, setListUp] = useState({transform : "translate(0, 100%)"})
+    const [queUp, setQueUp] = useState({transform : "translate(0, 100%)"})
     const [dark, setDark] = useState({display:"none"})
 
     const [room, setRoom] = useState({});
@@ -183,22 +185,25 @@ const LiveSession = (props) => {
                     <Grid container justify="center">
                         <QuestionSwiper/>
                     </Grid>
-                    <Grid container justify="center">
+                    {/* <Grid container justify="center">
                         <div style={style.Insertfield}>
                                 <InsertField goListUp = {setListUp} goDark={setDark}/>
 
                         </div>
-                    </Grid>
-                    {/* <div className="forchat"></div> 
-                    <Chat goListUp = {setListUp} goDark={setDark} room={room} windowHeight="1000px" onBack={()=>setRoom(null)}/>
-                    <div className="chattingblind"></div> */}
+                    </Grid> */}
+                    <div className="forchat"></div> 
+                    <Chat goQueUp={setQueUp} goListUp = {setListUp} goDark={setDark} room={room} windowHeight="1000px" onBack={()=>setRoom(null)}/>
+                    <div className="chattingblind"></div>
                     
                 </div>
             
             </div>
         </div>
-        <div style={listup} className="hidden">
+        <div style={listup} className="hiddenlist">
             <QuestionList goListUp = {setListUp} goDark={setDark}/>
+        </div>
+        <div style={queUp} className="hiddenQue">
+            <Questioning goQueUp = {setQueUp} goDark={setDark}/>
         </div>
         <div style={dark} className="layerfordark"></div>
         </>
