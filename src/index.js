@@ -11,7 +11,7 @@ import rootReducer from './modules';
 import { BrowserRouter } from 'react-router-dom'
 import ReduxThunk from 'redux-thunk';
 
-const store = createStore(rootReducer, {}, applyMiddleware(ReduxThunk));
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 ReactDOM.render(
     <React.StrictMode>
