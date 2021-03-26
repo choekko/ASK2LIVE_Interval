@@ -15,14 +15,16 @@ const LiveSessionContainer = (props) => {
     const listIndex = sessionList.findIndex((session) => session.livehole_id === props.livehole_id )
     const imageLink = sessionList[listIndex].imageLink;
     const hostName = sessionList[listIndex].hostName;
+    const channelNum = props.channelNum;
 
-    if (!join) {
-        return <JoinCard setJoin={setJoin} imageLink={imageLink} hostName={hostName}/> 
-    }
-
-    else {
-        return <LiveSession hostName={hostName} imageLink={imageLink}/>
-    }
+    // if (!join) {
+    //     return <JoinCard setJoin={setJoin} imageLink={imageLink} hostName={hostName}/> 
+    // }
+     return <LiveSession hostName={hostName} imageLink={imageLink} channelNum={channelNum}/>
+    
+    // else {
+        //     return <LiveSession hostName={hostName} imageLink={imageLink}/>
+    // }
 }
 
 export default LiveSessionContainer

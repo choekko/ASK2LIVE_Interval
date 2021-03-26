@@ -64,7 +64,7 @@ export default function CustomizedInputBase(props) {
         <SendIcon/>
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />
-      <IconButton className={classes.iconButton} aria-label="question">
+      <IconButton onClick={()=>{props.goQueUp(); props.goDark({display: "block", animation: "godark 0.7s"})}} className={classes.iconButton} aria-label="question">
         <QuestionButton/>
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />

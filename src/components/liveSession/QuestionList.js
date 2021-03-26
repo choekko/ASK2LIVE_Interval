@@ -24,7 +24,7 @@ const QuestionList = (props) => {
     return (
         <>
         <Paper style={style.paper} elevation={1}/>
-        <IconButton style={style.listbutton} onClick={()=>{props.goListUp({transform : "translate(0, 100%)"}); props.goDark({opacity: "0", animation: "golight 0.7s"}); window.setTimeout(props.goDark({display: "none"}), 700)}} aria-label="question_list">
+        <IconButton style={style.listbutton} onClick={()=>{props.goListUp({transform : "translate(0, 100%)"}); props.goDark({opacity: "0", animation: "golight 0.7s"}); setTimeout(()=>{props.goDark({display: "none"})}, 700)}} aria-label="question_list">
             <QuestionListButton/>
         </IconButton>
         </>
