@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
         // height: "75px",
         backgroundColor: "rgba(192, 0, 0, 0)",
       },
+      zIndex: "3",
     },
     border: {
         borderRadius: "15px",
