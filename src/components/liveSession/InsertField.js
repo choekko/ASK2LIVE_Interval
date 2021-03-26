@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import QuestionList from "./QuestionList";
 
@@ -39,16 +39,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CustomizedInputBase(props) {
-  const classes = useStyles();
 
+
+
+  const classes = useStyles();
+  const pressEnter = (e) => {
+      if (e.key == 'Enter'){
+          props.goMessageSend();
+      }
+  }
   return (
-    <Paper component="form" className={classes.root}>
+      <>
+
+    <Paper className={classes.root}>
       <InputBase
         className={classes.input}
         placeholder="채팅을 입력하세요"
+        value={props.message}
         inputProps={{ 'aria-label': 'search google maps' }}
+        onChange={(e) => props.goSetMessage(e.target.value)}
+        onKeyPress={pressEnter}
       />
-      <IconButton type="submit" className={classes.iconButton} aria-label="send">
+      <IconButton onClick={props.goMessageSend} className={classes.iconButton} aria-label="send">
         <SendIcon/>
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />
@@ -60,5 +72,6 @@ export default function CustomizedInputBase(props) {
         <QuestionListButton/>
       </IconButton>
     </Paper>
+    </>
   );
 }

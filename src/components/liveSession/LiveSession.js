@@ -1,5 +1,7 @@
-import React, {useState} from 'react'
+import React, {useState, useRef, useCallback} from 'react'
 import { useHistory} from "react-router-dom"
+
+import Chat from "./chatting/Chat"
 
 import "../../styles/style.css"
 import "../../index.css"
@@ -117,14 +119,7 @@ const style = {
         marginRight: "3px",
         float: "right",
     },
-    Insertfield: {
-        position: "fixed",
-        bottom:"0%",
-        width: "90%",
-        marginLeft:"auto",
-        marginRight:"auto",
-        maxWidth: "44em"
-    },
+
     question: {
         width : "90%",
     },
@@ -194,16 +189,10 @@ const LiveSession = (props) => {
 
                         </div>
                     </Grid>
-                    <button onClick={()=>{
-                        history.push({
-                            pathname: "/hole/c9c9dd9bb",
-                            state: {
-                                room : room,
-                                windowHeight : "1000px",
-                                onBack: setRoom(null),
-                            }
-                        })}
-                    }>채팅</button>
+                    {/* <div className="forchat"></div> 
+                    <Chat goListUp = {setListUp} goDark={setDark} room={room} windowHeight="1000px" onBack={()=>setRoom(null)}/>
+                    <div className="chattingblind"></div> */}
+                    
                 </div>
             
             </div>
