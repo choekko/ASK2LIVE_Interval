@@ -1,4 +1,4 @@
-import React, {useState, useRef, useCallback} from 'react'
+import React, {useState, useEffect, useRef, useCallback} from 'react'
 import { useHistory} from "react-router-dom"
 
 import Chat from "./chatting/Chat"
@@ -24,6 +24,13 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { Autocomplete } from '@material-ui/lab';
 import { CenterFocusStrong, FilterNone, NoEncryption } from '@material-ui/icons';
+
+//^ =============================================================
+import AgoraRTC from "agora-rtc-sdk-ng";
+import AgoraRTM from "agora-rtm-sdk";
+import useAgora from "./agora/useAgora";
+import PlayerWrapper from "./agora/PlayerWrapper";
+//^ =============================================================
 
 const StyledBadge = withStyles((theme) => ({
     badge: {
@@ -127,6 +134,13 @@ const style = {
 
 }
 
+//^ =============================================================
+const appid = "2e5346b36d1f40b1bbc62472116d96de";
+const client = AgoraRTC.createClient({ codec: "vp8", mode: "rtc" });
+const rtmClient = AgoraRTM.createInstance(appid);
+
+//^ =============================================================
+
 const LiveSession = (props) => {
 
     const [listup, setListUp] = useState({transform : "translate(0, 100%)"})
@@ -134,6 +148,46 @@ const LiveSession = (props) => {
 
     const [room, setRoom] = useState({});
     const history = useHistory();
+
+
+    //^ =============================================================
+    let rtmChannel;
+    // const [channel, setChannel] = useState();
+
+    const {
+        localAudioTrack,
+        leave,
+        join,
+        joinState,
+        remoteUsers,
+        authority,
+    } = useAgora(client);
+
+    useEffect(() => {
+        rtmChannel = rtmClient.createChannel(props.channelNum);
+        join(props.channelNum, null, rtmClient, rtmChannel);
+        return () => {
+            rtmClient.logout();
+            leave();
+        }
+    }, [])
+
+    // const onClick = (choice) => () => {
+    //     if (choice === "join") {
+    //       console.log("join");
+    //       console.log(props.channelNum);
+    //       rtmChannel = rtmClient.createChannel(props.channelNum);
+          
+    //       join(props.channelNum, null, rtmClient, rtmChannel);
+    
+    //     } else if (choice === "leave") {
+    //       console.log("leave");
+    //       rtmClient.logout();
+    //       leave();
+    //     }
+    // };
+
+    //^ =============================================================
 
     return (
         <>
@@ -183,15 +237,15 @@ const LiveSession = (props) => {
                     <Grid container justify="center">
                         <QuestionSwiper/>
                     </Grid>
-                    <Grid container justify="center">
+                    {/* <Grid container justify="center">
                         <div style={style.Insertfield}>
                                 <InsertField goListUp = {setListUp} goDark={setDark}/>
 
                         </div>
-                    </Grid>
-                    {/* <div className="forchat"></div> 
+                    </Grid> */}
+                    <div className="forchat"></div> 
                     <Chat goListUp = {setListUp} goDark={setDark} room={room} windowHeight="1000px" onBack={()=>setRoom(null)}/>
-                    <div className="chattingblind"></div> */}
+                    <div className="chattingblind"></div>
                     
                 </div>
             
@@ -200,7 +254,51 @@ const LiveSession = (props) => {
         <div style={listup} className="hidden">
             <QuestionList goListUp = {setListUp} goDark={setDark}/>
         </div>
+        
         <div style={dark} className="layerfordark"></div>
+        <div className="agora">
+                
+
+        {/* <div className="button-group">
+            <button
+              id="join"
+              type="button"
+              className="btn btn-primary btn-sm"
+              disabled={joinState}
+              onClick={
+                onClick("join")
+                //setChannelList(channel);
+              }
+            >
+              Join
+            </button>
+            <button
+              id="leave"
+              type="button"
+              className="btn btn-primary btn-sm"
+              disabled={!joinState}
+              onClick={
+                onClick("leave")
+                // rtmClient.leave()
+              }
+            >
+              Leave
+            </button>
+          </div> */}
+        <div className="host-player">
+            {client.uid}
+            <PlayerWrapper
+                client={client}
+                rtmClient={rtmClient}
+                host={authority}
+                localAudioTrack={localAudioTrack}
+                remoteUsers={remoteUsers}
+                channelNum={props.channelNum}
+            />
+        </div>
+
+
+        </div>
         </>
     )
 }

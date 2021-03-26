@@ -60,7 +60,8 @@ const Chat = props => {
 
     const scrollToBottom = () => {
         let element = document.querySelector(".chatting");
-        element.scrollTop = element.scrollHeight;
+        
+        element.scrollTop = element.scrollHeight ? element.scrollHeight : 0;
         console.log("Here");
     }
 
@@ -81,13 +82,13 @@ const Chat = props => {
     }, [room]);
     
     const onMessageSend = () => {
-        if (roomSocket) {
-            roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: "70@70.com" } }));
-            setMessage('');
-            setTimeout(scrollToBottom,500);
-        }
+      if (roomSocket) {
+        roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: "70@70.com" } }));
+        setMessage('');
+        setTimeout(scrollToBottom,300);
+      }
     }
-    setTimeout(scrollToBottom,1000);  // 채팅 올라오는 속도 조절은 타임아웃으로.. 
+    setTimeout(scrollToBottom,500);  // 채팅 올라오는 속도 조절은 타임아웃으로.. 
 
     const handleInfiniteOnLoad = () => {
         setLoading(true);
