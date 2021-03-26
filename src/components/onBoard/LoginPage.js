@@ -3,7 +3,7 @@ import { userDummy } from '../../dummydatas/userDummy';
 import { useSelector, useDispatch } from 'react-redux';
 import SnackBar from '../SnackBar';
 import { useHistory } from 'react-router-dom'
-import { giveUser } from '../../modules/user';
+import { giveUser } from '../../actions/UserActions';
 
 import LoginButton from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -17,6 +17,8 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
+
+import axios from "axios";
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -43,19 +45,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-// const getToken = () => {
-//   const res = axios.get('https://143.248.226.51:8000/api/hole').then(
-//       response => response.data)
-//       return res;
-  
-//   console.log(res)
-// }
 
 const LoginPage = () => { 
-    const [loginId, setLoginId] = useState("")
+    const [loginId, setLoginId] = useState("");
+    const [loginPassword, setLoginPassword] = useState("");
     
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
   
     const handleClick = () => {
       setOpen(true);
@@ -67,44 +63,62 @@ const LoginPage = () => {
       }
       setOpen(false);
     };
-
-    const userList = userDummy; //여기 바꾸면 됨!!
     
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const loginMatch = (loginId) => {
-        const userListIndex = userList.findIndex(e => e.userId === loginId);
-        console.log("userListIndex" + userListIndex);
-        if (userListIndex === -1){
-            handleClick()
-        }
-        else {
-            dispatch(giveUser(userList[userListIndex]));
-            localStorage.setItem("user", JSON.stringify(userList[userListIndex]))
-            history.push('/')
-        }
+    const Login = async({loginId, loginPassword}) => {
+
+      let dataToSubmit = {
+        username : loginId,
+        password : loginPassword
+      }
+
+      const res = await axios.post('https://143.248.226.51:8000/api/user/login', dataToSubmit)
+      console.log('1 res : ', res)
+      window.localStorage.setItem('token', res.data.token)
+      // dispatch(giveUser(res.data.token)); // 1. 로그인한 유저의 token을 giveUser의 인자로 전달
+      history.push('/')
     }
+
+    // const loginMatch = (loginId) => {
+    //     const userListIndex = userList.findIndex(e => e.userId === loginId);
+    //     console.log("userListIndex" + userListIndex);
+    //     if (userListIndex === -1){
+    //         handleClick()
+    //     }
+    //     else {
+    //         dispatch(giveUser(userList[userListIndex]));
+    //         localStorage.setItem("user", JSON.stringify(userList[userListIndex]))
+    //         history.push('/')
+    //     }
+    // }
 
     return (
         <>
             <br/><br/><br/><br/>
             <div className="centered">
                 <TextField 
-                id="outlined-search" label="ID" type="search" variant="outlined"
+                id="outlined-search" label="Id" type="search" variant="outlined"
                 onChange={(event) => setLoginId(event.target.value)}
                 />
                 {/* <input onChange={(event) => setLoginId(event.target.value)}/> */}
+                {"____"}
+                <TextField 
+                id="outlined-search" label="Password" type="search" variant="outlined"
+                onChange={(event) => setLoginPassword(event.target.value)}
+                />
+
             </div>
-            <br></br>
+            <br/> <br/>
             <div className="centered">
-                <LoginButton variant="contained" color="primary" onClick={() => loginMatch(loginId)}>
+                <LoginButton variant="contained" color="primary" onClick={() => Login({loginId, loginPassword})}>
                     로그인
                 </LoginButton>
                 {/* <button type="button" onClick={() => loginMatch(loginId)}/> */}
             </div>
             <br/><br/><br/>
-            <div className="centered">
+            {/* <div className="centered">
                 <h3>테스트용 유효 아이디</h3>
                 <List component="nav" className={classes.root} aria-label="mailbox folders">
                 {userList.map((user)=>{
@@ -119,7 +133,7 @@ const LoginPage = () => {
                 })}
                 <Divider light />
                 </List>
-            </div>
+            </div> */}
 
             <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">

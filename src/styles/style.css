@@ -13,7 +13,7 @@
     margin:auto;
     height: 100%;
 } 
-/* À§¸¦ ºÎ¸ð·Î, ¾Æ·¡¸¦ ÀÚ½ÄÀ¸·Î ÇÏ¸é ¼öÁ÷, ¼öÆòÁ¤·Ä  */
+/* ï¿½ï¿½ï¿½ï¿½ ï¿½Î¸ï¿½ï¿½, ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  */
 .verticalmid {
     display: table-cell;
     vertical-align: middle;
@@ -200,4 +200,14 @@ background-color: grey;
     height : 8em;
     background-color: #dfd2df;
     z-index: 2;
+}
+
+.agora{
+    position : absolute;
+    width: 100%;
+    bottom: 15%;
+    height: 20em;
+    background-color:blue;
+    /* display:none; */
+    z-index : 8;
 }

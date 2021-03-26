@@ -104,8 +104,8 @@ const NavOfGuest = (props) => {
 
 const NavOfUser = (props) => {
     
-    const user = props.user;
-
+    const user = props.user.data.detail;
+    console.log('NavOfUser', user)
     
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -145,7 +145,7 @@ const NavOfUser = (props) => {
       </HideOnScroll>
       <Toolbar />
             <Container>
-            로그인 후
+            {user.pk}({user.email})님 로그인 중
             </Container>
     </>
   );

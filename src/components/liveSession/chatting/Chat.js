@@ -60,6 +60,7 @@ const Chat = props => {
 
     const scrollToBottom = () => {
         let element = document.querySelector(".chatting");
+        
         element.scrollTop = element.scrollHeight ? element.scrollHeight : 0;
         console.log("Here");
     }
@@ -81,13 +82,13 @@ const Chat = props => {
     }, [room]);
     
     const onMessageSend = () => {
-        if (roomSocket) {
-            roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: "70@70.com" } }));
-            setMessage('');
-            setTimeout(scrollToBottom,300);
-        }
+      if (roomSocket) {
+        roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: "70@70.com" } }));
+        setMessage('');
+        setTimeout(scrollToBottom,300);
+      }
     }
-    setTimeout(scrollToBottom,1000);  // 채팅 올라오는 속도 조절은 타임아웃으로.. 
+    setTimeout(scrollToBottom,500);  // 채팅 올라오는 속도 조절은 타임아웃으로.. 
 
     const handleInfiniteOnLoad = () => {
         setLoading(true);
@@ -152,10 +153,14 @@ Chat.propTypes = {
   onRoomMessagesRead: PropTypes.func.isRequired
 }
 
+//상태를 연결시키는 함수는 mapStateToTrops로 만들어서 connect에 전달해준다.
+//Store 안의 state 값을 props로 연결해준다.
 const mapStateToProps = state => {
   const { messages } = state;
   const { username } = state.user;
   return { username, messages };
 }
 
+// chat 컴포넌트를 어플리케이션의 데이터 레이어와 묶는 역할을 한다.
+// 함수가 여러개였다면 mapDispatchProps로 연결해줘야했을듯
 export default connect(mapStateToProps, { onRoomMessagesRead })(Chat);

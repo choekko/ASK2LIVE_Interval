@@ -1,5 +1,5 @@
 import { NativeSelect } from '@material-ui/core';
-import React, {useState} from 'react';
+import React, {useEffect, useState, } from 'react';
 import CounterContainer from './containers/CounterContainer';
 import NavContainer from './containers/NavContainer'
 import SessionCardContainer from './containers/SessionCardContainer';
@@ -14,12 +14,27 @@ import {LoginPage} from './components/onBoard'
 
 import Chat from "./components/liveSession/chatting/Chat"
 
+import { getUserInfo } from './actions/UserActions'
+import { bindActionCreators } from 'redux';
+import { connect, useSelector, useDispatch} from 'react-redux';
 
 const App = () => {
 
-    //?—¬ê¸°ì—?„œ ?œ ???? •ë³´ë?? ë°›ì•„?•¼?•˜?‚˜?
+    const dispatch = useDispatch();
+    const token = localStorage.getItem('token')
+    console.log('App token', token)
+    if(token){
+        dispatch(getUserInfo(token));
+    }
 
-    const history = useHistory();
+
+    
+    // const history = useHistory();
+ 
+    // useSelector ë„£ìœ¼ë©´ ë¬´í•œë£¨í”„;;
+    // const userInfo = useSelector(state => state.user.data, [state]);
+    // const { loading, error, userInfo} = this.props;
+    // console.log('userInfo : ', userInfo);
 
     return (
         <>
@@ -36,4 +51,14 @@ const App = () => {
     )
 };
 
-export default App;
+const mapStateToProps = state => {
+    const { loading } = state.user.pending;
+    const { error } = state.user.error;
+    const { userInfo } = state.user.data;
+    return { loading, error, userInfo };
+  }
+
+export default connect(
+    mapStateToProps,
+    { getUserInfo }
+)(App);
