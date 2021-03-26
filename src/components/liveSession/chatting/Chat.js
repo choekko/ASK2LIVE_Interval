@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import { List, PageHeader, Spin } from 'antd';
 import { connect } from 'react-redux';
@@ -9,9 +9,61 @@ import EmptyScreen from './EmptyScreen';
 import Spinner from './Spinner';
 import { onRoomMessagesRead } from '../../../actions/MessagesActions';
 
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+import InsertField from "../InsertField"
+import "../../../styles/style.css"
+import { useCacheErrors } from 'antd/lib/form/util';
+// import List from '@material-ui/core/List';
+
 const windowPadding = 325;
 
+const style = {
+    Insertfield: {
+        position: "fixed",
+        bottom:"0%",
+        width: "90%",
+        marginLeft:"auto",
+        marginRight:"auto",
+        maxWidth: "44em",
+    },
+    top : {
+        position : "absolute",
+        top : "45%",
+    }
+
+}
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+      display: 'flex',
+      '& > * + *': {
+        marginLeft: theme.spacing(2),
+      },
+    },
+  }));
+
 const Chat = props => {
+
+    const classes = useStyles();
+    // const bottomRef = useRef();
+
+    // const scrollToBottom = useCallback(() => {
+    //     bottomRef.current.scrollIntoView({
+    //     behavior: "smooth",
+    //     block: "start",
+    //     });
+    // })
+    
+
+    const scrollToBottom = () => {
+        let element = document.querySelector(".chatting");
+        element.scrollTop = element.scrollHeight;
+        console.log("Here");
+    }
+
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(false);
   const [message, setMessage] = useState('');
@@ -21,58 +73,72 @@ const Chat = props => {
 
   // const { room, messages: { messages, loading: loadingChat }, username, windowHeight, onBack, onRoomMessagesRead } = props;
   const { messages: { messages, loading: loadingChat }, username,  onRoomMessagesRead } = props;
-  const { room, windowHeight, onBack} = props.location.state;
+  const { room, windowHeight, onBack} = props;
 
   useEffect(() => {
-    roomSocket && roomSocket.close();
-    setRoomSocket(onRoomMessagesRead(roomId)); //세션에 관한 정보 중에서 session.id를 여기 바로 넣으면 채팅방이 구분됨
-  }, [room]);
-
-  const onMessageSend = () => {
-    if (roomSocket) {
-      roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: "70@70.com" } }));
-      setMessage('');
+      roomSocket && roomSocket.close();
+      setRoomSocket(onRoomMessagesRead(roomId)); //세션에 관한 정보 중에서 session.id를 여기 바로 넣으면 채팅방이 구분됨
+    }, [room]);
+    
+    const onMessageSend = () => {
+        if (roomSocket) {
+            roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: "70@70.com" } }));
+            setMessage('');
+            setTimeout(scrollToBottom,500);
+        }
     }
-  }
+    setTimeout(scrollToBottom,1000);  // 채팅 올라오는 속도 조절은 타임아웃으로.. 
 
-  const handleInfiniteOnLoad = () => {
-    setLoading(true);
-    messages.length > 14 && setLoading(false) && setHasMore(false);
-  };
-
+    const handleInfiniteOnLoad = () => {
+        setLoading(true);
+        messages.length > 14 && setLoading(false) && setHasMore(false);
+    };
+    
   const renderList = () => {
-    if (loadingChat) return <Spinner />;
+    if (loadingChat) return  (
+        <>
+    <Grid style={style.top} container justify="center">
+        <div  className={classes.root}>
+            <CircularProgress />
+        </div>
+    </Grid>
+        </>
+    )
 
-    if (!messages.length) return <EmptyScreen description='There are no messages' containerStyle={{ borderWidth: 0 }} />;
+    if (!messages.length) return <EmptyScreen description='' containerStyle={{ borderWidth: 0 }} />;
 
     return (
-      <InfiniteScroll
-        initialLoad={false}
-        pageStart={0}
-        loadMore={handleInfiniteOnLoad}
-        hasMore={!loading && hasMore}
-        useWindow={false}
-        style={{ alignItems: 'center', justifyContent: 'center' }}
-      >
+        <>
+      <div className="chatting">
         <List
-          className="comment-list"
+          className="comment-list NanumGothic3"
           itemLayout="horizontal"
           dataSource={messages}
           renderItem={message => <Message key={message.id.toString()} message={message} />}
         >
-          {loading && hasMore && <div className="loading-container"><Spin /></div>}
+        {/* <List>
+            {messages.map((message => <Message key={message.id.toString()} message={message} />))} */}
         </List>
-      </InfiniteScroll>
+          {loading && hasMore && <div className="loading-container"><Spin /></div>}
+      </div>
+      </>
     );
-  }
+}
 
-  return (
+return (
     <React.Fragment>
       
-      <div className='infinite-container chat-infinite-container' style={{ height: windowHeight - windowPadding }}>
+      <div style={{ height: windowHeight - windowPadding }}>
         {renderList()}
+
       </div >
-      <MessageInput message={message} onChange={e => setMessage(e.target.value)} onSendClick={onMessageSend} />
+      <Grid container justify="center">
+        
+        <div style={style.Insertfield}>
+                <InsertField message={message} goSetMessage={setMessage} goMessageSend={onMessageSend} goListUp = {props.goListUp} goDark={props.goDark}/>
+        </div>
+      </Grid>
+      {/* <MessageInput message={message} onChange={e => setMessage(e.target.value)} onSendClick={onMessageSend} /> */}
     </React.Fragment>
   );
 }

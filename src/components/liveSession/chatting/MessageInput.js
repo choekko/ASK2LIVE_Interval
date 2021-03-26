@@ -11,7 +11,7 @@ const MessageInput = props => {
         <Input.TextArea value={message} onChange={onChange} autoSize />
       </Col>
       <Col span={4} className='send-button-container'>
-        <Tooltip title='Send Message'>
+        <Tooltip>
           <Button type="primary" className='send-button' onClick={onSendClick}>Send</Button>
         </Tooltip>
       </Col>
