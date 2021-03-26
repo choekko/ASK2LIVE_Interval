@@ -18,6 +18,8 @@ import "../../../styles/style.css"
 import { useCacheErrors } from 'antd/lib/form/util';
 // import List from '@material-ui/core/List';
 
+import { useSelector } from 'react-redux';
+
 const windowPadding = 325;
 
 const style = {
@@ -48,14 +50,7 @@ const useStyles = makeStyles((theme) => ({
 const Chat = props => {
 
     const classes = useStyles();
-    // const bottomRef = useRef();
 
-    // const scrollToBottom = useCallback(() => {
-    //     bottomRef.current.scrollIntoView({
-    //     behavior: "smooth",
-    //     block: "start",
-    //     });
-    // })
     
 
     const scrollToBottom = () => {
@@ -75,6 +70,9 @@ const Chat = props => {
   // const { room, messages: { messages, loading: loadingChat }, username, windowHeight, onBack, onRoomMessagesRead } = props;
   const { messages: { messages, loading: loadingChat }, username,  onRoomMessagesRead } = props;
   const { room, windowHeight, onBack} = props;
+  
+
+  const userid = useSelector(state => state.user.data.detail);
 
   useEffect(() => {
       roomSocket && roomSocket.close();
@@ -83,7 +81,7 @@ const Chat = props => {
     
     const onMessageSend = () => {
       if (roomSocket) {
-        roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: "70@70.com" } }));
+        roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: userid.email } }));
         setMessage('');
         setTimeout(scrollToBottom,300);
       }

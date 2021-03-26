@@ -15,6 +15,7 @@ import {LoginPage} from './components/onBoard'
 import Chat from "./components/liveSession/chatting/Chat"
 
 import { getUserInfo } from './actions/UserActions'
+import { getSessionInfo } from './actions/SessionActions'
 import { bindActionCreators } from 'redux';
 import { connect, useSelector, useDispatch} from 'react-redux';
 
@@ -22,11 +23,12 @@ const App = () => {
 
     const dispatch = useDispatch();
     const token = localStorage.getItem('token')
-    console.log('App token', token)
+    // console.log('App token', token)
     if(token){
         dispatch(getUserInfo(token));
     }
 
+    dispatch(getSessionInfo());
 
     
     // const history = useHistory();
@@ -58,7 +60,13 @@ const mapStateToProps = state => {
     return { loading, error, userInfo };
   }
 
+const mapDispatchToProps = dispatch => {
+    return {
+        dispatch,
+        ...bindActionCreators({ getUserInfo, getSessionInfo }, dispatch),
+    }
+}
 export default connect(
     mapStateToProps,
-    { getUserInfo }
+    mapDispatchToProps
 )(App);

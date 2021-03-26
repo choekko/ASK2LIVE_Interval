@@ -156,23 +156,23 @@ const LiveSession = (props) => {
     let rtmChannel;
     // const [channel, setChannel] = useState();
 
-    const {
-        localAudioTrack,
-        leave,
-        join,
-        joinState,
-        remoteUsers,
-        authority,
-    } = useAgora(client);
+    // const {
+    //     localAudioTrack,
+    //     leave,
+    //     join,
+    //     joinState,
+    //     remoteUsers,
+    //     authority,
+    // } = useAgora(client);
 
-    useEffect(() => {
-        rtmChannel = rtmClient.createChannel(props.channelNum);
-        join(props.channelNum, null, rtmClient, rtmChannel);
-        return () => {
-            rtmClient.logout();
-            leave();
-        }
-    }, [])
+    // useEffect(() => {
+    //     rtmChannel = rtmClient.createChannel(props.channelNum);
+    //     join(props.channelNum, null, rtmClient, rtmChannel);
+    //     return () => {
+    //         rtmClient.logout();
+    //         leave();
+    //     }
+    // }, [])
 
     // const onClick = (choice) => () => {
     //     if (choice === "join") {
