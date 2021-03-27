@@ -6,6 +6,11 @@ import {MyLiveSessionsCards, OtherLiveSessionsCards, CurrentReserveSessionsCards
 // material-ui
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import Icon from '@material-ui/core/Icon';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
 import {useHistory} from "react-router-dom"
@@ -25,19 +30,48 @@ const getSessions = () => {
     console.log(res)
 }
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+      '& > span': {
+        margin: theme.spacing(2),
+      },
+    },
+  }));
+
 const style = {
     title : {
         fontSize: "2em"
-    }
+    },
+    button : {
+        position: 'relative',
+        width: '80%',
+        marginBottom: '20px',
+    },
+    buttonIcon: {
+        fontSize: 30,
+        fontColor: 'black',
+        backgroundColor: '#C0C0C0',
+        borderRadius: '50%',
+        marginLeft: '150%',
+    },
+    buttonText: {
+        align: 'left',
+        fontSize: '80%',
+        margin: '8px',
+        marginLeft: '-20%',
+        fontWeight: 900,
+    },
 }
+
     
 const SessionCardContainer = () => {
 
     // const [room, setRoom] = useState({});
-    // const history = useHistory();
+    const history = useHistory();
 
     const [load, setLoad] = useState(0);
     const sessions = getSessions()
+    const classes = useStyles();
     //-------DEBUG---------
     // console.log('sessions', sessions)
     // sessions.map((session) => {
@@ -94,6 +128,23 @@ const SessionCardContainer = () => {
                 }
             })}
         }/> */}
+    <br></br>
+        <Grid container justify="center">
+        <Button
+        style={style.button}
+        variant="contained"
+        color="default"
+        endIcon={<AddIcon style={style.buttonIcon}/>}
+        onClick={() => {history.push('/createSession')}}>
+            <div style={style.buttonText} align="left">
+
+                Live Q&A를 통해
+                <br></br>
+                경험을 함께 나누어보세요
+            </div>
+        </Button>
+        </Grid>
+
 
         <Grid container direction="row" justify="center" alignItems="center">
             { myLiveSessions.length != 0 ? <MyLiveSessionsCards myLiveSessions={myLiveSessions}/> : <p>예약한 세션 중에 라이브중인게 없어요</p> }

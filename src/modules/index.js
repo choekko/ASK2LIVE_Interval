@@ -3,7 +3,6 @@ import counter from './counter';
 import user from './user';
 import session from './session';
 import messages from './messages';
-import member from './member';
 import authorize from './authorize';
 
 const rootReducer = combineReducers({
@@ -11,7 +10,6 @@ const rootReducer = combineReducers({
     user,
     session,
     messages,
-    member,
     authorize,
 });
 
