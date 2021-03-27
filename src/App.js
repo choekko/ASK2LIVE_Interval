@@ -3,7 +3,8 @@ import React, {useEffect, useState, } from 'react';
 import CounterContainer from './containers/CounterContainer';
 import NavContainer from './containers/NavContainer'
 import SessionCardContainer from './containers/SessionCardContainer';
-// import MainPage from "./components/MainPage" 
+import MyPageContainer from './containers/MyPageContainer';
+
 // import 'fontsource-roboto'
 
 import { Route, Switch, useHistory } from 'react-router-dom'
@@ -30,13 +31,6 @@ const App = () => {
 
     dispatch(getSessionInfo());
 
-    
-    // const history = useHistory();
- 
-    // useSelector 넣으면 무한루프;;
-    // const userInfo = useSelector(state => state.user.data, [state]);
-    // const { loading, error, userInfo} = this.props;
-    // console.log('userInfo : ', userInfo);
 
     return (
         <>
@@ -46,8 +40,9 @@ const App = () => {
         <Switch>
             <Route exact path="/login" component={LoginPage}/>
             <Route exact path="/session/:state" component={SessionMatchContainer}/> 
-            <Route exact path="/" component={NavContainer}/>
+            <Route path="/" component={NavContainer}/>
         </Switch>
+        <Route exact path="/myPage" component={MyPageContainer}/>
         </>
 
     )
