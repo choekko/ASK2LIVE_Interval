@@ -132,10 +132,11 @@ const NavOfUser = (props) => {
                     <Alert/>
                 </IconButton>
                 <IconButton edge="start" color="inherit" aria-label="mypage">
-                    <MyPageIcon onClick={()=>{
-                      history.push("/mypage")}}/>
+                    <MyPageIcon onClick={ () => {
+                      history.push("/mypage");
+                    } }/>
                 </IconButton>
-                <IconButton edge="start" color="inherit" aria-label="mypage">
+                <IconButton edge="start" color="inherit" aria-label="logout">
                     <ExitButton onClick={()=>{
                         localStorage.clear();
                         window.location.replace('/');

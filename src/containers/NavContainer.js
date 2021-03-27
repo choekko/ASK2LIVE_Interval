@@ -10,7 +10,6 @@ Error: Objects are not valid as a React child (found: [object Promise]). If you 
 */
 const NavContainer = () => {
     const user = useSelector(state => state.user);
-    // console.log('user-------------NavContainer', user.data)
 
     if (user.data.detail){
         return <NavOfUser user={user}/>

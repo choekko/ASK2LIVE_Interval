@@ -32,13 +32,6 @@ const App = () => {
 
     dispatch(getSessionInfo());
 
-    
-    // const history = useHistory();
- 
-    // useSelector ?„£?œ¼ë©? ë¬´í•œë£¨í”„;;
-    // const userInfo = useSelector(state => state.user.data, [state]);
-    // const { loading, error, userInfo} = this.props;
-    // console.log('userInfo : ', userInfo);
 
     return (
         <>
@@ -48,10 +41,9 @@ const App = () => {
         <Switch>
             <Route exact path="/login" component={LoginPage}/>
             <Route exact path="/session/:state" component={SessionMatchContainer}/> 
-            <Route exact path="/" component={NavContainer}/>
-            <Route exact path="/mypage" component={MypageContainer}/>
-            <Route exact path="/createSession" component={SessionCreateContainer}/>
+            <Route path="/" component={NavContainer}/>
         </Switch>
+        <Route exact path="/myPage" component={MyPageContainer}/>
         </>
 
     )
