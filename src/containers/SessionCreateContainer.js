@@ -140,7 +140,7 @@ const SessionCreateContainer = () => {
       <IconButton
         style={style.backIcon}
         aria-label="back"
-        onClick={() => history.push("/")}
+        onClick={() => history.go(-1)}
       >
         <ArrowBackIosIcon />
       </IconButton>
