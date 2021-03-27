@@ -3,6 +3,7 @@
 import * as types from './types'
 
 // 액션 생성자 선언  -  함수와 type을 연결해주는 늑김
+// 없어도 돌아가네? ㅇㅅㅇ?
 /*
 export const create = (color) => ({
     type: types.CREATE,

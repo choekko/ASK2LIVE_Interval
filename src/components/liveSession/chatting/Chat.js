@@ -18,6 +18,8 @@ import "../../../styles/style.css"
 import { useCacheErrors } from 'antd/lib/form/util';
 // import List from '@material-ui/core/List';
 
+import { useSelector } from 'react-redux';
+
 const windowPadding = 325;
 
 const style = {
@@ -48,20 +50,20 @@ const useStyles = makeStyles((theme) => ({
 const Chat = props => {
 
     const classes = useStyles();
-    // const bottomRef = useRef();
 
-    // const scrollToBottom = useCallback(() => {
-    //     bottomRef.current.scrollIntoView({
-    //     behavior: "smooth",
-    //     block: "start",
-    //     });
-    // })
-    
+    // 이 부분 정규식으로 바꾸기
+    let currentUrl = window.location.href
+    const params1 = currentUrl.split('?')
+    const params2 = params1[1].split('&')
+    const params3 = params2[0].split('=')
+    const roomId = params3[1]
 
     const scrollToBottom = () => {
         let element = document.querySelector(".chatting");
-        
-        element.scrollTop = element.scrollHeight ? element.scrollHeight : 0;
+        if (element) {
+
+          element.scrollTop = element.scrollHeight ? element.scrollHeight : 0;
+        }
         console.log("Here");
     }
 
@@ -70,11 +72,14 @@ const Chat = props => {
   const [message, setMessage] = useState('');
   const [roomSocket, setRoomSocket] = useState(null);
 
-  const roomId = "c9c9dd9bb";
+  // const roomId = "c9c9dd9bb";
 
   // const { room, messages: { messages, loading: loadingChat }, username, windowHeight, onBack, onRoomMessagesRead } = props;
   const { messages: { messages, loading: loadingChat }, username,  onRoomMessagesRead } = props;
   const { room, windowHeight, onBack} = props;
+  
+
+  const userid = useSelector(state => state.user.data.detail);
 
   useEffect(() => {
       roomSocket && roomSocket.close();
@@ -83,7 +88,7 @@ const Chat = props => {
     
     const onMessageSend = () => {
       if (roomSocket) {
-        roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: "70@70.com" } }));
+        roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: userid.email } }));
         setMessage('');
         setTimeout(scrollToBottom,300);
       }
