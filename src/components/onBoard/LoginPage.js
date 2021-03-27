@@ -77,22 +77,9 @@ const LoginPage = () => {
       const res = await axios.post('https://143.248.226.51:8000/api/user/login', dataToSubmit)
       console.log('1 res : ', res)
       window.localStorage.setItem('token', res.data.token)
-      // dispatch(giveUser(res.data.token)); // 1. 로그인한 유저의 token을 giveUser의 인자로 전달
-      history.push('/')
+      // history.push('/')
+      window.location.replace('/') // 수정 필요
     }
-
-    // const loginMatch = (loginId) => {
-    //     const userListIndex = userList.findIndex(e => e.userId === loginId);
-    //     console.log("userListIndex" + userListIndex);
-    //     if (userListIndex === -1){
-    //         handleClick()
-    //     }
-    //     else {
-    //         dispatch(giveUser(userList[userListIndex]));
-    //         localStorage.setItem("user", JSON.stringify(userList[userListIndex]))
-    //         history.push('/')
-    //     }
-    // }
 
     return (
         <>
@@ -118,22 +105,6 @@ const LoginPage = () => {
                 {/* <button type="button" onClick={() => loginMatch(loginId)}/> */}
             </div>
             <br/><br/><br/>
-            {/* <div className="centered">
-                <h3>테스트용 유효 아이디</h3>
-                <List component="nav" className={classes.root} aria-label="mailbox folders">
-                {userList.map((user)=>{
-                    return (
-                        <>
-                            <Divider light />
-                            <ListItem button>
-                                <ListItemText primary={user.userNickName} />
-                            </ListItem>
-                        </>
-                    )
-                })}
-                <Divider light />
-                </List>
-            </div> */}
 
             <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">

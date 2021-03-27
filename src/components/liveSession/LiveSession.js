@@ -155,7 +155,7 @@ const LiveSession = (props) => {
 
     //^ =============================================================
     let rtmChannel;
-    // const [channel, setChannel] = useState();
+    const [channel, setChannel] = useState();
 
     const {
         localAudioTrack,
@@ -182,8 +182,6 @@ const LiveSession = (props) => {
           rtmChannel = rtmClient.createChannel(props.channelNum);
           
           join(props.channelNum, null, rtmClient, rtmChannel);
-          console.log("리모트유저 in LIVE: ", remoteUsers.length);
-
         } else if (choice === "leave") {
           console.log("leave");
           rtmClient.logout();
@@ -191,13 +189,13 @@ const LiveSession = (props) => {
         }
     };
 
-    //^ =============================================================
+    // ^ =============================================================
 
     return (
         <>
         <div style={style.livewrapper}>
             <div style={style.livesession}>
-            {/* <div className="layerfordark"> */}
+            <div className="layerfordark">
                 <div style={style.session_top}>
                     <table style={style.table}>
                         <tr>
@@ -241,12 +239,12 @@ const LiveSession = (props) => {
                     <Grid container justify="center">
                         <QuestionSwiper/>
                     </Grid>
-                    {/* <Grid container justify="center">
+                    <Grid container justify="center">
                         <div style={style.Insertfield}>
                                 <InsertField goListUp = {setListUp} goDark={setDark}/>
 
                         </div>
-                    </Grid> */}
+                    </Grid>
                     <div className="forchat"></div> 
                     <Chat goQueUp={setQueUp} goListUp = {setListUp} goDark={setDark} room={room} windowHeight="1000px" onBack={()=>setRoom(null)}/>
                     <div className="chattingblind"></div>
@@ -265,7 +263,7 @@ const LiveSession = (props) => {
         <div className="agora">
                 
 
-        {/* <div className="button-group">
+        <div className="button-group">
             <button
               id="join"
               type="button"
@@ -290,7 +288,7 @@ const LiveSession = (props) => {
             >
               Leave
             </button>
-          </div> */}
+          </div>
         <div className="host-player">
             {client.uid}
             <PlayerWrapper
@@ -302,11 +300,11 @@ const LiveSession = (props) => {
                 channelNum={props.channelNum}
             />
         </div>
-
-
+        </div>
         </div>
         </>
     )
+
 }
 
 export default LiveSession

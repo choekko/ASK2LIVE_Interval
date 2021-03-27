@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import {giveUser} from "../modules/user";
+import {giveUser} from "../reducers/user";
 
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -105,7 +105,7 @@ const NavOfGuest = (props) => {
 const NavOfUser = (props) => {
     
     const user = props.user.data.detail;
-    console.log('NavOfUser', user)
+    // console.log('NavOfUser', user)
     
     const classes = useStyles();
     const dispatch = useDispatch();

@@ -8,3 +8,9 @@ export const USER_GET_PENDING = 'USER_GET_PENDING';
 export const USER_GET_SUCCESS = 'USER_GET_SUCCESS';
 export const USER_GET_FAILURE = 'USER_GET_FAILURE';
 export const GIVEUSER = 'user/GIVEUSER';
+
+// SESSION ACTIONS TYPES
+export const SETLIVE = 'session/setlive';
+export const SESSION_GET_PENDING = 'SESSION_GET_PENDING';
+export const SESSION_GET_SUCCESS = 'SESSION_GET_SUCCESS';
+export const SESSION_GET_FAILURE = 'SESSION_GET_FAILURE';
