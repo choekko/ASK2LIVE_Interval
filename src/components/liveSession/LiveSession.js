@@ -246,7 +246,7 @@ const LiveSession = (props) => {
                         </div>
                     </Grid>
                     <div className="forchat"></div> 
-                    <Chat goQueUp={setQueUp} goListUp = {setListUp} goDark={setDark} room={room} windowHeight="1000px" onBack={()=>setRoom(null)}/>
+                    <Chat roomId={props.channelNum} goQueUp={setQueUp} goListUp = {setListUp} goDark={setDark} room={room} windowHeight="1000px" onBack={()=>setRoom(null)}/>
                     <div className="chattingblind"></div>
                     
                 </div>
@@ -254,41 +254,15 @@ const LiveSession = (props) => {
             </div>
         </div>
         <div style={listup} className="hiddenlist">
-            <QuestionList goListUp = {setListUp} goDark={setDark}/>
+            <QuestionList holeId={props.channelNum} goListUp = {setListUp} goDark={setDark}/>
         </div>
         <div style={queUp} className="hiddenQue">
             <Questioning goQueUp = {setQueUp} goDark={setDark}/>
         </div>
         <div style={dark} className="layerfordark"></div>
-        <div className="agora">
+        {/* <div className="agora"> */}
                 
 
-        <div className="button-group">
-            <button
-              id="join"
-              type="button"
-              className="btn btn-primary btn-sm"
-              disabled={joinState}
-              onClick={
-                onClick("join")
-                //setChannelList(channel);
-              }
-            >
-              Join
-            </button>
-            <button
-              id="leave"
-              type="button"
-              className="btn btn-primary btn-sm"
-              disabled={!joinState}
-              onClick={
-                onClick("leave")
-                // rtmClient.leave()
-              }
-            >
-              Leave
-            </button>
-          </div>
         <div className="host-player">
             {client.uid}
             <PlayerWrapper
@@ -299,7 +273,6 @@ const LiveSession = (props) => {
                 remoteUsers={remoteUsers}
                 channelNum={props.channelNum}
             />
-        </div>
         </div>
         </div>
         </>

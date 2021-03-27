@@ -3,7 +3,7 @@ import React, {useEffect, useState, } from 'react';
 import CounterContainer from './containers/CounterContainer';
 import NavContainer from './containers/NavContainer'
 import SessionCardContainer from './containers/SessionCardContainer';
-import MypageContainer from './containers/MyPageContainer';
+import MypageContainer from './containers/MypageContainer';
 import SessionCreateContainer from './containers/SessionCreateContainer';
 // import MainPage from "./components/MainPage" 
 // import 'fontsource-roboto'

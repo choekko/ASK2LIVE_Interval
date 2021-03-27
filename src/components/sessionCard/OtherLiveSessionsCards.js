@@ -10,11 +10,11 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
   root: {
-    minWidth: 300,
+    minWidth: 270,
   },
   bullet: {
     display: 'inline-block',
-    margin: '0 2px',
+    margin: '0 10px',
     transform: 'scale(0.8)',
   },
   title: {
@@ -25,6 +25,9 @@ const useStyles = makeStyles({
   },
   cursor: {
       cursor: "pointer"
+  },
+  padding : {
+    padding: "2%",
   }
 });
 
@@ -38,7 +41,7 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
       <>
         {otherLiveSessions.map((session) => 
         <>
-        <div className="padding">
+        <div className={classes.padding}>
             <Card key={session.livehole_id} className={classes.root}>
                 <CardContent>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>

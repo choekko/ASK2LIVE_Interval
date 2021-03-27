@@ -22,8 +22,10 @@ import { SportsEsportsOutlined } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      minWidth: 300,
+      minWidth: 250,
       maxWidth: 500,
+      borderRadius: "20px",
+      boxShadow: "1px 1px 8px 0px rgb(0, 0, 0, 0.3)",
     },
     media: {
         cursor: "pointer",
@@ -44,8 +46,30 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: red[500],
     },
     cardContent: {
-        height: "50px"
-    }
+        height: "30px"
+    },
+    cookieWrapper: {
+        display : "block",
+        width: "6em",
+        height: "6em",
+        marginLeft: "1em",
+        backgroundPosition : "center center",
+        backgroundSize: "100%",
+        backgroundRepeat: "no-repeat",
+        overflow: "hidden",
+
+        
+    },
+    useCookie: {
+        position: "absolute",
+        margin: "auto",
+        backgroundImage: "url('/static/cookieMould.png')",
+        backgroundPosition : "center center",
+        backgroundSize: "100%",
+        width: "6em",
+        height : "6em",
+        overflow: "hidden",
+    },
   }));
   
 
@@ -63,8 +87,27 @@ const MyLiveSessionsCard = ({session}) => {
     {/* <div className="padding" onClick={() => {history.push({
         pathname: "/session?state=mylive&i_r_d="+ session.roomId + "&channelNum=" + session.channelNum" 
     })}}> */}
-    <div className="padding">
+    <div 
+    className="padding" 
+    onClick={()=>{
+                history.push("/session/live?roomId=" + session.livehole_id + "&channelNum=" + session.livehole_id)
+            }}
+    style={{cursor:"pointer"}}>
         <Card key={session.livehole_id} className={classes.root}>
+            <br/>
+            <div
+            style={{backgroundImage: "url('/static/live_IU2.png')"}}
+            className={classes.cookieWrapper}
+
+            ><div className={classes.useCookie}></div> </div>
+            {/* <CardMedia
+            className={classes.media}
+            image={"/static/live_IU.png"}
+            title={session.title}
+            onClick={()=>{
+                history.push("/session/live?roomId=" + session.livehole_id + "&channelNum=" + session.livehole_id)
+            }}
+            /> */}
             <CardHeader
             avatar={
                 <Avatar aria-label="recipe" className={classes.avatar}>
@@ -77,15 +120,7 @@ const MyLiveSessionsCard = ({session}) => {
                 </IconButton>
             }
             title={session.title}
-            subheader={Date(session.reserve_date)}
-            />
-            <CardMedia
-            className={classes.media}
-            image={"/static/live_IU.png"}
-            title={session.title}
-            onClick={()=>{
-                history.push("/session/live?roomId=" + session.livehole_id + "&channelNum=" + session.livehole_id)
-            }}
+            subheader={Date(session.reserve_date).substring(0,21)}
             />
             <CardContent className={classes.cardContent}>
                 <div className="centered">
@@ -94,7 +129,7 @@ const MyLiveSessionsCard = ({session}) => {
                     </Typography>
                 </div>
             </CardContent>
-            <CardActions disableSpacing>
+            {/* <CardActions disableSpacing>
             <IconButton aria-label="add to favorites">
                 <FavoriteIcon />
             </IconButton>
@@ -118,7 +153,7 @@ const MyLiveSessionsCard = ({session}) => {
                     라이브 중
                 </Typography>
             </CardContent>
-            </Collapse>
+            </Collapse> */}
         </Card>
         <br />
     </div>
