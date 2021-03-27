@@ -46,9 +46,9 @@ export default function QuestionSwiper() {
         <div className={classes.root}>
         <Paper className={classes.border} elevation={0}>
             <Grid style={transStyle} className="trans" container justify="center">
-                <Question value="무" nextmove={()=>{setTransStyle({transform : "translate(0, -6em)"})}}/>
-                <Question value="야" nextmove={()=>{setTransStyle({transform : "translate(0, -12em)"})}}/>
-                <Question value="호" nextmove={()=>{setTransStyle({transform : "translate(0, -18em)"})}}/>
+                <Question userName="미" value="무" nextmove={()=>{setTransStyle({transform : "translate(0, -6em)"})}}/>
+                <Question userName="어" value="야" nextmove={()=>{setTransStyle({transform : "translate(0, -12em)"})}}/>
+                <Question userName="캣" value="호" nextmove={()=>{setTransStyle({transform : "translate(0, -18em)"})}}/>
             </Grid>
     
         </Paper>

@@ -16,6 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import {useHistory} from "react-router-dom"
 
 import "../styles/style.css"
+import { Description } from '@material-ui/icons';
 
 let myLiveSessions = []
 let otherLiveSessions = []
@@ -23,7 +24,34 @@ let currentReserveSessions = []
 
 const style = {
     title : {
-        fontSize: "2em"
+        color: "#030916",
+        fontSize: "1.5em",
+        paddingLeft : "1em"
+    },
+    mainOragne: {
+        position : "absolute",
+        backgroundColor: "#eb4e27",
+        height : "15em",
+        width: "100%",
+        zIndex : "-1",
+        overflow: "hidden",
+    },
+    descript: {
+        fontSize: "1.2em",
+        color: "white",
+        paddingLeft: "1.2em"
+    },
+    cookie1: {
+        backgroundImage: "url('/static/cookie.png')",
+        top : "3em",
+        right : "-2.5em",
+    },
+    cookie2: {
+        backgroundImage: "url('/static/cookie.png')",
+        top : "-1.5em",
+        width: "2em",
+        backgroundRepeat: "no-repeat",
+        left : "60%",
     },
     button : {
         position: 'relative',
@@ -88,14 +116,22 @@ const SessionCardContainer = () => {
 
     return (
         <>
-        {console.log(sessions)}
-        {console.log(3)}
+        <div style={style.mainOragne}>
+            <div style={style.cookie1} className="helloCookie"/>
+            {/* <div style={style.cookie2} className="helloCookie"/> */}
+        </div>
         <br></br>
-        <div className="centered BMDOHYEON" style={style.title}>
+        <div className="BMDOHYEON" style={style.title}>
             {/* <Typography variant="h3"  gutterBottom> */}
                 ASK2LIVE
             {/* </Typography> */}
         </div>
+        <br/><br/>
+        <div style={style.descript} className="NotoSans2">
+            찜했던<br/>
+            Live Q&A가 시작했어요
+        </div>
+        <br/>
         {/* <button onClick={()=>{
             history.push({
                 pathname: "/hole/c9c9dd9bb",
@@ -131,8 +167,8 @@ const SessionCardContainer = () => {
         <div className="center divider">
             <Divider variant="middle"/>
         </div>
-    
-        <Grid container direction="row" justify="center" alignItems="center">
+
+        <Grid style={{paddingLeft : "6em", paddingRight : "6em"}} container direction="row" justify="center" alignItems="center">
             { otherLiveSessions.length != 0 ? <OtherLiveSessionsCards otherLiveSessions={otherLiveSessions}/> : <p>라이브 중인 다른 세션이 없어요</p> }
         </Grid>
     

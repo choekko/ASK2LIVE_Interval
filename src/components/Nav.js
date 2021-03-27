@@ -20,6 +20,7 @@ import Alert from '@material-ui/icons/Notifications';
 import LoginButton from '@material-ui/icons/MeetingRoom';
 import { Person, Home } from '@material-ui/icons';
 import ExitButton from '@material-ui/icons/PowerSettingsNew'
+import Grid from "@material-ui/core/Grid"
 
 const [MyPageIcon, HomeIcon] = [Person, Home];
 
@@ -58,7 +59,13 @@ const useStyles = makeStyles((theme) => ({
     },
     appBar: {
         top: 'auto',
-        bottom: 0,
+        bottom: "2%",
+        left : "0",
+        right: "0",
+        margin : "auto",
+        backgroundColor: "#eb4e27",
+        borderRadius: "15px", 
+        maxWidth: "80em"
       },
   }));
   
@@ -73,25 +80,24 @@ const NavOfGuest = (props) => {
       {/* <CssBaseline /> */}
       <HideOnScroll {...props}>
         <AppBar className={classes.appBar}>
+            <Grid container justify="center" alignItems="center">
             <Toolbar>
-                <IconButton edge="start" color="inherit" aria-label="menu">
+                <IconButton  color="inherit" aria-label="menu">
                     <HomeIcon/>
                 </IconButton>
-                <Typography variant="h5" className={classes.title}>
-                ASK 2 LIVE
-                </Typography>
-                <IconButton edge="start" color="inherit" aria-label="menu">
+                <IconButton  color="inherit" aria-label="menu">
                     <MenuIcon/>
                 </IconButton>
-                <IconButton edge="start" color="inherit" aria-label="alert">
+                <IconButton  color="inherit" aria-label="alert">
                     <Alert/>
                 </IconButton>
-                <IconButton edge="start" color="inherit" aria-label="login" onClick={()=>{
+                <IconButton  color="inherit" aria-label="login" onClick={()=>{
                         history.push('/login');
                     }}>
                     <LoginButton/>
                 </IconButton>
             </Toolbar>
+            </Grid>
         </AppBar>
       </HideOnScroll>
       <Toolbar />
@@ -118,32 +124,32 @@ const NavOfUser = (props) => {
       {/* <CssBaseline /> */}
       <HideOnScroll {...props}>
         <AppBar className={classes.appBar}>
+            <Grid container justify="center" alignItems="center">
+
             <Toolbar>
-                <IconButton edge="start" color="inherit" aria-label="menu">
+                <IconButton color="inherit" aria-label="menu">
                     <HomeIcon onClick={() => {
                       history.push('/');}} />
                 </IconButton>
-                <Typography variant="h6" className={classes.title}>
-                ASK 2 LIVE
-                </Typography>
-                <IconButton edge="start" color="inherit" aria-label="menu">
+                <IconButton color="inherit" aria-label="menu">
                     <MenuIcon/>
                 </IconButton>
-                <IconButton edge="start" color="inherit" aria-label="alert">
+                <IconButton color="inherit" aria-label="alert">
                     <Alert/>
                 </IconButton>
-                <IconButton edge="start" color="inherit" aria-label="mypage">
+                <IconButton color="inherit" aria-label="mypage">
                     <MyPageIcon onClick={ () => {
                       history.push("/mypage");
                     } }/>
                 </IconButton>
-                <IconButton edge="start" color="inherit" aria-label="logout">
+                <IconButton color="inherit" aria-label="logout">
                     <ExitButton onClick={()=>{
                         localStorage.clear();
                         window.location.replace('/');
                     }}/>
                 </IconButton>
             </Toolbar>
+            </Grid>
         </AppBar>
       </HideOnScroll>
       <Toolbar />
