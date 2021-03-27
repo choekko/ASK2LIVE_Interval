@@ -120,7 +120,8 @@ const NavOfUser = (props) => {
         <AppBar className={classes.appBar}>
             <Toolbar>
                 <IconButton edge="start" color="inherit" aria-label="menu">
-                    <HomeIcon/>
+                    <HomeIcon onClick={() => {
+                      history.push('/');}} />
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
                 ASK 2 LIVE
@@ -132,10 +133,11 @@ const NavOfUser = (props) => {
                     <Alert/>
                 </IconButton>
                 <IconButton edge="start" color="inherit" aria-label="mypage">
-                    <MyPageIcon onClick={()=>{
-                      history.push("/mypage")}}/>
+                    <MyPageIcon onClick={ () => {
+                      history.push("/mypage");
+                    } }/>
                 </IconButton>
-                <IconButton edge="start" color="inherit" aria-label="mypage">
+                <IconButton edge="start" color="inherit" aria-label="logout">
                     <ExitButton onClick={()=>{
                         localStorage.clear();
                         window.location.replace('/');
@@ -145,9 +147,6 @@ const NavOfUser = (props) => {
         </AppBar>
       </HideOnScroll>
       <Toolbar />
-            <Container>
-            {user.pk}({user.email})님 로그인 중
-            </Container>
     </>
   );
 }

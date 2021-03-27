@@ -48,7 +48,7 @@ const style = {
 
     
 const SessionCardContainer = () => {
-    
+    const history = useHistory();
     console.log(1)
 
     const user = useSelector(state => state.user);
