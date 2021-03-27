@@ -56,9 +56,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const history = useHistory;
+
 
 const ProfileGate = ({user}) => {
+    const history = useHistory();
     console.log(user.nickname)
     return(
         <>
@@ -82,7 +83,7 @@ const ProfileGate = ({user}) => {
 }
 
 const LiveQnA = ({user}) => {
-
+    const history = useHistory();
     return(
     <>
     <div className='LiveQnA'>
