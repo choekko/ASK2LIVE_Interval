@@ -18,34 +18,4 @@ const authorize = (state = initialState, action) => {
 
 }
 
-// const Authorize = ({setAuthorize}) => {
-
-//     return ( 
-//         <>
-//             <div className="button-group">
-//             <button
-//               id="host"
-//               type="button"
-//               className="btn btn-primary btn-sm"
-//               onClick={() => {
-//                 setAuthorize("host");
-//               }}
-//             >
-//               Host
-//             </button>
-//             <button
-//               id="audience"
-//               type="button"
-//               className="btn btn-primary btn-sm"
-//               onClick={() => {
-//                 setAuthorize("audience");
-//               }}
-//             >
-//               Audience
-//             </button>
-//           </div>
-//         </>
-//     );
-// }
-
 export default authorize;

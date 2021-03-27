@@ -66,9 +66,9 @@ export default function useAgora(client) {
           console.log("make host");
           console.log(microphoneTrack);
 
-          microphoneTrack.stop();
           client.publish(microphoneTrack);
-          microphoneTrack.setEnabled(true);
+           microphoneTrack.stop();
+           microphoneTrack.setEnabled(true);
 
         } else if (msg.text === "audience") {
           
@@ -81,19 +81,7 @@ export default function useAgora(client) {
         }
       });
 
-    // let members;
-    // await rtmChannel
-    //     .getMembers()
-    //     .then((res) => {
-    //       members = res;
-    //       console.log("GETMEMBERS !!!");
-    //       console.log(res);
-    //     })
-    //     .catch((err) => console.log(err));
-
-    // dispatch({type: "GIVEMEMBER", payload: members});
-
-
+    console.log("리모트유저: ", remoteUsers.length);
     if (remoteUsers.length === 0) {
       console.log("client Role in JOIN ");
       await dispatch({type: "superHost", payload: "host"});

@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react'
+import { useDispatch } from 'react-redux';
 import { useHistory} from "react-router-dom"
 
 import Chat from "./chatting/Chat"
@@ -149,7 +150,7 @@ const LiveSession = (props) => {
     const [dark, setDark] = useState({display:"none"})
 
     const [room, setRoom] = useState({});
-    const history = useHistory();
+    const history = useHistory()
 
 
     //^ =============================================================
@@ -181,7 +182,6 @@ const LiveSession = (props) => {
           rtmChannel = rtmClient.createChannel(props.channelNum);
           
           join(props.channelNum, null, rtmClient, rtmChannel);
-    
         } else if (choice === "leave") {
           console.log("leave");
           rtmClient.logout();

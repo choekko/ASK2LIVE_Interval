@@ -108,4 +108,4 @@ const PlayerWrapper = ({
   );
 };
 
-export default withRouter(PlayerWrapper);
+export default withRouter(PlayerWrapper)
