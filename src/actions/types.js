@@ -8,3 +8,8 @@ export const USER_GET_PENDING = 'USER_GET_PENDING';
 export const USER_GET_SUCCESS = 'USER_GET_SUCCESS';
 export const USER_GET_FAILURE = 'USER_GET_FAILURE';
 export const GIVEUSER = 'user/GIVEUSER';
+
+// Question List Types
+export const QUESTIONLIST_GET_PENDING = 'questionlist/QUESTIONLIST_GET_PENDING';
+export const QUESTIONLIST_GET_SUCCESS = 'questionlist/QUESTIONLIST_GET_SUCCESS';
+export const QUESTIONLIST_GET_ERROR = 'questionlist/QUESTIONLIST_GET_ERROR';

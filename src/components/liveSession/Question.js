@@ -49,12 +49,13 @@ return (
     <div className={classes.root}>
     <Paper elevation={2} >
         <div style={style.card}>
-            {props.value}
+            {props.userName}
             <FormControlLabel style={style.lavel}
             control={<Checkbox icon={<FavoriteBorder style={style.checkIcon}/>} checkedIcon={<Favorite style={style.checkIcon}/>} name="checkedH" />}
             />
             <br/>
-            <button onClick={props.nextmove}>다음 질문</button>
+            {props.value}
+            {props.nextmove ? <button onClick={props.nextmove}>다음 질문</button> : null}
         </div>
     </Paper>
     </div>

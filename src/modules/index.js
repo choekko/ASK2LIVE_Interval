@@ -5,6 +5,7 @@ import session from './session';
 import messages from './messages';
 import member from './member';
 import authorize from './authorize';
+import questionlist from './questionlist';
 
 const rootReducer = combineReducers({
     counter,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     messages,
     member,
     authorize,
+    questionlist,
 });
 
 export default rootReducer;

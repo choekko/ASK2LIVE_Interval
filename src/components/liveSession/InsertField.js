@@ -1,6 +1,8 @@
 import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch } from "react-redux";
 import QuestionList from "./QuestionList";
+import getQuestionList from "../../actions/QuestionListActions";
 
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -40,9 +42,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CustomizedInputBase(props) {
 
-
-
-  const classes = useStyles();
+    const dispatch = useDispatch();
+   const classes = useStyles();
   const pressEnter = (e) => {
       if (e.key == 'Enter'){
           props.goMessageSend();
@@ -68,7 +69,7 @@ export default function CustomizedInputBase(props) {
         <QuestionButton/>
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />
-      <IconButton onClick={()=>{props.goListUp(); props.goDark({display: "block", animation: "godark 0.7s"})}} className={classes.iconButton} aria-label="question_list">
+      <IconButton onClick={()=>{console.log("press button"); dispatch(getQuestionList(7)); props.goListUp(); props.goDark({display: "block", animation: "godark 0.7s"})}} className={classes.iconButton} aria-label="question_list">
         <QuestionListButton/>
       </IconButton>
     </Paper>

@@ -156,23 +156,23 @@ const LiveSession = (props) => {
     let rtmChannel;
     // const [channel, setChannel] = useState();
 
-    const {
-        localAudioTrack,
-        leave,
-        join,
-        joinState,
-        remoteUsers,
-        authority,
-    } = useAgora(client);
+    // const {
+    //     localAudioTrack,
+    //     leave,
+    //     join,
+    //     joinState,
+    //     remoteUsers,
+    //     authority,
+    // } = useAgora(client);
 
-    useEffect(() => {
-        rtmChannel = rtmClient.createChannel(props.channelNum);
-        join(props.channelNum, null, rtmClient, rtmChannel);
-        return () => {
-            rtmClient.logout();
-            leave();
-        }
-    }, [])
+    // useEffect(() => {
+    //     rtmChannel = rtmClient.createChannel(props.channelNum);
+    //     join(props.channelNum, null, rtmClient, rtmChannel);
+    //     return () => {
+    //         rtmClient.logout();
+    //         leave();
+    //     }
+    // }, [])
 
     // const onClick = (choice) => () => {
     //     if (choice === "join") {
@@ -246,7 +246,7 @@ const LiveSession = (props) => {
                         </div>
                     </Grid> */}
                     <div className="forchat"></div> 
-                    <Chat goQueUp={setQueUp} goListUp = {setListUp} goDark={setDark} room={room} windowHeight="1000px" onBack={()=>setRoom(null)}/>
+                    <Chat roomId={props.channelNum} goQueUp={setQueUp} goListUp = {setListUp} goDark={setDark} room={room} windowHeight="1000px" onBack={()=>setRoom(null)}/>
                     <div className="chattingblind"></div>
                     
                 </div>
@@ -254,13 +254,13 @@ const LiveSession = (props) => {
             </div>
         </div>
         <div style={listup} className="hiddenlist">
-            <QuestionList goListUp = {setListUp} goDark={setDark}/>
+            <QuestionList holeId={props.channelNum} goListUp = {setListUp} goDark={setDark}/>
         </div>
         <div style={queUp} className="hiddenQue">
             <Questioning goQueUp = {setQueUp} goDark={setDark}/>
         </div>
         <div style={dark} className="layerfordark"></div>
-        <div className="agora">
+        {/* <div className="agora"> */}
                 
 
         {/* <div className="button-group">
@@ -289,7 +289,7 @@ const LiveSession = (props) => {
               Leave
             </button>
           </div> */}
-        <div className="host-player">
+        {/* <div className="host-player">
             {client.uid}
             <PlayerWrapper
                 client={client}
@@ -299,10 +299,10 @@ const LiveSession = (props) => {
                 remoteUsers={remoteUsers}
                 channelNum={props.channelNum}
             />
-        </div>
+        </div> */}
 
-
-        </div>
+{/* 
+        </div> */}
         </>
     )
 }
