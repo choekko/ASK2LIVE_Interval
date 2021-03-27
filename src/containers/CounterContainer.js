@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Counter from '../components/Counter';
-import { increment, decrement } from '../modules/counter';
+import { increment, decrement } from '../reducers/counter';
 
 
 const CounterContainer = () => {

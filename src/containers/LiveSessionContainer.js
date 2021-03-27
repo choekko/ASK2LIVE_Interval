@@ -17,14 +17,7 @@ const LiveSessionContainer = (props) => {
     const hostName = sessionList[listIndex].hostName;
     const channelNum = props.channelNum;
 
-    // if (!join) {
-    //     return <JoinCard setJoin={setJoin} imageLink={imageLink} hostName={hostName}/> 
-    // }
      return <LiveSession hostName={hostName} imageLink={imageLink} channelNum={channelNum}/>
-    
-    // else {
-        //     return <LiveSession hostName={hostName} imageLink={imageLink}/>
-    // }
 }
 
 export default LiveSessionContainer

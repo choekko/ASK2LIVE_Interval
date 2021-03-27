@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import {giveUser} from "../modules/user";
+import {giveUser} from "../reducers/user";
 
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -111,7 +111,7 @@ const NavOfGuest = (props) => {
 const NavOfUser = (props) => {
     
     const user = props.user.data.detail;
-    console.log('NavOfUser', user)
+    // console.log('NavOfUser', user)
     
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -128,7 +128,8 @@ const NavOfUser = (props) => {
 
             <Toolbar>
                 <IconButton color="inherit" aria-label="menu">
-                    <HomeIcon/>
+                    <HomeIcon onClick={() => {
+                      history.push('/');}} />
                 </IconButton>
                 <IconButton color="inherit" aria-label="menu">
                     <MenuIcon/>
@@ -137,9 +138,11 @@ const NavOfUser = (props) => {
                     <Alert/>
                 </IconButton>
                 <IconButton color="inherit" aria-label="mypage">
-                    <MyPageIcon/>
+                    <MyPageIcon onClick={ () => {
+                      history.push("/mypage");
+                    } }/>
                 </IconButton>
-                <IconButton color="inherit" aria-label="mypage">
+                <IconButton color="inherit" aria-label="logout">
                     <ExitButton onClick={()=>{
                         localStorage.clear();
                         window.location.replace('/');
@@ -150,9 +153,6 @@ const NavOfUser = (props) => {
         </AppBar>
       </HideOnScroll>
       <Toolbar />
-            <Container>
-            {user.pk}({user.email})님 로그인 중
-            </Container>
     </>
   );
 }

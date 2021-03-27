@@ -4,12 +4,13 @@ import { Comment, Tooltip } from 'antd';
 import moment from 'moment';
 
 const Message = memo(props => {
-  const { message: { author, sent, text } } = props;
+  const { message: { sender, sent_timestamp, text } } = props;
+
 
   return (
     <Comment
       style={{ paddingBottom: 0 }}
-      author={`@${author}`}
+      author={`${sender} : `}
       content={<p style={{wordBreak: "break-all" , textAlign: 'left' }}>{text}</p>}
     />
   );

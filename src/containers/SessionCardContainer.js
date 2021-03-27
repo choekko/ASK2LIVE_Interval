@@ -6,6 +6,11 @@ import {MyLiveSessionsCards, OtherLiveSessionsCards, CurrentReserveSessionsCards
 // material-ui
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import Icon from '@material-ui/core/Icon';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
 import {useHistory} from "react-router-dom"
@@ -16,15 +21,6 @@ import { Description } from '@material-ui/icons';
 let myLiveSessions = []
 let otherLiveSessions = []
 let currentReserveSessions = []
-
-// 서버에서 세션 데이터 받아오기
-const getSessions = () => {
-    const res = axios.get('https://143.248.226.51:8000/api/hole').then(
-        response => response.data)
-        return res;
-    
-    console.log(res)
-}
 
 const style = {
     title : {
@@ -56,39 +52,53 @@ const style = {
         width: "2em",
         backgroundRepeat: "no-repeat",
         left : "60%",
-    }
-
+    },
+    button : {
+        position: 'relative',
+        width: '80%',
+        marginBottom: '20px',
+    },
+    buttonIcon: {
+        fontSize: 30,
+        fontColor: 'black',
+        backgroundColor: '#C0C0C0',
+        borderRadius: '50%',
+        marginLeft: '150%',
+    },
+    buttonText: {
+        align: 'left',
+        fontSize: '80%',
+        margin: '8px',
+        marginLeft: '-20%',
+        fontWeight: 900,
+    },
 }
+
     
 const SessionCardContainer = () => {
+    const history = useHistory();
+    console.log(1)
 
-    // const [room, setRoom] = useState({});
-    // const history = useHistory();
+    const user = useSelector(state => state.user);
+    const sessions = useSelector(state => state.session.data);
+    console.log(sessions)
 
-    const [load, setLoad] = useState(0);
-    const sessions = getSessions()
-    //-------DEBUG---------
-    // console.log('sessions', sessions)
-    // sessions.map((session) => {
-    //     console.log(session)
-    // })
-    const user = useSelector(state => state.user, []);
-    
-    let userDetail;
-    if(user.data.detail){
-        console.log('SessionCard-user.pk', user.data.detail)
-        userDetail = user.data.detail
-    }else{
-        userDetail = {pk:-1} // 반찬고 >_<
-    }
-    
-    
-    useEffect(()=>{
+    if(Object.keys(sessions).length != 0){
+
+        console.log(2)
+        let userDetail;
+        if(user.data.detail){
+            // console.log('SessionCard-user.pk', user.data.detail)
+            userDetail = user.data.detail
+        }else{
+            userDetail = {pk:-1} // 반찬고 >_<
+        }
         myLiveSessions = []
         otherLiveSessions = []
         currentReserveSessions = []
 
-        sessions.then((e) => (e.map((session) => {
+        console.log(sessions)
+        sessions.map((session) => {
             console.log(session)
             if (session.status == "DOING" && (session.hole_reservations[0]).guests.indexOf(userDetail.pk) != -1) {
                 myLiveSessions = [...myLiveSessions, session];
@@ -99,13 +109,11 @@ const SessionCardContainer = () => {
             else {
                 currentReserveSessions = [...currentReserveSessions, session];
             }
-        }))).then(()=>{console.log("무야야야야"); if (load < 11) {setLoad(load + 1)}})
-    }, [sessions, user])
+        })
+    }
 
 
     return (
-        
-        load ? 
         <>
         <div style={style.mainOragne}>
             <div style={style.cookie1} className="helloCookie"/>
@@ -133,11 +141,28 @@ const SessionCardContainer = () => {
                 }
             })}
         }/> */}
+    <br></br>
+        <Grid container justify="center">
+        <Button
+        style={style.button}
+        variant="contained"
+        color="default"
+        endIcon={<AddIcon style={style.buttonIcon}/>}
+        onClick={() => {history.push('/createSession')}}>
+            <div style={style.buttonText} align="left">
 
-        <Grid container direction="row" justify="center" alignItems="center">
-            { myLiveSessions.length != 0 ? <MyLiveSessionsCards myLiveSessions={myLiveSessions}/> : <p>예약한 세션 중에 라이브중인게 없어요</p> }
+                Live Q&A를 통해
+                <br></br>
+                경험을 함께 나누어보세요
+            </div>
+        </Button>
         </Grid>
 
+
+        <Grid container direction="row" justify="center" alignItems="center">
+            { myLiveSessions.length != 0 ? <MyLiveSessionsCards myLiveSessions={myLiveSessions} /> : <p>예약한 세션 중에 라이브중인게 없어요</p> }
+        </Grid>
+    
         <div className="center divider">
             <Divider variant="middle"/>
         </div>
@@ -145,17 +170,21 @@ const SessionCardContainer = () => {
         <Grid style={{paddingLeft : "6em", paddingRight : "6em"}} container direction="row" justify="center" alignItems="center">
             { otherLiveSessions.length != 0 ? <OtherLiveSessionsCards otherLiveSessions={otherLiveSessions}/> : <p>라이브 중인 다른 세션이 없어요</p> }
         </Grid>
-
+    
         <div className="center divider">
             <Divider variant="middle"/>
         </div>
-
+    
         {/* <Grid container direction="row" justify="center" alignItems="center">
             { currentReserveSessions.length != 0 ? <CurrentReserveSessionsCards currentReserveSessions={currentReserveSessions}/> : <p>요청 받고있는 다른 세션이 없어요</p>}
         </Grid> */}
         </>
-        : <></>
+
+    
     )
+
+        
+        
 
 
 };
