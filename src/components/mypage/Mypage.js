@@ -130,7 +130,7 @@ const MyPage = () => {
         </Grid>
         <Grid item xs>
             14개 <br />
-            미리 찜하기gg
+            미리 찜하기
           {/* <Paper className={classes.paper}>xs</Paper> */}
         </Grid>
       </Grid>
