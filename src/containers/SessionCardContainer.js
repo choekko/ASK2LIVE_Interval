@@ -61,7 +61,6 @@ const SessionCardContainer = () => {
 
 
     return (
-        
         <>
         {console.log(sessions)}
         {console.log(3)}
@@ -83,7 +82,7 @@ const SessionCardContainer = () => {
         }/> */}
     
         <Grid container direction="row" justify="center" alignItems="center">
-            { myLiveSessions.length != 0 ? <MyLiveSessionsCards myLiveSessions={myLiveSessions}/> : <p>예약한 세션 중에 라이브중인게 없어요</p> }
+            { myLiveSessions.length != 0 ? <MyLiveSessionsCards myLiveSessions={myLiveSessions} /> : <p>예약한 세션 중에 라이브중인게 없어요</p> }
         </Grid>
     
         <div className="center divider">

@@ -40,7 +40,7 @@ const App = () => {
 
     return (
         <>
-        <Route exact path="/hole/c9c9dd9bb" component={Chat}/>
+        {/* <Route exact path="/hole/c9c9dd9bb" component={Chat}/> */}
         
         <Route exact path="/" component={SessionCardContainer}/>
         <Switch>

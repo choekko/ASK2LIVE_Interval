@@ -51,12 +51,19 @@ const Chat = props => {
 
     const classes = useStyles();
 
-    
+    // 이 부분 정규식으로 바꾸기
+    let currentUrl = window.location.href
+    const params1 = currentUrl.split('?')
+    const params2 = params1[1].split('&')
+    const params3 = params2[0].split('=')
+    const roomId = params3[1]
 
     const scrollToBottom = () => {
         let element = document.querySelector(".chatting");
-        
-        element.scrollTop = element.scrollHeight ? element.scrollHeight : 0;
+        if (element) {
+
+          element.scrollTop = element.scrollHeight ? element.scrollHeight : 0;
+        }
         console.log("Here");
     }
 
@@ -65,7 +72,7 @@ const Chat = props => {
   const [message, setMessage] = useState('');
   const [roomSocket, setRoomSocket] = useState(null);
 
-  const roomId = "c9c9dd9bb";
+  // const roomId = "c9c9dd9bb";
 
   // const { room, messages: { messages, loading: loadingChat }, username, windowHeight, onBack, onRoomMessagesRead } = props;
   const { messages: { messages, loading: loadingChat }, username,  onRoomMessagesRead } = props;
