@@ -14,7 +14,7 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import CounterContainer from "../containers/CounterContainer";
-import { increment, decrement } from "../modules/counter";
+import { increment, decrement } from "../reducers/counter";
 import { SettingsInputAntenna } from "@material-ui/icons";
 import axios from "axios";
 
