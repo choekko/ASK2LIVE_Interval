@@ -10,7 +10,6 @@ const SessionMatchContainer = (props) => {
 
     const sessionKind = props.match.params.state;
     let urlSearchParams = new URLSearchParams(props.location.search.slice(1));
-
     
     switch (sessionKind) {
         case LIVE:

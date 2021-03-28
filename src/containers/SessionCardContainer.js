@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { combineReducers } from 'redux';
 import {MyLiveSessionsCards, OtherLiveSessionsCards, CurrentReserveSessionsCards} from '../components/sessionCard' 
+import {SessioinCreateButton} from '../components/SessionCreateButton';
 // material-ui
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
@@ -101,7 +102,7 @@ const SessionCardContainer = () => {
         console.log(sessions)
         sessions.map((session) => {
             console.log(session)
-            if (session.status == "DOING" && (session.hole_reservations[0]).guests.indexOf(userDetail.pk) != -1) {
+            if (session.status == "DOING" && session.hole_reservations.length != 0 && (session.hole_reservations[0]).guests.indexOf(userDetail.pk) != -1) {
                 myLiveSessions = [...myLiveSessions, session];
             }
             else if (session.status == "DOING") {
@@ -143,21 +144,7 @@ const SessionCardContainer = () => {
             })}
         }/> */}
     <br></br>
-        <Grid container justify="center">
-        <Button
-        style={style.button}
-        variant="contained"
-        color="default"
-        endIcon={<AddIcon style={style.buttonIcon}/>}
-        onClick={() => {history.push('/createSession')}}>
-            <div style={style.buttonText} align="left">
-
-                Live Q&A를 통해
-                <br></br>
-                경험을 함께 나누어보세요
-            </div>
-        </Button>
-        </Grid>
+        <SessioinCreateButton/>
 
 
         <Grid container direction="row" justify="center" alignItems="center">

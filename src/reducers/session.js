@@ -10,7 +10,7 @@ import {
 const initialState = {
     pending: false,
     error: false,
-    data: {}
+    data: []
 }
 
 const session = (state = initialState, action) => {

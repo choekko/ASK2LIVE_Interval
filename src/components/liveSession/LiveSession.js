@@ -195,7 +195,7 @@ const LiveSession = (props) => {
         <>
         <div style={style.livewrapper}>
             <div style={style.livesession}>
-            <div className="layerfordark">
+ 
                 <div style={style.session_top}>
                     <table style={style.table}>
                         <tr>
@@ -239,19 +239,14 @@ const LiveSession = (props) => {
                     <Grid container justify="center">
                         <QuestionSwiper/>
                     </Grid>
-                    <Grid container justify="center">
-                        <div style={style.Insertfield}>
-                                <InsertField goListUp = {setListUp} goDark={setDark}/>
 
-                        </div>
-                    </Grid>
                     <div className="forchat"></div> 
                     <Chat roomId={props.channelNum} goQueUp={setQueUp} goListUp = {setListUp} goDark={setDark} room={room} windowHeight="1000px" onBack={()=>setRoom(null)}/>
                     <div className="chattingblind"></div>
                     
                 </div>
             
-            </div>
+         
         </div>
         <div style={listup} className="hiddenlist">
             <QuestionList holeId={props.channelNum} goListUp = {setListUp} goDark={setDark}/>

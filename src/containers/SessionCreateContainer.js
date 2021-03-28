@@ -111,11 +111,11 @@ const SessionCreateContainer = () => {
     });
   });
 
-  const onSubmit = async () => {
+  const onClick = async () => {
     // let finishDate = reserveDate;
     // finishDate.setHours(reserveDate.getHours() + 1);
-    const headers = {
-      'Authorization': 'Token ' + localStorage.token
+    const config = {
+      headers: {'Authorization': 'Token ' + localStorage.token}
     }
     console.log(localStorage.token);
     const data = {
@@ -128,11 +128,11 @@ const SessionCreateContainer = () => {
     const res = await axios.post(
       "https://143.248.226.51:8000/api/hole/create",
       data,
-      {headers:headers}
+      config,
     );
     console.log("hole created: ", res);
 
-    history.push('/');
+    history.push('/mypage');
   };
 
   return (
@@ -149,11 +149,10 @@ const SessionCreateContainer = () => {
           Live Q&A 만들기
         </div>
 
-        <form
+        <div
           style={style.forForm}
           noValidate
           autoComplete="off"
-          onSubmit={onSubmit}
         >
           <TextField
             style={style.field}
@@ -246,10 +245,11 @@ const SessionCreateContainer = () => {
             variant="contained"
             color="secondary"
             type="submit"
+            onClick={onClick}
           >
             Live Q&A 만들기
           </Button>
-        </form>
+        </div>
       </Grid>
     </>
   );
