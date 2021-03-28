@@ -18,6 +18,7 @@ import Chat from "./components/liveSession/chatting/Chat"
 
 import { getUserInfo } from './actions/UserActions'
 import { getSessionInfo } from './actions/SessionActions'
+import { getAllUsersInfo } from './actions/AllUsersActions'
 import { bindActionCreators } from 'redux';
 import { connect, useSelector, useDispatch} from 'react-redux';
 
@@ -25,12 +26,13 @@ const App = () => {
 
     const dispatch = useDispatch();
     const token = localStorage.getItem('token')
-    // console.log('App token', token)
     if(token){
         dispatch(getUserInfo(token));
     }
 
     dispatch(getSessionInfo());
+
+    dispatch(getAllUsersInfo());
 
 
     return (
@@ -50,20 +52,22 @@ const App = () => {
     )
 };
 
-const mapStateToProps = state => {
-    const { loading } = state.user.pending;
-    const { error } = state.user.error;
-    const { userInfo } = state.user.data;
-    return { loading, error, userInfo };
-  }
+// const mapStateToProps = state => {
+//     const { loading } = state.user.pending;
+//     const { error } = state.user.error;
+//     const { userInfo } = state.user.data;
+//     return { loading, error, userInfo };
+//   }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        dispatch,
-        ...bindActionCreators({ getUserInfo, getSessionInfo }, dispatch),
-    }
-}
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(App);
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         dispatch,
+//         ...bindActionCreators({ getUserInfo, getSessionInfo }, dispatch),
+//     }
+// }
+// export default connect(
+//     mapStateToProps,
+//     mapDispatchToProps
+// )(App);
+
+export default App;

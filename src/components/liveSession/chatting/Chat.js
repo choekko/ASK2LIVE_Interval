@@ -88,7 +88,7 @@ const Chat = props => {
     
     const onMessageSend = () => {
       if (roomSocket) {
-        roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: userid.email } }));
+        roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: userid.nickname } }));
         setMessage('');
         setTimeout(scrollToBottom,300);
       }
