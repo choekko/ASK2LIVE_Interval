@@ -101,9 +101,6 @@ const NavOfGuest = (props) => {
         </AppBar>
       </HideOnScroll>
       <Toolbar />
-            <Container>
-            로그인 전
-            </Container>
     </>
   );
 }

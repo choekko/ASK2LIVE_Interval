@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { combineReducers } from 'redux';
 import {MyLiveSessionsCards, OtherLiveSessionsCards, CurrentReserveSessionsCards} from '../components/sessionCard' 
 import {SessioinCreateButton} from '../components/SessionCreateButton';
+import HostCards from '../components/HostCards';
 // material-ui
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
@@ -13,7 +14,6 @@ import Icon from '@material-ui/core/Icon';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-
 import {useHistory} from "react-router-dom"
 
 import "../styles/style.css"
@@ -22,6 +22,7 @@ import { Description } from '@material-ui/icons';
 let myLiveSessions = []
 let otherLiveSessions = []
 let currentReserveSessions = []
+let hosts = []
 
 const style = {
     title : {
@@ -84,6 +85,10 @@ const SessionCardContainer = () => {
     const sessions = useSelector(state => state.session.data);
     const history = useHistory();
     console.log(sessions)
+    const allUsersData = useSelector(state => state.allUsers);
+    console.log('allUsers', allUsersData);
+    // console.log('allUsers.data.data.detail', allUsersData.data.data.detail);
+    
 
     if(Object.keys(sessions).length != 0){
 
@@ -98,6 +103,7 @@ const SessionCardContainer = () => {
         myLiveSessions = []
         otherLiveSessions = []
         currentReserveSessions = []
+        hosts = []
 
         console.log(sessions)
         sessions.map((session) => {
@@ -110,6 +116,16 @@ const SessionCardContainer = () => {
             }
             else {
                 currentReserveSessions = [...currentReserveSessions, session];
+            }
+        })
+    }
+
+    if(Object.keys(allUsersData.data).length != 0){
+        const allUsers = allUsersData.data.data.detail;
+        allUsers.map((candidate) => {
+            if(candidate.hole_open_auth === true){
+                hosts = [...hosts, candidate]
+                console.log(hosts)
             }
         })
     }
@@ -133,16 +149,7 @@ const SessionCardContainer = () => {
             Live Q&A가 시작했어요
         </div>
         <br/>
-        {/* <button onClick={()=>{
-            history.push({
-                pathname: "/hole/c9c9dd9bb",
-                state: {
-                    room : room,
-                    windowHeight : "1000px",
-                    onBack: setRoom(null),
-                }
-            })}
-        }/> */}
+
     <br></br>
         <SessioinCreateButton/>
 
@@ -162,10 +169,20 @@ const SessionCardContainer = () => {
         <div className="center divider">
             <Divider variant="middle"/>
         </div>
-    
-        {/* <Grid container direction="row" justify="center" alignItems="center">
+        
+        <Grid style={{paddingLeft : "6em", paddingRight : "6em"}} container direction="row" justify="center" alignItems="center">
             { currentReserveSessions.length != 0 ? <CurrentReserveSessionsCards currentReserveSessions={currentReserveSessions}/> : <p>요청 받고있는 다른 세션이 없어요</p>}
-        </Grid> */}
+        </Grid>
+
+        <div className="center divider">
+            <Divider variant="middle"/>
+        </div>
+
+        <Grid style={{paddingLeft : "6em", paddingRight : "6em"}} container direction="row" justify="center" alignItems="center">
+            { hosts.length != 0 ? <HostCards hosts={hosts}/> : <p>등록된 호스트가 없어요</p>}
+        </Grid>
+
+        
         </>
 
     
