@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { combineReducers } from 'redux';
 import {MyLiveSessionsCards, OtherLiveSessionsCards, CurrentReserveSessionsCards} from '../components/sessionCard' 
+import {SessioinCreateButton} from '../components/SessionCreateButton';
 import HostCards from '../components/HostCards';
 // material-ui
 import Grid from '@material-ui/core/Grid';
@@ -77,11 +78,12 @@ const style = {
 
     
 const SessionCardContainer = () => {
-    const history = useHistory();
+
     console.log(1)
 
     const user = useSelector(state => state.user);
     const sessions = useSelector(state => state.session.data);
+    const history = useHistory();
     console.log(sessions)
     const allUsersData = useSelector(state => state.allUsers);
     console.log('allUsers', allUsersData);
@@ -149,21 +151,7 @@ const SessionCardContainer = () => {
         <br/>
 
     <br></br>
-        <Grid container justify="center">
-        <Button
-        style={style.button}
-        variant="contained"
-        color="default"
-        endIcon={<AddIcon style={style.buttonIcon}/>}
-        onClick={() => {history.push('/createSession')}}>
-            <div style={style.buttonText} align="left">
-
-                Live Q&A를 통해
-                <br></br>
-                경험을 함께 나누어보세요
-            </div>
-        </Button>
-        </Grid>
+        <SessioinCreateButton/>
 
 
         <Grid container direction="row" justify="center" alignItems="center">

@@ -5,6 +5,7 @@ import NavContainer from './containers/NavContainer'
 import SessionCardContainer from './containers/SessionCardContainer';
 import MypageContainer from './containers/MypageContainer';
 import SessionCreateContainer from './containers/SessionCreateContainer';
+import ProfileDetail from './components/mypage/ProfileDetail';
 // import MainPage from "./components/MainPage" 
 // import 'fontsource-roboto'
 
@@ -44,30 +45,13 @@ const App = () => {
             <Route exact path="/login" component={LoginPage}/>
             <Route exact path="/session/:state" component={SessionMatchContainer}/> 
             <Route exact path="/createSession" component={SessionCreateContainer}/>
+            <Route exact path="/mypage/:nickname" component={ProfileDetail}/>
             <Route path="/" component={NavContainer}/>
         </Switch>
-        <Route exact path="/myPage" component={MypageContainer}/>
+        <Route exact path="/mypage" component={MypageContainer}/>
         </>
 
     )
 };
 
-// const mapStateToProps = state => {
-//     const { loading } = state.user.pending;
-//     const { error } = state.user.error;
-//     const { userInfo } = state.user.data;
-//     return { loading, error, userInfo };
-//   }
-
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         dispatch,
-//         ...bindActionCreators({ getUserInfo, getSessionInfo }, dispatch),
-//     }
-// }
-// export default connect(
-//     mapStateToProps,
-//     mapDispatchToProps
-// )(App);
-
-export default App;
+export default App
