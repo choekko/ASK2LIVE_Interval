@@ -66,18 +66,18 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
       };
 
     console.log("Enter : CurrentReserveSessionsCards")
-
     return (
         <>
         <div className={classes.root}>
             {currentReserveSessions.map((session) => (
                 <>
+                {console.log(session)}
                 <Paper elevation={3}>
                     <div className="padding">
-                        <CircularProgressWithLabel key={session.roomId} value={Math.ceil(session.reserveUsers.length / session.reserveMax * 100)} current={session.reserveUsers.length} />
+                        <CircularProgressWithLabel key={session.id} value={Math.ceil(session.hole_reservations[0].guests.length / session.hole_reservations[0].target_demand * 100)} current={session.hole_reservations[0].guests.length} />
                         <div className="call">
                             <Typography variant="h5" component="div" color="textSecondary">
-                                {session.hostName}
+                                {session.host_nickname}
                             </Typography>
                         </div>
                     </div>

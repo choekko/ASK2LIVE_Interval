@@ -195,7 +195,7 @@ const LiveSession = (props) => {
         <>
         <div style={style.livewrapper}>
             <div style={style.livesession}>
-            <div className="layerfordark">
+
                 <div style={style.session_top}>
                     <table style={style.table}>
                         <tr>
@@ -251,7 +251,7 @@ const LiveSession = (props) => {
                     
                 </div>
             
-            </div>
+
         </div>
         <div style={listup} className="hiddenlist">
             <QuestionList holeId={props.channelNum} goListUp = {setListUp} goDark={setDark}/>
