@@ -6,6 +6,8 @@ import Box from "@material-ui/core/Box";
 import "../../styles/style.css"
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
+import Button from '@material-ui/core/Button';
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -14,12 +16,11 @@ const useStyles = makeStyles((theme) => ({
       "& > *": {
         margin: "0 1em 1em 1em",
         width: theme.spacing(22),
-        height: theme.spacing(30)
+        height: theme.spacing(35)
       }
     }
   }));
   
-
 
 function CircularProgressWithLabel(props) {
   return (
@@ -53,6 +54,10 @@ CircularProgressWithLabel.propTypes = {
     value: 10,
   };
 
+const handleWishButton = () => {
+  console.log("찜하기")
+}
+
 const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
 
     const classes = useStyles();
@@ -68,7 +73,8 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
     console.log("Enter : CurrentReserveSessionsCards")
     return (
         <>
-        <div className={classes.root}>
+        <h2>오픈 신청 중인 라이브 Q&A</h2>
+        <div className={classes.root} >
             {currentReserveSessions.map((session) => (
                 <>
                 {console.log(session)}
@@ -76,9 +82,16 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                     <div className="padding">
                         <CircularProgressWithLabel key={session.id} value={Math.ceil(session.hole_reservations[0].guests.length / session.hole_reservations[0].target_demand * 100)} current={session.hole_reservations[0].guests.length} />
                         <div className="call">
-                            <Typography variant="h5" component="div" color="textSecondary">
-                                {session.host_nickname}
+                            <Typography variant="h7" component="div" color="textSecondary">
+                                {session.title}
                             </Typography>
+                            <p>{session.host_nickname} | {session.host_work_field}</p>
+                        </div>
+                        <Grid container justify="center">
+                          <Button onClick={handleWishButton}>찜하기</Button>
+                          </Grid>
+                        <div>
+                          
                         </div>
                     </div>
                 </Paper>

@@ -147,16 +147,7 @@ const SessionCardContainer = () => {
             Live Q&A가 시작했어요
         </div>
         <br/>
-        {/* <button onClick={()=>{
-            history.push({
-                pathname: "/hole/c9c9dd9bb",
-                state: {
-                    room : room,
-                    windowHeight : "1000px",
-                    onBack: setRoom(null),
-                }
-            })}
-        }/> */}
+
     <br></br>
         <Grid container justify="center">
         <Button
@@ -190,7 +181,7 @@ const SessionCardContainer = () => {
         <div className="center divider">
             <Divider variant="middle"/>
         </div>
-    
+        
         <Grid style={{paddingLeft : "6em", paddingRight : "6em"}} container direction="row" justify="center" alignItems="center">
             { currentReserveSessions.length != 0 ? <CurrentReserveSessionsCards currentReserveSessions={currentReserveSessions}/> : <p>요청 받고있는 다른 세션이 없어요</p>}
         </Grid>

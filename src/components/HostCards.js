@@ -76,6 +76,7 @@ const HostCards = ({hosts}) => {
     const classes = useStyles();
     return (
         <>
+        <h2>새롭게 호스트 권한을 획득한 유저</h2>
             {hosts.map((host) => (
                 <>
                 <Grid container className={classes.root}>
