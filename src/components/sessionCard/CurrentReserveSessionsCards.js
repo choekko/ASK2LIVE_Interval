@@ -9,6 +9,8 @@ import Paper from "@material-ui/core/Paper";
 import Button from '@material-ui/core/Button';
 import Grid from "@material-ui/core/Grid";
 
+import axios from "axios";
+
 const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
@@ -54,8 +56,8 @@ CircularProgressWithLabel.propTypes = {
     value: 10,
   };
 
-const handleWishButton = () => {
-  console.log("찜하기")
+const onClickWish = (sessionId) => {
+  console.log('Click')
 }
 
 const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
@@ -92,7 +94,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                             <p>{session.host_nickname} | {session.host_work_field}</p>
                         </div>
                         <Grid container justify="center">
-                          <Button onClick={handleWishButton}>찜하기</Button>
+                          <Button onClick={onClickWish(session.id)}>찜하기</Button>
                           </Grid>
                         <div>
                           
