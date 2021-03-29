@@ -96,7 +96,8 @@
 }
 
 .hiddenlist {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
     position: fixed;
     border-radius: 20px 20px 0 0; 
     margin-left: auto;
@@ -107,9 +108,9 @@
     max-width : 45em;
     width : 100%;
     height: 90%;
-    background-color: black;
+    background-color: rgb(255, 255, 255);
     transition: transform 0.7s ease;
-    z-index: 2;
+    z-index: 3;
 }
 .hiddenQue {
     display: inline-block;
@@ -149,7 +150,7 @@
     height: 100%;
     background-color: black;
     opacity: 0.6;
-    transition: all 0.7s
+    transition: all 0.7s;
 }
 
 @keyframes godark {
@@ -222,4 +223,29 @@ background-color: grey;
     top : 3em;
     width : 6em;
     height: 6em;
+}
+
+.questionList {
+    padding: 2px;
+    position: absolute;
+    bottom: 0%;
+    width: 95%;
+    height : 95%;
+    background-color: white;
+    border-radius: 20px 20px 0 0;
+    overflow: auto;
+}
+
+.questionList::-webkit-scrollbar {
+    border-radius: 0 20px 0 0; 
+    width: 10px;
+
+}
+.questionList::-webkit-scrollbar-thumb {
+    /* visibility: hidden; */
+    background-color: #2f3542;
+}
+.questionList::-webkit-scrollbar-track {
+    /* visibility: hidden; */
+background-color: grey;
 }

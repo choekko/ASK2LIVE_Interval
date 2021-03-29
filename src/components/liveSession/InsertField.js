@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import QuestionList from "./QuestionList";
 import getQuestionList from "../../actions/QuestionListActions";
 
+import ParticipantsButton from '@material-ui/icons/Group';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
@@ -65,9 +66,15 @@ export default function CustomizedInputBase(props) {
         <SendIcon/>
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />
+      {props.isHost?
+        <IconButton className={classes.iconButton} aria-label="participants">
+         <ParticipantsButton/>
+        </IconButton>
+      :
       <IconButton onClick={()=>{props.goQueUp(); props.goDark({display: "block", animation: "godark 0.7s"})}} className={classes.iconButton} aria-label="question">
         <QuestionButton/>
       </IconButton>
+      }
       <Divider className={classes.divider} orientation="vertical" />
       <IconButton onClick={()=>{console.log("press button"); dispatch(getQuestionList(7)); props.goListUp(); props.goDark({display: "block", animation: "godark 0.7s"})}} className={classes.iconButton} aria-label="question_list">
         <QuestionListButton/>

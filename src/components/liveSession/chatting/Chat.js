@@ -51,12 +51,13 @@ const Chat = props => {
 
     const classes = useStyles();
 
-    // 이 부분 정규식으로 바꾸기
-    let currentUrl = window.location.href
+    let currentUrl = window.location.href;
+    console.log("Chat Url : ", currentUrl);
     const params1 = currentUrl.split('?')
     const params2 = params1[1].split('&')
-    const params3 = params2[0].split('=')
+    const params3 = params2[1].split('=')
     const roomId = params3[1]
+
 
     const scrollToBottom = () => {
         let element = document.querySelector(".chatting");
@@ -88,7 +89,7 @@ const Chat = props => {
     
     const onMessageSend = () => {
       if (roomSocket) {
-        roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: userid.email } }));
+        roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: userid.nickname } }));
         setMessage('');
         setTimeout(scrollToBottom,300);
       }
@@ -141,7 +142,7 @@ return (
       <Grid container justify="center">
         
         <div style={style.Insertfield}>
-                <InsertField message={message} goSetMessage={setMessage} goMessageSend={onMessageSend} goListUp = {props.goListUp} goDark={props.goDark} goQueUp={props.goQueUp}/>
+                <InsertField isHost={props.isHost} message={message} goSetMessage={setMessage} goMessageSend={onMessageSend} goListUp = {props.goListUp} goDark={props.goDark} goQueUp={props.goQueUp}/>
         </div>
       </Grid>
       {/* <MessageInput message={message} onChange={e => setMessage(e.target.value)} onSendClick={onMessageSend} /> */}

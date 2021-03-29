@@ -7,7 +7,7 @@ import {
 
 import axios from 'axios'
 
-export const setLive = (given_roomId, given_livestate) => ({ type : SETLIVE, roomId: given_roomId,  livestate: given_livestate});  //
+export const setLive = (given_holeId, given_livestate) => ({ type : SETLIVE, holeId: given_holeId,  livestate: given_livestate});  //
 
 function sessionGetApi(){
     return axios.get('https://143.248.226.51:8000/api/hole')

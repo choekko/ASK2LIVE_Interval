@@ -74,7 +74,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                 <>
                 <Paper elevation={3}>
                     <div className="padding">
-                        <CircularProgressWithLabel key={session.roomId} value={Math.ceil(session.reserveUsers.length / session.reserveMax * 100)} current={session.reserveUsers.length} />
+                        <CircularProgressWithLabel key={session.holeId} value={Math.ceil(session.reserveUsers.length / session.reserveMax * 100)} current={session.reserveUsers.length} />
                         <div className="call">
                             <Typography variant="h5" component="div" color="textSecondary">
                                 {session.hostName}

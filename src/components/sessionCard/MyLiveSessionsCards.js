@@ -90,8 +90,14 @@ const MyLiveSessionsCard = ({session}) => {
     <div 
     className="padding" 
     onClick={()=>{
-                history.push("/session/live?roomId=" + session.livehole_id + "&channelNum=" + session.livehole_id)
-            }}
+                history.push({
+                    pathname: "/session/live",
+                    search: "?holeId=" + session.id + "&channelNum=" + session.livehole_id,
+                    state : {
+                        hostName : session.host_nickname,
+                        hostImage : session.host_profile_image,
+                    }
+            })}}
     style={{cursor:"pointer"}}>
         <Card key={session.livehole_id} className={classes.root}>
             <br/>

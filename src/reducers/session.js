@@ -10,7 +10,7 @@ import {
 const initialState = {
     pending: false,
     error: false,
-    data: {}
+    data: []
 }
 
 const session = (state = initialState, action) => {
@@ -36,7 +36,7 @@ const session = (state = initialState, action) => {
             }
         case SETLIVE:
             return {
-                ...state[state.findIndex(e => e.roomId === action.roomId)],
+                ...state[state.findIndex(e => e.holeId === action.holeId)],
                 isLive : action.livestate,
             };
 

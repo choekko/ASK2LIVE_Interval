@@ -1,5 +1,5 @@
-import React from "react"
-
+import React, { useState } from "react"
+import axios from "axios"
 
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper';
@@ -67,6 +67,24 @@ const style = {
 const Questioning = (props) => {
 
     const classes = useStyles();
+    const [ask, setAsk] = useState("")
+
+    const postApi = async(isVoice, askValue) =>  {
+        const headers = {
+            'Authorization': 'Token ' + localStorage.token
+          }
+          const data = {
+              is_answered: false,
+              is_voice: isVoice,
+              question: askValue,
+          };
+          console.log(data);
+          const res = await axios.post(
+            "https://143.248.226.51:8000/api/hole/7/question/create",
+            data,
+            {headers:headers}
+          );
+    }
 
     return (
         <>
@@ -77,9 +95,15 @@ const Questioning = (props) => {
                         <div style={style.card}>
                             사람이름
                         </div>
-                        <input style={{position:"relative", width:"80%"}}/>
+                        <input
+                        style={{position:"relative", width:"80%"}}
+                        onChange={(e) => setAsk(e.target.value)}
+                        />
                         <div style={style.submitbtn}>
-                            <button> 게시버튼</button>
+                            <button
+                            onClick={()=>{postApi(false, ask)}}
+                            > 
+                            게시버튼</button>
                         </div>
                     </Paper>
                 </div>

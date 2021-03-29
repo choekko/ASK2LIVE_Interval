@@ -55,7 +55,7 @@ return (
             />
             <br/>
             {props.value}
-            {props.nextmove ? <button onClick={props.nextmove}>다음 질문</button> : null}
+            {props.nextmove && props.isHost? <button onClick={props.nextmove}>다음 질문</button> : null}
         </div>
     </Paper>
     </div>

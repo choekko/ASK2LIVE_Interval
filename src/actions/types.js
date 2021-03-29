@@ -18,3 +18,8 @@ export const SETLIVE = 'session/setlive';
 export const SESSION_GET_PENDING = 'SESSION_GET_PENDING';
 export const SESSION_GET_SUCCESS = 'SESSION_GET_SUCCESS';
 export const SESSION_GET_FAILURE = 'SESSION_GET_FAILURE';
+
+// Entered Session Types
+export const ENTEREDSESSION_GET_PENDING = 'enteredSession/ENTEREDSESSION_GET_PENDING';
+export const ENTEREDSESSION_GET_SUCCESS = 'enteredSession/ENTEREDSESSION_GET_SUCCESS';
+export const ENTEREDSESSION_GET_ERROR = 'enteredSession/ENTEREDSESSION_GET_ERROR';

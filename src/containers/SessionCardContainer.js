@@ -13,7 +13,7 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
-import {useHistory} from "react-router-dom"
+import {useHistory, Link} from "react-router-dom"
 
 import "../styles/style.css"
 import { Description } from '@material-ui/icons';
@@ -75,7 +75,7 @@ const style = {
 }
 
     
-const SessionCardContainer = () => {
+const SessionCardContainer = (props) => {
     const history = useHistory();
     console.log(1)
 
@@ -100,7 +100,7 @@ const SessionCardContainer = () => {
         console.log(sessions)
         sessions.map((session) => {
             console.log(session)
-            if (session.status == "DOING" && (session.hole_reservations[0]).guests.indexOf(userDetail.pk) != -1) {
+            if (session.status == "DOING" && session.hole_reservations.length != 0 && (session.hole_reservations[0]).guests.indexOf(userDetail.pk) != -1) {
                 myLiveSessions = [...myLiveSessions, session];
             }
             else if (session.status == "DOING") {
@@ -112,9 +112,19 @@ const SessionCardContainer = () => {
         })
     }
 
-
     return (
         <>
+        <button onClick={()=>{
+            history.push({
+                pathname: "/session/reserve",
+                search: "?holeId=91",
+                state : {
+                    hostName : "오태양",
+                    hostImage : "/static/logo192.png"
+                }
+            })
+        }}>25hole ToLive</button>
+
         <div style={style.mainOragne}>
             <div style={style.cookie1} className="helloCookie"/>
             {/* <div style={style.cookie2} className="helloCookie"/> */}

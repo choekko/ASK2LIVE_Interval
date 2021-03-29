@@ -1,4 +1,5 @@
 import React from 'react';
+import {useHistory, withRouter} from "react-router-dom"
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -44,9 +45,12 @@ cover: {
   }
 }));
 
-export default function JoinCard(props) {
+const JoinCard = (props) => {
   const classes = useStyles();
   const theme = useTheme();
+  const history = useHistory();
+
+
 
   return (
 <Grid className={classes.top} container justify="center">
@@ -56,20 +60,40 @@ export default function JoinCard(props) {
           <Typography component="h5" variant="h5">
             {props.hostName}
           </Typography>
+          {props.isHost ?  
+          <h3 className="NanumGothic3">
+            {props.hostName}님의 라이브를 엽니다
+          </h3>    
+            :
           <h3 className="NanumGothic3">
             {props.hostName}님의 방에 입장합니다
           </h3>
+            }
         </CardContent>
         <div className={classes.controls}>
-
-          <IconButton onClick={()=>props.setJoin(1)} aria-label="play/pause">
-            <PlayArrowIcon className={classes.playIcon} />
-          </IconButton>
+            {props.isHost ?
+            <button onClick={()=>{
+                history.push({
+                    pathname : "/session/live",
+                    search: "?holeId=" + props.holeId + "&channelNum=" + props.channelNum,
+                    state : {
+                        joinPass : true,
+                        isHost : true,
+                        hostName : props.hostName,
+                        hostImage: props.hostImage,
+                    }
+                })
+            }}>라이브열기</button>
+            :        
+            <IconButton onClick={()=>props.setJoin(1)} aria-label="play/pause">
+                <PlayArrowIcon className={classes.playIcon} />
+            </IconButton>
+            }
         </div>
       </div>
       <CardMedia
         className={classes.cover}
-        image={props.imageLink}
+        image={props.hostImage}
         title="Live from space album cover"
       />
     </Card>
@@ -77,3 +101,5 @@ export default function JoinCard(props) {
 </Grid>
   );
 }
+
+export default withRouter(JoinCard)

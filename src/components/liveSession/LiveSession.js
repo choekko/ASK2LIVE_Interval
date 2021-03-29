@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory} from "react-router-dom"
+import axios from "axios"
 
 import Chat from "./chatting/Chat"
 
@@ -22,6 +23,8 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import CloseListButton from '@material-ui/icons/ExpandMore';
 
 
 import { Autocomplete } from '@material-ui/lab';
@@ -89,7 +92,8 @@ const style = {
         bottom: "0%",
         height: " 65%",
         width: "100%",
-        backgroundColor: "#dfd2df"
+        backgroundColor: "#dfd2df",
+        zIndex:"0",
         // backgroundColor: "rgb(255, 248, 225)"
     },
     table: {
@@ -133,7 +137,11 @@ const style = {
         width : "90%",
     },
 
-
+    listbutton : {
+        position: "absolute",
+        top: "-0.5em",
+    }
+   
 }
 
 //^ =============================================================
@@ -145,12 +153,66 @@ const rtmClient = AgoraRTM.createInstance(appid);
 
 const LiveSession = (props) => {
 
+    console.log("!!!!!!!!!!!!!!!!!", props);
+
+    const hostPostApi = async(hostUid) =>  {
+        const headers = {
+            'Authorization': 'Token ' + localStorage.token
+          }
+          const data = {
+              channel_num : props.channelNum,
+              host_uid : hostUid,
+          };
+          console.log("LiveSession Host Post :", data);
+          const res = await axios.post(
+            "https://143.248.226.51:8000/api/hole/"+props.holeId+"/live/create",
+            data,
+            {headers:headers}
+          );
+          console.log(res.data);
+    }
+    
+    const audiencePutApi = async(audienceUid) =>  {
+        const headers = {
+            'Authorization': 'Token ' + localStorage.token
+          }
+          const data = {
+              uid : audienceUid,
+          };
+          console.log("LiveSession Audience Post :", data);
+          const res = await axios.put(
+            "https://143.248.226.51:8000/api/hole/"+props.holeId+"/live/join/"+props.channelNum,
+            data,
+            {headers:headers}
+          );
+          console.log(res.data);
+    }
+
+    const leavePatchApi = async() =>  {
+        const headers = {
+            'Authorization': 'Token ' + localStorage.token
+          }
+          const data = {};
+          const res = await axios.patch(
+            "https://143.248.226.51:8000/api/hole/"+props.holeId+"/live/leave/"+props.channelNum,
+            data,
+            {headers:headers}
+          );
+          console.log(res.data);
+    }
+
+
     const [listup, setListUp] = useState({transform : "translate(0, 100%)"})
     const [queUp, setQueUp] = useState({transform : "translate(0, 100%)"})
     const [dark, setDark] = useState({display:"none"})
 
     const [room, setRoom] = useState({});
     const history = useHistory()
+
+    const holeInfo = useSelector(state => state.enteredSession)
+    const hostImage = holeInfo.arrived ? 
+            holeInfo.data.detail.livehole.host_profile_image_url
+            : "/static/live_png";
 
 
     //^ =============================================================
@@ -169,9 +231,14 @@ const LiveSession = (props) => {
     useEffect(() => {
         rtmChannel = rtmClient.createChannel(props.channelNum);
         join(props.channelNum, null, rtmClient, rtmChannel);
+        if (props.isHost)
+            setTimeout(()=>{hostPostApi(client.uid)}, 2000);
+        else
+            setTimeout(()=>{audiencePutApi(client.uid)}, 2000);
         return () => {
             rtmClient.logout();
             leave();
+            leavePatchApi();
         }
     }, [])
 
@@ -195,7 +262,6 @@ const LiveSession = (props) => {
         <>
         <div style={style.livewrapper}>
             <div style={style.livesession}>
-            <div className="layerfordark">
                 <div style={style.session_top}>
                     <table style={style.table}>
                         <tr>
@@ -226,7 +292,7 @@ const LiveSession = (props) => {
                         <div className="verticalmid">
                             <tr>
                             <StyledBadge badgeContent={<FavoriteBorder style={style.checkIcon}/>} color="error">
-                                <Avatar hostName={props.hostName} imageLink={props.imageLink} size="large"/>
+                                <Avatar hostName={props.hostName} imageLink={props.isHost? "/static/cookie.png" : hostImage} size="large"/>
                             </StyledBadge>
                             </tr>
                             <tr className="centered">
@@ -237,29 +303,27 @@ const LiveSession = (props) => {
                 </div>
                 <div style={style.session_bottom}>
                     <Grid container justify="center">
-                        <QuestionSwiper/>
-                    </Grid>
-                    <Grid container justify="center">
-                        <div style={style.Insertfield}>
-                                <InsertField goListUp = {setListUp} goDark={setDark}/>
-
-                        </div>
+                        <QuestionSwiper isHost={props.isHost}/>
                     </Grid>
                     <div className="forchat"></div> 
-                    <Chat roomId={props.channelNum} goQueUp={setQueUp} goListUp = {setListUp} goDark={setDark} room={room} windowHeight="1000px" onBack={()=>setRoom(null)}/>
+                    <Chat isHost={props.isHost} holeId={props.channelNum} goQueUp={setQueUp} goListUp = {setListUp} goDark={setDark} room={room} windowHeight="1000px" onBack={()=>setRoom(null)}/>
                     <div className="chattingblind"></div>
                     
                 </div>
             
-            </div>
+           
         </div>
         <div style={listup} className="hiddenlist">
             <QuestionList holeId={props.channelNum} goListUp = {setListUp} goDark={setDark}/>
+            <IconButton style={style.listbutton} onClick={()=>{setListUp({transform : "translate(0, 100%)"}); setDark({opacity: "0", animation: "golight 0.7s"}); setTimeout(()=>{setDark({display: "none"})}, 700)}} aria-label="question_list">
+                <CloseListButton fontSize="large"/>
+            </IconButton>
         </div>
         <div style={queUp} className="hiddenQue">
             <Questioning goQueUp = {setQueUp} goDark={setDark}/>
         </div>
         <div style={dark} className="layerfordark"></div>
+        
         {/* <div className="agora"> */}
                 
 
