@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
@@ -8,26 +8,39 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Button from '@material-ui/core/Button';
 import Grid from "@material-ui/core/Grid";
+import Chip from '@material-ui/core/Chip';
 
 import axios from "axios";
+import { useSelector,useDispatch } from 'react-redux';
+import { useHistory } from "react-router";
+import { getSessionInfo } from '../../actions/SessionActions'
 
 const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
       flexWrap: "wrap",
+      justifyContent : "center",
+      
       "& > *": {
         margin: "0 1em 1em 1em",
-        width: theme.spacing(22),
-        height: theme.spacing(35)
+        width: theme.spacing(25),
+        height: theme.spacing(40)
       }
+    },
+    paper: {
+      maxWidth: "50em",
+      display:"flex",
+      justifyContent:"center",
     }
+
   }));
   
 
 function CircularProgressWithLabel(props) {
   return (
     <Box position="relative" display="inline-flex">
-      <CircularProgress thickness="5" size="10rem" variant="determinate" {...props} />
+      <div style={{color:"#D95032", width:"100%"}}>
+      <CircularProgress thickness="2" size="10rem" variant='determinate' color='inherit'  {...props} /></div>
       <Box
         top={0}
         left={0}
@@ -38,37 +51,78 @@ function CircularProgressWithLabel(props) {
         alignItems="center"
         justifyContent="center"
       >
-        <Typography
-          variant="h5"
-          component="div"
-          color="textSecondary"
-        >{props.current}명</Typography>
+          <Typography
+            variant="body2"
+            component="div"
+            color="textSecondary"
+            align='center'
+          >3일 10시간<br/>남았어요</Typography>
+        
+          
       </Box>
+      
     </Box>
+
   );
 }
 
 CircularProgressWithLabel.propTypes = {
-    /**
-     * The value of the progress indicator for the determinate variant.
-     * Value between 0 and 100.
-     */
     value: 10,
   };
 
-const onClickWish = (sessionId) => {
-  console.log('Click')
+const onClickWish = async(sessionId) => {
+  
+  const config = {
+    headers: {'Authorization': 'Token ' + localStorage.token}
+  }
+  const data = {
+    data: {}
+  }
+
+  axios.patch(
+    "https://143.248.226.51:8000/api/reservation/hole/" + sessionId + "/wish",
+    data,
+    config,
+  ).then((response) => {
+    console.log(response)
+  }).catch((e) => {
+    console.log('error',e.response)
+    alert(e.response.data.detail)
+  }).finally(
+    
+  );
+  
+
 }
 
-const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
+const onClickWishCancel = async(sessionId) => {
+  const config = {
+    headers: {'Authorization': 'Token ' + localStorage.token}
+  }
+  const data = {
+    data: {}
+  }
 
+  await axios.patch(
+    "https://143.248.226.51:8000/api/reservation/hole/" + sessionId + "/wishcancel",
+    data,
+    config,
+  ).then((response) => {
+    console.log(response)
+  }).catch((e) => {
+    console.log('error',e.response)
+    alert(e.response.data.detail)
+  });;
+}
+
+const CurrentReserveSessionsCards = ({currentReserveSessions, setFlag}) => {
+    const dispatch = useDispatch();
+    const history = useHistory();
     const classes = useStyles();
+    const user = useSelector(state => state.user)
+    
 
     CircularProgressWithLabel.propTypes = {
-        /**
-         * The value of the progress indicator for the determinate variant.
-         * Value between 0 and 100.
-         */
         value: PropTypes.number.isRequired,
       };
 
@@ -76,31 +130,54 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
     return (
         <>
         <h2>오픈 신청 중인 라이브 Q&A</h2>
-        <div className={classes.root} >
+        <div className={classes.root}  >
             {currentReserveSessions.map((session) => (
-              
                 <>
                 {console.log(session)}
-                <Paper elevation={3}>
-                    <div className="padding">
+                <div className={classes.paper}>
+                <Grid elevation={3} alignItems='center'>
                         <CircularProgressWithLabel 
                           key={session.id} 
                           value={(session.hole_reservations.length) ? Math.ceil(session.hole_reservations[0].guests.length / session.hole_reservations[0].target_demand * 100) : 0} 
                           current={(session.hole_reservations.length) ? session.hole_reservations[0].guests.length  : 0 }/>
+                          <Grid container justify="center" alignItems="center">
+                            <Chip size="small"  label={`
+                            ${session.hole_reservations[0].target_demand == 0? 
+                              100 : Math.ceil(session.hole_reservations[0].guests.length / session.hole_reservations[0].target_demand * 100)}%달성`} />
+                          </Grid>
                         <div className="call">
-                            <Typography variant="h7" component="div" color="textSecondary">
+                            <Typography variant="h6" component="div" color='inherit'>
                                 {session.title}
                             </Typography>
-                            <p>{session.host_nickname} | {session.host_work_field}</p>
+                            <Typography variant='caption' component="div" color="textSecondary">
+                            {session.host_nickname} | {session.host_work_field}
+                            </Typography>
+                            <Typography variant='caption' component="div" color="textSecondary">
+                            찜 {session.hole_reservations[0].guests.length}/{session.hole_reservations[0].target_demand}
+                            </Typography> 
                         </div>
                         <Grid container justify="center">
-                          <Button onClick={onClickWish(session.id)}>찜하기</Button>
+                          <Button onClick={() => {
+                            console.log(user.data.detail.pk)
+                            console.log(session.hole_reservations[0].guests.indexOf(user.data.detail.pk))
+                            session.hole_reservations[0].guests.indexOf(user.data.detail.pk) === -1 ?
+                            <>
+                            {onClickWish(session.id)}
+                            {dispatch(getSessionInfo())}
+                            </>
+                            : 
+                            <>
+                            {onClickWishCancel(session.id)}
+                            {dispatch(getSessionInfo())}
+                            </>}
+                            }>CLICK!</Button>
                           </Grid>
                         <div>
                           
                         </div>
-                    </div>
-                </Paper>
+                   
+                </Grid>
+                </div>
                 <br/>
             </>
             ))

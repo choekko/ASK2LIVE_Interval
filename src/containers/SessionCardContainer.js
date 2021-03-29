@@ -80,6 +80,7 @@ const style = {
 const SessionCardContainer = () => {
 
     console.log(1)
+    const [flag, setFlag] = useState(false);
 
     const user = useSelector(state => state.user);
     const sessions = useSelector(state => state.session.data);
@@ -171,7 +172,7 @@ const SessionCardContainer = () => {
         </div>
         
         <Grid style={{paddingLeft : "6em", paddingRight : "6em"}} container direction="row" justify="center" alignItems="center">
-            { currentReserveSessions.length != 0 ? <CurrentReserveSessionsCards currentReserveSessions={currentReserveSessions}/> : <p>요청 받고있는 다른 세션이 없어요</p>}
+            { currentReserveSessions.length != 0 ? <CurrentReserveSessionsCards currentReserveSessions={currentReserveSessions} setFlag={setFlag}/> : <p>요청 받고있는 다른 세션이 없어요</p>}
         </Grid>
 
         <div className="center divider">
