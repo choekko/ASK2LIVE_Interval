@@ -45,10 +45,10 @@ const App = () => {
             <Route exact path="/login" component={LoginPage}/>
             <Route exact path="/session/:state" component={SessionMatchContainer}/> 
             <Route exact path="/createSession" component={SessionCreateContainer}/>
-            <Route exact path="/mypage/:nickname" component={ProfileDetail}/>
             <Route path="/" component={NavContainer}/>
         </Switch>
         <Route exact path="/mypage" component={MypageContainer}/>
+        <Route exact path="/mypage/:nickname" component={ProfileDetail}/>
         </>
 
     )

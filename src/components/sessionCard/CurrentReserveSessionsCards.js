@@ -76,11 +76,15 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
         <h2>오픈 신청 중인 라이브 Q&A</h2>
         <div className={classes.root} >
             {currentReserveSessions.map((session) => (
+              
                 <>
                 {console.log(session)}
                 <Paper elevation={3}>
                     <div className="padding">
-                        <CircularProgressWithLabel key={session.id} value={Math.ceil(session.hole_reservations[0].guests.length / session.hole_reservations[0].target_demand * 100)} current={session.hole_reservations[0].guests.length} />
+                        <CircularProgressWithLabel 
+                          key={session.id} 
+                          value={(session.hole_reservations.length) ? Math.ceil(session.hole_reservations[0].guests.length / session.hole_reservations[0].target_demand * 100) : 0} 
+                          current={(session.hole_reservations.length) ? session.hole_reservations[0].guests.length  : 0 }/>
                         <div className="call">
                             <Typography variant="h7" component="div" color="textSecondary">
                                 {session.title}
