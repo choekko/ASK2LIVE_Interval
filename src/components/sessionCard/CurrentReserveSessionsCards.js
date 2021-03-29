@@ -9,6 +9,8 @@ import Paper from "@material-ui/core/Paper";
 import Button from '@material-ui/core/Button';
 import Grid from "@material-ui/core/Grid";
 
+import axios from "axios";
+
 const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
@@ -54,8 +56,8 @@ CircularProgressWithLabel.propTypes = {
     value: 10,
   };
 
-const handleWishButton = () => {
-  console.log("찜하기")
+const onClickWish = (sessionId) => {
+  console.log('Click')
 }
 
 const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
@@ -76,11 +78,15 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
         <h2>오픈 신청 중인 라이브 Q&A</h2>
         <div className={classes.root} >
             {currentReserveSessions.map((session) => (
+              
                 <>
                 {console.log(session)}
                 <Paper elevation={3}>
                     <div className="padding">
-                        <CircularProgressWithLabel key={session.id} value={Math.ceil(session.hole_reservations[0].guests.length / session.hole_reservations[0].target_demand * 100)} current={session.hole_reservations[0].guests.length} />
+                        <CircularProgressWithLabel 
+                          key={session.id} 
+                          value={(session.hole_reservations.length) ? Math.ceil(session.hole_reservations[0].guests.length / session.hole_reservations[0].target_demand * 100) : 0} 
+                          current={(session.hole_reservations.length) ? session.hole_reservations[0].guests.length  : 0 }/>
                         <div className="call">
                             <Typography variant="h7" component="div" color="textSecondary">
                                 {session.title}
@@ -88,7 +94,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                             <p>{session.host_nickname} | {session.host_work_field}</p>
                         </div>
                         <Grid container justify="center">
-                          <Button onClick={handleWishButton}>찜하기</Button>
+                          <Button onClick={onClickWish(session.id)}>찜하기</Button>
                           </Grid>
                         <div>
                           
