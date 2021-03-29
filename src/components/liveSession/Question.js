@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import { blue } from '@material-ui/core/colors';
-import { PinDropSharp } from '@material-ui/icons';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-import Checkbox from '@material-ui/core/Checkbox';
+import { makeStyles } from '@material-ui/core/styles';
 import Favorite from '@material-ui/icons/Favorite';
+import Checkbox from '@material-ui/core/Checkbox';
+import { PinDropSharp } from '@material-ui/icons';
+import { blue } from '@material-ui/core/colors';
+import Paper from '@material-ui/core/Paper';
 
 
 const useStyles = makeStyles((theme) => ({

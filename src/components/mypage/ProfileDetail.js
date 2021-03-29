@@ -1,14 +1,14 @@
 import { useHistory } from "react-router-dom";
 import { MypageNav } from "./MypageNav";
 
+import CardActionArea from "@material-ui/core/CardActionArea";
 import { makeStyles } from "@material-ui/core/styles";
+import CardHeader from "@material-ui/core/CardHeader";
+import Typography from "@material-ui/core/Typography";
+import Avatar from "@material-ui/core/Avatar";
+import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import Avatar from "@material-ui/core/Avatar";
-import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles((theme) => ({
   root: {

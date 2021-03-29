@@ -1,17 +1,18 @@
+import { postSessionToReserve } from '../../actions/SessionToReserveActions';
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
+
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
-import Checkbox from "@material-ui/core/Checkbox";
-import Favorite from "@material-ui/icons/Favorite";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
 import CloseListButton from "@material-ui/icons/ExpandMore";
-import Question from "../liveSession/Question";
+import IconButton from "@material-ui/core/IconButton";
+import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import Favorite from "@material-ui/icons/Favorite";
+import Checkbox from "@material-ui/core/Checkbox";
+import Question from "../liveSession/Question";
+import Button from "@material-ui/core/Button";
+import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import { postSessionToReserve } from '../../actions/SessionToReserveActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {

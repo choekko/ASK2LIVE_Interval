@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
 
 export default function MediaPlayer(props) {
   //   const container = useRef(null);

@@ -15,13 +15,13 @@ import SessionMatchContainer from './containers/SessionMatchContainer';
 
 import {LoginPage} from './components/onBoard'
 
+import { connect, useSelector, useDispatch} from 'react-redux';
 import Chat from "./components/liveSession/chatting/Chat"
 
-import { getUserInfo } from './actions/UserActions'
-import { getSessionInfo } from './actions/SessionActions'
 import { getAllUsersInfo } from './actions/AllUsersActions'
+import { getSessionInfo } from './actions/SessionActions'
+import { getUserInfo } from './actions/UserActions'
 import { bindActionCreators } from 'redux';
-import { connect, useSelector, useDispatch} from 'react-redux';
 
 const App = () => {
 

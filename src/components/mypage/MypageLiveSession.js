@@ -1,29 +1,21 @@
+import { postSessionDelete } from '../../actions/SessionDeleteActions'
+import { SessionConfirm } from './SessionConfirm'
+import { useHistory } from "react-router"
 import React, { useState } from "react"
 import axios from "axios"
-import { useHistory } from "react-router"
-import { makeStyles } from "@material-ui/core/styles"
-import clsx from "clsx"
-import Card from "@material-ui/core/Card"
-import CardHeader from "@material-ui/core/CardHeader"
-import CardMedia from "@material-ui/core/CardMedia"
+
 import CardContent from "@material-ui/core/CardContent"
 import CardActions from '@material-ui/core/CardActions'
-import Button from '@material-ui/core/Button'
-import Collapse from "@material-ui/core/Collapse"
-import Avatar from "@material-ui/core/Avatar"
+import MoreVertIcon from "@material-ui/icons/MoreVert"
+import { makeStyles } from "@material-ui/core/styles"
+import CardHeader from "@material-ui/core/CardHeader"
 import IconButton from "@material-ui/core/IconButton"
 import Typography from "@material-ui/core/Typography"
 import { red } from "@material-ui/core/colors"
-import FavoriteIcon from "@material-ui/icons/Favorite"
-import ShareIcon from "@material-ui/icons/Share"
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import MoreVertIcon from "@material-ui/icons/MoreVert"
+import Button from '@material-ui/core/Button'
 import Grid from "@material-ui/core/Grid"
-
+import Card from "@material-ui/core/Card"
 import "../../styles/style.css"
-import { SportsEsportsOutlined } from "@material-ui/icons"
-import { SessionConfirm } from './SessionConfirm'
-import { postSessionDelete } from '../../actions/SessionDeleteActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {

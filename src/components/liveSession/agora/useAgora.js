@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect, useRef } from "react";
 import AgoraRTC, {
   MicrophoneAudioTrackInitConfig,
   CameraVideoTrackInitConfig,
 } from "agora-rtc-sdk-ng";
 import AgoraRTM from "agora-rtm-sdk";
+
 import { AirlineSeatReclineExtraOutlined } from "@material-ui/icons";
 
 export default function useAgora(client) {

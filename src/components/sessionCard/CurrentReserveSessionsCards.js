@@ -1,25 +1,27 @@
 import React, {useEffect, useState} from "react";
-import PropTypes from "prop-types";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import "../../styles/style.css"
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Button from '@material-ui/core/Button';
-import Grid from "@material-ui/core/Grid";
-import Chip from '@material-ui/core/Chip';
-
-import axios from "axios";
+import { getSessionInfo } from '../../actions/SessionActions'
 import { useSelector,useDispatch } from 'react-redux';
 import { useHistory } from "react-router";
-import { getSessionInfo } from '../../actions/SessionActions'
+import PropTypes from "prop-types";
+import axios from "axios";
+
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from '@material-ui/core/Button';
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import Chip from '@material-ui/core/Chip';
+import Box from "@material-ui/core/Box";
+import "../../styles/style.css"
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
       flexWrap: "wrap",
       justifyContent : "center",
+      maxWidth:"40em",
       
       "& > *": {
         margin: "0 1em 1em 1em",
@@ -28,9 +30,17 @@ const useStyles = makeStyles((theme) => ({
       }
     },
     paper: {
-      maxWidth: "50em",
       display:"flex",
       justifyContent:"center",
+      noWrap: "break-word",
+      maxWidth: "20em",
+
+    },
+    title: {
+      width: "100%",
+      display:"flex",
+      justifyContent:"center",
+      paddingBottom: "1em"
     }
 
   }));
@@ -129,13 +139,15 @@ const CurrentReserveSessionsCards = ({currentReserveSessions, setFlag}) => {
     console.log("Enter : CurrentReserveSessionsCards")
     return (
         <>
+        <div className={classes.title}>
         <h2>오픈 신청 중인 라이브 Q&A</h2>
+        </div>
         <div className={classes.root}  >
             {currentReserveSessions.map((session) => (
                 <>
                 {console.log(session)}
                 <div className={classes.paper}>
-                <Grid elevation={3} alignItems='center'>
+                <Grid  alignItems='center'>
                         <CircularProgressWithLabel 
                           key={session.id} 
                           value={(session.hole_reservations.length) ? Math.ceil(session.hole_reservations[0].guests.length / session.hole_reservations[0].target_demand * 100) : 0} 
