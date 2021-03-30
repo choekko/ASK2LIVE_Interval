@@ -49,9 +49,6 @@ const style = {
   }
 }
 
-const onClick = () => {
-    console.log("onCLICK!");
-};
 
 const HostCard = ({host}) => {
     const history = useHistory();

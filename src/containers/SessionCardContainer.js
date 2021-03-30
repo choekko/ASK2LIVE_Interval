@@ -1,8 +1,6 @@
-import React, { Component, useCallback, useEffect, useState, forceUpdate } from 'react';
-import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
-import { combineReducers } from 'redux';
-import {MyLiveSessionsCards, OtherLiveSessionsCards, CurrentReserveSessionsCards} from '../components/sessionCard' 
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import {MyLiveSessionsCards, OtherLiveSessionsCards, CurrentReserveSessionsCards, HostConfirmedSessionsCards} from '../components/sessionCard' 
 import {SessioinCreateButton} from '../components/SessionCreateButton';
 import HostCards from '../components/HostCards';
 // material-ui
@@ -17,12 +15,12 @@ import Typography from '@material-ui/core/Typography';
 import {useHistory} from "react-router-dom"
 
 import "../styles/style.css"
-import { Description } from '@material-ui/icons';
 
 let myLiveSessions = []
 let otherLiveSessions = []
 let currentReserveSessions = []
 let hosts = []
+let hostConfirmedSessions = []
 
 const style = {
     title : {
@@ -78,25 +76,17 @@ const style = {
 
     
 const SessionCardContainer = () => {
-
-    console.log(1)
     const [flag, setFlag] = useState(false);
 
     const user = useSelector(state => state.user);
     const sessions = useSelector(state => state.session.data);
     const history = useHistory();
-    console.log(sessions)
     const allUsersData = useSelector(state => state.allUsers);
-    console.log('allUsers', allUsersData);
-    // console.log('allUsers.data.data.detail', allUsersData.data.data.detail);
     
 
     if(Object.keys(sessions).length != 0){
-
-        console.log(2)
         let userDetail;
         if(user.data.detail){
-            // console.log('SessionCard-user.pk', user.data.detail)
             userDetail = user.data.detail
         }else{
             userDetail = {pk:-1} // 반찬고 >_<
@@ -104,17 +94,20 @@ const SessionCardContainer = () => {
         myLiveSessions = []
         otherLiveSessions = []
         currentReserveSessions = []
+        hostConfirmedSessions = []
         hosts = []
 
-        console.log(sessions)
         sessions.map((session) => {
-            if (session.status == "DOING" && session.hole_reservations.length != 0 && (session.hole_reservations[0]).guests.indexOf(userDetail.pk) != -1) {
+            console.log(session)
+            if (session.status == "DOING" && session.hole_reservations.length != 0 && (session.hole_reservations[0]).guests.indexOf(userDetail.id) != -1) {
                 myLiveSessions = [...myLiveSessions, session];
             }
             else if (session.status == "DOING") {
                 otherLiveSessions = [...otherLiveSessions, session];
             }
-            else {
+            else if (session.hole_reservations.length != 0 && (session.hole_reservations[0]).status==="HOST_CONFIRMED"){
+                hostConfirmedSessions = [...hostConfirmedSessions, session];
+            }else{
                 currentReserveSessions = [...currentReserveSessions, session];
             }
         })
@@ -134,13 +127,10 @@ const SessionCardContainer = () => {
         <>
         <div style={style.mainOragne}>
             <div style={style.cookie1} className="helloCookie"/>
-            {/* <div style={style.cookie2} className="helloCookie"/> */}
         </div>
         <br></br>
         <div className="BMDOHYEON" style={style.title}>
-            {/* <Typography variant="h3"  gutterBottom> */}
                 ASK2LIVE
-            {/* </Typography> */}
         </div>
         <br/><br/>
         <div style={style.descript} className="NotoSans2">
@@ -168,7 +158,15 @@ const SessionCardContainer = () => {
         <div className="center divider">
             <Divider variant="middle"/>
         </div>
-        
+
+        <Grid style={{paddingLeft : "6em", paddingRight : "6em"}} container direction="row" justify="center" alignItems="center">
+            { otherLiveSessions.length != 0 ? <HostConfirmedSessionsCards hostConfirmedSessions={hostConfirmedSessions}/> : <p>예정된 다른 세션이 없어요</p> }
+        </Grid>
+
+        <div className="center divider">
+            <Divider variant="middle"/>
+        </div>
+
         <Grid style={{paddingLeft : "6em", paddingRight : "6em"}} container direction="row" justify="center" alignItems="center">
             { currentReserveSessions.length != 0 ? <CurrentReserveSessionsCards currentReserveSessions={currentReserveSessions} setFlag={setFlag}/> : <p>요청 받고있는 다른 세션이 없어요</p>}
         </Grid>
@@ -186,11 +184,6 @@ const SessionCardContainer = () => {
 
     
     )
-
-        
-        
-
-
 };
 
 export default SessionCardContainer

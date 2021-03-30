@@ -39,6 +39,9 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
   
     return (
       <>
+      <div className={classes.title}>
+        <h2>진행 중인 라이브 Q&A</h2>
+        </div>
         {otherLiveSessions.map((session) => 
         <>
         <div className={classes.padding}>
