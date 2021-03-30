@@ -1,14 +1,15 @@
 import { useHistory } from "react-router-dom";
+import { useSelector} from 'react-redux';
 import { MypageNav } from "./MypageNav";
 
+import CardActionArea from "@material-ui/core/CardActionArea";
 import { makeStyles } from "@material-ui/core/styles";
+import CardHeader from "@material-ui/core/CardHeader";
+import Typography from "@material-ui/core/Typography";
+import Avatar from "@material-ui/core/Avatar";
+import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import Avatar from "@material-ui/core/Avatar";
-import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -97,13 +98,15 @@ const ProfileDetail = (props) => {
   const history = useHistory();
   const classes = useStyles();
   console.log(props);
-  const user = props.location.state;
+
+  // const user = props.location.state;
   const nickname = props.match.params.nickname;
+  const user = useSelector(state => state.user);
+
   if (user.work_company === " ") user.work_company = "회사 이름";
   if (user.work_field === " ") user.work_field = "분야";
 
   console.log(user);
-  console.log(nickname);
 
   return (
     <>

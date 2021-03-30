@@ -1,8 +1,8 @@
 import { useHistory } from "react-router"
 
-import Grid from "@material-ui/core/Grid"
-import IconButton from "@material-ui/core/IconButton"
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos"
+import IconButton from "@material-ui/core/IconButton"
+import Grid from "@material-ui/core/Grid"
 
 const style = {
   backIcon: {

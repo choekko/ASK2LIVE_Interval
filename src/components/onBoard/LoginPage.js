@@ -1,24 +1,15 @@
-import React, {useState, memo} from 'react';
-import { userDummy } from '../../dummydatas/userDummy';
 import { useSelector, useDispatch } from 'react-redux';
-import SnackBar from '../SnackBar';
-import { useHistory } from 'react-router-dom'
-import { giveUser } from '../../actions/UserActions';
+import { useHistory } from 'react-router-dom';
+import React, {useState, memo} from 'react';
+import axios from "axios";
 
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 import LoginButton from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import { makeStyles } from '@material-ui/core/styles';
-import "../../styles/style.css"
+import "../../styles/style.css";
 
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Divider from "@material-ui/core/Divider";
-
-import axios from "axios";
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;

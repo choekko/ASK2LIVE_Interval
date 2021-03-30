@@ -1,8 +1,8 @@
 import React, { useCallback } from "react"
+import ProfileGate from './ProfileGate'
 
 import { makeStyles } from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
-import ProfileGate from './ProfileGate'
 
 const useStyles = makeStyles((theme) => ({
   root: {

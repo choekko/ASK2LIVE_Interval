@@ -6,6 +6,7 @@ import SessionCardContainer from './containers/SessionCardContainer';
 import MypageContainer from './containers/MypageContainer';
 import SessionCreateContainer from './containers/SessionCreateContainer';
 import ProfileDetail from './components/mypage/ProfileDetail';
+import PreQuestions from './components/sessionCard/PreQuestions';
 // import MainPage from "./components/MainPage" 
 // import 'fontsource-roboto'
 
@@ -15,13 +16,13 @@ import SessionMatchContainer from './containers/SessionMatchContainer';
 
 import {LoginPage} from './components/onBoard'
 
+import { connect, useSelector, useDispatch} from 'react-redux';
 import Chat from "./components/liveSession/chatting/Chat"
 
-import { getUserInfo } from './actions/UserActions'
-import { getSessionInfo } from './actions/SessionActions'
 import { getAllUsersInfo } from './actions/AllUsersActions'
+import { getSessionInfo } from './actions/SessionActions'
+import { getUserInfo } from './actions/UserActions'
 import { bindActionCreators } from 'redux';
-import { connect, useSelector, useDispatch} from 'react-redux';
 
 const App = () => {
 
@@ -47,6 +48,7 @@ const App = () => {
             <Route exact path="/createSession" component={SessionCreateContainer}/>
             <Route path="/" component={NavContainer}/>
         </Switch>
+        <Route exact path="/preQuestions/:pk" component={PreQuestions}/>    
         <Route exact path="/mypage" component={MypageContainer}/>
         <Route exact path="/mypage/:nickname" component={ProfileDetail}/>
         </>

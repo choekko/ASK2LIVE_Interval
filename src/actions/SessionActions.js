@@ -26,3 +26,4 @@ export const getSessionInfo = () => dispatch => {
         dispatch({ type: SESSION_GET_FAILURE, payload: error });
     })
 }
+

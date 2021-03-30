@@ -1,27 +1,27 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react'
-import { useDispatch } from 'react-redux';
 import { useHistory} from "react-router-dom"
+import { useDispatch } from 'react-redux';
 
-import Chat from "./chatting/Chat"
 
-import "../../styles/style.css"
-import "../../index.css"
-import InsertField from "./InsertField"
+import QuestionSwiper from "./QuestionSwiper";
+import QuestionList from "./QuestionList";
+import Questioning from "./Questioning";
+import InsertField from "./InsertField";
+import Chat from "./chatting/Chat";
+import Question from "./Question";
 import Avatar from "../Avatar";
-import Question from "./Question"
-import QuestionSwiper from "./QuestionSwiper"
-import QuestionList from "./QuestionList"
-import Questioning from "./Questioning"
+import "../../index.css"
 
-import { makeStyles } from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-import Checkbox from '@material-ui/core/Checkbox';
-import Favorite from '@material-ui/icons/Favorite';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import Favorite from '@material-ui/icons/Favorite';
+import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@material-ui/core/Button';
+import Badge from '@material-ui/core/Badge';
+import Grid from '@material-ui/core/Grid';
+import "../../styles/style.css"
 
 
 import { Autocomplete } from '@material-ui/lab';
