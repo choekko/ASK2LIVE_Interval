@@ -1,37 +1,38 @@
-import React, { useState } from "react"
-import axios from "axios"
-import { useHistory } from "react-router"
-import { makeStyles } from "@material-ui/core/styles"
-import clsx from "clsx"
-import Card from "@material-ui/core/Card"
-import CardHeader from "@material-ui/core/CardHeader"
-import CardMedia from "@material-ui/core/CardMedia"
-import CardContent from "@material-ui/core/CardContent"
-import CardActions from '@material-ui/core/CardActions'
-import Button from '@material-ui/core/Button'
-import Collapse from "@material-ui/core/Collapse"
-import Avatar from "@material-ui/core/Avatar"
-import IconButton from "@material-ui/core/IconButton"
-import Typography from "@material-ui/core/Typography"
-import { red } from "@material-ui/core/colors"
-import FavoriteIcon from "@material-ui/icons/Favorite"
-import ShareIcon from "@material-ui/icons/Share"
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import MoreVertIcon from "@material-ui/icons/MoreVert"
-import Grid from "@material-ui/core/Grid"
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { useHistory } from "react-router";
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import { red } from "@material-ui/core/colors";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import Grid from "@material-ui/core/Grid";
+import EditIcon from '@material-ui/icons/Edit';
 
-import "../../styles/style.css"
-import { SportsEsportsOutlined } from "@material-ui/icons"
-import { SessionConfirm } from './SessionConfirm'
-import { postSessionDelete } from '../../actions/SessionDeleteActions'
+import "../../styles/style.css";
+import { SessionConfirm } from "./SessionConfirm";
+import { getSessionInfo, getUserSessionInfo } from '../../actions/SessionActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
-    margin: "3%",
-    maxWidth: "50em",
+    // flexGrow: 1,
+    // position: 'relative',
+    // float: 'left',
+    // display: 'inline-block',
+    margin: "2%",
+    width: '100%',
+    height: '10em',
+    // left: '-50%',
+    maxWidth: "30em",
     borderRadius: "20px",
     boxShadow: "1px 1px 8px 0px rgb(0, 0, 0, 0.3)",
+    // backgroundColor: 'aquamarine',
   },
   media: {
     cursor: "pointer",
@@ -52,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: red[500],
   },
   cardContent: {
-    height: "30px",
+    height: "inherit",
   },
   cookieWrapper: {
     float: "left",
@@ -71,129 +72,129 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: "center center",
     backgroundSize: "100%",
     width: "6em",
-    height: "6em",
+    height: "inherit",
     overflow: "hidden",
   },
-
+  layerfordark: {
+    position: 'fixed',
+    maxWidth: '73em',
+    minHeight: '35em',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    left: 0,
+    right: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'black',
+    opacity: '0.6',
+    transition: 'all 0.7s'
+},
 }));
 
-const MypageLiveSession = ({ session }) => {
+const MypageLiveSession = ({ session, setFlag }) => {
+  console.log("마이라이브세션", session);
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
   const history = useHistory();
+  const dispatch = useDispatch();
   const [listup, setListUp] = useState({ transform: "translate(0, 100%)" });
-  const [dark, setDark] = useState({ display: "none" });
+  const [dark, setDark] = useState({ transform: "translate(0, 100%)", display: "none" });
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-  
-  const onClick = (choice) => () => {
-    if (choice === 'confirm'){
-        console.log("onCLICK!");
-        
-        <SessionConfirm/>
-        
-  
-      }
-      else if (choice === 'delete') {
-        console.log(session);
-        console.log("DELETE SESSION!");
-        postSessionDelete(session[0]);
-        history.push('/mypage');
-      }
+  const onDelete = async () => {
+    console.log("DELETE SESSION!");
+    // await postSessionDelete(session);
+    const config = {
+      headers: { Authorization: "Token " + localStorage.token },
     };
 
+    await axios.delete(
+      "https://143.248.226.51:8000/api/hole/delete/" + session.id,
+      config
+    );
+    console.log("hole deleted: ");
+    history.push('/mypage');
+  };
+
+
+  if (!session) return null;
   return (
     <>
-      {/* <div className="padding" onClick={() => {history.push({
-        pathname: "/session?state=mylive&i_r_d="+ session.roomId + "&channelNum=" + session.channelNum" 
-    })}}> */}
-    <Grid container justify="center">
+      <Grid container item direction='row' justify='center' style={{width:'100%', maxWidth: '30em', float:'left', margin:'auto'}}>
         <Card key={session.livehole_id} className={classes.root}>
-        {/* <CardActionArea onClick={onClick}> */}
-          <br />
+          <br></br>
+
           <div
             style={{ backgroundImage: "url('/static/live_IU2.png')" }}
             className={classes.cookieWrapper}
           >
             <div className={classes.useCookie}></div>{" "}
           </div>
-          {/* <CardMedia
-            className={classes.media}
-            image={"/static/live_IU.png"}
-            title={session.title}
-            onClick={()=>{
-                history.push("/session/live?roomId=" + session.livehole_id + "&channelNum=" + session.livehole_id)
-            }}
-        /> */}
 
-
+          {console.log(session.title)}
           <CardHeader
-            // avatar={
-            //   <Avatar aria-label="recipe"
-            //   src="../static/live_IU2.png"
-            //   className={classes.useCookie}>
-            //     {session.host_nickname}
-            //   </Avatar>
-            // }
-            title={<Typography variant="h6">{session[0].title}</Typography>}
+          style={{padding: '10px 8px 0 8px'}}
+            title={<Typography variant="h6">{session.title}</Typography>}
             subheader={Date(session.reserve_date).substring(0, 21)}
             action={
-              <IconButton aria-label="settings">
-                <MoreVertIcon />
+              <IconButton aria-label="settings"
+                onClick={() =>
+                  {
+                    <>
+                    {console.log("CLICK")}
+                    {console.log(session)}
+                    {history.push({
+                    pathname: `mypage/hole/${session.id}/edit`,
+                    state: session
+                  })}
+                    </>
+
+                  }
+                }
+              >
+                <EditIcon />
               </IconButton>
             }
-            // title={session.title}
           />
-              <CardContent>
-          <CardActions>
-
-        <Button size="large" color="primary" onClick={()=>{setListUp({transform : "translate(0, 50%)"}); setDark({animation: "godark 0.7s"})}}>
-        <Typography variant="body1" style={{ fontWeight: 600 }}>예약 확정하기</Typography>
-        </Button>
-        <Button size="large" color="primary" onClick={onClick('delete')}>
-        <Typography variant="body1" style={{ fontWeight: 600 }}>삭제하기</Typography>
-        </Button>
-
-
-      </CardActions>
-              </CardContent>
-          {/* <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-            </IconButton>
-            <IconButton aria-label="share">
-                <ShareIcon />
-            </IconButton>
-            <IconButton
-                className={clsx(classes.expand, {
-                [classes.expandOpen]: expanded,
-                })}
-                onClick={handleExpandClick}
-                aria-expanded={expanded}
-                aria-label="show more"
-            >
-                <ExpandMoreIcon/>
-            </IconButton>
-            </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
-                <Typography paragraph>
-                    라이브 중
+          {session.status != "DONE" &&
+          <CardContent>
+            <CardActions style={{padding: '0 0'}}>
+              <Button
+                size="large"
+                color="primary"
+                onClick={() => {
+                  setListUp({ transform: "translate(0, 50%)" });
+                  setDark({ animation: "godark 0.7s" });
+                }}
+              >
+                <Typography variant="body1" style={{ fontWeight: 600 }}>
+                  예약 확정하기
                 </Typography>
-            </CardContent>
-            </Collapse> */}
-        {/* </CardActionArea> */}
+              </Button>
+              <Button size="large" color="primary" onClick={() => {
+                <>
+                {onDelete()}
+                {dispatch(getUserSessionInfo())}
+                {setFlag(true)}
+                </>
+              }
+              }>
+                <Typography variant="body1" style={{ fontWeight: 600 }}>
+                  삭제하기
+                </Typography>
+              </Button>
+            </CardActions>
+          </CardContent>
+}
         </Card>
-        </Grid>
-        <br />
-        <div style={listup} className="hiddenlist" maxWidth="">
-            <SessionConfirm session={session} goListUp={setListUp} goDark={setDark}/>
-        </div>
-        <div style={dark} className="layerfordark"></div>
+      </Grid>
 
-      <br />
+      <div style={listup} className="hiddenlist" maxWidth="">
+        <SessionConfirm
+          session={session}
+          goListUp={setListUp}
+          goDark={setDark}
+        />
+      </div>
+      <div style={dark} className="mypagelayerfordark"></div>
     </>
   );
 };

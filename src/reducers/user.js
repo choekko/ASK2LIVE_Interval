@@ -9,6 +9,7 @@ import {
 
 const initialState = {
     pending: false,
+    arrived : false,
     error: false,
     data: {}
 }
@@ -27,6 +28,7 @@ const user = (state = initialState, action) => {
             return {
                 ...state,
                 pending: false,
+                arrived: true,
                 data: userInfo
             };
         case USER_GET_FAILURE:

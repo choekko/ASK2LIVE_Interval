@@ -1,17 +1,14 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
-import Checkbox from "@material-ui/core/Checkbox";
-import Favorite from "@material-ui/icons/Favorite";
+import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import CloseListButton from "@material-ui/icons/ExpandMore";
 import Question from "../liveSession/Question";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import { postSessionToReserve } from '../../actions/SessionToReserveActions';
+import { postSessionToReserve } from "../../actions/SessionToReserveActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,6 +58,7 @@ const SessionConfirm = (props) => {
   const [listup, setListUp] = useState({ transform: "translate(0, 100%)" });
   const [dark, setDark] = useState({ display: "none" });
   const classes = useStyles();
+  const history = useHistory();
 
   return (
     <Paper style={style.paper} elevation={1}>
@@ -71,7 +69,7 @@ const SessionConfirm = (props) => {
       </div>
       <div className="BMJUA" style={style.font}>
         {Date(session.reserve_date).substring(0, 21)}에 예정된 <br></br>"
-        {session[0].title}"의 스케쥴을 확정하시겠어요?
+        {session.title}"의 스케쥴을 확정하시겠어요?
       </div>
       <div className="BMJUA" style={style.font2}>
         스케줄을 확정하면 '찜하기' 버튼을 누른 유저에게
@@ -103,9 +101,16 @@ const SessionConfirm = (props) => {
             variant="contained"
             color="primary"
             size="large"
-            onClick={
-                () => postSessionToReserve(session[0])
-            }
+            onClick={() => {
+              postSessionToReserve(session);
+              console.log("클릭");
+              goListUp({ transform: "translate(0, 100%)" });
+              goDark({ animation: "golight 0.7s" });
+              setTimeout(() => {
+                goDark({ display: "none" });
+              }, 700);
+              history.push("/mypage");
+            }}
           >
             <div style={style.font3} color="030916">
               확정하기

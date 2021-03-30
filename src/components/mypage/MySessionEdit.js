@@ -13,11 +13,12 @@ import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import CounterContainer from "../containers/CounterContainer";
-import { increment, decrement } from "../reducers/counter";
+import CounterContainer from "../../containers/CounterContainer";
+import { increment, decrement } from "../../reducers/counter";
 import { SettingsInputAntenna } from "@material-ui/icons";
 import axios from "axios";
-import { getSessionInfo } from '../actions/SessionActions'
+import { getUserSessionInfo } from '../../actions/SessionActions'
+import MypageNav from './MypageNav'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,63 +35,68 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const style = {
-  backIcon: {
-    position: "absolute",
-  },
+forForm: {
+    position: 'flex',
+    height: "100%",
+    width: "100%",
+    maxWidth: '79em',
+    padding: "3px",
+    top: "10%",
+    backgroundColor: "skyblue",
+    },
   field: {
-    position: "relative",
+    display: "flex",
+    justifyContent: 'center',
     width: "80%",
-    left: "0",
-    right: "0",
-    margin: "5% 0 0 5%",
+    margin: "2% auto",
   },
   counter: {
-    position: "relative",
+    // position: "relative",
+    display: 'flex',
+    float: 'left',
     width: "15%",
     align: "center",
-    margin: "7% 1% 7% 1%",
-    left: "50%",
+    margin: "3% 0 3% 10%",
+    left: "35%",
   },
-  title: {
-    position: "absolute",
-    fontSize: "1.2em",
-    padding: "12px",
+  buttonIcon: {
+    // position: "relative",
+    display: 'flex',
+    float: 'left',
+    margin: "3% 1% 3% 1%",
+    left: '40%',
+    justifyContent: 'right',
   },
   text: {
     fontSize: "80%",
     fontWeight: "bold",
-    position: "fixed",
-    margin: "9% 0 0 5%",
+    float: 'left',
+    display: 'flex',
+    margin: "3% 0 0 10%",
   },
-  forForm: {
-    position: "fixed",
-    height: "80%",
-    width: "95%",
-    padding: "3px",
-    top: "10%",
-    backgroundColor: "#FEFBF7",
-  },
-  buttonIcon: {
+  button: {
     position: "relative",
-    margin: "7% 1% 0 1%",
-    left: "50%",
-  },
-  submitButton: {
-    position: "relative",
-    width: "80%",
+    width: "40%",
+    maxWidth: "25em",
+    margin: "auto 5%",
   },
 };
 
-const SessionCreateContainer = () => {
+const MySessionEdit = (props) => {
+    console.log("MySessionEdit");
+    console.log(props);
+    const session = props.location.state;
+
+    console.log(session)
+
   const [inputs, setInputs] = useState({
-    title: "",
-    description: "",
-    reserveDate: "",
-    finishDate: "",
-    // userCount: "",
+    title: session.title,
+    description: session.description,
+    reserveDate: session.reserveDate,
+    target_demand: session.target_demand
   });
 
-  const { title, description, reserveDate, finishDate } = inputs;
+  const { title, description, reserveDate, target_demand } = inputs;
 
   const classes = useStyles();
   const counter = useSelector((state) => state.counter, []);
@@ -113,42 +119,26 @@ const SessionCreateContainer = () => {
   });
 
   const onClick = async () => {
-    // let finishDate = reserveDate;
-    // finishDate.setHours(reserveDate.getHours() + 1);
     const config = {
       headers: {'Authorization': 'Token ' + localStorage.token}
     }
     console.log(localStorage.token);
-    const data = {
-        title: title,
-        description: description,
-        reserve_date: reserveDate,
-        target_demand: counter
-    };
+    const data = inputs;
     console.log(data);
-    const res = await axios.post(
-      "https://143.248.226.51:8000/api/hole/create",
+    const res = await axios.patch(
+      "https://143.248.226.51:8000/api/hole/update/" + session.id,
       data,
       config,
     );
     console.log("hole created: ", res);
-    dispatch(getSessionInfo());
+    dispatch(getUserSessionInfo());
     history.push('/mypage');
   };
 
   return (
     <>
-      <IconButton
-        style={style.backIcon}
-        aria-label="back"
-        onClick={() => history.go(-1)}
-      >
-        <ArrowBackIosIcon />
-      </IconButton>
+    <MypageNav text={'Live Q&A 편집'}/>
       <Grid container justify="center">
-        <div className="centered BMDOHYEON" style={style.title}>
-          Live Q&A 만들기
-        </div>
 
         <div
           style={style.forForm}
@@ -160,14 +150,13 @@ const SessionCreateContainer = () => {
             required
             id="outlined-required"
             label="Live Q&A 타이틀"
-            placeholder="타이틀을 입력하세요"
+            defaultValue={session.title}
             variant="outlined"
             InputLabelProps={{
               shrink: true,
             }}
             onChange={onChange}
             name="title"
-            // value={title}
           />
 
           <br></br>
@@ -178,7 +167,7 @@ const SessionCreateContainer = () => {
             id="datetime-local"
             label="기간을 선택하세요"
             type="datetime-local"
-            placeholder="기간을 선택하세요"
+            defaultValue={session.reserveDate}
             // defaultValue="2017-05-24T10:30"
             className={classes.textField}
             InputLabelProps={{
@@ -186,10 +175,10 @@ const SessionCreateContainer = () => {
             }}
             name="reserveDate"
             onChange={onChange}
-            // value={reserveDate}
           />
           <br></br>
           <div style={style.text}>목표 인원 수</div>
+          <div>
           <IconButton
             style={style.buttonIcon}
             edge="start"
@@ -204,12 +193,13 @@ const SessionCreateContainer = () => {
             style={style.counter}
             id="standard-basic"
             inputProps={{ min: 0, style: { textAlign: "center" } }}
+            defaultValue={session.target_demand}
             value={counter}
             // onChange={(e)=>setUserCount(e.target.value)}
             name="userCount"
           />
           {console.log(counter)}
-
+            
           <IconButton
             style={style.buttonIcon}
             edge="start"
@@ -219,6 +209,7 @@ const SessionCreateContainer = () => {
           >
             <AddCircleIcon />
           </IconButton>
+          </div>
 
           <TextField
             style={style.field}
@@ -226,34 +217,55 @@ const SessionCreateContainer = () => {
             label="Live Q&A 짧은 소개"
             multiline
             rows={4}
-            placeholder="소개글을 입력하세요"
+            defaultValue={session.description}
             variant="outlined"
             InputLabelProps={{
               shrink: true,
             }}
             onChange={onChange}
             name="description"
-            // value={description}
           />
 
-          {/* <div style={style.text}>
-            Live Q&A 진행 예정일
 
-        </div> */}
-          {/* </Grid> */}
-          <Button
-            style={style.field}
-            variant="contained"
-            color="secondary"
-            type="submit"
-            onClick={onClick}
-          >
-            Live Q&A 만들기
-          </Button>
+          <Grid container justify="center">
+            <Button
+              style={style.button}
+              variant="outlined"
+              color="primary"
+              size="large"
+              onClick={() => {
+                history.goBack();
+              }}
+            >
+              <div style={style.font3} color="030916">
+                취소하기
+              </div>
+            </Button>
+
+            <Button
+              style={style.button}
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={onClick}
+            >
+              <div style={style.font3} color="030916">
+                확정하기
+              </div>
+            </Button>
+          </Grid>
         </div>
+        <div
+              style={{
+                backgroundColor: "yellow",
+                height: "5em",
+                width: "100%",
+                marginBottom: "5%",
+              }}
+            />
       </Grid>
     </>
   );
 };
 
-export default SessionCreateContainer;
+export default MySessionEdit;
