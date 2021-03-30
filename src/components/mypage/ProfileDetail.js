@@ -1,19 +1,15 @@
+import { useEffect } from 'react';
 import { useHistory } from "react-router-dom";
-import { useSelector} from 'react-redux';
-import { MypageNav } from "./MypageNav";
+import { useSelector, useDispatch, shallowEqual1 } from 'react-redux'
+import MypageNav from "./MypageNav";
 
-import CardActionArea from "@material-ui/core/CardActionArea";
 import { makeStyles } from "@material-ui/core/styles";
-import CardHeader from "@material-ui/core/CardHeader";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import Card from "@material-ui/core/Card";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    position: "fixed",
+    position: "absolute",
     top: "5%",
     left: 0,
     right: 0,
@@ -82,36 +78,54 @@ const style = {
   paper: {
     margin: "10% 0 5% 10%",
     width: "50%",
-    // backgroundColor: "green",
   },
   bio: {
     width: "50%",
     marginLeft: "10%",
-    // backgroundColor: "green",
   },
   backIcon: {
     position: "absolute",
   },
+  edit : {
+    top: 0,
+    right: "7%",
+    height: "5%",
+    position: "fixed",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: 'center',
+    zIndex: 2,
+  }
 };
+
+
 
 const ProfileDetail = (props) => {
   const history = useHistory();
   const classes = useStyles();
-  console.log(props);
+  const dispatch = useDispatch();
+    
+  const user = useSelector((state) => state.user.data.detail);
+  const nickname = user.nickname;
+  if (!user.work_company.length) user.work_company = "회사 이름";
+  if (!user.work_field.length) user.work_field = "분야";
 
-  // const user = props.location.state;
-  const nickname = props.match.params.nickname;
-  const user = useSelector(state => state.user);
-
-  if (user.work_company === " ") user.work_company = "회사 이름";
-  if (user.work_field === " ") user.work_field = "분야";
-
-  console.log(user);
-
+  const goToEdit = () => {
+    console.log("click");
+    history.push({
+      pathname: `${nickname}/edit`,
+      state: user});
+  }
+  if (!user) return<p> 로딩중 </p>
   return (
     <>
       <div>
         <MypageNav text={"프로필"} />
+        <div
+        className="BMJUA"
+        style={style.edit}
+        onClick={goToEdit}
+        > 편집 </div>
       </div>
 
       <div className={classes.root}>

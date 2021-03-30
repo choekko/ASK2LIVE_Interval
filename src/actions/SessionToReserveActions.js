@@ -11,6 +11,7 @@ export const postSessionToReserve = async(session) => {
     data: {}
   }
   console.log(localStorage.token);
+  console.log(session.id)
 
   const res = await axios.patch(
     "https://143.248.226.51:8000/api/reservation/hole/" + session.id + "/hostconfirm",

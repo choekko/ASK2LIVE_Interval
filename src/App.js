@@ -6,6 +6,8 @@ import SessionCardContainer from './containers/SessionCardContainer';
 import MypageContainer from './containers/MypageContainer';
 import SessionCreateContainer from './containers/SessionCreateContainer';
 import ProfileDetail from './components/mypage/ProfileDetail';
+import MypageEdit from './components/mypage/MypageEdit';
+import MySessionEdit from './components/mypage/MySessionEdit'
 import PreQuestions from './components/sessionCard/PreQuestions';
 // import MainPage from "./components/MainPage" 
 // import 'fontsource-roboto'
@@ -51,6 +53,8 @@ const App = () => {
         <Route exact path="/preQuestions/:pk" component={PreQuestions}/>    
         <Route exact path="/mypage" component={MypageContainer}/>
         <Route exact path="/mypage/:nickname" component={ProfileDetail}/>
+        <Route exact path="/mypage/:nickname/edit" component={MypageEdit}/>
+        <Route exact path="/mypage/hole/:session/edit" component={MySessionEdit}/>
         </>
 
     )
