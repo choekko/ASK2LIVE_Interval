@@ -1,6 +1,5 @@
-import { useEffect } from 'react';
 import { useHistory } from "react-router-dom";
-import { useSelector, useDispatch, shallowEqual1 } from 'react-redux'
+import { useSelector } from 'react-redux'
 import MypageNav from "./MypageNav";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -39,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
     left: "70%",
     width: theme.spacing(10),
     height: theme.spacing(10),
-    // textAlign: "",
   },
   nickname: {
     position: "absolute",
@@ -47,9 +45,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "1.2em",
     top: "30%",
     left: "10%",
-    //   width: theme.spacing(10),
-    //   height: theme.spacing(10),
-    // textAlign: "",
   },
   work_company: {
     position: "absolute",
@@ -83,9 +78,6 @@ const style = {
     width: "50%",
     marginLeft: "10%",
   },
-  backIcon: {
-    position: "absolute",
-  },
   edit : {
     top: 0,
     right: "7%",
@@ -103,38 +95,59 @@ const style = {
 const ProfileDetail = (props) => {
   const history = useHistory();
   const classes = useStyles();
-  const dispatch = useDispatch();
-    
+
   const user = useSelector((state) => state.user.data.detail);
-  const nickname = user.nickname;
-  if (!user.work_company.length) user.work_company = "회사 이름";
-  if (!user.work_field.length) user.work_field = "분야";
+
+  let profile = {}
+  if (props.location.state.host){
+    const host = props.location.state.host;
+    console.log("host : ", host)
+    if (!host.work_company.length) host.work_company = "회사 이름";
+    if (!host.work_field.length) host.work_field = "분야";
+
+    profile = {
+      nickname: host.nickname,
+      work_company: host.work_company,
+      work_field: host.work_field,
+      bio: host.bio,
+    }
+  } else {
+    profile = {
+      nickname: user.nickname,
+      work_company: user.work_company,
+      work_field: user.work_field,
+      bio: user.bio,
+    }
+  }
+
 
   const goToEdit = () => {
     console.log("click");
     history.push({
-      pathname: `${nickname}/edit`,
+      pathname: `${profile.nickname}/edit`,
       state: user});
   }
-  if (!user) return<p> 로딩중 </p>
+  if (!user || !profile) return<p> 로딩중 </p>
   return (
     <>
       <div>
         <MypageNav text={"프로필"} />
+        {user.nickname === profile.nickname && 
         <div
         className="BMJUA"
         style={style.edit}
         onClick={goToEdit}
         > 편집 </div>
+        }
       </div>
 
       <div className={classes.root}>
-        <Typography className={classes.nickname}>{nickname}</Typography>
+        <Typography className={classes.nickname}>{profile.nickname}</Typography>
         <Typography className={classes.work_company}>
-          {user.work_company}
+          {profile.work_company}
         </Typography>
         <Typography className={classes.work_field}>
-          {user.work_field}
+          {profile.work_field}
         </Typography>
 
         <Avatar
@@ -149,7 +162,7 @@ const ProfileDetail = (props) => {
           소개
         </div>
         <div style={style.bio} className="NotoSans2">
-          {user.bio}
+          {profile.bio}
         </div>
         <div style={style.paper} className="BMDOHYEON">
           SNS
@@ -159,4 +172,4 @@ const ProfileDetail = (props) => {
   );
 };
 
-export default ProfileDetail;
+export default ProfileDetail

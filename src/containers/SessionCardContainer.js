@@ -82,6 +82,10 @@ const SessionCardContainer = (props) => {
     const sessions = useSelector(state => state.session.data);
     const history = useHistory();
     const allUsersData = useSelector(state => state.allUsers);
+    const mySession = useSelector(state => state.mySession.data);
+    console.log('allUsers', allUsersData);
+    console.log('allUsers', mySession);
+    // console.log('allUsers.data.data.detail', allUsersData.data.data.detail);
     
 
     if(Object.keys(sessions).length != 0){

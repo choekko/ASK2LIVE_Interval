@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { useHistory } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
@@ -12,12 +12,15 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import EditIcon from '@material-ui/icons/Edit';
-import Grid from "@material-ui/core/Grid"
+import EditIcon from "@material-ui/icons/Edit";
+import Grid from "@material-ui/core/Grid";
 
 import "../../styles/style.css";
 import { SessionConfirm } from "./SessionConfirm";
-import { getSessionInfo, getUserSessionInfo } from '../../actions/SessionActions'
+import {
+  getSessionInfo,
+  getUserSessionInfo,
+} from "../../actions/SessionActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,8 +29,8 @@ const useStyles = makeStyles((theme) => ({
     // float: 'left',
     // display: 'inline-block',
     margin: "2%",
-    width: '100%',
-    height: '10em',
+    width: "100%",
+    height: "10em",
     // left: '-50%',
     maxWidth: "30em",
     borderRadius: "20px",
@@ -76,28 +79,32 @@ const useStyles = makeStyles((theme) => ({
     overflow: "hidden",
   },
   layerfordark: {
-    position: 'fixed',
-    maxWidth: '73em',
-    minHeight: '35em',
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    position: "fixed",
+    maxWidth: "73em",
+    minHeight: "35em",
+    marginLeft: "auto",
+    marginRight: "auto",
     left: 0,
     right: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'black',
-    opacity: '0.6',
-    transition: 'all 0.7s'
-},
+    width: "100%",
+    height: "100%",
+    backgroundColor: "black",
+    opacity: "0.6",
+    transition: "all 0.7s",
+  },
 }));
 
 const MypageLiveSession = ({ session, setFlag }) => {
   console.log("마이라이브세션", session);
+  const user = useSelector((state) => state.user.data.detail);
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
   const [listup, setListUp] = useState({ transform: "translate(0, 100%)" });
-  const [dark, setDark] = useState({ transform: "translate(0, 100%)", display: "none" });
+  const [dark, setDark] = useState({
+    transform: "translate(0, 100%)",
+    display: "none",
+  });
 
   const onDelete = async () => {
     console.log("DELETE SESSION!");
@@ -111,14 +118,24 @@ const MypageLiveSession = ({ session, setFlag }) => {
       config
     );
     console.log("hole deleted: ");
-    history.push('/mypage');
+    history.push("/mypage");
   };
-
 
   if (!session) return null;
   return (
     <>
-      <Grid container item direction='row' justify='center' style={{width:'100%', maxWidth: '30em', float:'left', margin:'auto'}}>
+      <Grid
+        container
+        item
+        direction="row"
+        justify="center"
+        style={{
+          width: "100%",
+          maxWidth: "30em",
+          float: "left",
+          margin: "auto",
+        }}
+      >
         <Card key={session.livehole_id} className={classes.root}>
           <br></br>
 
@@ -131,59 +148,63 @@ const MypageLiveSession = ({ session, setFlag }) => {
 
           {console.log(session.title)}
           <CardHeader
-          style={{padding: '10px 8px 0 8px'}}
+            style={{ padding: "10px 8px 0 8px" }}
             title={<Typography variant="h6">{session.title}</Typography>}
             subheader={Date(session.reserve_date).substring(0, 21)}
             action={
-              <IconButton aria-label="settings"
-                onClick={() =>
-                  {
+              user.id === parseInt(session.host) &&
+              session.status != "DONE" && (
+                <IconButton
+                  aria-label="settings"
+                  onClick={() => {
                     <>
-                    {console.log("CLICK")}
-                    {console.log(session)}
-                    {history.push({
-                    pathname: `mypage/hole/${session.id}/edit`,
-                    state: session
-                  })}
-                    </>
-
-                  }
-                }
-              >
-                <EditIcon />
-              </IconButton>
+                      {console.log("CLICK")}
+                      {console.log(session)}
+                      {history.push({
+                        pathname: `mypage/hole/${session.id}/edit`,
+                        state: session,
+                      })}
+                    </>;
+                  }}
+                >
+                  <EditIcon />
+                </IconButton>
+              )
             }
           />
-          {session.status != "DONE" &&
           <CardContent>
-            <CardActions style={{padding: '0 0'}}>
+            <CardActions style={{ padding: "0 0" }}>
+              {session.status != "DONE" && user.id === parseInt(session.host) && (
+                <Button
+                  size="large"
+                  color="primary"
+                  onClick={() => {
+                    setListUp({ transform: "translate(0, 50%)" });
+                    setDark({ animation: "godark 0.7s" });
+                  }}
+                >
+                  <Typography variant="body1" style={{ fontWeight: 600 }}>
+                    예약 확정하기
+                  </Typography>
+                </Button>
+              )}
               <Button
                 size="large"
                 color="primary"
                 onClick={() => {
-                  setListUp({ transform: "translate(0, 50%)" });
-                  setDark({ animation: "godark 0.7s" });
+                  <>
+                    {onDelete()}
+                    {dispatch(getUserSessionInfo())}
+                    {setFlag(true)}
+                  </>;
                 }}
               >
-                <Typography variant="body1" style={{ fontWeight: 600 }}>
-                  예약 확정하기
-                </Typography>
-              </Button>
-              <Button size="large" color="primary" onClick={() => {
-                <>
-                {onDelete()}
-                {dispatch(getUserSessionInfo())}
-                {setFlag(true)}
-                </>
-              }
-              }>
                 <Typography variant="body1" style={{ fontWeight: 600 }}>
                   삭제하기
                 </Typography>
               </Button>
             </CardActions>
           </CardContent>
-}
         </Card>
       </Grid>
 

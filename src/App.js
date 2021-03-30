@@ -22,7 +22,7 @@ import { connect, useSelector, useDispatch} from 'react-redux';
 import Chat from "./components/liveSession/chatting/Chat"
 
 import { getAllUsersInfo } from './actions/AllUsersActions'
-import { getSessionInfo } from './actions/SessionActions'
+import { getSessionInfo, getUserSessionInfo } from './actions/SessionActions'
 import { getUserInfo } from './actions/UserActions'
 import { bindActionCreators } from 'redux';
 
@@ -32,11 +32,13 @@ const App = () => {
     const token = localStorage.getItem('token')
     if(token){
         dispatch(getUserInfo(token));
+        dispatch(getUserSessionInfo(token));
     }
 
     dispatch(getSessionInfo());
 
     dispatch(getAllUsersInfo());
+
 
 
     return (
