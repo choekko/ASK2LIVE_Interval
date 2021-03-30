@@ -2,7 +2,10 @@ import {
     SESSION_GET_PENDING,
     SESSION_GET_SUCCESS,
     SESSION_GET_FAILURE,
-    SETLIVE
+    SETLIVE,
+    MY_SESSION_GET_PENDING,
+    MY_SESSION_GET_SUCCESS,
+    MY_SESSION_GET_FAILURE,
   } from './types';
 
 import axios from 'axios'
@@ -13,9 +16,9 @@ function sessionGetApi(){
     return axios.get('https://143.248.226.51:8000/api/hole')
 }
 
-function userSessionGetApi(){
+function userSessionGetApi(token){
     const config = {
-        headers: {Authorization: 'Token ' + localStorage.token}
+        headers: {Authorization: 'Token ' + token}
     }
     return axios.get('https://143.248.226.51:8000/api/user/read/hole',
         config
@@ -36,16 +39,16 @@ export const getSessionInfo = () => dispatch => {
     })
 }
 
-export const getUserSessionInfo = () => dispatch => {
-    console.log('-----getSessionInfo start-----')
-    dispatch({type: SESSION_GET_PENDING}); // 요청이 시작되었다는 것을 알림
+export const getUserSessionInfo = (token) => dispatch => {
+    console.log('-----getUserSessionInfo start-----')
+    dispatch({type: MY_SESSION_GET_PENDING}); // 요청이 시작되었다는 것을 알림
 
     // 요청 시작
-    return userSessionGetApi().then(
+    return userSessionGetApi(token).then(
         (response) => {
-            dispatch({ type: SESSION_GET_SUCCESS, payload: response });
+            dispatch({ type: MY_SESSION_GET_SUCCESS, payload: response });
         }
     ).catch(error => {
-        dispatch({ type: SESSION_GET_FAILURE, payload: error });
+        dispatch({ type: MY_SESSION_GET_FAILURE, payload: error });
     })
 }

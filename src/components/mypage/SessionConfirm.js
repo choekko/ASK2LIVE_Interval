@@ -1,16 +1,12 @@
 import { postSessionToReserve } from '../../actions/SessionToReserveActions';
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useDispatch } from 'react-redux'
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
-import CloseListButton from "@material-ui/icons/ExpandMore";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import Favorite from "@material-ui/icons/Favorite";
-import Checkbox from "@material-ui/core/Checkbox";
-import Question from "../liveSession/Question";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid"
+import { getUserSessionInfo } from '../../actions/SessionActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,10 +53,9 @@ const style = {
 const SessionConfirm = (props) => {
   console.log("SessionConfirm");
   const { session, goListUp, goDark } = props;
-  const [listup, setListUp] = useState({ transform: "translate(0, 100%)" });
-  const [dark, setDark] = useState({ display: "none" });
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   return (
     <Paper style={style.paper} elevation={1}>
@@ -111,6 +106,7 @@ const SessionConfirm = (props) => {
               setTimeout(() => {
                 goDark({ display: "none" });
               }, 700);
+              dispatch(getUserSessionInfo())
               history.push("/mypage");
             }}
           >

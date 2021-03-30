@@ -41,7 +41,7 @@ const SessionMatchContainer = (props) => {
             }
             else return <p>SessionMatchContainer LOADING</p> 
 
-        case RESERVE: // ¿©±ä È£½ºÆ®¸¸ °ÅÃÄ°£´Ù
+        case RESERVE: // ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Ä°ï¿½ï¿½ï¿½
             if (match)
                 return <ReserveToLive holeTitle={match.title} hostName={match.host_nickname} hostImage={match.host_profile_image} holeId={holeId}/>
             else return <p>SessionMatchContainer LOADING</p> 
@@ -65,7 +65,7 @@ const SessionMatchContainer = (props) => {
     //                 else return <p>SessionMatchContainer GET ERROR</p> 
     //             }
     //         )
-    //     case RESERVE: // ¿©±ä È£½ºÆ®¸¸ °ÅÃÄ°£´Ù
+    //     case RESERVE: // ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Ä°ï¿½ï¿½ï¿½
     //         const holeId_reserve = urlSearchParams.get("holeId");
     //         console.log(holeId_reserve)
     //         axios.get("https://143.248.226.51:8000/api/hole/read/"+holeId).then(

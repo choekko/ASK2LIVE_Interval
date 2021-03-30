@@ -56,15 +56,15 @@ forForm: {
     float: 'left',
     width: "15%",
     align: "center",
-    margin: "3% 0 3% 10%",
-    left: "35%",
+    margin: "auto",
+    // left: "35%",
   },
   buttonIcon: {
     // position: "relative",
     display: 'flex',
     float: 'left',
-    margin: "3% 1% 3% 1%",
-    left: '40%',
+    margin: "auto",
+    // left: '40%',
     justifyContent: 'right',
   },
   text: {
@@ -178,7 +178,7 @@ const MySessionEdit = (props) => {
           />
           <br></br>
           <div style={style.text}>목표 인원 수</div>
-          <div>
+          <div style={{left: '40%'}}>
           <IconButton
             style={style.buttonIcon}
             edge="start"
