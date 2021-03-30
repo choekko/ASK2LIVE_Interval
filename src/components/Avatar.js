@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 const style = {
     circle : {
-        border : "solid 1px rgba(0, 0, 0, .3)",
+        border : "solid 1px rgba(255, 255, 255, .3)",
         borderRadius : "100%",
     }
 }

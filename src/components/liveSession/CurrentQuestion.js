@@ -69,10 +69,25 @@ const CurrentQuestion = (props) => {
             let currentQuestion = questionList[questionIdx];
             let userNickName = currentQuestion.user_nickname;
             let isVoice = currentQuestion.is_voice;
+            let userUid = currentQuestion.user_uid;
 
             if (isVoice)
                 return (
-                <VoiceQuestion userNickName={userNickName} isHost={props.isHost} onAnswered={onAnswered} currentQuestionId={currentQuestion.id}/>
+                <>
+                <VoiceQuestion 
+                userUid={userUid} 
+                userNickName={userNickName} 
+                isHost={props.isHost} 
+                onAnswered={onAnswered} 
+                currentQuestionId={currentQuestion.id}
+                client={props.client}
+                rtmClient={props.rtmClient}
+                host={props.host}
+                localAudioTrack={props.localAudioTrack}
+                remoteUsers={props.remoteUsers}
+                channelNum={props.channelNum}
+                />
+                </>
                 )
 
             else {

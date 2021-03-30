@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import axios from "axios"
+import { useSelector } from "react-redux"
 
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper';
@@ -8,8 +9,9 @@ import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
 import useSelection from "antd/lib/table/hooks/useSelection";
-
-
+import SendIcon from '@material-ui/icons/Send';
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,26 +52,76 @@ const style = {
     },
     card : {
         borderRadius : "15px 15px 0 0",
-        backgroundColor: "#7A6890",
+        backgroundColor: "#D95032",
         height: "1.5rem",
         // height: "20px",
         padding: "0.3rem",
         // padding: "3px",
     },
     submitbtn : {
-        position: "relative",
-        display: "block",
+        position: "absolute",
+        display: "flex",
+        justifyContent: "center",
         float: "right",
-        backgroundColor: "wheat",
-        width: "15%",
+        right: "5px",
+        width: "10%",
+        top: "2.4em",
         height: "2.4em",
+        zIndex: "2",
+    },
+    insert : {
+        position:"absolute",
+        top: "3.2em",
+        left : "10px",
+        height: "2em",
+        width:"86%",
+        borderBottom : "1px solid",
+        borderTop: "0px",
+        borderLeft : "0",
+        borderRight: "0",
     }
 }
 
 const Questioning = (props) => {
 
     const classes = useStyles();
+    const [open, setOpen] = useState(false);
     const [ask, setAsk] = useState("")
+    const [voice, setVoice] = useState(false)
+    const [queStyle, setQueStyle] = useState({display : "none"})
+
+    const myInfo = useSelector(state => state.user);
+
+    const handleClick = () => {
+        setOpen(true);
+      };
+    
+    const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+        return;
+    }
+    setOpen(false);
+    };
+
+    const pressEnter = (e) => {
+        if (e.key == 'Enter'){
+            postApi(false, ask);
+            setAsk("")
+            handleClick();
+        }
+    }
+
+    const voiceClick = () => {
+        if (voice)
+        {
+            setQueStyle({opacity: "0", display : "none"}) 
+            // setTimeout((()=>setQueStyle({display: "none"})),1000)
+        }
+        else
+            setQueStyle({opacity: "1"})
+            // setTimeout((()=>setQueStyle({display:"flex"})),1000)
+        setVoice(prevVoice => !prevVoice)
+    }
 
     const postApi = async(isVoice, askValue) =>  {
         const headers = {
@@ -95,29 +147,62 @@ const Questioning = (props) => {
                 <div className={classes.root}>
                     <Paper elevation={2} >
                         <div style={style.card}>
-                            사람이름
+                            {
+                                myInfo.arrived?
+                                <span
+                                style={{marginLeft: "10px"}}
+                                className="BMJUA"
+                                >{myInfo.data.detail.nickname}</span>
+                                :
+                                <span> 로딩중 </span>
+                            }
                             <div style={{float:"right"}}>
                                 <span className="BMJUA" style={{fontSize: "0.8em"}}> 음성 질문 </span>
                                 <Checkbox
-                                    style={{right : "3px", padding: "0"}}
-                                    defaultChecked
+                                    style={{color: "black", right : "3px", padding: "0"}}
                                     size="small"
                                     inputProps={{ 'aria-label': 'checkbox with small size' }}
+                                    onClick={voiceClick}
                                 />
                             </div>
                         </div>
+                        <div style={queStyle} className="QuestioningWrapper">
+                            <p className="NanumGothic3" style={{color: "white", marginLeft: "1em", fontSize:"0.8em"}}>차례가 되면 호스트가 음성 권한을 부여합니다.</p>
+                        </div>
                         <input
-                        style={{position:"relative", width:"80%"}}
+                        type="text"
+                        maxLength="60"
+                        value={ask}
+                        style={style.insert}
+                        placeholder="최대 글자수는 60자입니다."
                         onChange={(e) => setAsk(e.target.value)}
+                        onKeyPress={pressEnter}
                         />
                         <div style={style.submitbtn}>
-                            <button
-                            onClick={()=>{postApi(false, ask)}}
-                            > 
-                            게시버튼</button>
+                        <IconButton 
+                            onClick={()=>{
+                                if (voice)
+                                {
+                                    postApi(true, "(음성 질문입니다)"); 
+                                    setAsk("");
+                                    handleClick();
+                                }
+                                else 
+                                    postApi(false, ask); setAsk("")
+                                    handleClick();
+                                }} 
+                            className={classes.iconButton} 
+                            aria-label="send">
+                            <SendIcon/>
+                        </IconButton>
                         </div>
                     </Paper>
                 </div>
+                <Snackbar style={{position: "fixed", bottom:"50%"}} open={open} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} style={{boxShadow: "2px 2px 2px 2px #D95032", border: "solid 1px white", backgroundColor:"black"}} severity="success">
+                     <span style={{color:"white"}}>질문 등록 성공!</span>
+                    </Alert>
+                </Snackbar>
             </Grid>
         <IconButton style={style.questionbutton} onClick={()=>{props.goQueUp({transform : "translate(0, 100%)"}); props.goDark({opacity: "0", animation: "golight 0.7s"}); setTimeout(()=>{props.goDark({display: "none"})}, 700)}} aria-label="question_list">
             <CloseQuestioning fontSize="large" />
