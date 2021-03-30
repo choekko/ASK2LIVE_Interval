@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import counter from './counter';
 import user from './user';
 import session from './session';
+import mySession from './mySession';
 import messages from './messages';
 import authorize from './authorize';
 import questionlist from './questionlist';
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     user,
     allUsers,
     session,
+    mySession,
     messages,
     authorize,
     questionlist,

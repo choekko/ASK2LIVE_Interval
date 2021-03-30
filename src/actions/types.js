@@ -23,6 +23,11 @@ export const SETLIVE = 'session/setlive';
 export const SESSION_GET_PENDING = 'SESSION_GET_PENDING';
 export const SESSION_GET_SUCCESS = 'SESSION_GET_SUCCESS';
 export const SESSION_GET_FAILURE = 'SESSION_GET_FAILURE';
+// MY_SESSION ACTIONS TYPES
+export const MY_SETLIVE = 'mySession/setlive';
+export const MY_SESSION_GET_PENDING = 'MY_SESSION_GET_PENDING';
+export const MY_SESSION_GET_SUCCESS = 'MY_SESSION_GET_SUCCESS';
+export const MY_SESSION_GET_FAILURE = 'MY_SESSION_GET_FAILURE';
 
 // Entered Session Types
 export const ENTEREDSESSION_GET_PENDING = 'enteredSession/ENTEREDSESSION_GET_PENDING';

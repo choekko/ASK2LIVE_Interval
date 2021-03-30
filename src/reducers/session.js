@@ -3,7 +3,7 @@ import {
     SESSION_GET_PENDING,
     SESSION_GET_SUCCESS,
     SESSION_GET_FAILURE,
-    SETLIVE
+    SETLIVE,
   } from '../actions/types';
 
 
@@ -13,7 +13,7 @@ const initialState = {
     data: []
 }
 
-const session = (state = initialState, action) => {
+export const session = (state = initialState, action) => {
     switch (action.type) {
         case SESSION_GET_PENDING:
             return {

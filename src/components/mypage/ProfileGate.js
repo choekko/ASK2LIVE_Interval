@@ -43,7 +43,7 @@ const ProfileGate = (props) => {
     const goToDetail = () => {
         console.log('onClick');
         history.push({
-            pathname: `mypage/${props.user.nickname}`,
+            pathname: '/mypage/' + props.user.nickname,
             state: props.user});
     }
 

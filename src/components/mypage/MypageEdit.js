@@ -123,7 +123,10 @@ const MypageEdit = (props) => {
     console.log(res);
     // dispatch(updateUserInfo(localStorage.token, data));
     dispatch(getUserInfo(localStorage.token));
-    history.push(`/mypage/${nickname}`);
+    history.push({
+      pathname: '/mypage/' + nickname,
+      state: user
+    })
   };
 
   return (
