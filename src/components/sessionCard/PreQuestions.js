@@ -104,7 +104,7 @@ const QuestionCard = ({question}) => {
     const classes = useStyles();
     return(
         <>
-        <Card className={classes.card}>
+        <Card key={question.id} className={classes.card}>
         <CardHeader
             subheader={question.user_nickname}/>
         <CardContent>
@@ -121,7 +121,9 @@ const ListPreQuestions = ({questions}) => {
     console.log('qestions', questions)
     return(
         <>
-        {questions.data.detail.map((question) => 
+        {questions.data.detail.length === 0 ? 
+        <div>질문을 등록해주세요</div> :
+        questions.data.detail.map((question) => 
         <>
             <QuestionCard question={question}/>
             <Divider light />
@@ -132,7 +134,6 @@ const ListPreQuestions = ({questions}) => {
 }
 const PreQuestions = () => {
     const questions = useSelector(state => state.questionlist)
-    
     let targetSession = {};
 
     const href = window.location.href
@@ -151,7 +152,8 @@ const PreQuestions = () => {
             <>
         {console.log('hihihi',targetSession)}
         <SessionDetail session={targetSession.session}/>
-        {Object.keys(questions.data).length > 0 ?<ListPreQuestions questions={questions}/> : null}
+        
+        {Object.keys(questions.data).length > 0 ? <ListPreQuestions questions={questions}/> : null}
         </>
     )
   

@@ -60,7 +60,7 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
                 </Typography>
                 <div className={classes.cursor} onClick={()=>{
                   if(Object.keys(user.data).length === 0){
-                    alert('로그인하세요')
+                    alert('로그인이 필요합니다.')
                   }else{
                     history.push({
                       pathname: "/session/live",

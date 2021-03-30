@@ -78,7 +78,7 @@ const HostCard = ({host}) => {
         aria-label="back"
         onClick={()=>{
           if(Object.keys(user.data).length === 0){
-            alert('로그인 하세요')
+            alert('로그인이 필요합니다.')
           }else{
             history.push({
               pathname: '/mypage/'+host.nickname,

@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles({
   root: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles({
 });
 
 const HostConfirmedSessionsCards = ({hostConfirmedSessions}) => {
-
+    const user = useSelector(state => state.user)
     const classes = useStyles();
     const bull = <span className={classes.bullet}>?</span>;
     const history = useHistory();
@@ -57,7 +58,11 @@ const HostConfirmedSessionsCards = ({hostConfirmedSessions}) => {
                     시작 시간 : {Date(session.reserve_date).substring(0, 21)}
                 </Typography>
                 <div className={classes.cursor} onClick={()=>{
-                history.push("/session/live?roomId=" + session.livehole_id + "&channelNum=" + session.livehole_id)
+                  if(Object.keys(user.data).length === 0){
+                    alert('로그인이 필요합니다.')
+                  }else{
+                    alert('아직 라이브 Q&A가 시작하지 않았어요')
+                  }
                 }}>
                     <Typography variant="h5" component="h2">
                         {session.title}

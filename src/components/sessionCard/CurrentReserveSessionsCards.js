@@ -188,7 +188,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions, setFlag}) => {
                             console.log(user.data)
                             console.log(Object.keys(user.data).length)
                             if(Object.keys(user.data).length === 0){
-                              alert('하단 네비에 로그인 버튼있음')
+                              alert('로그인이 필요합니다.')
                             }else{
                               session.hole_reservations[0].guests.indexOf(user.data.detail.id) === -1 ?
                             <>
