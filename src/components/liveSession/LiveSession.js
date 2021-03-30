@@ -249,7 +249,7 @@ const LiveSession = (props) => {
             dispatch(getQuestionList(props.holeId))
         }, 5000);
         rtmChannel = rtmClient.createChannel(props.channelNum);
-        join(props.channelNum, null, rtmClient, rtmChannel);
+        join(props.channelNum, null, rtmClient, rtmChannel, props.isHost);
         if (props.isHost)
             setTimeout(()=>{hostPostApi(client.uid)}, 2000);
         else
@@ -321,7 +321,16 @@ const LiveSession = (props) => {
                     <div style={{position:"relative", height:"50%", display:"flex", alignItems: "center"}}>
                         {/* <Grid container justify="center"> */}
                             <div>
-                                 <CurrentQuestion holeId={props.holeId} isHost={props.isHost}/> 
+                                 <CurrentQuestion 
+                                 holeId={props.holeId} 
+                                 isHost={props.isHost}
+                                 client={client}
+                                 rtmClient={rtmClient}
+                                 host={authority}
+                                 localAudioTrack={localAudioTrack}
+                                 remoteUsers={remoteUsers}
+                                 channelNum={props.channelNum}
+                                 />
                             </div>
                         {/* </Grid>  */}
                     </div>
@@ -343,6 +352,9 @@ const LiveSession = (props) => {
         </div>
         :   
         <div style={queUp} className="hiddenQue">
+            <p style={{color: "rgba(0,0,0,0.7)", fontSize: "1em", position:"absolute", left:"5%", bottom:"6em", zIndex:"1"}}
+            className="BMDOHYEON"
+            > 질문을 등록하고 호스트와 대화하세요!</p>
             <Questioning holeId={props.holeId} goQueUp = {setQueUp} goDark={setDark}/>
         </div>
         }

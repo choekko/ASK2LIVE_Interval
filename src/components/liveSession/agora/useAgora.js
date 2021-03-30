@@ -30,7 +30,7 @@ export default function useAgora(client) {
     return microphoneTrack;
   }
   
-  async function join(channel, token, rtmClient, rtmChannel) {
+  async function join(channel, token, rtmClient, rtmChannel, isHost) {
     console.log("join");
 
     
@@ -73,8 +73,8 @@ export default function useAgora(client) {
 
         } else if (msg.text === "audience") {
           
-          client.unpublish();
-          microphoneTrack.play();
+            microphoneTrack.stop();
+            client.unpublish();
           console.log("make audience");
         } else {
           console.log("[Warning] unknown message:");
@@ -83,7 +83,7 @@ export default function useAgora(client) {
       });
 
     console.log("리모트유저: ", remoteUsers.length);
-    if (remoteUsers.length === 0) {
+    if (isHost) {
       console.log("client Role in JOIN ");
       await dispatch({type: "superHost", payload: "host"});
       // await client.setClientRole('host');
