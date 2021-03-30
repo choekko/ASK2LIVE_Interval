@@ -46,7 +46,8 @@ const App = () => {
         <Route exact path="/" component={SessionCardContainer}/>
         <Switch>
             <Route exact path="/login" component={LoginPage}/>
-            <Route exact path="/session/:state" component={SessionMatchContainer}/> 
+            <Route exact path="/session/:state" component={SessionMatchContainer}/>
+            {/* <Route exact path="/session/:state" render={(matchProps) => <SessionMatchContainer {...matchProps}/>}/>  */}
             <Route exact path="/createSession" component={SessionCreateContainer}/>
             <Route path="/" component={NavContainer}/>
         </Switch>

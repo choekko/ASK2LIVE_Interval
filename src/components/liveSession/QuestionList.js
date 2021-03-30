@@ -3,27 +3,9 @@ import React, { useState }from 'react';
 import Question from "./Question";
 import axios from "axios";
 
-import CloseListButton from '@material-ui/icons/ExpandMore';
-import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 
 
-
-const style = {
-    paper : {
-        position: "absolute",
-        bottom:"0%",
-        width: "100%",
-        height : "100%",
-        backgroundColor: "white",
-        borderRadius: "20px 20px 0 0 "
-    },
-    listbutton : {
-        position: "absolute",
-        top: "0%",
-        right: "2.5%",
-    }
-}
 
 const QuestionList = (props) => {
 
@@ -32,14 +14,12 @@ const QuestionList = (props) => {
 
     return (
         <>
-        <Paper style={style.paper} elevation={1}>
+        <Paper className="questionList" elevation={0}>
             {questionAry.arrived ? 
             questionAry.data.detail.map((questionInfo) => 
-            <Question userName={questionInfo.user} value={questionInfo.question}/>)
+            <Question userName={questionInfo.user_nickname} value={questionInfo.question}/>)
             : <p>로딩중</p>}
-        <IconButton style={style.listbutton} onClick={()=>{props.goListUp({transform : "translate(0, 100%)"}); props.goDark({opacity: "0", animation: "golight 0.7s"}); setTimeout(()=>{props.goDark({display: "none"})}, 700)}} aria-label="question_list">
-            <CloseListButton fontSize="large" />
-        </IconButton>
+
         </Paper>
          
         </>

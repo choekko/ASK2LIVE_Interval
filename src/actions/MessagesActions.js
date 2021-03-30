@@ -5,10 +5,10 @@ import { ON_MESSAGES_VALUE_CHANGE, ON_MESSAGES_READING, ON_MESSAGES_READ } from 
 //export const onMessagesValueChange = data => ( console.log('data',data));
 export const onMessagesValueChange = data => ({ type: ON_MESSAGES_VALUE_CHANGE, payload: data });
 
-export const onRoomMessagesRead = roomId => dispatch => {
+export const onRoomMessagesRead = holeId => dispatch => {
   dispatch({ type: ON_MESSAGES_READING });
 
-  const socket = new ReconnectingWebSocket(`${WS_ENDPOINT()}/hole/${roomId}`);
+  const socket = new ReconnectingWebSocket(`${WS_ENDPOINT()}/hole/${holeId}`);
   console.log(socket);
 
   socket.onopen = event => console.log('WebSocket Connected');
