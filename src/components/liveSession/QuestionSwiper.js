@@ -1,12 +1,12 @@
 import React, { useState }from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import { blue } from '@material-ui/core/colors';
-import Question from "./Question"
-import Grid from '@material-ui/core/Grid';
 
-import "../../styles/style.css" 
+import { makeStyles } from '@material-ui/core/styles';
 import { BorderColor } from '@material-ui/icons';
+import { blue } from '@material-ui/core/colors';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import Question from "./Question"
+import "../../styles/style.css" 
 
 const useStyles = makeStyles((theme) => ({
     root: {
