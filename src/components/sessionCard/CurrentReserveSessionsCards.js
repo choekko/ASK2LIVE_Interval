@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import { getSessionInfo } from '../../actions/SessionActions'
 import { useSelector,useDispatch } from 'react-redux';
 import { useHistory } from "react-router";
+import { getSingleSessionInfo } from "../../actions/SessionActions";
 import PropTypes from "prop-types";
 import axios from "axios";
 
@@ -14,6 +15,7 @@ import Grid from "@material-ui/core/Grid";
 import Chip from '@material-ui/core/Chip';
 import Box from "@material-ui/core/Box";
 import "../../styles/style.css"
+import getQuestionlist from "../../actions/QuestionListActions";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -44,10 +46,24 @@ const useStyles = makeStyles((theme) => ({
     }
 
   }));
-  
+
+  const circleStyle={
+    backgroundColor:"#E2D8CF",
+    width : "155px",
+    height : "155px",
+    borderRadius: "77px",
+  }
 
 function CircularProgressWithLabel(props) {
+  const history = useHistory();
   return (
+    <Button 
+      style={circleStyle}
+      onClick={() => {
+        history.push('/preQuestions/'+props.session.id)
+        props.dispatch(getQuestionlist(props.session.id))
+
+      }}>
     <Box position="relative" display="inline-flex">
       <div style={{color:"#D95032", width:"100%"}}>
       <CircularProgress thickness="2" size="10rem" variant='determinate' color='inherit'  {...props} /></div>
@@ -67,11 +83,9 @@ function CircularProgressWithLabel(props) {
             color="textSecondary"
             align='center'
           >3일 10시간<br/>남았어요</Typography>
-        
-          
       </Box>
-      
     </Box>
+    </Button>
 
   );
 }
@@ -98,11 +112,7 @@ const onClickWish = async(sessionId) => {
   }).catch((e) => {
     console.log('error',e.response)
     alert(e.response.data.detail)
-  }).finally(
-    
-  );
-  
-
+  })
 }
 
 const onClickWishCancel = async(sessionId) => {
@@ -145,13 +155,14 @@ const CurrentReserveSessionsCards = ({currentReserveSessions, setFlag}) => {
         <div className={classes.root}  >
             {currentReserveSessions.map((session) => (
                 <>
-                {console.log(session)}
                 <div className={classes.paper}>
                 <Grid  alignItems='center'>
                         <CircularProgressWithLabel 
                           key={session.id} 
+                          session = {session}
                           value={(session.hole_reservations.length) ? Math.ceil(session.hole_reservations[0].guests.length / session.hole_reservations[0].target_demand * 100) : 0} 
-                          current={(session.hole_reservations.length) ? session.hole_reservations[0].guests.length  : 0 }/>
+                          current={(session.hole_reservations.length) ? session.hole_reservations[0].guests.length  : 0 }
+                          dispatch = {dispatch}/>
                           <Grid container justify="center" alignItems="center">
                             <Chip size="small"  label={`
                             ${session.hole_reservations[0].target_demand == 0? 
@@ -162,7 +173,9 @@ const CurrentReserveSessionsCards = ({currentReserveSessions, setFlag}) => {
                                 {session.title}
                             </Typography>
                             <Typography variant='caption' component="div" color="textSecondary">
-                            {session.host_nickname} | {session.host_work_field}
+                            {session.host_nickname.length > 5? session.host_nickname.substring(0,5)+'...' : session.host_nickname} 
+                            | 
+                            {session.host_work_field.length > 5? session.host_work_field.substring(0,5)+'...' : session.host_work_field}
                             </Typography>
                             <Typography variant='caption' component="div" color="textSecondary">
                             찜 {session.hole_reservations[0].guests.length}/{session.hole_reservations[0].target_demand}
@@ -170,8 +183,6 @@ const CurrentReserveSessionsCards = ({currentReserveSessions, setFlag}) => {
                         </div>
                         <Grid container justify="center">
                           <Button onClick={() => {
-                            console.log(user.data.detail.pk)
-                            console.log(session.hole_reservations[0].guests.indexOf(user.data.detail.pk))
                             session.hole_reservations[0].guests.indexOf(user.data.detail.pk) === -1 ?
                             <>
                             {onClickWish(session.id)}

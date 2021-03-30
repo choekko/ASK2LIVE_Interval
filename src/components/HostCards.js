@@ -7,6 +7,10 @@ import { CardHeader } from '@material-ui/core';
 import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
 import Card from '@material-ui/core/Card';
+import Button from '@material-ui/core/Button';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import IconButton from "@material-ui/core/IconButton"
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
     },
     profile: {
       flexGrow: 1,
+      position: "relative",
       // paddingLeft: theme.spacing(2),
       // paddingRight: theme.spacing(2),
       maxWidth: "20em",
@@ -37,17 +42,25 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const style = {
+  forwardIcon : {
+    position: "absolute",
+    left: "85%",
+  }
+}
+
 const onClick = () => {
     console.log("onCLICK!");
 };
 
 const HostCard = ({host}) => {
+    const history = useHistory();
     const classes = useStyles();
     return(
         <>
         <Grid container justify="center">
-        <Card className={classes.profile}>
-          <CardActionArea onClick={onClick}>
+        <Card container className={classes.profile}>
+          {/* <CardActionArea onClick={onClick}> */}
             <CardHeader
               fontSize="large"
               avatar={
@@ -58,10 +71,21 @@ const HostCard = ({host}) => {
                 ></Avatar>
               }
               title={<Typography variant="h6">{host.nickname}</Typography>}
-              subheader={`${host.bio}(${host.work_field})`}
+              subheader={`(${host.work_field})`}
             />
-          </CardActionArea>
+          {/* </CardActionArea> */}
+          <IconButton
+        style={style.forwardIcon}
+        aria-label="back"
+        onClick={()=>{history.push({
+          pathname: '/mypage/'+host.nickname,
+          state: {host: host}
+        })}}
+      >
+        <ArrowForwardIosIcon />
+      </IconButton>
         </Card>
+        
       </Grid>
 
         </>

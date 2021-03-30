@@ -1,4 +1,5 @@
 import { useHistory } from "react-router-dom";
+import { useSelector} from 'react-redux';
 import { MypageNav } from "./MypageNav";
 
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -97,13 +98,15 @@ const ProfileDetail = (props) => {
   const history = useHistory();
   const classes = useStyles();
   console.log(props);
-  const user = props.location.state;
+
+  // const user = props.location.state;
   const nickname = props.match.params.nickname;
+  const user = useSelector(state => state.user);
+
   if (user.work_company === " ") user.work_company = "회사 이름";
   if (user.work_field === " ") user.work_field = "분야";
 
   console.log(user);
-  console.log(nickname);
 
   return (
     <>

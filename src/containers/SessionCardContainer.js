@@ -108,7 +108,6 @@ const SessionCardContainer = () => {
 
         console.log(sessions)
         sessions.map((session) => {
-            console.log(session)
             if (session.status == "DOING" && session.hole_reservations.length != 0 && (session.hole_reservations[0]).guests.indexOf(userDetail.pk) != -1) {
                 myLiveSessions = [...myLiveSessions, session];
             }
@@ -126,7 +125,6 @@ const SessionCardContainer = () => {
         allUsers.map((candidate) => {
             if(candidate.hole_open_auth === true){
                 hosts = [...hosts, candidate]
-                console.log(hosts)
             }
         })
     }

@@ -6,6 +6,7 @@ import SessionCardContainer from './containers/SessionCardContainer';
 import MypageContainer from './containers/MypageContainer';
 import SessionCreateContainer from './containers/SessionCreateContainer';
 import ProfileDetail from './components/mypage/ProfileDetail';
+import PreQuestions from './components/sessionCard/PreQuestions';
 // import MainPage from "./components/MainPage" 
 // import 'fontsource-roboto'
 
@@ -47,6 +48,7 @@ const App = () => {
             <Route exact path="/createSession" component={SessionCreateContainer}/>
             <Route path="/" component={NavContainer}/>
         </Switch>
+        <Route exact path="/preQuestions/:pk" component={PreQuestions}/>    
         <Route exact path="/mypage" component={MypageContainer}/>
         <Route exact path="/mypage/:nickname" component={ProfileDetail}/>
         </>
