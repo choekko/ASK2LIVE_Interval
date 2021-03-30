@@ -23,13 +23,29 @@ import { useSelector } from 'react-redux';
 const windowPadding = 325;
 
 const style = {
-    Insertfield: {
+    InsertfieldWrapper: {
         position: "fixed",
+        display: "flex",
+        alignItems: 'center',
+        justifyContainer : "center",
+        height : "4.5em",
         bottom:"0%",
         width: "90%",
         marginLeft:"auto",
         marginRight:"auto",
+        maxWidth: "43em",
+        zIndex:"8",
+    },
+    Insertfield:{
+        position: "absolute",
+        display: "flex",
+        alignItems: 'center',
+        left : "0%",
+        width: "100%",
+        marginLeft:"auto",
+        marginRight:"auto",
         maxWidth: "44em",
+        zIndex:"8",
     },
     top : {
         position : "absolute",
@@ -51,12 +67,13 @@ const Chat = props => {
 
     const classes = useStyles();
 
-    // 이 부분 정규식으로 바꾸기
-    let currentUrl = window.location.href
+    let currentUrl = window.location.href;
+    console.log("Chat Url : ", currentUrl);
     const params1 = currentUrl.split('?')
     const params2 = params1[1].split('&')
-    const params3 = params2[0].split('=')
+    const params3 = params2[1].split('=')
     const roomId = params3[1]
+
 
     const scrollToBottom = () => {
         let element = document.querySelector(".chatting");
@@ -138,12 +155,24 @@ return (
         {renderList()}
 
       </div >
-      <Grid container justify="center">
-        
-        <div style={style.Insertfield}>
-                <InsertField message={message} goSetMessage={setMessage} goMessageSend={onMessageSend} goListUp = {props.goListUp} goDark={props.goDark} goQueUp={props.goQueUp}/>
+        <Grid container justify="center">
+
+        <div style={style.InsertfieldWrapper}>
+            <div style={style.Insertfield}>
+                    <InsertField
+                    holeId={props.holeId}
+                    channelNum={props.channelNum} 
+                    isHost={props.isHost} 
+                    message={message} 
+                    goSetMessage={setMessage} 
+                    goMessageSend={onMessageSend} 
+                    goListUp = {props.goListUp} 
+                    goDark={props.goDark} 
+                    goQueUp={props.goQueUp}
+                    goUserUp={props.goUserUp}/>
+            </div>
         </div>
-      </Grid>
+        </Grid>
       {/* <MessageInput message={message} onChange={e => setMessage(e.target.value)} onSendClick={onMessageSend} /> */}
     </React.Fragment>
   );

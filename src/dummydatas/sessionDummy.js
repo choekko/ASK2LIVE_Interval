@@ -1,6 +1,6 @@
 export const sessionDummy = [
     {
-        roomId : "room1",
+        holeId : "room1",
         roomName : "오늘 앨범 나왔어요",
         roomSubName : "많이 들어주세요 ^^",
         hostName : "IU",

@@ -75,7 +75,7 @@ const style = {
 }
 
     
-const SessionCardContainer = () => {
+const SessionCardContainer = (props) => {
     const [flag, setFlag] = useState(false);
 
     const user = useSelector(state => state.user);
@@ -125,6 +125,13 @@ const SessionCardContainer = () => {
 
     return (
         <>
+        <button onClick={()=>{
+            history.push({
+                pathname: "/session/reserve",
+                search: "?holeId=135",
+            })
+        }}>135hole ToLive</button>
+
         <div style={style.mainOragne}>
             <div style={style.cookie1} className="helloCookie"/>
         </div>

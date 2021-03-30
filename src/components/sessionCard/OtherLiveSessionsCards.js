@@ -51,8 +51,14 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
                     시작 시간 = {Date(session.reserve_date)}
                 </Typography>
                 <div className={classes.cursor} onClick={()=>{
-                history.push("/session/live?roomId=" + session.livehole_id + "&channelNum=" + session.livehole_id)
-                }}>
+                history.push({
+                        pathname: "/session/live",
+                        search: "?holeId=" + session.id + "&channelNum=" + session.livehole_id,
+                        state : {
+                            hostName : session.host_nickname,
+                            hostImage : session.host_profile_image,
+                        }
+                })}}>
                     <Typography variant="h5" component="h2">
                         {session.title}
                     </Typography>

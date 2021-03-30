@@ -1,5 +1,5 @@
-import React from 'react';
-
+import React, {useState} from 'react';
+import {useHistory, withRouter} from "react-router-dom"
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
@@ -45,9 +45,22 @@ cover: {
   }
 }));
 
-export default function JoinCard(props) {
+const JoinCard = (props) => {
   const classes = useStyles();
   const theme = useTheme();
+  const history = useHistory();
+  const [mike, setMike] = useState(0);
+
+  const getMike = () => {
+      navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(function(stream) {
+        console.log('You let me use your mic!')
+        setMike(1);
+      })
+      .catch(function(err) {
+        history.push('/');
+      });
+  }
 
   return (
 <Grid className={classes.top} container justify="center">
@@ -57,20 +70,48 @@ export default function JoinCard(props) {
           <Typography component="h5" variant="h5">
             {props.hostName}
           </Typography>
+          {props.isHost ?  
+          <h3 className="NanumGothic3">
+            {props.hostName}님의 라이브를 엽니다
+            {mike? <p>마이크 설정 완료</p> : <><p>마이크를 허용해주세요.</p> <button onClick={getMike}>허용</button></>}
+          </h3>    
+            :
           <h3 className="NanumGothic3">
             {props.hostName}님의 방에 입장합니다
+            {mike? <p>마이크 설정 완료</p> : <><p>마이크를 허용해주세요.</p> <button onClick={getMike}>허용</button></>}
           </h3>
+            }
         </CardContent>
         <div className={classes.controls}>
-
-          <IconButton onClick={()=>props.setJoin(1)} aria-label="play/pause">
-            <PlayArrowIcon className={classes.playIcon} />
-          </IconButton>
+            {props.isHost ?
+                mike?
+                    <button onClick={()=>{
+                        history.push({
+                            pathname : "/session/live",
+                            search: "?holeId=" + props.holeId + "&channelNum=" + props.channelNum,
+                            state : {
+                                joinPass : true,
+                                isHost : true,
+                                hostName : props.hostName,
+                                hostImage: props.hostImage,
+                            }
+                        })
+                    }}>라이브열기</button>
+                :
+                <></>
+            :   
+                mike?
+                <IconButton onClick={()=>props.setJoin(1)} aria-label="play/pause">
+                    <PlayArrowIcon className={classes.playIcon} />
+                </IconButton>
+                :
+                <></>
+            }
         </div>
       </div>
       <CardMedia
         className={classes.cover}
-        image={props.imageLink}
+        image={props.hostImage}
         title="Live from space album cover"
       />
     </Card>
@@ -78,3 +119,5 @@ export default function JoinCard(props) {
 </Grid>
   );
 }
+
+export default withRouter(JoinCard)
