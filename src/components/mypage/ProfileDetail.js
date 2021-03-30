@@ -2,13 +2,10 @@ import { useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch, shallowEqual1 } from 'react-redux'
 import MypageNav from "./MypageNav";
-import { getUserInfo } from "../../actions/UserActions";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import axios from 'axios'
+import Avatar from "@material-ui/core/Avatar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -107,31 +104,11 @@ const ProfileDetail = (props) => {
   const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  // const config = {
-  //   headers: { Authorization: 'Token ' + localStorage.token }
-  // }
-
-  // let res;
-  // axios.get('https://143.248.226.51:8000/api/user/read', config).then((res) => 
-  //   console.log(res)
-  //   );
-  //   const user = res.data.detail;
-  // getUserInfo(localStorage.token);
-  // console.log(res);
-  // useEffect(() => {
-    //   console.log("RENDERING!!")
-    // },[dispatch, user])
-    
     
   const user = useSelector((state) => state.user.data.detail);
-  
-  
   const nickname = user.nickname;
   if (!user.work_company.length) user.work_company = "회사 이름";
   if (!user.work_field.length) user.work_field = "분야";
-  // const user = props.location.state;
-  // const nickname = props.match.params.nickname;
 
   const goToEdit = () => {
     console.log("click");

@@ -80,6 +80,7 @@ const style = {
 const SessionCardContainer = () => {
 
     console.log(1)
+    const [flag, setFlag] = useState(false);
 
     const user = useSelector(state => state.user);
     const sessions = useSelector(state => state.session.data);
@@ -107,7 +108,6 @@ const SessionCardContainer = () => {
 
         console.log(sessions)
         sessions.map((session) => {
-            console.log(session)
             if (session.status == "DOING" && session.hole_reservations.length != 0 && (session.hole_reservations[0]).guests.indexOf(userDetail.pk) != -1) {
                 myLiveSessions = [...myLiveSessions, session];
             }
@@ -125,7 +125,6 @@ const SessionCardContainer = () => {
         allUsers.map((candidate) => {
             if(candidate.hole_open_auth === true){
                 hosts = [...hosts, candidate]
-                console.log(hosts)
             }
         })
     }
@@ -171,7 +170,7 @@ const SessionCardContainer = () => {
         </div>
         
         <Grid style={{paddingLeft : "6em", paddingRight : "6em"}} container direction="row" justify="center" alignItems="center">
-            { currentReserveSessions.length != 0 ? <CurrentReserveSessionsCards currentReserveSessions={currentReserveSessions}/> : <p>요청 받고있는 다른 세션이 없어요</p>}
+            { currentReserveSessions.length != 0 ? <CurrentReserveSessionsCards currentReserveSessions={currentReserveSessions} setFlag={setFlag}/> : <p>요청 받고있는 다른 세션이 없어요</p>}
         </Grid>
 
         <div className="center divider">

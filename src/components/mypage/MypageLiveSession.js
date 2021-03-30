@@ -12,8 +12,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import Grid from "@material-ui/core/Grid";
 import EditIcon from '@material-ui/icons/Edit';
+import Grid from "@material-ui/core/Grid"
 
 import "../../styles/style.css";
 import { SessionConfirm } from "./SessionConfirm";
