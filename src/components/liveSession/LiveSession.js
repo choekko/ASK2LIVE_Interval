@@ -2,8 +2,13 @@ import React, {useState, useEffect, useRef, useCallback} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory} from "react-router-dom"
 import axios from "axios"
+import getEnteredSession from "../../actions/EnteredSessionActions"
+import getQuestionList from "../../actions/QuestionListActions";
 
 import Chat from "./chatting/Chat"
+import ParticipantList from "./ParticipantList";
+import CurrentQuestion from "./CurrentQuestion";
+
 
 import "../../styles/style.css"
 import "../../index.css"
@@ -25,6 +30,7 @@ import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import CloseListButton from '@material-ui/icons/ExpandMore';
+import CloseIcon from '@material-ui/icons/Close';
 
 
 import { Autocomplete } from '@material-ui/lab';
@@ -69,7 +75,7 @@ const style = {
         left: "0",
         right: "0",
         margin: "auto",
-        // backgroundColor: "rgb(139, 139, 139)",
+        backgroundColor: "#2F3041",
     },
 
     session_top: {
@@ -82,7 +88,7 @@ const style = {
     
     session_mid: {
         position: "relative",
-        height: "30%",
+        height: "55%",
         width: "100%",
     },
     
@@ -90,9 +96,9 @@ const style = {
         position: "relative",
         borderRadius: "30px 30px 0px 0px",
         bottom: "0%",
-        height: " 65%",
+        height: " 40%",
         width: "100%",
-        backgroundColor: "#dfd2df",
+        backgroundColor: "#20202C",
         zIndex:"0",
         // backgroundColor: "rgb(255, 248, 225)"
     },
@@ -106,6 +112,7 @@ const style = {
         width: "60%",
         fontSize: "1em",
         padding: "10px 0 0 10px",
+        color: "rgba(255,255,255,0.8)"
     },
 
     td2: {
@@ -154,6 +161,9 @@ const rtmClient = AgoraRTM.createInstance(appid);
 const LiveSession = (props) => {
 
     console.log("!!!!!!!!!!!!!!!!!", props);
+
+    const dispatch = useDispatch()
+
 
     const hostPostApi = async(hostUid) =>  {
         const headers = {
@@ -204,15 +214,20 @@ const LiveSession = (props) => {
 
     const [listup, setListUp] = useState({transform : "translate(0, 100%)"})
     const [queUp, setQueUp] = useState({transform : "translate(0, 100%)"})
+    const [userUp, setUserUp] = useState({transform : "translate(0, 100%)"})
     const [dark, setDark] = useState({display:"none"})
 
     const [room, setRoom] = useState({});
     const history = useHistory()
-
-    const holeInfo = useSelector(state => state.enteredSession)
+    
+    let partiNum = "로딩중";
+    const holeInfo = useSelector(state => state.enteredSession, [partiNum])
     const hostImage = holeInfo.arrived ? 
             holeInfo.data.detail.livehole.host_profile_image_url
             : "/static/live_png";
+    partiNum = holeInfo.arrived ? 
+         holeInfo.data.detail.participant.length + "명"
+        : "로딩중"
 
 
     //^ =============================================================
@@ -229,6 +244,10 @@ const LiveSession = (props) => {
     } = useAgora(client);
 
     useEffect(() => {
+        const liveInter = setInterval(()=>{
+            dispatch(getEnteredSession(props.channelNum))
+            dispatch(getQuestionList(props.holeId))
+        }, 5000);
         rtmChannel = rtmClient.createChannel(props.channelNum);
         join(props.channelNum, null, rtmClient, rtmChannel);
         if (props.isHost)
@@ -239,6 +258,7 @@ const LiveSession = (props) => {
             rtmClient.logout();
             leave();
             leavePatchApi();
+            clearInterval(liveInter)
         }
     }, [])
 
@@ -265,15 +285,12 @@ const LiveSession = (props) => {
                 <div style={style.session_top}>
                     <table style={style.table}>
                         <tr>
-                            <td  colspan="2" className="NanumGothic4" style={style.td1} >QNA 타이틀 영역입니다다다다다</td>
+                            <td  colspan="2" className="NanumGothic4" style={style.td1} >{props.holeTitle}</td>
                             <td  rowspan="2">
                                 <div style={style.follow}>
-
-                                     <FormControlLabel style={style.lavel}
-                                    control={<Checkbox icon={<FavoriteBorder style={style.checkIcon}/>} checkedIcon={<Favorite style={style.checkIcon}/>} name="checkedH" />}
-                                    />
-                                    <span style={style.font_size} className="BMDOHYEON">FOLLOW</span>
-                                                            
+                                    <CloseIcon
+                                    onClick={()=>{history.push('/')}}
+                                    />  
                                 </div>
                             </td>      
                         </tr>
@@ -281,48 +298,63 @@ const LiveSession = (props) => {
                             <td style={style.td2}>
                                 <img className="live_img" src="/static/live.png"/>
                             </td>
-                            <td className="NotoSans3">24명</td>
+                            <td style={{color:"rgba(255, 255, 255, 0.6)"}}className="NotoSans3">{partiNum}</td>
                         </tr>
 
-                    </table>
-                    
+                    </table>  
                 </div>
                 <div style={style.session_mid}>
-                    <div className="horizentalmid" >
-                        <div className="verticalmid">
-                            <tr>
-                            <StyledBadge badgeContent={<FavoriteBorder style={style.checkIcon}/>} color="error">
-                                <Avatar hostName={props.hostName} imageLink={props.isHost? "/static/cookie.png" : hostImage} size="large"/>
-                            </StyledBadge>
-                            </tr>
-                            <tr className="centered">
-                                <span className="BMDOHYEON">{props.hostName}</span>
-                            </tr>
+                    <div style={{position:"relative", height:"40%"}}>
+                        <div className="horizentalmid" >
+                            <div className="verticalmid">
+                                <tr>
+                                <StyledBadge badgeContent={<FavoriteBorder style={style.checkIcon}/>} color="error">
+                                    <Avatar hostName={props.hostName} imageLink={props.hostImage}/>
+                                </StyledBadge>
+                                </tr>
+                                <tr className="centered">
+                                    <span style={{color: "rgba(255,255,255,0.8)"}}className="BMDOHYEON">{props.hostName}</span>
+                                </tr>
+                            </div>
                         </div>
                     </div>
+                    <div style={{position:"relative", height:"50%", display:"flex", alignItems: "center"}}>
+                        {/* <Grid container justify="center"> */}
+                            <div>
+                                 <CurrentQuestion holeId={props.holeId} isHost={props.isHost}/> 
+                            </div>
+                        {/* </Grid>  */}
+                    </div>
+
                 </div>
                 <div style={style.session_bottom}>
-                    <Grid container justify="center">
-                        <QuestionSwiper isHost={props.isHost}/>
-                    </Grid>
-                    <div className="forchat"></div> 
-                    <Chat isHost={props.isHost} holeId={props.channelNum} goQueUp={setQueUp} goListUp = {setListUp} goDark={setDark} room={room} windowHeight="1000px" onBack={()=>setRoom(null)}/>
-                    <div className="chattingblind"></div>
-                    
+                    <div className="chattingWrapper"/>
+                    <Chat holeId={props.holeId} isHost={props.isHost} channelNum={props.channelNum} goQueUp={setQueUp} goListUp = {setListUp} goUserUp = {setUserUp} goDark={setDark} room={room} windowHeight="1000px" onBack={()=>setRoom(null)}/>                   
                 </div>
             
            
         </div>
+        {props.isHost?
+        <div style={userUp} className="hiddenlist">
+            <ParticipantList holeId={props.holeId} channelNum={props.channelNum} goUserUp = {setUserUp} goDark={setDark}/>
+            <IconButton style={style.listbutton} onClick={()=>{setUserUp({transform : "translate(0, 100%)"}); setDark({opacity: "0", animation: "golight 0.7s"}); setTimeout(()=>{setDark({display: "none"})}, 700)}} aria-label="question_list">
+                <CloseListButton fontSize="large"/>
+            </IconButton>
+        </div>
+        :   
+        <div style={queUp} className="hiddenQue">
+            <Questioning holeId={props.holeId} goQueUp = {setQueUp} goDark={setDark}/>
+        </div>
+        }
         <div style={listup} className="hiddenlist">
             <QuestionList holeId={props.channelNum} goListUp = {setListUp} goDark={setDark}/>
             <IconButton style={style.listbutton} onClick={()=>{setListUp({transform : "translate(0, 100%)"}); setDark({opacity: "0", animation: "golight 0.7s"}); setTimeout(()=>{setDark({display: "none"})}, 700)}} aria-label="question_list">
                 <CloseListButton fontSize="large"/>
             </IconButton>
         </div>
-        <div style={queUp} className="hiddenQue">
-            <Questioning goQueUp = {setQueUp} goDark={setDark}/>
-        </div>
+
         <div style={dark} className="layerfordark"></div>
+
         
         {/* <div className="agora"> */}
                 

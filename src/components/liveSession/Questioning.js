@@ -6,6 +6,8 @@ import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import CloseQuestioning from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/core/styles';
+import Checkbox from '@material-ui/core/Checkbox';
+import useSelection from "antd/lib/table/hooks/useSelection";
 
 
 
@@ -80,7 +82,7 @@ const Questioning = (props) => {
           };
           console.log(data);
           const res = await axios.post(
-            "https://143.248.226.51:8000/api/hole/7/question/create",
+            "https://143.248.226.51:8000/api/hole/"+props.holeId + "/question/create",
             data,
             {headers:headers}
           );
@@ -94,6 +96,15 @@ const Questioning = (props) => {
                     <Paper elevation={2} >
                         <div style={style.card}>
                             사람이름
+                            <div style={{float:"right"}}>
+                                <span className="BMJUA" style={{fontSize: "0.8em"}}> 음성 질문 </span>
+                                <Checkbox
+                                    style={{right : "3px", padding: "0"}}
+                                    defaultChecked
+                                    size="small"
+                                    inputProps={{ 'aria-label': 'checkbox with small size' }}
+                                />
+                            </div>
                         </div>
                         <input
                         style={{position:"relative", width:"80%"}}

@@ -117,11 +117,7 @@ const SessionCardContainer = (props) => {
         <button onClick={()=>{
             history.push({
                 pathname: "/session/reserve",
-                search: "?holeId=91",
-                state : {
-                    hostName : "오태양",
-                    hostImage : "/static/logo192.png"
-                }
+                search: "?holeId=127",
             })
         }}>25hole ToLive</button>
 

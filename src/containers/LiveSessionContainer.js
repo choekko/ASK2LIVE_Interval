@@ -12,7 +12,7 @@ import { sessionDummy } from "../dummydatas/sessionDummy"
 const LiveSessionContainer = (props) => {
 
     console.log("LiveSessionContainer Props", props);
-    const dispatch = useDispatch()
+
     const [join, setJoin] = useState(props.joinPass);
 
     console.log(join);
@@ -23,11 +23,7 @@ const LiveSessionContainer = (props) => {
         return <JoinCard holeId={props.holeId} channelNum={props.channelNum} hostName={props.hostName} hostImage={props.hostImage} setJoin={setJoin} isHost={props.isHost}/>
     else
     {
-        if (!props.isHost){
-            console.log("This is not host")
-            dispatch(getEnteredSession(props.channelNum))
-        }
-        return <LiveSession holeId={props.holeId} hostName={props.hostName} imageLink={props.hostImage} channelNum={props.channelNum} isHost={props.isHost}/>
+        return <LiveSession holeTitle={props.holeTitle} holeId={props.holeId} hostName={props.hostName} imageLink={props.hostImage} channelNum={props.channelNum} isHost={props.isHost}/>
     }
 }
 
