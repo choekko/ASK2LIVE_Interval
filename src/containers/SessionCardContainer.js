@@ -89,7 +89,7 @@ const SessionCardContainer = (props) => {
         if(user.data.detail){
             userDetail = user.data.detail
         }else{
-            userDetail = {pk:-1} // 반찬고 >_<
+            userDetail = {id:-1} // 반찬고 >_<
         }
         myLiveSessions = []
         otherLiveSessions = []

@@ -134,18 +134,17 @@ const onClickWishCancel = async(sessionId) => {
     alert(e.response.data.detail)
   });;
 }
-
+// let buttonText='click'
 const CurrentReserveSessionsCards = ({currentReserveSessions, setFlag}) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const classes = useStyles();
     const user = useSelector(state => state.user)
-    
 
     CircularProgressWithLabel.propTypes = {
         value: PropTypes.number.isRequired,
       };
-
+    
     console.log("Enter : CurrentReserveSessionsCards")
     return (
         <>
@@ -182,8 +181,16 @@ const CurrentReserveSessionsCards = ({currentReserveSessions, setFlag}) => {
                             </Typography> 
                         </div>
                         <Grid container justify="center">
-                          <Button onClick={() => {
-                            session.hole_reservations[0].guests.indexOf(user.data.detail.pk) === -1 ?
+                          <Chip 
+                          variant="outlined"
+                          clickable='true' 
+                          onClick={() => {
+                            console.log(user.data)
+                            console.log(Object.keys(user.data).length)
+                            if(Object.keys(user.data).length === 0){
+                              alert('하단 네비에 로그인 버튼있음')
+                            }else{
+                              session.hole_reservations[0].guests.indexOf(user.data.detail.id) === -1 ?
                             <>
                             {onClickWish(session.id)}
                             {dispatch(getSessionInfo())}
@@ -193,7 +200,10 @@ const CurrentReserveSessionsCards = ({currentReserveSessions, setFlag}) => {
                             {onClickWishCancel(session.id)}
                             {dispatch(getSessionInfo())}
                             </>}
-                            }>CLICK!</Button>
+                            }
+                            }
+                            
+                            label={Object.keys(user.data).length != 0 && session.hole_reservations[0].guests.indexOf(user.data.detail.id) != -1 ? "취소하기" : "찜하기"}></Chip>
                           </Grid>
                         <div>
                           
