@@ -12,9 +12,9 @@ function getApi(holeId){
 
 const getQuestionlist = holeId => dispatch => {
     console.log('-----getQuestionlist-----')
-    dispatch({type: QUESTIONLIST_GET_PENDING}); // ¿äÃ»ÀÌ ½ÃÀÛµÇ¾ú´Ù´Â °ÍÀ» ¾Ë¸²
+    dispatch({type: QUESTIONLIST_GET_PENDING}); // ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµÇ¾ï¿½ï¿½Ù´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¸ï¿½
 
-    // ¿äÃ» ½ÃÀÛ
+    // ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½
     return getApi(holeId).then(
         (response) => {
             console.log(response);

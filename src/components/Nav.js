@@ -102,7 +102,6 @@ const NavOfGuest = (props) => {
 const NavOfUser = (props) => {
     
     const user = props.user.data.detail;
-    // console.log('NavOfUser', user)
     
     const classes = useStyles();
     const dispatch = useDispatch();

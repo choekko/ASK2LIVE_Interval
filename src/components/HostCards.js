@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import IconButton from "@material-ui/core/IconButton"
 import { useHistory } from 'react-router';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -49,13 +50,11 @@ const style = {
   }
 }
 
-const onClick = () => {
-    console.log("onCLICK!");
-};
 
 const HostCard = ({host}) => {
     const history = useHistory();
     const classes = useStyles();
+    const user = useSelector(state=> state.user);
     return(
         <>
         <Grid container justify="center">
@@ -77,10 +76,16 @@ const HostCard = ({host}) => {
           <IconButton
         style={style.forwardIcon}
         aria-label="back"
-        onClick={()=>{history.push({
-          pathname: '/mypage/'+host.nickname,
-          state: {host: host}
-        })}}
+        onClick={()=>{
+          if(Object.keys(user.data).length === 0){
+            alert('로그인이 필요합니다.')
+          }else{
+            history.push({
+              pathname: '/mypage/'+host.nickname,
+              state: {host: host}
+            })
+          }
+          }}
       >
         <ArrowForwardIosIcon />
       </IconButton>
