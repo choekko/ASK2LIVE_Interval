@@ -83,8 +83,6 @@ const SessionCardContainer = (props) => {
     const history = useHistory();
     const allUsersData = useSelector(state => state.allUsers);
     const mySession = useSelector(state => state.mySession.data);
-    console.log('allUsers', allUsersData);
-    console.log('allUsers', mySession);
     // console.log('allUsers.data.data.detail', allUsersData.data.data.detail);
     
 
@@ -103,13 +101,13 @@ const SessionCardContainer = (props) => {
 
         sessions.map((session) => {
             console.log(session)
-            if (session.status == "DOING" && session.hole_reservations.length != 0 && (session.hole_reservations[0]).guests.indexOf(userDetail.id) != -1) {
+            if (session.status == "DOING" && session.hole_reservations && (session.hole_reservations).guests.indexOf(userDetail.id) != -1) {
                 myLiveSessions = [...myLiveSessions, session];
             }
             else if (session.status == "DOING") {
                 otherLiveSessions = [...otherLiveSessions, session];
             }
-            else if (session.hole_reservations.length != 0 && (session.hole_reservations[0]).status==="HOST_CONFIRMED"){
+            else if (session.hole_reservations && (session.hole_reservations).status==="HOST_CONFIRMED"){
                 hostConfirmedSessions = [...hostConfirmedSessions, session];
             }else{
                 currentReserveSessions = [...currentReserveSessions, session];

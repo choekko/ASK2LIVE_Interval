@@ -16,6 +16,7 @@ import Chip from '@material-ui/core/Chip';
 import Box from "@material-ui/core/Box";
 import "../../styles/style.css"
 import getQuestionlist from "../../actions/QuestionListActions";
+import getEnteredSession from "../../actions/EnteredSessionActions";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -92,10 +93,10 @@ function CircularProgressWithLabel(props) {
 
 CircularProgressWithLabel.propTypes = {
     value: 10,
-  };
+};
 
-const onClickWish = async(sessionId) => {
-  
+//렌더링이 먼저되고 응답을 받으면 버그가 생김
+const onClickWish = (sessionId) => {
   const config = {
     headers: {'Authorization': 'Token ' + localStorage.token}
   }
@@ -108,14 +109,14 @@ const onClickWish = async(sessionId) => {
     data,
     config,
   ).then((response) => {
-    console.log(response)
+    console.log("onClickWish 응답 받음", response)
   }).catch((e) => {
     console.log('error',e.response)
     alert(e.response.data.detail)
   })
 }
 
-const onClickWishCancel = async(sessionId) => {
+const onClickWishCancel = (sessionId) => {
   const config = {
     headers: {'Authorization': 'Token ' + localStorage.token}
   }
@@ -123,19 +124,21 @@ const onClickWishCancel = async(sessionId) => {
     data: {}
   }
 
-  await axios.patch(
+  axios.patch(
     "https://143.248.226.51:8000/api/reservation/hole/" + sessionId + "/wishcancel",
     data,
     config,
   ).then((response) => {
-    console.log(response)
+    console.log('onClickWishCacel 응답 받음', response)
   }).catch((e) => {
     console.log('error',e.response)
     alert(e.response.data.detail)
   });;
 }
 // let buttonText='click'
-const CurrentReserveSessionsCards = ({currentReserveSessions, setFlag}) => {
+const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
+  console.log("컴포넌트 시작 Enter : CurrentReserveSessionsCards")
+    const [flag, setFlag] = useState(true);
     const dispatch = useDispatch();
     const history = useHistory();
     const classes = useStyles();
@@ -144,28 +147,30 @@ const CurrentReserveSessionsCards = ({currentReserveSessions, setFlag}) => {
     CircularProgressWithLabel.propTypes = {
         value: PropTypes.number.isRequired,
       };
+
     
-    console.log("Enter : CurrentReserveSessionsCards")
     return (
         <>
+        {console.log("렌더링 시작")}
         <div className={classes.title}>
         <h2>오픈 신청 중인 라이브 Q&A</h2>
         </div>
         <div className={classes.root}  >
             {currentReserveSessions.map((session) => (
                 <>
+                {console.log("ohMyGod", session)}
                 <div className={classes.paper}>
                 <Grid  alignItems='center'>
                         <CircularProgressWithLabel 
                           key={session.id} 
                           session = {session}
-                          value={(session.hole_reservations.length) ? Math.ceil(session.hole_reservations[0].guests.length / session.hole_reservations[0].target_demand * 100) : 0} 
-                          current={(session.hole_reservations.length) ? session.hole_reservations[0].guests.length  : 0 }
+                          value={(session.hole_reservations) ? Math.ceil(session.hole_reservations.guests.length / session.hole_reservations.target_demand * 100) : 0} 
+                          current={(session.hole_reservations) ? session.hole_reservations.guests.length  : 0 }
                           dispatch = {dispatch}/>
                           <Grid container justify="center" alignItems="center">
                             <Chip size="small"  label={`
-                            ${session.hole_reservations[0].target_demand == 0? 
-                              100 : Math.ceil(session.hole_reservations[0].guests.length / session.hole_reservations[0].target_demand * 100)}%달성`} />
+                            ${session.hole_reservations.target_demand == 0? 
+                              100 : Math.ceil(session.hole_reservations.guests.length / session.hole_reservations.target_demand * 100)}%달성`} />
                           </Grid>
                         <div className="call">
                             <Typography variant="h6" component="div" color='inherit'>
@@ -177,7 +182,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions, setFlag}) => {
                             {session.host_work_field.length > 5? session.host_work_field.substring(0,5)+'...' : session.host_work_field}
                             </Typography>
                             <Typography variant='caption' component="div" color="textSecondary">
-                            찜 {session.hole_reservations[0].guests.length}/{session.hole_reservations[0].target_demand}
+                            찜 {session.hole_reservations.guests.length}/{session.hole_reservations.target_demand}
                             </Typography> 
                         </div>
                         <Grid container justify="center">
@@ -185,25 +190,23 @@ const CurrentReserveSessionsCards = ({currentReserveSessions, setFlag}) => {
                           variant="outlined"
                           clickable='true' 
                           onClick={() => {
-                            console.log(user.data)
-                            console.log(Object.keys(user.data).length)
                             if(Object.keys(user.data).length === 0){
                               alert('로그인이 필요합니다.')
                             }else{
-                              session.hole_reservations[0].guests.indexOf(user.data.detail.id) === -1 ?
+                              session.hole_reservations.guests.indexOf(user.data.detail.id) === -1 ?
                             <>
                             {onClickWish(session.id)}
-                            {dispatch(getSessionInfo())}
+                            {setTimeout((()=> dispatch(getSessionInfo())),200)}
                             </>
                             : 
                             <>
                             {onClickWishCancel(session.id)}
-                            {dispatch(getSessionInfo())}
+                            {setTimeout((()=> dispatch(getSessionInfo())),200)}
                             </>}
                             }
                             }
                             
-                            label={Object.keys(user.data).length != 0 && session.hole_reservations[0].guests.indexOf(user.data.detail.id) != -1 ? "취소하기" : "찜하기"}></Chip>
+                            label={Object.keys(user.data).length != 0 && session.hole_reservations.guests.indexOf(user.data.detail.id) != -1 ? "취소하기" : "찜하기"}></Chip>
                           </Grid>
                         <div>
                           
