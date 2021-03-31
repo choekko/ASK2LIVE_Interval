@@ -131,7 +131,7 @@ const MySessionEdit = (props) => {
       config,
     );
     console.log("hole created: ", res);
-    dispatch(getUserSessionInfo());
+    dispatch(getUserSessionInfo(localStorage.token));
     history.push('/mypage');
   };
 

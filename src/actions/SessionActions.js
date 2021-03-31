@@ -39,7 +39,7 @@ export const getSessionInfo = () => dispatch => {
     })
 }
 
-export const getUserSessionInfo = (token) => dispatch => {
+export const getUserSessionInfo = token => dispatch => {
     console.log('-----getUserSessionInfo start-----')
     dispatch({type: MY_SESSION_GET_PENDING}); // 요청이 시작되었다는 것을 알림
 

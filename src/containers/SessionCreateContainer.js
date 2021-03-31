@@ -17,7 +17,7 @@ import CounterContainer from "../containers/CounterContainer";
 import { increment, decrement } from "../reducers/counter";
 import { SettingsInputAntenna } from "@material-ui/icons";
 import axios from "axios";
-import { getSessionInfo } from '../actions/SessionActions'
+import { getSessionInfo, getUserSessionInfo } from '../actions/SessionActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -94,6 +94,7 @@ const SessionCreateContainer = () => {
 
   const classes = useStyles();
   const counter = useSelector((state) => state.counter, []);
+  const user = useSelector(state => state.user.data.detail);
   const history = useHistory();
 
   const dispatch = useDispatch();
@@ -132,7 +133,11 @@ const SessionCreateContainer = () => {
       config,
     );
     console.log("hole created: ", res);
-    dispatch(getSessionInfo());
+    setTimeout(() => {
+      dispatch(getUserSessionInfo(localStorage.token))
+      dispatch(getSessionInfo())
+    }
+      , 200 )
     history.push('/mypage');
   };
 
