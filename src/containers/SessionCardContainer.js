@@ -103,14 +103,18 @@ const SessionCardContainer = (props) => {
             console.log(session)
             if (session.status == "DOING" && session.hole_reservations && (session.hole_reservations).guests.indexOf(userDetail.id) != -1) {
                 myLiveSessions = [...myLiveSessions, session];
+                console.log("myLiveSEssion:",myLiveSessions)
             }
             else if (session.status == "DOING") {
                 otherLiveSessions = [...otherLiveSessions, session];
+                console.log("otherLiveSessions",otherLiveSessions)
             }
-            else if (session.hole_reservations && (session.hole_reservations).status==="HOST_CONFIRMED"){
+            else if (session.hole_reservations && session.hole_reservations.status=="HOST_CONFIRMED"){
                 hostConfirmedSessions = [...hostConfirmedSessions, session];
+                console.log("hostConfirmedSessions",hostConfirmedSessions)
             }else{
                 currentReserveSessions = [...currentReserveSessions, session];
+                console.log("currentReserveSessions",currentReserveSessions)
             }
         })
     }
@@ -169,7 +173,7 @@ const SessionCardContainer = (props) => {
         </div>
 
         <Grid style={{paddingLeft : "6em", paddingRight : "6em"}} container direction="row" justify="center" alignItems="center">
-            { otherLiveSessions.length != 0 ? <HostConfirmedSessionsCards hostConfirmedSessions={hostConfirmedSessions}/> : <p>예정된 다른 세션이 없어요</p> }
+            { hostConfirmedSessions.length != 0 ? <HostConfirmedSessionsCards hostConfirmedSessions={hostConfirmedSessions}/> : <p>예정된 다른 세션이 없어요</p> }
         </Grid>
 
         <div className="center divider">

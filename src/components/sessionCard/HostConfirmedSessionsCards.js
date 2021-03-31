@@ -46,11 +46,11 @@ const HostConfirmedSessionsCards = ({hostConfirmedSessions}) => {
   
     return (
       <>
-        {hostConfirmedSessions.map((session) => 
-        <>
         <div className={classes.title}>
         <h2>진행 예정인 라이브 Q&A</h2>
         </div>
+        {hostConfirmedSessions.map((session) => 
+        <>
         <div className={classes.padding}>
             <Card key={session.livehole_id} className={classes.root}>
                 <CardContent>

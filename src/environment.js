@@ -9,7 +9,7 @@ export const WS_ENDPOINT = () => {
     protocol = 'wss://';
   }
 
-  const endpoint = protocol + '143.248.226.51:8001';
+  const endpoint = protocol + 'ask2live.me/ws';
 
   return endpoint;
 }

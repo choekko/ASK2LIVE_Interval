@@ -175,7 +175,7 @@ const LiveSession = (props) => {
           };
           console.log("LiveSession Host Post :", data);
           const res = await axios.post(
-            "https://143.248.226.51:8000/api/hole/"+props.holeId+"/live/create",
+            "https://www.ask2live.me/api/hole/"+props.holeId+"/live/create",
             data,
             {headers:headers}
           );
@@ -191,7 +191,7 @@ const LiveSession = (props) => {
           };
           console.log("LiveSession Audience Post :", data);
           const res = await axios.put(
-            "https://143.248.226.51:8000/api/hole/"+props.holeId+"/live/join/"+props.channelNum,
+            "https://www.ask2live.me/api/hole/"+props.holeId+"/live/join/"+props.channelNum,
             data,
             {headers:headers}
           );
@@ -204,7 +204,7 @@ const LiveSession = (props) => {
           }
           const data = {};
           const res = await axios.patch(
-            "https://143.248.226.51:8000/api/hole/"+props.holeId+"/live/leave/"+props.channelNum,
+            "https://www.ask2live.me/api/hole/"+props.holeId+"/live/leave/"+props.channelNum,
             data,
             {headers:headers}
           );

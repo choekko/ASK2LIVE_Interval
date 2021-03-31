@@ -113,7 +113,7 @@ const MypageConfirmedSession = ({ session }) => {
     };
 
     const res = await axios.delete(
-      "https://143.248.226.51:8000/api/hole/delete/" + session.id,
+      "https://www.ask2live.me/api/hole/delete/" + session.id,
       config
     );
     console.log("hole deleted: ", res);
