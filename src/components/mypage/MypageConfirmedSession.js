@@ -94,9 +94,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MypageLiveSession = (props) => {
+const MypageConfirmedSession = ({ session }) => {
   const user = useSelector((state) => state.user.data.detail);
-  const { session, setFlag } = props;
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -174,7 +173,7 @@ const MypageLiveSession = (props) => {
           />
           <CardContent>
             <CardActions style={{ padding: "0 0" }}>
-              {session.status != "DONE" && user.id === parseInt(session.host) && (
+              {/* {session.status != "DONE" && user.id === parseInt(session.host) && (
                 <Button
                   size="large"
                   color="primary"
@@ -187,7 +186,7 @@ const MypageLiveSession = (props) => {
                     예약 확정하기
                   </Typography>
                 </Button>
-              )}
+              )} */}
               {user.id === parseInt(session.host) && (
                 <Button
                   size="large"
@@ -217,7 +216,6 @@ const MypageLiveSession = (props) => {
           session={session}
           goListUp={setListUp}
           goDark={setDark}
-          setFlag={setFlag}
         />
       </div>
       <div style={dark} className="mypagelayerfordark"></div>
@@ -225,4 +223,4 @@ const MypageLiveSession = (props) => {
   );
 };
 
-export default MypageLiveSession;
+export default MypageConfirmedSession;

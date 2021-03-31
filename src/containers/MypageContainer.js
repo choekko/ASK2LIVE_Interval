@@ -9,6 +9,7 @@ import Mypage from "../components/mypage/Mypage";
 import SessionCardContainer from "./SessionCardContainer";
 import { SessioinCreateButton } from "../components/SessionCreateButton";
 import MypageLiveSession from "../components/mypage/MypageLiveSession";
+import MypageConfirmedSession from "../components/mypage/MypageConfirmedSession";
 import MypageNav from "../components/mypage/MypageNav";
 import { getUserSessionInfo } from "../actions/SessionActions";
 import { getUserInfo } from "../actions/UserActions";
@@ -29,6 +30,8 @@ import SendIcon from "@material-ui/icons/Send";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
+import Alert from "@material-ui/lab/Alert";
+import Button from "@material-ui/core/Button";
 
 // material-ui
 import Grid from "@material-ui/core/Grid";
@@ -54,83 +57,89 @@ const style = {
     marginLeft: "auto",
     marginRight: "auto",
   },
+  alert: {
+    position: "fixed",
+    left: 0,
+    right: 0,
+    margin: "auto",
+    zIndex: 2,
+    maxWidth: "25em",
+    size: "large",
+  },
 };
 
 // const getSessionInfo = async () => {
-//   return await axios.get("https://143.248.226.51:8000/api/hole");
+//   return await axios.get("https://www.ask2live.me/api/hole");
 // };
 
 // const getUserInfo = async () => {
 //   const config = {
 //     headers: { Authorization: "Token " + localStorage.token },
 //   };
-//   return await axios.get("https://143.248.226.51:8000/api/user/read", config);
+//   return await axios.get("https://www.ask2live.me/api/user/read", config);
 // };
 
 const MyPageContainer = (props) => {
-  // const [user, setUser] = useState();
-  // const [sessions, setSessions] = useState();
-  console.log(props);
-  const [flag, setFlag] = useState(false);
+  console.log("컴포넌트 실행!");
+
+  const [flag, setFlag] = useState({ display: "none" });
+  const [render, setRender] = useState(false);
   const dispatch = useDispatch();
-
-  // dispatch(getUserInfo(localStorage.token)).then((res) => {
-  //   if (res.data.response === "SUCCESS") setUser(res.data.detail);
-  // });
-  // dispatch(getUserSessionInfo()).then((res) => {
-  //   console.log("세션길이: ", res.data.length);
-  //   if (res.data.length > -1) setSessions(res.data);
-  // });
-  useEffect(() => {}, []);
-
-  const user = useSelector((state) => state.user.data.detail);
-  const sessions = useSelector((state) => state.mySession.data.detail.my_hole);
-  const wishSessions = useSelector(
-    (state) => state.mySession.data.detail.wish_hole
-  );
-  console.log("나의 세션: ", sessions);
-  console.log("나의 찜 세션: ", wishSessions);
-  // console.log(myWishSessions);
   const classes = useStyles();
-  console.log(user);
+
+  const user = useSelector((state) => state.user.data);
+  const sessions = useSelector((state) => state.mySession.data);
+  const wishSessions = useSelector((state) => state.mySession.data);
+
+  console.log("세션 :", sessions);
+
+  useEffect(() => {
+    const token = localStorage.token
+    console.log("useEffect");
+    dispatch(getUserInfo(token));
+    console.log(token);
+    dispatch(getUserSessionInfo(token));
+    setRender(true);
+  }, [render]);
 
   let myLiveSessions = [];
   let myDoneSessions = [];
   let myWishSessions = [];
+  let myConfirmSessions = [];
   if (Object.keys(sessions).length != 0) {
-    console.log(sessions);
-    sessions.map((session) => {
-      console.log(session);
-
+    sessions.detail.my_hole.map((session) => {
       if (
         session.status === "NOT_START" &&
-        parseInt(session.host) === user.id
+        parseInt(session.host) === user.detail.id
       ) {
-        myLiveSessions = [...myLiveSessions, session];
+        if (session.reservation_status === "HOST_CONFIRMED") {
+          myConfirmSessions = [...myConfirmSessions, session];
+        } else {
+          myLiveSessions = [...myLiveSessions, session];
+        }
       } else if (
         session.status === "DONE" &&
-        parseInt(session.host) === user.id
+        parseInt(session.host) === user.detail.id
       ) {
         myDoneSessions = [...myDoneSessions, session];
       }
     });
-    console.log("나의 예정 세션", myLiveSessions);
-    console.log("나의 끝난 세션", myDoneSessions);
   }
 
   if (Object.keys(wishSessions).length != 0) {
-    console.log(wishSessions);
-    wishSessions.map((session) => {
-      console.log(session);
-
+    wishSessions.detail.wish_hole.map((session) => {
       myWishSessions = [...myWishSessions, session];
     });
-    console.log("나의 찜 세션", myWishSessions);
   }
 
   const [open, setOpen] = useState(true);
   const [openDone, setOpenDone] = useState(true);
   const [openWish, setOpenWish] = useState(true);
+  const [openConfirm, setOpenConfirm] = useState(true);
+
+  const handleConfirmClick = () => {
+    setOpenConfirm(!openConfirm);
+  };
 
   const handleClick = () => {
     setOpen(!open);
@@ -144,25 +153,54 @@ const MyPageContainer = (props) => {
     setOpenWish(!openWish);
   };
 
-  if (!user || !sessions) return <p>로딩중</p>;
+  if (!user.detail || !sessions.detail) return <p>로딩중...</p>;
+
   return (
     <>
+      {console.log("렌더링 시작!!!")}
+      {console.log("렌더링 시작!!!")}
+      {console.log("렌더링 시작!!!")}
       <MypageNav text={"프로필"} />
       <Grid container direction="row" justify="center" alignItems="center">
         <Mypage user={user} />
         <SessioinCreateButton />
       </Grid>
+      <div style={flag}>
+        <Alert style={style.alert} onClose={() => {}}>
+          This is a success alert — check it out!
+        </Alert>
+      </div>
 
       <Grid container direction="row" justify="center" alignItems="center">
         <div
           style={{ display: "inline-block", width: "100%", maxWidth: "73em" }}
         >
-          <ListItem style={style.listcenter} button className={classes.nested}>
+          <ListItem
+            style={style.listcenter}
+            button
+            onClick={handleConfirmClick}
+            className={classes.nested}
+          >
             <ListItemIcon>
               <SendIcon />
             </ListItemIcon>
-            <ListItemText primary="Sent mail" />
+            <ListItemText primary="진행 확정된 Live" />
+            {openConfirm ? <ExpandMore /> : <ExpandLess />}
           </ListItem>
+
+          <Collapse in={!openConfirm} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              {myConfirmSessions.length != 0 &&
+                myConfirmSessions.map((session) => (
+                  <>
+                    <MypageConfirmedSession
+                      session={session}
+                      setFlag={setFlag}
+                    />
+                  </>
+                ))}
+            </List>
+          </Collapse>
 
           <ListItem
             style={style.listcenter}
@@ -174,16 +212,15 @@ const MyPageContainer = (props) => {
               <DraftsIcon />
             </ListItemIcon>
             <ListItemText primary="모집 중인 Live" />
-            {open ? <ExpandLess /> : <ExpandMore />}
+            {open ? <ExpandMore /> : <ExpandLess />}
           </ListItem>
 
-          <Collapse in={open} timeout="auto" unmountOnExit>
+          <Collapse in={!open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               {myLiveSessions.length != 0 &&
                 myLiveSessions.map((session) => (
                   <>
                     <MypageLiveSession session={session} setFlag={setFlag} />
-                    {console.log("반복문", session.title)}
                   </>
                 ))}
             </List>
@@ -199,16 +236,15 @@ const MyPageContainer = (props) => {
               <InboxIcon />
             </ListItemIcon>
             <ListItemText primary="진행한 Live" />
-            {openDone ? <ExpandLess /> : <ExpandMore />}
+            {openDone ? <ExpandMore /> : <ExpandLess />}
           </ListItem>
 
-          <Collapse in={openDone} timeout="auto" unmountOnExit>
+          <Collapse in={!openDone} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               {myDoneSessions.length != 0 &&
                 myDoneSessions.map((session) => (
                   <>
                     <MypageLiveSession session={session} setFlag={setFlag} />
-                    {console.log("반복문", session.title)}
                   </>
                 ))}
             </List>
@@ -224,16 +260,15 @@ const MyPageContainer = (props) => {
               <InboxIcon />
             </ListItemIcon>
             <ListItemText primary="찜했던 Live" />
-            {openWish ? <ExpandLess /> : <ExpandMore />}
+            {openWish ? <ExpandMore /> : <ExpandLess />}
           </ListItem>
 
-          <Collapse in={openWish} timeout="auto" unmountOnExit>
+          <Collapse in={!openWish} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               {myWishSessions.length != 0 &&
                 myWishSessions.map((session) => (
                   <>
                     <MypageLiveSession session={session} setFlag={setFlag} />
-                    {console.log("반복문", session.title)}
                   </>
                 ))}
             </List>

@@ -126,12 +126,12 @@ const MySessionEdit = (props) => {
     const data = inputs;
     console.log(data);
     const res = await axios.patch(
-      "https://143.248.226.51:8000/api/hole/update/" + session.id,
+      "https://www.ask2live.me/api/hole/update/" + session.id,
       data,
       config,
     );
     console.log("hole created: ", res);
-    dispatch(getUserSessionInfo());
+    dispatch(getUserSessionInfo(localStorage.token));
     history.push('/mypage');
   };
 

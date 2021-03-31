@@ -5,6 +5,7 @@ import MypageNav from "./MypageNav";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,8 +80,9 @@ const style = {
     marginLeft: "10%",
   },
   edit : {
+    fontFamily: "BMJUA",
     top: 0,
-    right: "7%",
+    right: 0,
     height: "5%",
     position: "fixed",
     display: "flex",
@@ -97,6 +99,7 @@ const ProfileDetail = (props) => {
   const classes = useStyles();
 
   const user = useSelector((state) => state.user.data.detail);
+  console.log(props)
 
   let profile = {}
   if (props.location.state.host){
@@ -130,16 +133,18 @@ const ProfileDetail = (props) => {
   if (!user || !profile) return<p> 로딩중 </p>
   return (
     <>
-      <div>
+    <div >
         <MypageNav text={"프로필"} />
         {user.nickname === profile.nickname && 
-        <div
-        className="BMJUA"
+        <Button
+        // className="BMJUA"
         style={style.edit}
         onClick={goToEdit}
-        > 편집 </div>
+        > 편집 </Button>
         }
-      </div>
+    
+    </div>
+
 
       <div className={classes.root}>
         <Typography className={classes.nickname}>{profile.nickname}</Typography>
