@@ -1,18 +1,20 @@
 import React, {useEffect, useState} from "react";
 import { useSelector,useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
+import PreQuestionNav from './PreQuestionNav'
+import MypageNav from '../mypage/MypageNav'
+import getQuestionlist from "../../actions/QuestionListActions";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
+
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Chip from '@material-ui/core/Chip';
 import Box from "@material-ui/core/Box";
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,7 +38,7 @@ const circleStyle={
     backgroundColor:"#E2D8CF",
     width : "77px",
     height : "77px",
-    borderRadius: "35px",
+    borderRadius: "38px",
   }
 
   function CircularProgressWithLabel(props) {
@@ -59,9 +61,9 @@ const circleStyle={
           justifyContent="center"
         >
              <Grid container justify="center" alignItems="center">
-                <Chip size="small"  label={`
-                ${session.hole_reservations[0].target_demand == 0? 
-                    100 : Math.ceil(session.hole_reservations[0].guests.length / session.hole_reservations[0].target_demand * 100)}%달성`} />
+                <Chip size="small" variant="outlined" label={`
+                ${session.hole_reservations.target_demand == 0? 
+                    100 : Math.ceil(session.hole_reservations.guests.length / session.hole_reservations.target_demand * 100)}%`} />
             </Grid>
         </Box>
       </Box>
@@ -71,7 +73,17 @@ const circleStyle={
   }
 
 const SessionDetail = ({session}) => {
+  const history = useHistory();
     const classes = useStyles();
+
+    if(session === undefined){
+      return(
+        <>
+        로딩중
+        </>
+      )
+    }
+    
     
     return(
         <>
@@ -80,7 +92,7 @@ const SessionDetail = ({session}) => {
         <Grid item xs={9} className={classes.paper}>
           {session.title}<br/>
           {session.reserve_date}<br/>
-          찜 {session.hole_reservations[0].guests.length} / {session.hole_reservations[0].target_demand}
+          찜 {session.hole_reservations.guests.length} / {session.hole_reservations.target_demand}
           {session.hole}
         </Grid>
         <Grid item xs={3}>
@@ -88,8 +100,8 @@ const SessionDetail = ({session}) => {
             className={classes.paper}
             key={session.id} 
             session = {session}
-            value={(session.hole_reservations.length) ? Math.ceil(session.hole_reservations[0].guests.length / session.hole_reservations[0].target_demand * 100) : 0} 
-            current={(session.hole_reservations.length) ? session.hole_reservations[0].guests.length  : 0 }
+            value={(session.hole_reservations.length) ? Math.ceil(session.hole_reservations.guests.length / session.hole_reservations.target_demand * 100) : 0} 
+            current={(session.hole_reservations.length) ? session.hole_reservations.guests.length  : 0 }
         />
         </Grid>
         
@@ -100,60 +112,45 @@ const SessionDetail = ({session}) => {
     )
 }
 
-const QuestionCard = ({question}) => {
-    const classes = useStyles();
+const ListPreQuestions = ({questions, session}) => {
+    console.log('qestions', questions)
     return(
         <>
-        <Card key={question.id} className={classes.card}>
-        <CardHeader
-            subheader={question.user_nickname}/>
-        <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-            {question.question}
-        </Typography>
-        </CardContent>
-        </Card>
+        <PreQuestionNav session={session}/>
+        
         </>
     )
 }
 
-const ListPreQuestions = ({questions}) => {
-    console.log('qestions', questions)
-    return(
-        <>
-        {questions.data.detail.length === 0 ? 
-        <div>질문을 등록해주세요</div> :
-        questions.data.detail.map((question) => 
-        <>
-            <QuestionCard question={question}/>
-            <Divider light />
-            </>
-        )}
-        </>
-    )
-}
 const PreQuestions = () => {
+    const dispatch = useDispatch()
     const questions = useSelector(state => state.questionlist)
+    const sessions = useSelector(state => state.session.data)
     let targetSession = {};
 
     const href = window.location.href
     const sessionId = parseInt(href.split('/')[4])
-    const sessions = useSelector(state => state.session.data)
 
     if(Object.keys(sessions).length != 0){
         sessions.map((session) => {
+          console.log('DEBUG22',session)
             if(sessionId === session.id){
                 targetSession = {...targetSession, session}
             }
         })
-    }
-
+      }
+    useEffect(() => {
+      if(Object.keys(questions.data).length === 0){
+        dispatch(getQuestionlist(sessionId))
+      }
+    })
+    
     return (
             <>
-        {console.log('hihihi',targetSession)}
+        <MypageNav text={'Live Q&A 상세'} />
         <SessionDetail session={targetSession.session}/>
         
-        {Object.keys(questions.data).length > 0 ? <ListPreQuestions questions={questions}/> : null}
+        {Object.keys(questions.data).length > 0 ? <ListPreQuestions questions={questions} session={targetSession.session}/> : null}
         </>
     )
   
