@@ -36,7 +36,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 const ProfileGate = (props) => {
-    console.log("profileGate", props.user);
+  // if(!props.location.state) history.push('/mypge');
+    console.log("profileGate", props.user.detail);
     const classes = useStyles();
     const history = useHistory();
 

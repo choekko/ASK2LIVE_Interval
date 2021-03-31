@@ -153,7 +153,7 @@ const MyPageContainer = (props) => {
     setOpenWish(!openWish);
   };
 
-  if (!user || !sessions) return <p>로딩중</p>;
+  if (!user.detail || !sessions.detail) return <p>로딩중...</p>;
 
   return (
     <>
