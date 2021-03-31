@@ -36,15 +36,15 @@ const useStyles = makeStyles((theme) => ({
 
 
 const ProfileGate = (props) => {
-    console.log(props.user);
+    console.log("profileGate", props.user);
     const classes = useStyles();
     const history = useHistory();
 
     const goToDetail = () => {
         console.log('onClick');
         history.push({
-            pathname: '/mypage/' + props.user.nickname,
-            state: props.user});
+            pathname: '/mypage/' + props.user.detail.nickname,
+            state: props.user.detail});
     }
 
   return (
@@ -67,7 +67,7 @@ const ProfileGate = (props) => {
                 ></Avatar>
               }
               // titleTypographyProps={{variant:'h1' }}
-              title={<Typography variant="h6">{props.user.nickname}</Typography>}
+              title={<Typography variant="h6">{props.user.detail.nickname}</Typography>}
               // subheader="September 14, 2016"
             />
             {/* </CardActions> */}

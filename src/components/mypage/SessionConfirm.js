@@ -52,12 +52,13 @@ const style = {
 
 const SessionConfirm = (props) => {
   console.log("SessionConfirm");
-  const { session, goListUp, goDark } = props;
+  const { session, goListUp, goDark, setFlag } = props;
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-
+  
   return (
+    <>
     <Paper style={style.paper} elevation={1}>
       <div className="BMDOHYEON" style={style.title}>
         {/* <Typography variant="h3"  gutterBottom> */}
@@ -98,18 +99,27 @@ const SessionConfirm = (props) => {
             variant="contained"
             color="primary"
             size="large"
-            onClick={() => {
-              postSessionToReserve(session);
-              console.log("클릭");
-              goListUp({ transform: "translate(0, 100%)" });
-              goDark({ animation: "golight 0.7s" });
-              setTimeout(() => {
-                goDark({ display: "none" });
-              }, 700);
-              dispatch(getUserSessionInfo())
-              history.push("/mypage");
-            }}
-          >
+            onClick={() => 
+              
+              {
+                postSessionToReserve(session);
+                console.log("클릭");
+                setFlag({display: 'flex'})
+                setTimeout(() => {
+                  setFlag({ display: 'none', animation: '0.7s' });
+                  dispatch(getUserSessionInfo(localStorage.token))
+                }, 500);
+
+                setTimeout(() => {
+                  goListUp({ transform: "translate(0, 100%)" });
+                  goDark({ animation: "golight 0.7s" });
+                  setTimeout(() => {
+                    goDark({ display: "none" });
+                  }, 700);
+                }, 500)
+                history.push("/mypage");
+              }}
+              >
             <div style={style.font3} color="030916">
               확정하기
             </div>
@@ -117,6 +127,7 @@ const SessionConfirm = (props) => {
         </Grid>
       </div>
     </Paper>
+    </>
   );
 };
 
