@@ -83,6 +83,7 @@ const JoinCard = (props) => {
             }
         </CardContent>
         <div className={classes.controls}>
+          {console.log(props.isHost)}
             {props.isHost ?
                 mike?
                     <button onClick={()=>{

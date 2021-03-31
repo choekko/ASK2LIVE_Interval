@@ -189,6 +189,7 @@ const MypageLiveSession = (props) => {
                 </Button>
               )}
               {user.id === parseInt(session.host) && (
+                <>
                 <Button
                   size="large"
                   color="primary"
@@ -206,6 +207,8 @@ const MypageLiveSession = (props) => {
                     삭제하기
                   </Typography>
                 </Button>
+                
+                </>
               )}
             </CardActions>
           </CardContent>

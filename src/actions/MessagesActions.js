@@ -9,7 +9,7 @@ export const onRoomMessagesRead = holeId => dispatch => {
   dispatch({ type: ON_MESSAGES_READING });
 
   const socket = new ReconnectingWebSocket(`${WS_ENDPOINT()}/hole/${holeId}`);
-  console.log(socket);
+  console.log("-----------socket--------------",socket);
 
   socket.onopen = event => console.log('WebSocket Connected');
   socket.onmessage = event => dispatch({ type: ON_MESSAGES_READ, payload: { messages: JSON.parse(event.data) } });
