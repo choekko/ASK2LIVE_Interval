@@ -94,10 +94,11 @@ const MyPageContainer = (props) => {
   console.log("세션 :", sessions);
 
   useEffect(() => {
+    const token = localStorage.token
     console.log("useEffect");
-    dispatch(getUserInfo());
-    console.log(localStorage.token);
-    dispatch(getUserSessionInfo(localStorage.token));
+    dispatch(getUserInfo(token));
+    console.log(token);
+    dispatch(getUserSessionInfo(token));
     setRender(true);
   }, [render]);
 
