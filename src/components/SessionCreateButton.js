@@ -4,24 +4,27 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import Grid from "@material-ui/core/Grid";
+import "../App.css"
 
 const style = {
     button : {
         position: 'relative',
-        width: '80%',
+        width: '60%',
+        minWidth : "19em",
         marginBottom: '20px',
+        backgroundColor: "rgb(255,255,255)",
+        border : "3px solid #F24822"
     },
     buttonIcon: {
         fontSize: 30,
-        fontColor: 'black',
-        backgroundColor: '#C0C0C0',
+        color: 'white',
+        backgroundColor: '#F24822',
         borderRadius: '50%',
     },
     buttonText: {
         align: 'left',
         fontSize: '1em',
         margin: '8px',
-        fontWeight: 900,
     },
 }
 
@@ -50,7 +53,7 @@ const SessioinCreateButton = () => {
               history.push("/createSession");
             }}
           >
-            <div style={style.buttonText} align="left">
+            <div style={style.buttonText} align="left" className="NanumGothic3">
               Live Q&A를 통해
               <br></br>
               경험을 함께 나누어보세요

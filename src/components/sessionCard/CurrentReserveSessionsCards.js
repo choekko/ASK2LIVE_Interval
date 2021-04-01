@@ -105,7 +105,7 @@ const onClickWish = (sessionId) => {
   }
 
   axios.patch(
-    "https://www.ask2live.me/api/reservation/hole/" + sessionId + "/wish",
+    "https://143.248.226.51:8000/api/reservation/hole/" + sessionId + "/wish",
     data,
     config,
   ).then((response) => {
@@ -125,7 +125,7 @@ const onClickWishCancel = (sessionId) => {
   }
 
   axios.patch(
-    "https://www.ask2live.me/api/reservation/hole/" + sessionId + "/wishcancel",
+    "https://143.248.226.51:8000/api/reservation/hole/" + sessionId + "/wishcancel",
     data,
     config,
   ).then((response) => {
@@ -152,9 +152,6 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
     return (
         <>
         {console.log("렌더링 시작")}
-        <div className={classes.title}>
-        <h2>오픈 신청 중인 라이브 Q&A</h2>
-        </div>
         <div className={classes.root}  >
             {currentReserveSessions.map((session) => (
                 <>

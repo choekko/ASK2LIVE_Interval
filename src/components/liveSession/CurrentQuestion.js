@@ -25,7 +25,7 @@ const CurrentQuestion = (props) => {
               is_answered: true,
           };
           const res = await axios.patch(
-            "https://www.ask2live.me/api/hole/"+props.holeId+"/question/update/"+questionId,
+            "https://143.248.226.51:8000/api/hole/"+props.holeId+"/question/update/"+questionId,
             data,
             {headers:headers}
           );

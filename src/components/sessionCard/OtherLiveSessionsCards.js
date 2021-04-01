@@ -12,8 +12,9 @@ import { useSelector } from "react-redux";
 const useStyles = makeStyles({
   root: {
     minWidth: 270,
-    borderRadius: "20px",
-    boxShadow: "1px 1px 8px 0px rgb(0, 0, 0, 0.3)",
+    borderRadius: "5px",
+    borderBottom : "0.4px solid #3B568C",
+    boxShadow: "0px 0px 2px 0px rgb(0, 0, 0, 0.3)",
   },
   bullet: {
     display: 'inline-block',
@@ -47,9 +48,6 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
   
     return (
       <>
-      <div className={classes.title}>
-        <h2>진행 중인 라이브 Q&A</h2>
-        </div>
         {otherLiveSessions.map((session) => 
         <>
         <div className={classes.padding}>

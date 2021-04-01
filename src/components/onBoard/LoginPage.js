@@ -65,7 +65,7 @@ const LoginPage = () => {
         password : loginPassword
       }
 
-      const res = await axios.post('https://www.ask2live.me/api/user/login', dataToSubmit)
+      const res = await axios.post('https://143.248.226.51:8000/api/user/login', dataToSubmit)
       console.log('1 res : ', res)
       window.localStorage.setItem('token', res.data.token)
       // history.push('/')
