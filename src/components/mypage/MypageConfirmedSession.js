@@ -214,13 +214,10 @@ const MypageConfirmedSession = ({ session }) => {
                   size="large"
                   color="primary"
                   onClick={() => {
-                    <>
-                      {onChangeDoing(session, user)}
-                      {setTimeout(
-                        () => dispatch(getUserSessionInfo(localStorage.token)),
-                        200
-                      )}
-                    </>;
+                    history.push({
+                        pathname: "/session/reserve",
+                        search: "?holeId=" + session.id,
+                    })
                   }}
                 >
                   <Typography variant="body1" style={{ fontWeight: 600 }}>
