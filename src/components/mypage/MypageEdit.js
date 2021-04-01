@@ -110,7 +110,7 @@ const MypageEdit = (props) => {
     };
     console.log("DATA", data);
     const res = await axios.patch(
-      "https://143.248.226.51:8000/api/user/update",
+      "https://www.ask2live.me/api/user/update",
       data,
       config
     );
