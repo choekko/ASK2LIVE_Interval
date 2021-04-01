@@ -13,9 +13,7 @@ export default function useAgora(client) {
   const appid = "2e5346b36d1f40b1bbc62472116d96de";
 
   const [localAudioTrack, setLocalAudioTrack] = useState("");
-
   const [joinState, setJoinState] = useState(false);
-
   const [remoteUsers, setRemoteUsers] = useState([]);
   const authority = useSelector((state) => state.Authorize);
 
@@ -25,7 +23,6 @@ export default function useAgora(client) {
     const microphoneTrack = await AgoraRTC.createMicrophoneAudioTrack(
       MicrophoneAudioTrackInitConfig
     );
-
     setLocalAudioTrack(microphoneTrack);
     return microphoneTrack;
   }
@@ -33,30 +30,33 @@ export default function useAgora(client) {
   async function join(channel, token, rtmClient, rtmChannel, isHost) {
     console.log("join");
 
-    
     if (!client) return;
     
     const microphoneTrack = await createLocalTracks();
     await client.join(appid, channel, token);    
     
+    // rtm 클라이언트 로그인
     await rtmClient
     .login({ token: null, uid: String(client.uid) })
         .then(() => {
-          console.log("=============== AgoraRTM client login success");
+          console.log("AgoraRTM client login success !!");
         })
         .catch((err) => {
-          console.log("============= AgoraRTM client login failure", err);
+          console.log("AgoraRTM client login failure !!", err);
         });
         
-    rtmClient.on("ConnectionStateChanged", (newState, reason) => {
+    // rtm 클라이언트 메시지 받기 모드
+    await rtmClient.on("ConnectionStateChanged", (newState, reason) => {
       console.log(
         "on connection state changed to " + newState + " reason: " + reason
         );
       });
-          
+    
+    //rtm 메시지채널 join
     await rtmChannel.join();
+
       // event listener for receiving a peer-to-peer message.
-    await rtmClient.on("MessageFromPeer", (msg, peerId) => {
+    rtmClient.on("MessageFromPeer", (msg, peerId) => {
         // text: text of the received message; peerId: User ID of the sender.
         console.log(
           "AgoraRTM Peer Msg: from user " + peerId + " recieved: \n" + msg.text
@@ -65,37 +65,32 @@ export default function useAgora(client) {
         // check if mute or leave command
         if (msg.text === "host") {
           console.log("make host");
-          console.log(microphoneTrack);
 
           client.publish(microphoneTrack);
-           microphoneTrack.stop();
-           microphoneTrack.setEnabled(true);
+          localAudioTrack.stop();
+          localAudioTrack.setEnabled(true);
 
         } else if (msg.text === "audience") {
-          
-            microphoneTrack.stop();
-            client.unpublish();
           console.log("make audience");
+          
+          client.unpublish();
+          localAudioTrack.play();
+
         } else {
-          console.log("[Warning] unknown message:");
-          console.log(msg);
+          console.log("[Warning] unknown message:", msg);
         }
       });
 
-    console.log("리모트유저: ", remoteUsers.length);
     if (isHost) {
       console.log("client Role in JOIN ");
-      await dispatch({type: "superHost", payload: "host"});
-      // await client.setClientRole('host');
-      await client.publish(microphoneTrack);
+      dispatch({type: "superHost", payload: "host"});
+      client.publish(microphoneTrack);
+
     } else {
       console.log("audience Role in JOIN");
-      await dispatch({type: "audience"});
-      // await client.unpublish();
+      dispatch({type: "audience"});
     }
 
-    //채팅 소켓 만드는 시점 - socket id는 roomname
-    // await client.publish([microphoneTrack, cameraTrack]);
     console.log("end useAgora");
     setJoinState(true);
   }
@@ -121,18 +116,12 @@ export default function useAgora(client) {
     setRemoteUsers(client.remoteUsers);
     
     const handleUserPublished = async (user, mediaType) => {
-      console.log("user =========== : ", user);
-      console.log("client ============ : ", client);
-      // if(user.uid != client.uid){
+
         console.log("subscirbe USER ~~~ !");
         console.log("subscirbe USER ~~~ !");
         console.log("subscirbe USER ~~~ !");
-        console.log("subscirbe USER ~~~ !");
-        console.log("subscirbe USER ~~~ !");
-        console.log("subscirbe USER ~~~ !");
-        await client.subscribe(user, mediaType);
-      // }
-      console.log("user mediaType: ", mediaType);
+      await client.subscribe(user, mediaType);
+
       // toggle rerender while state of remoteUsers changed.
       setRemoteUsers((remoteUsers) => Array.from(client.remoteUsers));
     };

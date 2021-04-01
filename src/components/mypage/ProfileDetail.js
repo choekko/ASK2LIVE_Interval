@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(10),
     height: theme.spacing(10),
   },
-  nickname: {
+  username: {
     position: "absolute",
     fontFamily: "BMDOHYEON",
     fontSize: "1.2em",
@@ -109,14 +109,16 @@ const ProfileDetail = (props) => {
     if (!host.work_field.length) host.work_field = "분야";
 
     profile = {
-      nickname: host.nickname,
+      username: host.username,
       work_company: host.work_company,
       work_field: host.work_field,
       bio: host.bio,
     }
   } else {
+    if (!user.work_company.length) user.work_company = "회사 이름";
+    if (!user.work_field.length) user.work_field = "분야";
     profile = {
-      nickname: user.nickname,
+      username: user.username,
       work_company: user.work_company,
       work_field: user.work_field,
       bio: user.bio,
@@ -127,7 +129,7 @@ const ProfileDetail = (props) => {
   const goToEdit = () => {
     console.log("click");
     history.push({
-      pathname: `${profile.nickname}/edit`,
+      pathname: `${profile.username}/edit`,
       state: user});
   }
   if (!user || !profile) return<p> 로딩중 </p>
@@ -135,7 +137,7 @@ const ProfileDetail = (props) => {
     <>
     <div >
         <MypageNav text={"프로필"} />
-        {user.nickname === profile.nickname && 
+        {user.username === profile.username && 
         <Button
         // className="BMJUA"
         style={style.edit}
@@ -147,7 +149,7 @@ const ProfileDetail = (props) => {
 
 
       <div className={classes.root}>
-        <Typography className={classes.nickname}>{profile.nickname}</Typography>
+        <Typography className={classes.username}>{profile.username}</Typography>
         <Typography className={classes.work_company}>
           {profile.work_company}
         </Typography>
@@ -169,9 +171,10 @@ const ProfileDetail = (props) => {
         <div style={style.bio} className="NotoSans2">
           {profile.bio}
         </div>
-        <div style={style.paper} className="BMDOHYEON">
+        {/* SNS 필드 삭제 */}
+        {/* <div style={style.paper} className="BMDOHYEON">
           SNS
-        </div>
+        </div> */}
       </div>
     </>
   );

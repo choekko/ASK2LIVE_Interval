@@ -24,18 +24,14 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // flexGrow: 1,
-    // position: 'relative',
-    // float: 'left',
-    // display: 'inline-block',
     margin: "2%",
     width: "100%",
-    height: "10em",
-    // left: '-50%',
+    height: "8em",
     maxWidth: "30em",
     borderRadius: "20px",
     boxShadow: "1px 1px 8px 0px rgb(0, 0, 0, 0.3)",
-    // backgroundColor: 'aquamarine',
+    border: 'solid',
+    borderColor: '#D95032',
   },
   media: {
     cursor: "pointer",
@@ -60,8 +56,8 @@ const useStyles = makeStyles((theme) => ({
   },
   cookieWrapper: {
     float: "left",
-    width: "6em",
-    height: "6em",
+    width: "5em",
+    height: "5em",
     marginLeft: "1em",
     backgroundPosition: "center center",
     backgroundSize: "100%",
@@ -74,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: "url('/static/cookieMould.png')",
     backgroundPosition: "center center",
     backgroundSize: "100%",
-    width: "6em",
+    width: "5em",
     height: "inherit",
     overflow: "hidden",
   },
@@ -166,11 +162,10 @@ const MypageConfirmedSession = ({ session }) => {
             <div className={classes.useCookie}></div>{" "}
           </div>
 
-          {console.log(session.title)}
           <CardHeader
             style={{ padding: "10px 8px 0 8px" }}
-            title={<Typography variant="h6">{session.title}</Typography>}
-            subheader={Date(session.reserve_date).substring(0, 21)}
+            title={<Typography variant="body1">{session.title}</Typography>}
+            subheader={<Typography variant="body2">{Date(session.reserve_date).substring(0, 21)}</Typography>}
             action={
               user.id === parseInt(session.host) &&
               session.status != "DONE" && (
@@ -192,26 +187,12 @@ const MypageConfirmedSession = ({ session }) => {
               )
             }
           />
-          <CardContent>
-            <CardActions style={{ padding: "0 0" }}>
-              {/* {session.status != "DONE" && user.id === parseInt(session.host) && (
-                <Button
-                  size="large"
-                  color="primary"
-                  onClick={() => {
-                    setListUp({ transform: "translate(0, 50%)" });
-                    setDark({ animation: "godark 0.7s" });
-                  }}
-                >
-                  <Typography variant="body1" style={{ fontWeight: 600 }}>
-                    예약 확정하기
-                  </Typography>
-                </Button>
-              )} */}
+          <CardContent style={{padding:0}}>
+            <CardActions style={{ paddingLeft:0 }}>
               {user.id === parseInt(session.host) && (
                 <>
                 <Button
-                  size="large"
+                  size="normal"
                   color="primary"
                   onClick={() => {
                     history.push({
@@ -220,12 +201,12 @@ const MypageConfirmedSession = ({ session }) => {
                     })
                   }}
                 >
-                  <Typography variant="body1" style={{ fontWeight: 600 }}>
+                  <Typography variant="body2" style={{ fontWeight: 600 }}>
                     라이브하기
                   </Typography>
                 </Button>
                 <Button
-                  size="large"
+                  size="normal"
                   color="primary"
                   onClick={() => {
                     <>
@@ -237,7 +218,7 @@ const MypageConfirmedSession = ({ session }) => {
                     </>;
                   }}
                 >
-                  <Typography variant="body1" style={{ fontWeight: 600 }}>
+                  <Typography variant="body2" style={{ fontWeight: 600 }}>
                     삭제하기
                   </Typography>
                 </Button>

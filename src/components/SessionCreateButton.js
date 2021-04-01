@@ -8,7 +8,8 @@ import Grid from "@material-ui/core/Grid";
 const style = {
     button : {
         position: 'relative',
-        width: '80%',
+        width: '100%',
+        maxWidth: '80em',
         marginBottom: '20px',
     },
     buttonIcon: {
