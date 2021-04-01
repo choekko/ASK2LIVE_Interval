@@ -87,7 +87,7 @@ const MyLiveSessionsCard = ({session}) => {
                     pathname: "/session/live",
                     search: "?holeId=" + session.id + "&channelNum=" + session.livehole_id,
                     state : {
-                        hostName : session.host_nickname,
+                        hostName : session.host_username,
                         hostImage : session.host_profile_image,
                     }
             })}}
@@ -110,7 +110,7 @@ const MyLiveSessionsCard = ({session}) => {
             <CardHeader
             avatar={
                 <Avatar aria-label="recipe" className={classes.avatar}>
-                {session.host_nickname}
+                {session.host_username}
                 </Avatar>
             }
             action={

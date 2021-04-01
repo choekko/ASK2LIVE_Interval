@@ -13,7 +13,6 @@ import PreQuestions from './components/sessionCard/PreQuestions';
 // import 'fontsource-roboto'
 
 import { Route, Switch, useHistory } from 'react-router-dom'
-import Auth from './hoc/auth'
 import SessionMatchContainer from './containers/SessionMatchContainer';
 
 import {LoginPage} from './components/onBoard'
@@ -25,6 +24,7 @@ import { getAllUsersInfo } from './actions/AllUsersActions'
 import { getSessionInfo, getUserSessionInfo } from './actions/SessionActions'
 import { getUserInfo } from './actions/UserActions'
 import { bindActionCreators } from 'redux';
+import Auth from "./hoc/auth";
 
 const App = () => {
 
@@ -45,19 +45,20 @@ const App = () => {
         <>
         {/* <Route exact path="/hole/c9c9dd9bb" component={Chat}/> */}
         
-        <Route exact path="/" component={LoginPage}/>
-        <Route exact path="/main" component={SessionCardContainer}/>
+        <Route exact path="/main" component={Auth(SessionCardContainer, true)}/>
         <Switch>
-            <Route exact path="/session/:state" component={SessionMatchContainer}/>
+            <Route exact path="/login" component={LoginPage}/>
+            <Route exact path="/" component={LoginPage}/>
+            <Route exact path="/session/:state" component={Auth(SessionMatchContainer, true)}/>
             {/* <Route exact path="/session/:state" render={(matchProps) => <SessionMatchContainer {...matchProps}/>}/>  */}
-            <Route exact path="/createSession" component={SessionCreateContainer}/>
+            <Route exact path="/createSession" component={Auth(SessionCreateContainer, true)}/>
             <Route path="/" component={NavContainer}/>
         </Switch>
-        <Route exact path="/preQuestions/:pk" component={PreQuestions}/>    
-        <Route exact path="/mypage" component={MypageContainer}/>
-        <Route exact path="/mypage/:nickname" component={ProfileDetail}/>
-        <Route exact path="/mypage/:nickname/edit" component={MypageEdit}/>
-        <Route exact path="/mypage/hole/:session/edit" component={MySessionEdit}/>
+        <Route exact path="/preQuestions/:pk" component={Auth(PreQuestions, true)}/>    
+        <Route exact path="/mypage" component={Auth(MypageContainer, true)}/>
+        <Route exact path="/mypage/:nickname" component={Auth(ProfileDetail, true)}/>
+        <Route exact path="/mypage/:nickname/edit" component={Auth(MypageEdit, true)}/>
+        <Route exact path="/mypage/hole/:session/edit" component={Auth(MySessionEdit, true)}/>
         </>
 
     )
