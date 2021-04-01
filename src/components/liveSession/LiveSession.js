@@ -244,7 +244,9 @@ const LiveSession = (props) => {
         remoteUsers,
         authority,
     } = useAgora(client);
-
+    
+    
+    
     useEffect(() => {
         const liveInter = setInterval(()=>{
             dispatch(getEnteredSession(props.channelNum))
@@ -252,6 +254,15 @@ const LiveSession = (props) => {
         }, 5000);
         rtmChannel = rtmClient.createChannel(props.channelNum);
         join(props.channelNum, null, rtmClient, rtmChannel, props.isHost);
+        rtmChannel.on('ChannelMessage', (message, memberId) => {
+            // Your code.
+            console.log(`Message ${message}, from ${memberId}`);
+            rtmClient.logout();
+            leave();
+            leavePatchApi();
+            clearInterval(liveInter);
+            history.replace('/main');
+        });
         if (props.isHost)
             setTimeout(()=>{hostPostApi(client.uid)}, 2000);
         else
