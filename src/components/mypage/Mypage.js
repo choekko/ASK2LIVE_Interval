@@ -41,23 +41,20 @@ const MyPage = (props) => {
             <Grid item className={classes.my} xs={12}>
               <ProfileGate user={props.user}/>
               {/* <Paper className={classes.paper}>xs=12</Paper> */}
-              <Grid container spacing={3}>
+              {/* <Grid container spacing={3}>
                 <Grid item className={classes.myBottomCard} xs>
                   24명 <br />
                   팔로우
-                  {/* <Paper className={classes.paper}>xs</Paper> */}
                 </Grid>
                 <Grid item xs>
                   17명 <br />
                   팔로잉
-                  {/* <Paper className={classes.paper}>xs</Paper> */}
                 </Grid>
                 <Grid item xs>
                   14개 <br />
                   미리 찜하기
-                  {/* <Paper className={classes.paper}>xs</Paper> */}
                 </Grid>
-              </Grid>
+              </Grid> */}
             </Grid>
           </Grid>
           <h3>Live QnA</h3>
