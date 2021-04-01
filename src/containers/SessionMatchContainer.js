@@ -24,7 +24,7 @@ const SessionMatchContainer = (props) => {
     const currUser = tmp.detail? tmp.detail.username : "";
 
     useEffect(() => {
-        axios.get("https://143.248.226.51:8000/api/hole/read/"+holeId).then(
+        axios.get("https://www.ask2live.me/api/hole/read/"+holeId).then(
             (res) => {
                 if (res.data.response === "SUCCESS")
                     setMatch(res.data.detail);
@@ -42,7 +42,7 @@ const SessionMatchContainer = (props) => {
             }
             else return <p>SessionMatchContainer LOADING</p> 
 
-        case RESERVE: // ���� ȣ��Ʈ�� ���İ���
+        case RESERVE:
             if (match)
                 return <ReserveToLive holeTitle={match.title} hostName={match.host_username} hostImage={match.host_profile_image} holeId={holeId}/>
             else return <p>SessionMatchContainer LOADING</p> 
