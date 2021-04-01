@@ -59,12 +59,13 @@ const useStyles = makeStyles((theme) => ({
         margin : "auto",
         backgroundColor: "#eb4e27",
         borderRadius: "15px", 
-        maxWidth: "80em"
+        maxWidth: "80em",
+        zIndex: "1"
       },
   }));
   
 
-const NavOfGuest = (props) => {
+const NavOfGuest = (props) => { // 지금은 쓰지 않는다
     const classes = useStyles();
     const history = useHistory();
 
@@ -78,12 +79,6 @@ const NavOfGuest = (props) => {
             <Toolbar>
                 <IconButton  color="inherit" aria-label="menu">
                     <HomeIcon/>
-                </IconButton>
-                <IconButton  color="inherit" aria-label="menu">
-                    <MenuIcon/>
-                </IconButton>
-                <IconButton  color="inherit" aria-label="alert">
-                    <Alert/>
                 </IconButton>
                 <IconButton  color="inherit" aria-label="login" onClick={()=>{
                         history.push('/login');
@@ -115,29 +110,43 @@ const NavOfUser = (props) => {
       <HideOnScroll {...props}>
         <AppBar className={classes.appBar}>
             <Grid container justify="center" alignItems="center">
-
             <Toolbar>
-                <IconButton color="inherit" aria-label="menu">
-                    <HomeIcon onClick={() => {
-                      history.push('/');}} />
-                </IconButton>
-                <IconButton color="inherit" aria-label="menu">
-                    <MenuIcon/>
-                </IconButton>
-                <IconButton color="inherit" aria-label="alert">
-                    <Alert/>
-                </IconButton>
-                <IconButton color="inherit" aria-label="mypage">
-                    <MyPageIcon onClick={ () => {
-                      history.push("/mypage");
-                    } }/>
-                </IconButton>
-                <IconButton color="inherit" aria-label="logout">
-                    <ExitButton onClick={()=>{
-                        localStorage.clear();
-                        window.location.replace('/');
-                    }}/>
-                </IconButton>
+            <table style={{borderSpacing : "1.5em 0px"}}>
+                <tr>
+                    <td>
+                    <Grid container justify="center" alignItems="center">
+                        <IconButton style={{padding: "0", }} color="inherit" aria-label="menu">
+                            <HomeIcon onClick={() => {
+                            history.push('/');}} />
+                        </IconButton>
+                    </Grid>
+                    </td>
+                    <td>
+                    <Grid container justify="center" alignItems="center">
+                        <IconButton style={{padding: "0", }} color="inherit" aria-label="mypage">
+                            <MyPageIcon onClick={ () => {
+                            history.push("/mypage");
+                            } }/>
+                        </IconButton>
+                    </Grid>
+                    </td>
+                    <td >
+                    <Grid container justify="center" alignItems="center">
+                        <IconButton style={{padding: "0", }} color="inherit" aria-label="logout">
+                        <ExitButton onClick={()=>{
+                            localStorage.clear();
+                            window.location.replace('/');
+                        }}/>
+                         </IconButton>
+                    </Grid>
+                    </td>
+                </tr>                
+                <tr>
+                    <td style={{fontSize : "0.5em"}}>Home</td>
+                    <td style={{fontSize : "0.5em"}}>Mypage</td>
+                    <td style={{fontSize : "0.5em"}}>Logout</td>
+                </tr>                
+            </table>
             </Toolbar>
             </Grid>
         </AppBar>

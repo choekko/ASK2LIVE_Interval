@@ -24,6 +24,7 @@ const style = {
     height: "100%",
     backgroundColor: "white",
     borderRadius: "20px 20px 0 0 ",
+    zIndex : "3",
   },
   title: {
     color: "#030916",
