@@ -1,6 +1,7 @@
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import React, { useEffect } from 'react';
+import React from 'react';
+import axios from 'axios';
 
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import ExitButton from '@material-ui/icons/PowerSettingsNew';
@@ -34,10 +35,6 @@ function HideOnScroll(props) {
 
 HideOnScroll.propTypes = {
   children: PropTypes.element.isRequired,
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
   window: PropTypes.func,
 };
 
@@ -94,6 +91,17 @@ const NavOfGuest = (props) => { // 지금은 쓰지 않는다
   );
 }
 
+const Logout = async() => {
+  const headers = {
+    'Authorization': 'Token ' + localStorage.token
+  }
+  const data = {}
+  const res = await axios.post('https://143.248.226.51:8000/api/user/logout', data, {headers:headers})
+  localStorage.clear()
+  console.log("logout",res)
+  // window.location.replace('/')
+}
+
 const NavOfUser = (props) => {
     
     const user = props.user.data.detail;
@@ -133,10 +141,10 @@ const NavOfUser = (props) => {
                     <td >
                     <Grid container justify="center" alignItems="center">
                         <IconButton style={{padding: "0", }} color="inherit" aria-label="logout">
-                        <ExitButton onClick={()=>{
-                            localStorage.clear();
-                            window.location.replace('/');
-                        }}/>
+                        <ExitButton onClick={()=> {
+                          Logout()
+                          window.location.replace('/')
+                          }}/>
                          </IconButton>
                     </Grid>
                     </td>
