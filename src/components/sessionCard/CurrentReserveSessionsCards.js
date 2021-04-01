@@ -153,9 +153,6 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
     return (
         <>
         {console.log("렌더링 시작")}
-        <div className={classes.title}>
-        <h2>오픈 신청 중인 라이브 Q&A</h2>
-        </div>
         <div className={classes.root}  >
             {currentReserveSessions.map((session) => (
                 <>
