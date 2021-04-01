@@ -65,9 +65,9 @@ const LoginPage = () => {
 
       const res = await axios.post('https://143.248.226.51:8000/api/user/login', dataToSubmit)
       console.log('1 res : ', res)
-      window.localStorage.setItem('token', res.data.token)
-      history.push('/main')
-      // window.location.replace('/') // 수정 필요
+      window.localStorage.setItem('token', res.data.detail.token)
+      // history.push('/main')
+      window.location.replace('/main') // 수정 필요
     }
 
     return (

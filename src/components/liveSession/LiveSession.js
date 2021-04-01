@@ -159,9 +159,11 @@ const rtmClient = AgoraRTM.createInstance(appid);
 //^ =============================================================
 
 const LiveSession = (props) => {
-
+    const history = useHistory();
     console.log("!!!!!!!!!!!!!!!!!", props);
-
+    // console.log("history state: ", history.state)
+    // history.pushState(null, null, '');
+    // console.log("history state: ", history.state)
     const dispatch = useDispatch()
 
 
@@ -218,7 +220,7 @@ const LiveSession = (props) => {
     const [dark, setDark] = useState({display:"none"})
 
     const [room, setRoom] = useState({});
-    const history = useHistory()
+    // const history = useHistory()
     
     let partiNum = "로딩중";
     const holeInfo = useSelector(state => state.enteredSession, [partiNum])
@@ -254,13 +256,27 @@ const LiveSession = (props) => {
             setTimeout(()=>{hostPostApi(client.uid)}, 2000);
         else
             setTimeout(()=>{audiencePutApi(client.uid)}, 2000);
+        const unblock = history.block('정말 떠나시겠습니까?');
         return () => {
+            console.log("호스트여부: ", props.isHost)
+            if (props.isHost) {
+                rtmChannel.sendMessage({ text: "leave host" }).then(() => {
+                // Your code for handling the event when the channel message is successfully sent.
+                    console.log('host is leaving')
+                }).catch(error => {
+                // Your code for handling the event when the channel message fails to be sent.
+                    console.log('host leaving error')
+                });
+            }
             rtmClient.logout();
             leave();
             leavePatchApi();
             clearInterval(liveInter)
+            unblock();
+            // history.replace('/main');
+            // window.location.reload('/main');
         }
-    }, [])
+    }, [history])
 
     const onClick = (choice) => () => {
         if (choice === "join") {

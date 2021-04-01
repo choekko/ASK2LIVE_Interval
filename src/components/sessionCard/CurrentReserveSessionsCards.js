@@ -181,7 +181,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                                 {session.title}
                             </Typography>
                             <Typography variant='caption' component="div" color="textSecondary">
-                            {session.host_nickname.length > 5? session.host_nickname.substring(0,5)+'...' : session.host_nickname} 
+                            {session.host_username.length > 5? session.host_username.substring(0,5)+'...' : session.host_username} 
                             | 
                             {session.host_work_field.length > 5? session.host_work_field.substring(0,5)+'...' : session.host_work_field}
                             </Typography>

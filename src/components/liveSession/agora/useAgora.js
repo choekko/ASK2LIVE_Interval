@@ -56,7 +56,7 @@ export default function useAgora(client) {
     await rtmChannel.join();
 
       // event listener for receiving a peer-to-peer message.
-    rtmClient.on("MessageFromPeer", (msg, peerId) => {
+    await rtmClient.on("MessageFromPeer", (msg, peerId) => {
         // text: text of the received message; peerId: User ID of the sender.
         console.log(
           "AgoraRTM Peer Msg: from user " + peerId + " recieved: \n" + msg.text
@@ -76,19 +76,25 @@ export default function useAgora(client) {
           client.unpublish();
           localAudioTrack.play();
 
+        } else if (msg.text === "hostOut") {
+          console.log("[Host Out] the session is closed");
+          leave();
+
         } else {
           console.log("[Warning] unknown message:", msg);
         }
+        
+        
       });
 
     if (isHost) {
       console.log("client Role in JOIN ");
-      dispatch({type: "superHost", payload: "host"});
-      client.publish(microphoneTrack);
+      await dispatch({type: "superHost", payload: "host"});
+      await client.publish(microphoneTrack);
 
     } else {
       console.log("audience Role in JOIN");
-      dispatch({type: "audience"});
+      await dispatch({type: "audience"});
     }
 
     console.log("end useAgora");
@@ -116,10 +122,6 @@ export default function useAgora(client) {
     setRemoteUsers(client.remoteUsers);
     
     const handleUserPublished = async (user, mediaType) => {
-
-        console.log("subscirbe USER ~~~ !");
-        console.log("subscirbe USER ~~~ !");
-        console.log("subscirbe USER ~~~ !");
       await client.subscribe(user, mediaType);
 
       // toggle rerender while state of remoteUsers changed.

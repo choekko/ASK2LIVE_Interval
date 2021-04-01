@@ -20,7 +20,7 @@ const SessionMatchContainer = (props) => {
     const holeId = urlSearchParams.get("holeId");
 
     const tmp =  useSelector(state => state.user.data)
-    const currUser = tmp.detail? tmp.detail.nickname : "";
+    const currUser = tmp.detail? tmp.detail.username : "";
 
     useEffect(() => {
         axios.get("https://143.248.226.51:8000/api/hole/read/"+holeId).then(
@@ -36,15 +36,15 @@ const SessionMatchContainer = (props) => {
             const channelNum = urlSearchParams.get("channelNum");
             if (match) 
             {
-                const isHost = (currUser === match.host_nickname);
+                const isHost = (currUser === match.host_username);
                 console.log(props.location.state)
-                return <LiveSessionContainer holeTitle={match.title} hostName={match.host_nickname} hostImage={match.host_profile_image} holeId={holeId} channelNum={channelNum} joinPass={props.location.state?.joinPass} isHost={isHost}/>
+                return <LiveSessionContainer holeTitle={match.title} hostName={match.host_username} hostImage={match.host_profile_image} holeId={holeId} channelNum={channelNum} joinPass={props.location.state?.joinPass} isHost={isHost}/>
             }
             else return <p>SessionMatchContainer LOADING</p> 
 
         case RESERVE: // ���� ȣ��Ʈ�� ���İ���
             if (match)
-                return <ReserveToLive holeTitle={match.title} hostName={match.host_nickname} hostImage={match.host_profile_image} holeId={holeId}/>
+                return <ReserveToLive holeTitle={match.title} hostName={match.host_username} hostImage={match.host_profile_image} holeId={holeId}/>
             else return <p>SessionMatchContainer LOADING</p> 
             
         default:
@@ -60,8 +60,8 @@ const SessionMatchContainer = (props) => {
     //             (res) => {
     //                 if (res.data.response === "SUCCESS")
     //                 {
-    //                     const isHost = (currUser === res.data.detail.host_nickname);
-    //                     return <LiveSessionContainer hostName={res.data.detail.host_nickname} hostImage={res.data.detail.host_profile_image} holeId={holeId} channelNum={channelNum} joinPass={props.location.state?.joinPass} isHost={isHost}/>
+    //                     const isHost = (currUser === res.data.detail.host_username);
+    //                     return <LiveSessionContainer hostName={res.data.detail.host_username} hostImage={res.data.detail.host_profile_image} holeId={holeId} channelNum={channelNum} joinPass={props.location.state?.joinPass} isHost={isHost}/>
     //                 }
     //                 else return <p>SessionMatchContainer GET ERROR</p> 
     //             }
@@ -73,7 +73,7 @@ const SessionMatchContainer = (props) => {
     //             (res) => {
     //                 if (res.data.response === "SUCCESS")
     //                 {
-    //                     return <ReserveToLive hostName={res.data.detail.host_nickname} hostImage={res.data.detail.host_profile_image} holeId={holeId_reserve}/>
+    //                     return <ReserveToLive hostName={res.data.detail.host_username} hostImage={res.data.detail.host_profile_image} holeId={holeId_reserve}/>
     //                 }
     //                 else return <p>SessionMatchContainer GET ERROR</p> 
     //             }
