@@ -26,11 +26,11 @@ const MyQuestionCards = () => {
 
   const user = useSelector(state => state.user)
   const questions = useSelector(state => state.questionlist)
+  console.log('user', user.data.detail)
+  console.log('questionsList', questions.data.detail)
   
   const userId = user.data.detail.id
   const questionsList = questions.data.detail
-  console.log('user', user.data.detail)
-  console.log('questionsList', questionsList)
 
   if(Object.keys(questionsList).length != 0){
     questionsList.map((question) => {

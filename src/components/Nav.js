@@ -97,8 +97,6 @@ const Logout = async() => {
   }
   const data = {}
   const res = await axios.post('https://143.248.226.51:8000/api/user/logout', data, {headers:headers})
-  localStorage.clear()
-  console.log("logout",res)
   // window.location.replace('/')
 }
 
@@ -143,6 +141,7 @@ const NavOfUser = (props) => {
                         <IconButton style={{padding: "0", }} color="inherit" aria-label="logout">
                         <ExitButton onClick={()=> {
                           Logout()
+                          localStorage.clear()
                           window.location.replace('/')
                           }}/>
                          </IconButton>
