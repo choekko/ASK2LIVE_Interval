@@ -26,11 +26,11 @@ const MyQuestionCards = () => {
 
   const user = useSelector(state => state.user)
   const questions = useSelector(state => state.questionlist)
+  console.log('user', user.data.detail)
+  console.log('questionsList', questions.data.detail)
   
   const userId = user.data.detail.id
   const questionsList = questions.data.detail
-  console.log('user', user.data.detail)
-  console.log('questionsList', questionsList)
 
   if(Object.keys(questionsList).length != 0){
     questionsList.map((question) => {
@@ -73,7 +73,7 @@ const MyQuestionSend = ({session}) => {
       };
       console.log(data);
       const res = await axios.post(
-        "https://143.248.226.51:8000/api/hole/"+session.id + "/question/create",
+        "https://www.ask2live.me/api/hole/"+session.id + "/question/create",
         data,
         {headers:headers}
       );

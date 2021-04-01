@@ -100,8 +100,11 @@ const SessionDetail = ({session}) => {
             className={classes.paper}
             key={session.id} 
             session = {session}
-            value={(session.hole_reservations.length) ? Math.ceil(session.hole_reservations.guests.length / session.hole_reservations.target_demand * 100) : 0} 
-            current={(session.hole_reservations.length) ? session.hole_reservations.guests.length  : 0 }
+            value={(session.hole_reservations) ? 
+              Math.ceil(
+                session.hole_reservations.guests.length / session.hole_reservations.target_demand <= 1 ?
+                session.hole_reservations.guests.length / session.hole_reservations.target_demand * 100 : 100) : 0} 
+            current={(session.hole_reservations) ? session.hole_reservations.guests.length  : 0 }
         />
         </Grid>
         
