@@ -134,7 +134,7 @@ const Questioning = (props) => {
           };
           console.log(data);
           const res = await axios.post(
-            "https://www.ask2live.me/api/hole/"+props.holeId + "/question/create",
+            "https://143.248.226.51:8000/api/hole/"+props.holeId + "/question/create",
             data,
             {headers:headers}
           );

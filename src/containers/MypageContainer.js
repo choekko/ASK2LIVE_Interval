@@ -69,14 +69,14 @@ const style = {
 };
 
 // const getSessionInfo = async () => {
-//   return await axios.get("https://www.ask2live.me/api/hole");
+//   return await axios.get("https://143.248.226.51:8000/api/hole");
 // };
 
 // const getUserInfo = async () => {
 //   const config = {
 //     headers: { Authorization: "Token " + localStorage.token },
 //   };
-//   return await axios.get("https://www.ask2live.me/api/user/read", config);
+//   return await axios.get("https://143.248.226.51:8000/api/user/read", config);
 // };
 
 const MyPageContainer = (props) => {

@@ -23,7 +23,7 @@ const SessionMatchContainer = (props) => {
     const currUser = tmp.detail? tmp.detail.nickname : "";
 
     useEffect(() => {
-        axios.get("https://www.ask2live.me/api/hole/read/"+holeId).then(
+        axios.get("https://143.248.226.51:8000/api/hole/read/"+holeId).then(
             (res) => {
                 if (res.data.response === "SUCCESS")
                     setMatch(res.data.detail);
@@ -56,7 +56,7 @@ const SessionMatchContainer = (props) => {
     //     case LIVE:
     //         const holeId = urlSearchParams.get("holeId");
     //         const channelNum = urlSearchParams.get("channelNum");
-    //         axios.get("https://www.ask2live.me/api/hole/read/"+holeId).then(
+    //         axios.get("https://143.248.226.51:8000/api/hole/read/"+holeId).then(
     //             (res) => {
     //                 if (res.data.response === "SUCCESS")
     //                 {
@@ -69,7 +69,7 @@ const SessionMatchContainer = (props) => {
     //     case RESERVE: // ���� ȣ��Ʈ�� ���İ���
     //         const holeId_reserve = urlSearchParams.get("holeId");
     //         console.log(holeId_reserve)
-    //         axios.get("https://www.ask2live.me/api/hole/read/"+holeId).then(
+    //         axios.get("https://143.248.226.51:8000/api/hole/read/"+holeId).then(
     //             (res) => {
     //                 if (res.data.response === "SUCCESS")
     //                 {
