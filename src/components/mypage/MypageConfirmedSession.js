@@ -105,6 +105,27 @@ const MypageConfirmedSession = ({ session }) => {
     display: "none",
   });
 
+  const onChangeDoing = async(session, user) => {
+    console.log("ChangeDoing")
+    console.log(session.id)
+    console.log(user)
+    const config = {
+      headers: { Authorization: "Token " + localStorage.token },
+    };
+    const data = {
+      
+      channel_num : String(session.id) + '123',
+      host_uid : user.id,
+      
+    }
+    const res = await axios.post(
+      "https://www.ask2live.me/api/hole/" + session.id + "/live/create",
+      data,
+      config,
+    );
+
+  }
+
   const onDelete = async () => {
     console.log("DELETE SESSION!");
     // await postSessionDelete(session);
@@ -188,6 +209,24 @@ const MypageConfirmedSession = ({ session }) => {
                 </Button>
               )} */}
               {user.id === parseInt(session.host) && (
+                <>
+                <Button
+                  size="large"
+                  color="primary"
+                  onClick={() => {
+                    <>
+                      {onChangeDoing(session, user)}
+                      {setTimeout(
+                        () => dispatch(getUserSessionInfo(localStorage.token)),
+                        200
+                      )}
+                    </>;
+                  }}
+                >
+                  <Typography variant="body1" style={{ fontWeight: 600 }}>
+                    라이브하기
+                  </Typography>
+                </Button>
                 <Button
                   size="large"
                   color="primary"
@@ -205,6 +244,9 @@ const MypageConfirmedSession = ({ session }) => {
                     삭제하기
                   </Typography>
                 </Button>
+                
+                
+                </>
               )}
             </CardActions>
           </CardContent>

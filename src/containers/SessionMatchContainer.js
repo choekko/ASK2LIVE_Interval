@@ -37,6 +37,7 @@ const SessionMatchContainer = (props) => {
             if (match) 
             {
                 const isHost = (currUser === match.host_nickname);
+                console.log(props.location.state)
                 return <LiveSessionContainer holeTitle={match.title} hostName={match.host_nickname} hostImage={match.host_profile_image} holeId={holeId} channelNum={channelNum} joinPass={props.location.state?.joinPass} isHost={isHost}/>
             }
             else return <p>SessionMatchContainer LOADING</p> 

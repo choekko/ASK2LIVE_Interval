@@ -32,10 +32,7 @@ const PlayerWrapper = ({
         .then((sendResult) => {
           if (sendResult.hasPeerReceived) {
             console.log("peer recieved " + peerMsg + " successfully");
-            // client.unpublish([localAudioTrack, localVideoTrack]);
-            // client.setClientRole("audience");
-            localAudioTrack.play();
-            // changeRole(client);
+
           } else {
             console.log("peer did not recieved " + peerMsg + " unlog");
           }

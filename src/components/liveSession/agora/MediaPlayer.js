@@ -19,7 +19,7 @@ export default function MediaPlayer(props) {
         audioTrack.stop();
       };
     }
-    else if(audioTrack) {
+    else if(audioTrack && client.remoteUsers.length != 0) {
       console.log("여기는 게스트");
 
       // audioTrack.setEnabled(true);
