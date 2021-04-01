@@ -64,7 +64,7 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
                       pathname: "/session/live",
                       search: "?holeId=" + session.id + "&channelNum=" + session.livehole_id,
                       state : {
-                          hostName : session.host_nickname,
+                          hostName : session.host_username,
                           hostImage : session.host_profile_image,
                       }
               })
@@ -74,7 +74,7 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
                         {session.title}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
-                        {session.host_nickname}
+                        {session.host_username}
                     </Typography>
                     <Typography variant="body2" component="p">
                         라이브 중인 다른 방입니다.
