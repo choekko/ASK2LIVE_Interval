@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 function CircularProgressWithLabel(props) {
   const history = useHistory();
+  console.log("CircularProgressWithLabel", props)
   return (
     <Button 
       style={circleStyle}
@@ -164,7 +165,10 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                         <CircularProgressWithLabel 
                           key={session.id} 
                           session = {session}
-                          value={(session.hole_reservations) ? Math.ceil(session.hole_reservations.guests.length / session.hole_reservations.target_demand * 100) : 0} 
+                          value={(session.hole_reservations) ? 
+                            Math.ceil(
+                              session.hole_reservations.guests.length / session.hole_reservations.target_demand <= 1 ?
+                              session.hole_reservations.guests.length / session.hole_reservations.target_demand * 100 : 100) : 0} 
                           current={(session.hole_reservations) ? session.hole_reservations.guests.length  : 0 }
                           dispatch = {dispatch}/>
                           <Grid container justify="center" alignItems="center">

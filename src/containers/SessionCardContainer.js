@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import {MyLiveSessionsCards, OtherLiveSessionsCards, CurrentReserveSessionsCards, HostConfirmedSessionsCards} from '../components/sessionCard' 
 import {SessioinCreateButton} from '../components/SessionCreateButton';
-import HostCards from '../components/HostCards';
 // material-ui
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
@@ -181,9 +180,9 @@ const SessionCardContainer = (props) => {
             <Divider variant="middle"/>
         </div>
 
-        <Grid style={{paddingLeft : "6em", paddingRight : "6em"}} container direction="row" justify="center" alignItems="center">
+        {/* <Grid style={{paddingLeft : "6em", paddingRight : "6em"}} container direction="row" justify="center" alignItems="center">
             { hosts.length != 0 ? <HostCards hosts={hosts}/> : <p>등록된 호스트가 없어요</p>}
-        </Grid>
+        </Grid> */}
 
         
         </>
