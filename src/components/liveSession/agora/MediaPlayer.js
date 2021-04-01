@@ -8,7 +8,6 @@ export default function MediaPlayer(props) {
   const authority = useSelector((state) => state.Authorize);
 
   useEffect(() => {
-    console.log("mediaPlayer useEffect !!!! ", authority);
 
     if (audioTrack && client.remoteUsers.length === 0) {
       console.log("여기는 호스트");
