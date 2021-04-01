@@ -11,22 +11,22 @@ export default (SpecialComponent, option, adminRoute=null) => {
         false인 페이지로 로그인한 유저가 접속할 수 있게 짜면 안되지만, 혹시나 접속했을 경우면 아래 코드 대로 로그인페지로 가게된다.
         따로 에러 페이지도 만들어야할듯??
   */
-
   const AuthenticateCheck = (props) => {
-    const isLoggedIn = useSelector(state => state.token);
+    const isLoggedIn = localStorage.getItem("token");
 
     useEffect(() => {
       if (!isLoggedIn && option) {
-        props.history.push('/login');
+        props.history.push({
+            pathname : "/login",
+            before : props.location.pathname + props.location.search  
+        });
       }
     }, []);
 
     return (
-      <SpecialComponent />
+      <SpecialComponent routerInfo={props}/>
     )
 
   };
-
   return AuthenticateCheck;
-
 };

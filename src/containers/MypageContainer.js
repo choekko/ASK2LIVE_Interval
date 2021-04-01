@@ -68,17 +68,6 @@ const style = {
   },
 };
 
-// const getSessionInfo = async () => {
-//   return await axios.get("https://www.ask2live.me/api/hole");
-// };
-
-// const getUserInfo = async () => {
-//   const config = {
-//     headers: { Authorization: "Token " + localStorage.token },
-//   };
-//   return await axios.get("https://www.ask2live.me/api/user/read", config);
-// };
-
 const MyPageContainer = (props) => {
   console.log("컴포넌트 실행!");
 
@@ -97,7 +86,6 @@ const MyPageContainer = (props) => {
     const token = localStorage.token
     console.log("useEffect");
     dispatch(getUserInfo(token));
-    console.log(token);
     dispatch(getUserSessionInfo(token));
     setRender(true);
   }, [render]);
@@ -157,9 +145,6 @@ const MyPageContainer = (props) => {
 
   return (
     <>
-      {console.log("렌더링 시작!!!")}
-      {console.log("렌더링 시작!!!")}
-      {console.log("렌더링 시작!!!")}
       <MypageNav text={"프로필"} />
       <Grid container direction="row" justify="center" alignItems="center">
         <Mypage user={user} />

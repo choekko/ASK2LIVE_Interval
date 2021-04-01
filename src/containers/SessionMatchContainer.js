@@ -12,15 +12,16 @@ const SessionMatchContainer = (props) => {
     const history = useHistory()
     const [match, setMatch] = useState()
 
-    const sessionKind = props.match.params.state;
-    let urlSearchParams = new URLSearchParams(props.location.search.slice(1));
+    console.log(props);
+    const sessionKind = props.routerInfo.match.params.state;
+    let urlSearchParams = new URLSearchParams(props.routerInfo.location.search.slice(1));
     console.log(props);
     console.log(sessionKind);
 
     const holeId = urlSearchParams.get("holeId");
 
     const tmp =  useSelector(state => state.user.data)
-    const currUser = tmp.detail? tmp.detail.nickname : "";
+    const currUser = tmp.detail? tmp.detail.username : "";
 
     useEffect(() => {
         axios.get("https://www.ask2live.me/api/hole/read/"+holeId).then(
@@ -37,8 +38,7 @@ const SessionMatchContainer = (props) => {
             if (match) 
             {
                 const isHost = (currUser === match.host_username);
-                console.log(props.location.state)
-                return <LiveSessionContainer holeTitle={match.title} hostName={match.host_username} hostImage={match.host_profile_image} holeId={holeId} channelNum={channelNum} joinPass={props.location.state?.joinPass} isHost={isHost}/>
+                return <LiveSessionContainer holeTitle={match.title} hostName={match.host_username} hostImage={match.host_profile_image} holeId={holeId} channelNum={channelNum} joinPass={props.routerInfo.location.state?.joinPass} isHost={isHost}/>
             }
             else return <p>SessionMatchContainer LOADING</p> 
 
@@ -51,7 +51,38 @@ const SessionMatchContainer = (props) => {
             return (
                 <p>SessionMatchContainer ERROR</p>     
             )
-    }
+        }
+    // switch (sessionKind) {
+    //     case LIVE:
+    //         const holeId = urlSearchParams.get("holeId");
+    //         const channelNum = urlSearchParams.get("channelNum");
+    //         axios.get("https://143.248.226.51:8000/api/hole/read/"+holeId).then(
+    //             (res) => {
+    //                 if (res.data.response === "SUCCESS")
+    //                 {
+    //                     const isHost = (currUser === res.data.detail.host_username);
+    //                     return <LiveSessionContainer hostName={res.data.detail.host_username} hostImage={res.data.detail.host_profile_image} holeId={holeId} channelNum={channelNum} joinPass={props.location.state?.joinPass} isHost={isHost}/>
+    //                 }
+    //                 else return <p>SessionMatchContainer GET ERROR</p> 
+    //             }
+    //         )
+    //     case RESERVE: // ���� ȣ��Ʈ�� ���İ���
+    //         const holeId_reserve = urlSearchParams.get("holeId");
+    //         console.log(holeId_reserve)
+    //         axios.get("https://143.248.226.51:8000/api/hole/read/"+holeId).then(
+    //             (res) => {
+    //                 if (res.data.response === "SUCCESS")
+    //                 {
+    //                     return <ReserveToLive hostName={res.data.detail.host_username} hostImage={res.data.detail.host_profile_image} holeId={holeId_reserve}/>
+    //                 }
+    //                 else return <p>SessionMatchContainer GET ERROR</p> 
+    //             }
+    //         )
+    //     default:
+    //         return (
+    //             <p>SessionMatchContainer ERROR</p>     
+    //         )
+    //     }
 }
 
 export default SessionMatchContainer

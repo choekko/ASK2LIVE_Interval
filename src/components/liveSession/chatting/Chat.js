@@ -96,7 +96,7 @@ const Chat = props => {
   const { room, windowHeight, onBack} = props;
   
 
-  const userid = useSelector(state => state.user.data.detail);
+  const user = useSelector(state => state.user.data.detail);
 
   useEffect(() => {
       roomSocket && roomSocket.close();
@@ -105,7 +105,7 @@ const Chat = props => {
     
     const onMessageSend = () => {
       if (roomSocket) {
-        roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: userid.nickname } }));
+        roomSocket.send(JSON.stringify({ command: 'new_message', data: { text: message, sender: user.username } }));
         setMessage('');
         setTimeout(scrollToBottom,300);
       }
