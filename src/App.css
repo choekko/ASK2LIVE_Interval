@@ -36,3 +36,35 @@
     transform: rotate(360deg);
   }
 }
+
+
+.Gmarket1 {
+    font-family: "gmarket1";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.Gmarket2 {
+    font-family: "gmarket2";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.Gmarket3 {
+    font-family: "gmarket3";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+    font-family: "gmarket3";         
+    src: url("./styles/fonts/GmarketSansTTFBold.ttf"); 
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "gmarket1";
+    src: url("./styles/fonts/GmarketSansTTFLight.ttf"); 
+}
+@font-face {
+    font-family: "gmarket2";
+    src: url("./styles/fonts/GmarketSansTTFMedium.ttf"); 
+}

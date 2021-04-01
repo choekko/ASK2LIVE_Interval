@@ -12,8 +12,9 @@ import { useSelector } from "react-redux";
 const useStyles = makeStyles({
   root: {
     minWidth: 270,
-    borderRadius: "20px",
-    boxShadow: "1px 1px 8px 0px rgb(0, 0, 0, 0.3)",
+    borderRadius: "5px",
+    borderBottom : "0.4px solid #3B568C",
+    boxShadow: "0px 0px 2px 0px rgb(0, 0, 0, 0.3)",
   },
   bullet: {
     display: 'inline-block',
@@ -47,9 +48,6 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
   
     return (
       <>
-      <div className={classes.title}>
-        <h2>진행 중인 라이브 Q&A</h2>
-        </div>
         {otherLiveSessions.map((session) => 
         <>
         <div className={classes.padding}>
@@ -66,7 +64,7 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
                       pathname: "/session/live",
                       search: "?holeId=" + session.id + "&channelNum=" + session.livehole_id,
                       state : {
-                          hostName : session.host_nickname,
+                          hostName : session.host_username,
                           hostImage : session.host_profile_image,
                       }
               })
@@ -76,7 +74,7 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
                         {session.title}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
-                        {session.host_nickname}
+                        {session.host_username}
                     </Typography>
                     <Typography variant="body2" component="p">
                         라이브 중인 다른 방입니다.

@@ -153,9 +153,6 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
     return (
         <>
         {console.log("렌더링 시작")}
-        <div className={classes.title}>
-        <h2>오픈 신청 중인 라이브 Q&A</h2>
-        </div>
         <div className={classes.root}  >
             {currentReserveSessions.map((session) => (
                 <>
@@ -181,9 +178,8 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                                 {session.title}
                             </Typography>
                             <Typography variant='caption' component="div" color="textSecondary">
-                            {session.host_username.length > 5? session.host_username.substring(0,5)+'...' : session.host_username} 
-                            | 
-                            {session.host_work_field.length > 5? session.host_work_field.substring(0,5)+'...' : session.host_work_field}
+                            {session.host_username?.length > 5? session.host_username.substring(0,5)+'...' : session.host_username}  
+                            {session.host_work_field?.length > 5? '|' + session.host_work_field.substring(0,5) + '...' : session.host_work_field}
                             </Typography>
                             <Typography variant='caption' component="div" color="textSecondary">
                             찜 {session.hole_reservations.guests.length}/{session.hole_reservations.target_demand}

@@ -9,6 +9,7 @@ import LoginButton from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import "../../styles/style.css";
+import {getUserInfo} from "../../actions/UserActions";
 
 
 function Alert(props) {
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const LoginPage = () => { 
+const LoginPage = (props) => { 
     const history = useHistory();
     if (localStorage.token) {
       history.push('/main')
@@ -47,6 +48,10 @@ const LoginPage = () => {
     const [loginPassword, setLoginPassword] = useState("");
     const [open, setOpen] = useState(false);
   
+    const handleClick = () => {       
+        setOpen(true);
+    };
+    
     const handleClose = (event, reason) => {
       if (reason === 'clickaway') {
         return;
@@ -65,9 +70,18 @@ const LoginPage = () => {
 
       const res = await axios.post('https://143.248.226.51:8000/api/user/login', dataToSubmit)
       console.log('1 res : ', res)
-      window.localStorage.setItem('token', res.data.detail.token)
-      // history.push('/main')
-      window.location.replace('/main') // 수정 필요
+      if (res.data.response === "LOGIN SUCCESS" || res.data.response === "REGISTER SUCCESS")
+      {
+        window.localStorage.setItem('token', res.data.detail.token)
+        dispatch(getUserInfo(res.data.detail.token));
+        console.log(props);
+        if (props.location.before)
+            history.push(props.location.before)
+        else
+            history.push('/main')
+      }
+      else
+        handleClick();
     }
 
     return (

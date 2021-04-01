@@ -12,8 +12,9 @@ const SessionMatchContainer = (props) => {
     const history = useHistory()
     const [match, setMatch] = useState()
 
-    const sessionKind = props.match.params.state;
-    let urlSearchParams = new URLSearchParams(props.location.search.slice(1));
+    console.log(props);
+    const sessionKind = props.routerInfo.match.params.state;
+    let urlSearchParams = new URLSearchParams(props.routerInfo.location.search.slice(1));
     console.log(props);
     console.log(sessionKind);
 
@@ -37,8 +38,7 @@ const SessionMatchContainer = (props) => {
             if (match) 
             {
                 const isHost = (currUser === match.host_username);
-                console.log(props.location.state)
-                return <LiveSessionContainer holeTitle={match.title} hostName={match.host_username} hostImage={match.host_profile_image} holeId={holeId} channelNum={channelNum} joinPass={props.location.state?.joinPass} isHost={isHost}/>
+                return <LiveSessionContainer holeTitle={match.title} hostName={match.host_username} hostImage={match.host_profile_image} holeId={holeId} channelNum={channelNum} joinPass={props.routerInfo.location.state?.joinPass} isHost={isHost}/>
             }
             else return <p>SessionMatchContainer LOADING</p> 
 

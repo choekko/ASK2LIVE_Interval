@@ -46,9 +46,6 @@ const HostConfirmedSessionsCards = ({hostConfirmedSessions}) => {
   
     return (
       <>
-        <div className={classes.title}>
-        <h2>진행 예정인 라이브 Q&A</h2>
-        </div>
         {hostConfirmedSessions.map((session) => 
         <>
         <div className={classes.padding}>
@@ -68,7 +65,7 @@ const HostConfirmedSessionsCards = ({hostConfirmedSessions}) => {
                         {session.title}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
-                        {session.host_nickname}
+                        {session.host_username}
                     </Typography>
                     <Typography variant="body2" component="p">
                         라이브 예정인 방입니다.

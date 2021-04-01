@@ -30,7 +30,6 @@ export default function MediaPlayer(props) {
       };
     }
   }, [audioTrack]);
-
   return (
     <div className="video-player">
       {/* {JSON.stringify(videoTrack.play)} */}

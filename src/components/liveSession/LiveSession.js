@@ -260,7 +260,7 @@ const LiveSession = (props) => {
         return () => {
             console.log("호스트여부: ", props.isHost)
             if (props.isHost) {
-                rtmChannel.sendMessage({ text: "leave host" }).then(() => {
+                rtmChannel.sendMessage({ text: "hostOut" }).then(() => {
                 // Your code for handling the event when the channel message is successfully sent.
                     console.log('host is leaving')
                 }).catch(error => {
