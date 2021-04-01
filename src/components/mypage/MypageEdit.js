@@ -5,12 +5,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
-import IconButton from "@material-ui/core/IconButton";
-import AddIcon from "@material-ui/icons/Add";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
-import RemoveIcon from "@material-ui/icons/Remove";
-import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { SettingsInputAntenna } from "@material-ui/icons";
@@ -194,7 +188,9 @@ const MypageEdit = (props) => {
             name="bio"
           />
           <br></br>
-          <div style={style.text}>SNS</div>
+
+          {/* SNS 필드 삭제 */}
+          {/* <div style={style.text}>SNS</div>
           <TextField
             style={style.field}
             id="outlined-multiline-static"
@@ -205,7 +201,7 @@ const MypageEdit = (props) => {
             InputLabelProps={{
               shrink: true,
             }}
-          />
+          /> */}
 
           <Grid container justify="center">
             <Button

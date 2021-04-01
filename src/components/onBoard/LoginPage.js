@@ -38,15 +38,14 @@ const useStyles = makeStyles((theme) => ({
 
 
 const LoginPage = () => { 
+    const history = useHistory();
+    if (localStorage.token) {
+      history.push('/main')
+    }
+
     const [loginId, setLoginId] = useState("");
     const [loginPassword, setLoginPassword] = useState("");
-    
-    const classes = useStyles();
     const [open, setOpen] = useState(false);
-  
-    const handleClick = () => {
-      setOpen(true);
-    };
   
     const handleClose = (event, reason) => {
       if (reason === 'clickaway') {
@@ -56,7 +55,6 @@ const LoginPage = () => {
     };
     
     const dispatch = useDispatch();
-    const history = useHistory();
 
     const Login = async({loginId, loginPassword}) => {
 
@@ -65,11 +63,11 @@ const LoginPage = () => {
         password : loginPassword
       }
 
-      const res = await axios.post('https://www.ask2live.me/api/user/login', dataToSubmit)
+      const res = await axios.post('https://143.248.226.51:8000/api/user/login', dataToSubmit)
       console.log('1 res : ', res)
       window.localStorage.setItem('token', res.data.token)
-      // history.push('/')
-      window.location.replace('/') // 수정 필요
+      history.push('/main')
+      // window.location.replace('/') // 수정 필요
     }
 
     return (

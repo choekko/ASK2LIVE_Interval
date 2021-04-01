@@ -44,7 +44,7 @@ const ProfileGate = (props) => {
     const goToDetail = () => {
         console.log('onClick');
         history.push({
-            pathname: '/mypage/' + props.user.detail.nickname,
+            pathname: '/mypage/' + props.user.detail.username,
             state: props.user.detail});
     }
 
@@ -68,7 +68,7 @@ const ProfileGate = (props) => {
                 ></Avatar>
               }
               // titleTypographyProps={{variant:'h1' }}
-              title={<Typography variant="h6">{props.user.detail.nickname}</Typography>}
+              title={<Typography variant="body1" style={{ fontWeight: 800 }}>{props.user.detail.username}</Typography>}
               // subheader="September 14, 2016"
             />
             {/* </CardActions> */}
