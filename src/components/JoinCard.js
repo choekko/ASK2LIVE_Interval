@@ -76,10 +76,10 @@ const JoinCard = (props) => {
             {mike? <p>마이크 설정 완료</p> : <><p>마이크를 허용해주세요.</p> <button onClick={getMike}>허용</button></>}
           </p>    
             :
-          <h4 className="NanumGothic3">
+          <p className="NanumGothic3">
             {props.hostName}님의 방에 입장합니다
             {mike? <p>마이크 설정 완료</p> : <><p>마이크를 허용해주세요.</p> <button onClick={getMike}>허용</button></>}
-          </h4>
+          </p>
             }
         </CardContent>
         <div>
@@ -105,9 +105,11 @@ const JoinCard = (props) => {
                 <></>
             :   
                 mike?
-                <IconButton onClick={()=>props.setJoin(1)} aria-label="play/pause">
-                    <PlayArrowIcon className={classes.playIcon} />
-                </IconButton>
+                <button 
+                style={{margin:"0 0 1em 1em"}}
+                onClick={()=>props.setJoin(1)} aria-label="play/pause">
+                    입장
+                </button>
                 :
                 <></>
             }
