@@ -99,11 +99,11 @@ const ProfileDetail = (props) => {
   const classes = useStyles();
 
   const user = useSelector((state) => state.user.data.detail);
-  console.log(props)
+  console.log("props", props)
 
   let profile = {}
-  if (props.location.state.host){
-    const host = props.location.state.host;
+  if (props.routerInfo.location.state.host){
+    const host = props.routerInfo.location.state.host;
     console.log("host : ", host)
     if (!host.work_company.length) host.work_company = "회사 이름";
     if (!host.work_field.length) host.work_field = "분야";
