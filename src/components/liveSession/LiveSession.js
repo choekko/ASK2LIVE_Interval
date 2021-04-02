@@ -30,6 +30,8 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseListButton from '@material-ui/icons/ExpandMore';
 import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid';
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 import "../../styles/style.css"
 
 
@@ -40,7 +42,6 @@ import { CenterFocusStrong, FilterNone, NoEncryption } from '@material-ui/icons'
 import AgoraRTC from "agora-rtc-sdk-ng";
 import AgoraRTM from "agora-rtm-sdk";
 import useAgora from "./agora/useAgora";
-import PlayerWrapper from "./agora/PlayerWrapper";
 //^ =============================================================
 
 const StyledBadge = withStyles((theme) => ({
@@ -147,9 +148,16 @@ const style = {
     listbutton : {
         position: "absolute",
         top: "-0.5em",
+    },
+
+    alert : {
+        boxShadow: "2px 2px 2px 2px #D95032",    // 섀도우 색
+        border: "solid 1px white",    // 테두리 색
+        backgroundColor:"black"      // 배경색
     }
    
 }
+
 
 //^ =============================================================
 const appid = "2e5346b36d1f40b1bbc62472116d96de";
@@ -220,6 +228,7 @@ const LiveSession = (props) => {
     const [dark, setDark] = useState({display:"none"})
 
     const [room, setRoom] = useState({});
+    const [open, setOpen] = useState(false);
     // const history = useHistory()
     
     let partiNum = "로딩중";
@@ -231,7 +240,22 @@ const LiveSession = (props) => {
          holeInfo.data.detail.participant.length + "명"
         : "로딩중"
 
+    // const [hostExit, setHostExit] = useState(false);
+    // 여는 함수, onClick에 해당 함수 넣으면 클릭시 등장
+    const handleClick = () => {
+        // setHostExit(true);       
+        setOpen(true);
+    };
 
+
+    // 닫는 함수. 이미 아래에 자동적으로 사용되고 있음.
+    const handleClose = (event, reason) => { 
+        history.push('/main');
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
     //^ =============================================================
     let rtmChannel;
     const [channel, setChannel] = useState();
@@ -244,7 +268,9 @@ const LiveSession = (props) => {
         remoteUsers,
         authority,
     } = useAgora(client);
-
+    
+    
+    
     useEffect(() => {
         const liveInter = setInterval(()=>{
             dispatch(getEnteredSession(props.channelNum))
@@ -252,45 +278,56 @@ const LiveSession = (props) => {
         }, 5000);
         rtmChannel = rtmClient.createChannel(props.channelNum);
         join(props.channelNum, null, rtmClient, rtmChannel, props.isHost);
+        rtmChannel.on('ChannelMessage', (message, memberId) => {
+            // Your code.
+            console.log(`Message ${message}, from ${memberId}`);
+            // setHostExit(1);
+            rtmClient.logout();
+            leave();
+            leavePatchApi();
+            clearInterval(liveInter);
+            handleClick();
+        });
         if (props.isHost)
-            setTimeout(()=>{hostPostApi(client.uid)}, 2000);
+            setTimeout(()=>{hostPostApi(client.uid)}, 3000);
         else
-            setTimeout(()=>{audiencePutApi(client.uid)}, 2000);
-        const unblock = history.block('정말 떠나시겠습니까?');
-        return () => {
+            setTimeout(()=>{audiencePutApi(client.uid)}, 3000);
+        
+        
+        if (props.isHost) return () => {
+            const unblock = history.block('정말 떠나시겠습니까?');
             console.log("호스트여부: ", props.isHost)
-            if (props.isHost) {
-                rtmChannel.sendMessage({ text: "hostOut" }).then(() => {
+            rtmChannel.sendMessage({ text: "hostOut" }).then(() => {
                 // Your code for handling the event when the channel message is successfully sent.
                     console.log('host is leaving')
                 }).catch(error => {
                 // Your code for handling the event when the channel message fails to be sent.
                     console.log('host leaving error')
                 });
-            }
+            
             rtmClient.logout();
             leave();
             leavePatchApi();
             clearInterval(liveInter)
             unblock();
+            
+            history.replace('/main');
+            // window.location.reload('/main');
+            
+        }
+        
+        
+        return () => {
+            console.log("호스트여부: ", props.isHost)
+            rtmClient.logout();
+            leave();
+            // leavePatchApi();
+            clearInterval(liveInter)
+            
             // history.replace('/main');
             // window.location.reload('/main');
         }
     }, [history])
-
-    const onClick = (choice) => () => {
-        if (choice === "join") {
-          console.log("join");
-          console.log(props.channelNum);
-          rtmChannel = rtmClient.createChannel(props.channelNum);
-          
-          join(props.channelNum, null, rtmClient, rtmChannel);
-        } else if (choice === "leave") {
-          console.log("leave");
-          rtmClient.logout();
-          leave();
-        }
-    };
 
     // ^ =============================================================
 
@@ -383,22 +420,12 @@ const LiveSession = (props) => {
 
         <div style={dark} className="layerfordark"></div>
 
-        
-        {/* <div className="agora"> */}
-                
-
-        <div className="host-player">
-            {client.uid}
-            <PlayerWrapper
-                client={client}
-                rtmClient={rtmClient}
-                host={authority}
-                localAudioTrack={localAudioTrack}
-                remoteUsers={remoteUsers}
-                channelNum={props.channelNum}
-            />
         </div>
-        </div>
+        <Snackbar style={{position: "fixed", bottom:"50%"}} open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} style={style.alert} severity="success">
+            <span style={{color:"white"}}>호스트 {props.hostName}가<br/>세션을 종료하였습니다</span>
+        </Alert>
+        </Snackbar>
         </>
     )
 

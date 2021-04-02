@@ -99,7 +99,7 @@ const ProfileDetail = (props) => {
   const classes = useStyles();
 
   const user = useSelector((state) => state.user.data.detail);
-  console.log(props)
+  console.log("props", props)
 
   let profile = {}
   if (props.routerInfo.location.state.host){
