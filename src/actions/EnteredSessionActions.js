@@ -12,9 +12,9 @@ function getApi(channelNum){
 
 const getEnteredSession = channelNum => dispatch => {
     console.log('-----getEnteredSession-----')
-    dispatch({type: ENTEREDSESSION_GET_PENDING}); // ��û�� ���۵Ǿ��ٴ� ���� �˸�
+    dispatch({type: ENTEREDSESSION_GET_PENDING}); 
 
-    // ��û ����
+
     return getApi(channelNum).then(
         (response) => {
             console.log(response);
