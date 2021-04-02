@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router"
 import React, {useMemo} from 'react';
+import Moment from "react-moment";
 
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -124,7 +125,14 @@ const HostConfirmedSessionsCards = ({hostConfirmedSessions}) => {
                         {session.title}
                     </p>
                     <Typography className={classes.title} color="textSecondary" gutterBottom>
-                        시작 시간 : {Date(session.reserve_date).substring(0, 21)}
+                        시작 시간 : {
+                            <>
+                            <Typography variant="body2">
+                            <Moment format="MM.DD hh시 mm분">
+                            {session.reserve_date}
+                            </Moment>
+                            </Typography>
+                            </>}
                     </Typography>
                     <Typography className={classes.bullet} color="textSecondary">
                         {session.host_username} <br />

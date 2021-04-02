@@ -1,5 +1,6 @@
 import { useHistory } from 'react-router';
 import React from 'react';
+import Moment from "react-moment";
 
 import CardContent from '@material-ui/core/CardContent';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -119,7 +120,14 @@ const MyLiveSessionsCard = ({session}) => {
                 </IconButton>
             }
             title={session.title}
-            subheader={Date(session.reserve_date).substring(0,21)}
+            subheader={
+                <>
+                <Typography variant="body2">
+                <Moment format="MM.DD hh시 mm분">
+                {session.reserve_date}
+                </Moment>
+                </Typography>
+                </>}
             />
             <CardContent className={classes.cardContent}>
                 <div className="centered">

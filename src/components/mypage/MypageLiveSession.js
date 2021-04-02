@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { useHistory } from "react-router";
+import Moment from "react-moment";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -142,7 +143,15 @@ const MypageLiveSession = (props) => {
           <CardHeader
             style={{ padding: "10px 8px 0 8px" }}
             title={<Typography variant="body1">{session.title}</Typography>}
-            subheader={<Typography variant="body2">{Date(session.reserve_date).substring(0, 21)}</Typography>}
+            subheader={
+                <>
+                <Typography variant="body2">
+                <Moment format="MM.DD hh시 mm분">
+                {session.reserve_date}
+                </Moment>
+                </Typography>
+                </>
+                }
             action={
               user.id === parseInt(session.host) &&
               session.status != "DONE" && (
