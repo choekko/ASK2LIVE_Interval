@@ -14,6 +14,8 @@ import { red } from "@material-ui/core/colors";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import EditIcon from "@material-ui/icons/Edit";
 import Grid from "@material-ui/core/Grid";
+import Moment from "react-moment";
+
 
 import "../../styles/style.css";
 import { SessionConfirm } from "./SessionConfirm";
@@ -165,7 +167,14 @@ const MypageConfirmedSession = ({ session }) => {
           <CardHeader
             style={{ padding: "10px 8px 0 8px" }}
             title={<Typography variant="body1">{session.title}</Typography>}
-            subheader={<Typography variant="body2">{Date(session.reserve_date).substring(0, 21)}</Typography>}
+            subheader={
+                <>
+                <Typography variant="body2">
+                <Moment format="MM.DD hh시 mm분">
+                {session.reserve_date}
+                </Moment>
+                </Typography>
+                </>}
             action={
               user.id === parseInt(session.host) &&
               session.status != "DONE" && (

@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import { List, PageHeader, Spin } from 'antd';
 import { connect } from 'react-redux';
-import InfiniteScroll from 'react-infinite-scroller';
 import Message from './Message';
 import MessageInput from './MessageInput';
 import EmptyScreen from './EmptyScreen';

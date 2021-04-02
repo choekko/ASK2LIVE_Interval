@@ -1,6 +1,9 @@
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router"
-import React from 'react';
+
+import React, {useMemo} from 'react';
+import Moment from "react-moment";
+
 
 import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
@@ -53,14 +56,20 @@ const HostConfirmedSessionsCards = ({hostConfirmedSessions}) => {
                     <p style={style.descript2} className="NanumGothic3" variant="h" component="h2">
                         {session.title}
                     </p>
-                    <p style={{paddingLeft:"10%"}}>
-                    <p className="NanumGothic2" color="textSecondary" gutterBottom>
-                        {reserve_date.getMonth()+1}월 {reserve_date.getDate()}일 {reserve_date.getHours()}시 {reserve_date.getMinutes()}분에 <br />라이브가  시작됩니다!
-                    </p>
-                    <p className="NanumGothic2" color="textSecondary">
-                        {session.host_username}<br />
-                    </p>
-                    </p>
+                    <Typography className={classes.title} color="textSecondary" gutterBottom>
+                        시작 시간 : {
+                            <>
+                            <Typography variant="body2">
+                            <Moment format="MM.DD hh시 mm분">
+                            {session.reserve_date}
+                            </Moment>
+                            </Typography>
+                            </>}
+                    </Typography>
+                    <Typography className={classes.bullet} color="textSecondary">
+                        {session.host_username} <br />
+                    </Typography>
+
                 </div>
                 </CardContent>
             </Card>
