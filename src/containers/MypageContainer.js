@@ -123,7 +123,7 @@ const MyPageContainer = (props) => {
   const [open, setOpen] = useState(true);
   const [openDone, setOpenDone] = useState(true);
   const [openWish, setOpenWish] = useState(true);
-  const [openConfirm, setOpenConfirm] = useState(true);
+  const [openConfirm, setOpenConfirm] = useState(false);
 
   const handleConfirmClick = () => {
     setOpenConfirm(!openConfirm);

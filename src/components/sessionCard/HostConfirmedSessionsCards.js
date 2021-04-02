@@ -5,6 +5,7 @@ import React from 'react';
 import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
 
+import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import "../../App.css"
 import "../../styles/style.css"
@@ -63,6 +64,7 @@ const HostConfirmedSessionsCards = ({hostConfirmedSessions}) => {
                 </div>
                 </CardContent>
             </Card>
+            
         </div>
         <br/>
         </>
