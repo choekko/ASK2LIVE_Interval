@@ -1,5 +1,4 @@
 import axios from "axios";
-import { getSessionInfo, getUserSessionInfo } from '../actions/SessionActions'
 
 export const postSessionDelete = async(session) => {
   console.log("-----postSessionDelete start-----");
@@ -12,7 +11,5 @@ export const postSessionDelete = async(session) => {
     "https://www.ask2live.me/api/hole/delete/" + session.id,
     config,
   );
-
   console.log("hole deleted: ", res);
-
 };

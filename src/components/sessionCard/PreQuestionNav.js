@@ -109,11 +109,12 @@ const MyQuestionSend = ({session}) => {
 
 const QuestionCard = ({question}) => {
     const classes = useStyles();
+    console.log(question)
     return(
         <>
         <Card key={question.id} className={classes.card}>
         <CardHeader
-            subheader={question.user_nickname}/>
+            subheader={question.user_username}/>
         <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
             {question.question}

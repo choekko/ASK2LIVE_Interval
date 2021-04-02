@@ -1,5 +1,3 @@
-
-
 export const WS_ENDPOINT = () => {
   const location = window.location;
 
@@ -9,7 +7,7 @@ export const WS_ENDPOINT = () => {
     protocol = 'wss://';
   }
 
-  const endpoint = protocol + 'https://www.ask2live.me:8443/ws';
+  const endpoint = protocol + 'www.ask2live.me:8001/ws';
 
   return endpoint;
 }
