@@ -58,6 +58,13 @@ const useStyles = makeStyles((theme) => ({
 function CircularProgressWithLabel(props) {
   const history = useHistory();
   console.log("CircularProgressWithLabel", props)
+  console.log(new Date())
+  console.log(Date(props.session.finish_date))
+  const now = new Date()
+
+  let now_month = now.getMonth(); console.log(now_month)
+  // let finish_month = Date(props.session.finish_date).getMonth(); console.log(finish_month)
+
   return (
     <Button 
       style={circleStyle}
