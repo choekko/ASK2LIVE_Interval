@@ -82,6 +82,13 @@ const style = {
         top: "88%",
         right: "4%",
         cursor: "pointer",
+    },
+    logo : {
+        height: "2.3em",
+        width : "2.3em", 
+        backgroundImage:"url('/static/logo.png')",
+        backgroundPosition: "center",
+        backgroundSize: "contain",
     }
 }
 
@@ -165,12 +172,11 @@ const LoginPage = (props) => {
                     <div style={style.loginCard}>
                         <Grid container justify="center">
                              <p style={{margin : "10px 0 10px 0" , fontSize: "1.8em"}} className="Gmarket3">ASK</p>
-                             <div style={{display:"flex", paddingBottom: "4px", alignItems: "center"}}>
+                             {/* <div style={{display:"flex", paddingBottom: "4px", alignItems: "center"}}>
                                  <ContactSupportIcon style={{fontSize:40}}/>
-                            </div>
-                            {/* <div style={{height: "30px",width : "30px"}}>
-                                <image src="/static/2.png"/>
                             </div> */}
+                            <div style={style.logo}>
+                            </div>
 
                             <p style={{margin : "10px 0 10px 0" , fontSize: "1.8em"}} className="Gmarket3">LIVE</p>
                         </Grid>

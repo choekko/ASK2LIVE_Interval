@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 
 const useStyles = makeStyles({
   root: {
-    minWidth: 270,
+    minWidth: "17em",
     borderRadius: "5px",
     borderBottom : "0.4px solid #3B568C",
     boxShadow: "0px 0px 2px 0px rgb(0, 0, 0, 0.3)",
@@ -38,8 +38,36 @@ const useStyles = makeStyles({
   },
   padding : {
     padding: "2%",
-  }
+  },
+
 });
+
+const style = {
+    imageWrapper : {
+        display : "inline-block",
+        position : "relative",
+        width : "5em",
+        height : "10em",
+        backgroundColor : "skyblue",
+    },
+    content : {
+        display : "inline-block",
+        position : "relative",
+        width : "10em",
+        height : "10em",
+        backgroundColor : "black",
+    },
+    buttonWrapper : {
+        width : "5em",
+        height : "5em",
+        backgroundColor : "pink",
+    },
+    profileimage : {
+        width : "5em",
+        height : "5em",
+        backgroundColor : "red",
+    }
+}
 
 const OtherLiveSessionsCards = ({otherLiveSessions}) => {
     const user = useSelector(state => state.user)
@@ -47,6 +75,14 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
     const bull = <span className={classes.bullet}>?</span>;
     const history = useHistory();
   
+    let now = new Date();
+
+    const toDate = (reserve_date) => {
+        let date = new Date(reserve_date);
+        return date;
+    } 
+
+
     return (
       <>
         {otherLiveSessions.map((session) => 
@@ -54,12 +90,18 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
         <div className={classes.padding}>
             <Card key={session.livehole_id} className={classes.root}>
                 <CardContent>
+                <div style={style.imageWrapper}>
+                <div style={style.profileimage}/>
+                <div style={style.buttonWrapper}/>
+                </div>
+                <div style={style.content}/>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    시작 시간 : {
+                        {
                         <>
                         <Typography variant="body2">
-                        <Moment format="MM.DD hh시 mm분">
-                        {session.reserve_date}
+                        {console.log(toDate(session.reserve_date))}
+                        <Moment format="h시간 mm분 전 시작">
+                        {toDate(session.reserve_date) - now}
                         </Moment>
                         </Typography>
                         </>}
