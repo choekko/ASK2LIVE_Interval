@@ -9,9 +9,12 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Icon from '@material-ui/core/Icon';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import InfoIcon from '@material-ui/icons/Info';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import {useHistory} from "react-router-dom"
+
+import { Modal } from 'antd';
 
 import "../styles/style.css"
 import "../App.css"
@@ -88,24 +91,41 @@ const SessionCardContainer = (props) => {
     const history = useHistory();
     const allUsersData = useSelector(state => state.allUsers);
     const mySession = useSelector(state => state.mySession.data);
-    // console.log('allUsers.data.data.detail', allUsersData.data.data.detail);
+
+    function info() {
+        Modal.info({
+            title:'',
+            content: (
+            <div className="NanumGothic3">
+                <br />
+                <p>호스트가 정해둔 찜 개수에 도달하면 라이브가 열려요</p>
+              <p>호스트에게 라이브를 기다리고 있다는 사실을 알려주세요!</p>
+            </div>
+          ),
+          onOk() {},
+        });
+      }
     
+    if(user.error){
+        localStorage.clear()
+        window.location.replace('/')
+    }
 
     if(Object.keys(sessions).length != 0){
         let userDetail;
         if(user.data.detail){
             userDetail = user.data.detail
         }else{
-            userDetail = {id:-1} // 반찬고 >_<
+            userDetail = {id:-1}
         }
         myLiveSessions = []
         otherLiveSessions = []
         currentReserveSessions = []
         hostConfirmedSessions = []
         hosts = []
-
+        console.log(sessions)
         sessions.map((session) => {
-            console.log(session)
+            
             if (session.status == "DOING" && session.hole_reservations && (session.hole_reservations).guests.indexOf(userDetail.id) != -1) {
                 myLiveSessions = [...myLiveSessions, session];
                 console.log("myLiveSEssion:",myLiveSessions)
@@ -120,15 +140,6 @@ const SessionCardContainer = (props) => {
             }else{
                 currentReserveSessions = [...currentReserveSessions, session];
                 console.log("currentReserveSessions",currentReserveSessions)
-            }
-        })
-    }
-
-    if(Object.keys(allUsersData.data).length != 0){
-        const allUsers = allUsersData.data.data.detail;
-        allUsers.map((candidate) => {
-            if(candidate.hole_open_auth === true){
-                hosts = [...hosts, candidate]
             }
         })
     }
@@ -194,7 +205,7 @@ const SessionCardContainer = (props) => {
             <Divider variant="middle"/>
         </div>
 
-        <p style={style.descript2} className="Gmarket2">오픈 신청중인 LIVE Q&A</p>
+        <p style={style.descript2} className="Gmarket2">오픈 신청중인 LIVE Q&A <span style={{position: "relative",top: "5px"}}><InfoIcon onClick={info}/></span></p>
         <Grid style={{paddingLeft : "6em", paddingRight : "6em"}} container direction="row" justify="center" alignItems="center">
             { currentReserveSessions.length != 0 ? <CurrentReserveSessionsCards currentReserveSessions={currentReserveSessions} setFlag={setFlag}/> : <p>요청 받고있는 다른 세션이 없어요</p>}
         </Grid>

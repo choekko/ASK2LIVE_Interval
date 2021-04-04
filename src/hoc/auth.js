@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
+import {getUserInfo} from '../actions/UserActions';
 
 export default (SpecialComponent, option, adminRoute=null) => {
 
@@ -12,10 +13,15 @@ export default (SpecialComponent, option, adminRoute=null) => {
         따로 에러 페이지도 만들어야할듯??
   */
   const AuthenticateCheck = (props) => {
+    useDispatch(getUserInfo())
+    const user = useSelector(state => state.user)
     const isLoggedIn = localStorage.getItem("token");
+    const arrived = user.arrived
+    console.log(isLoggedIn, arrived, option)
+
 
     useEffect(() => {
-      if (!isLoggedIn && option) {
+      if (!isLoggedIn && !arrived && option) {
         props.history.push({
             pathname : "/login",
             before : props.location.pathname + props.location.search  

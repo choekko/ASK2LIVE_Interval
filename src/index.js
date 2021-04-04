@@ -10,6 +10,13 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux';
 import rootReducer from './reducers';
 import ReduxThunk from 'redux-thunk';
+import axios from 'axios';
+
+
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.xsrfHeaderName = "X-CSRFToken";
+// axios.defaults.headers.common['X-CSRFToken'] = getCookie("csrftoken");
+
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 

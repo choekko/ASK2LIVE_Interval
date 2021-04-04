@@ -7,6 +7,7 @@ import Moment from "react-moment";
 
 import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
+import Typography from "@material-ui/core/Typography";
 
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -69,7 +70,9 @@ const HostConfirmedSessionsCards = ({hostConfirmedSessions}) => {
                     <Typography className={classes.bullet} color="textSecondary">
                         {session.host_username} <br />
                     </Typography>
-
+                    <Typography variant="body2" component="p">
+                        아직 호스트가 라이브를 시작하지 않았습니다.
+                    </Typography>
                 </div>
                 </CardContent>
             </Card>
