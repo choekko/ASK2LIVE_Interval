@@ -29,17 +29,22 @@ const useStyles = makeStyles((theme) => ({
         borderRadius : "15px",
       },
     },
+    myPaper : {
+        border : "2px solid white",
+        boxShadow: "0px 0px 4px 2px black"
+    }
   }));
 
 const style = {
     card : {
         borderRadius : "15px 15px 0 0",
-        backgroundColor: "#7A6890",
+        backgroundColor: "#D95032",
         height: "1.5rem",
         // height: "20px",
         padding: "0.3rem",
         // padding: "3px",
     },
+
 }
 
 export default function SimplePaper(props) {
@@ -47,16 +52,11 @@ const classes = useStyles();
 
 return (
     <div className={classes.root}>
-    <Paper elevation={2} >
+    <Paper className={props.myQuestion? classes.myPaper : null} style={props.isVoice? {backgroundColor:"#D95032"} : null} elevation={2} >
         <div style={style.card}>
-            {props.userName}
-            <FormControlLabel style={style.lavel}
-            control={<Checkbox icon={<FavoriteBorder style={style.checkIcon}/>} checkedIcon={<Favorite style={style.checkIcon}/>} name="checkedH" />}
-            />
-            <br/>
-            {props.value}
-            {props.nextmove && props.isHost? <button onClick={props.nextmove}>다음 질문</button> : null}
+            <p style={{marginTop:"4px", padding :"0"}}className="BMDOHYEON">{props.userName}</p>
         </div>
+            <p style={{margin:"4px 0 0 4px", padding :"0"}}className="NanumGothic2">{props.value}</p>
     </Paper>
     </div>
 );

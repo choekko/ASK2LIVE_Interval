@@ -17,6 +17,7 @@ import Chat from "./chatting/Chat";
 import Question from "./Question";
 import Avatar from "../Avatar";
 import "../../index.css"
+import PlayerWrapper from "./agora/PlayerWrapper";
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
@@ -32,6 +33,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
+import MicIcon from '@material-ui/icons/Mic';
+
 import "../../styles/style.css"
 
 
@@ -164,6 +167,7 @@ const appid = "2e5346b36d1f40b1bbc62472116d96de";
 const client = AgoraRTC.createClient({ codec: "vp8", mode: "rtc" });
 const rtmClient = AgoraRTM.createInstance(appid);
 
+
 //^ =============================================================
 
 const LiveSession = (props) => {
@@ -229,6 +233,19 @@ const LiveSession = (props) => {
 
     const [room, setRoom] = useState({});
     const [open, setOpen] = useState(false);
+
+    const [questionAlert, setOuestionAlert] = useState(false);
+
+    const openQuestionAlert = () => {
+        setOuestionAlert(true);
+      };
+    
+    const closeQuestionAlert = (event, reason) => {
+    if (reason === 'clickaway') {
+        return;
+    }
+        setOuestionAlert(false);
+    };
     // const history = useHistory()
     
     let partiNum = "로딩중";
@@ -289,9 +306,9 @@ const LiveSession = (props) => {
             handleClick();
         });
         if (props.isHost)
-            setTimeout(()=>{hostPostApi(client.uid)}, 3000);
+            setTimeout(()=>{hostPostApi(client.uid)}, 4000);
         else
-            setTimeout(()=>{audiencePutApi(client.uid)}, 3000);
+            setTimeout(()=>{audiencePutApi(client.uid)}, 4000);
         
         
         if (props.isHost) return () => {
@@ -342,6 +359,7 @@ const LiveSession = (props) => {
                             <td  rowspan="2">
                                 <div style={style.follow}>
                                     <CloseIcon
+                                    style={{color: "white"}}
                                     onClick={()=>{history.push('/')}}
                                     />  
                                 </div>
@@ -361,7 +379,7 @@ const LiveSession = (props) => {
                         <div className="horizentalmid" >
                             <div className="verticalmid">
                                 <tr>
-                                <StyledBadge badgeContent={<FavoriteBorder style={style.checkIcon}/>} color="error">
+                                <StyledBadge badgeContent={<MicIcon/>} color="error">
                                     <Avatar hostName={props.hostName} imageLink={props.hostImage}/>
                                 </StyledBadge>
                                 </tr>
@@ -408,7 +426,7 @@ const LiveSession = (props) => {
             <p style={{color: "rgba(0,0,0,0.7)", fontSize: "1em", position:"absolute", left:"5%", bottom:"6em", zIndex:"1"}}
             className="BMDOHYEON"
             > 질문을 등록하고 호스트와 대화하세요!</p>
-            <Questioning holeId={props.holeId} goQueUp = {setQueUp} goDark={setDark}/>
+            <Questioning openQuestionAlert={openQuestionAlert} holeId={props.holeId} goQueUp = {setQueUp} goDark={setDark}/>
         </div>
         }
         <div style={listup} className="hiddenlist">
@@ -425,6 +443,22 @@ const LiveSession = (props) => {
         <Alert onClose={handleClose} style={style.alert} severity="success">
             <span style={{color:"white"}}>호스트 {props.hostName}가<br/>세션을 종료하였습니다</span>
         </Alert>
+        </Snackbar>
+
+        <div className="host-player">
+            <PlayerWrapper
+                client={client}
+                rtmClient={rtmClient}
+                host={authority}
+                localAudioTrack={localAudioTrack}
+                remoteUsers={remoteUsers}
+                channelNum={props.channelNum}
+            />
+        </div>
+        <Snackbar style={{position: "fixed", bottom:"50%"}} open={questionAlert} autoHideDuration={6000} onClose={closeQuestionAlert}>
+            <Alert onClose={closeQuestionAlert} style={{ boxShadow: "2px 2px 2px 2px #D95032", border: "solid 1px white", backgroundColor:"black"}} severity="success">
+                <span style={{ color:"white"}}>질문 등록 성공!</span>
+            </Alert>
         </Snackbar>
         </>
     )

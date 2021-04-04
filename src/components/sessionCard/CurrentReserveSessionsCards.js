@@ -195,6 +195,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                         </div>
                         <Grid container justify="center">
                           <Chip 
+                          color="secondary"
                           variant="outlined"
                           clickable='true' 
                           onClick={() => {

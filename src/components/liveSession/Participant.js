@@ -72,8 +72,8 @@ const Participant = (props) => {
                     </div>
                     <div style={style.tmp}>
                         <p style={{marginBottom:"5px"}}>{props.nickName}</p>
-                        <span>{props.workCompany ? props.workCompany : "없음"} | </span>
-                        <span>{props.workField ? props.workField : "없음"}</span>
+                        <span>{props.workCompany ? props.workCompany : ""} | </span>
+                        <span>{props.workField ? props.workField : ""}</span>
                     </div>
                     <div style={style.follow}>follow</div>
                 </Card>

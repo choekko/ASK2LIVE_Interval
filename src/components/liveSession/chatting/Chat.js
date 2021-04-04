@@ -48,7 +48,7 @@ const style = {
     },
     top : {
         position : "absolute",
-        top : "45%",
+        top : "25%",
     }
 
 }

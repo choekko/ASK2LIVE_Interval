@@ -163,7 +163,7 @@ const SessionCreateContainer = () => {
     <>
       <MypageNav text={"Live Q&A 만들기"} />
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
+        {/* <CssBaseline /> */}
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <AssignmentIcon />

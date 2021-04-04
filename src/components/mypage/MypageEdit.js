@@ -71,7 +71,7 @@ const MypageEdit = (props) => {
     // email: "",
     work_field: user.work_field,
     // profile_image: user.,
-    nickname: user.nickname,
+    nickname: user.username,
     work_company: user.work_company,
     bio: user.bio,
   });
@@ -104,7 +104,7 @@ const MypageEdit = (props) => {
         // email: email,
         work_field: work_field,
         // profile_image: profile_image,
-        nickname: nickname,
+        username: nickname,
         work_company: work_company,
         bio: bio,
     };
@@ -134,7 +134,7 @@ const MypageEdit = (props) => {
             required
             id="outlined-required"
             label="nickname"
-            defaultValue={user.nickname}
+            defaultValue={user.username}
             variant="outlined"
             InputLabelProps={{
               shrink: true,
