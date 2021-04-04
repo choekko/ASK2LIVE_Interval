@@ -31,7 +31,7 @@ const ParticipantList = (props) => {
          {participants.arrived ? 
             participants.data.detail.participant.map((participant) => 
             <Participant 
-            nickName={participant.nickname}
+            nickName={participant.username}
             workField={participant.work_field}
             workCompany={participant.work_company}
             profileImage={participant.profile_image_url}/>)

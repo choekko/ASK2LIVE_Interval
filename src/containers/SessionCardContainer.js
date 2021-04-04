@@ -90,6 +90,10 @@ const SessionCardContainer = (props) => {
     const mySession = useSelector(state => state.mySession.data);
     // console.log('allUsers.data.data.detail', allUsersData.data.data.detail);
     
+    if(user.error){
+        localStorage.clear()
+        window.location.replace('/')
+    }
 
     if(Object.keys(sessions).length != 0){
         let userDetail;

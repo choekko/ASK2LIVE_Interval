@@ -63,29 +63,24 @@ const style = {
   },
 };
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      Team Meerkat{". "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 const SessionCreateContainer = () => {
+  // const [title, setTitle] = useState('')
+  // const [isTitleValid, setIsTitleValid] = useState(false)
+  // const [description, setDescription] = useState('')
+  // const [isDescriptionValid, setIsDescriptionValid] = useState(false)
+  // const [reserveDate, setReserveDate] = useState('')
+  // const [isReserveDateValid, setisReserveDateValid] = useState(initialState)
   const [inputs, setInputs] = useState({
     title: "",
-    isTitleValid: false,
+    titleValid: false,
     description: "",
-    isDescriptionValid: false,
+    descriptionValid: false,
     reserveDate: "",
-    isReserveDateValid: false,
+    reserveDateValid: false,
   });
   const [open, setOpen] = useState(0);
 
-  const { title, isTitleValid, description, isDescriptionValid, reserveDate, isReserveDateValid, finishDate } = inputs;
+  const { title, titleValid, description, descriptionValid, reserveDate, reserveDateValid, finishDate } = inputs;
 
   const classes = useStyles();
   const counter = useSelector((state) => state.counter, []);
@@ -122,18 +117,16 @@ const SessionCreateContainer = () => {
     setOpen(false);
   };
 
-  const validateTitle = enteredTitle => {
-    if (enteredTitle.length > 0) {
-      onchange({isTitleValid, true})
-      onchange(title, enteredTitle)
+  const isValidate = (name, entered) => {
+    if (entered.length > 0) {
+      setInputs({...inputs, [name+'Valid']: true})
+      setInputs({...inputs, [name]: entered})
     } else {
-      onchange(title, enteredTitle)
+      setInputs({...inputs, [name+'valid']: false})
     }
   };
 
   const onClick = async () => {
-    // let finishDate = reserveDate;
-    // finishDate.setHours(reserveDate.getHours() + 1);
     const config = {
       headers: { Authorization: "Token " + localStorage.token },
     };
@@ -162,7 +155,7 @@ const SessionCreateContainer = () => {
     <>
       <MypageNav text={"Live Q&A 만들기"} />
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
+        {/* <CssBaseline /> */}
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <AssignmentIcon />
@@ -194,7 +187,7 @@ const SessionCreateContainer = () => {
               placeholder="세션 제목을 입력해주세요"
               autoFocus
               value={title}
-              onChange={event => validateTitle(event.target.value)}
+              onChange={onChange}
               InputLabelProps={{
                 shrink: true,
               }}

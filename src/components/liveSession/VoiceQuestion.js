@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useState, useEffect} from "react";
 import Avatar from "../Avatar"
 import Grid from "@material-ui/core/Grid"
 import {makeStyles} from "@material-ui/core/styles"
@@ -26,6 +26,8 @@ const useStyles = makeStyles((theme) => ({
 const VoiceQuestion = (props) => {
     console.log("무야호", props)
     const classes = useStyles();
+    const [click, setClick] = useState(false)
+    const [clickStyle, setClickStyle] = useState({zIndex:"1", backgroundColor:"#63BF8B"})
 
     const sendP2PMessage = useCallback((recipientUID, peerMsg) => {
         console.log("sendP2PMessage");
@@ -33,6 +35,7 @@ const VoiceQuestion = (props) => {
         // An RtmMessage object.
         const remoteUID = String(recipientUID);
     
+
         // p2p message
         console.log("리모트 UID: ", remoteUID);
         console.log("리모트 msg: ", peerMsg);
@@ -68,18 +71,29 @@ const VoiceQuestion = (props) => {
                 {props.isHost?
                 <>
                 <button
-                onClick={()=>{sendP2PMessage(props.userUid, "host")}}
-                >연결</button>
-                <span>{props.userUid}</span>
+                disabled={click}
+                style={clickStyle}
+                onClick={()=>{setClickStyle({zIndex:"1", backgroundColor:"grey"});setClick(true); sendP2PMessage(props.userUid, "host")}}
+                >
+                    <span style={{color:"black"}} className="BMJUA">연결</span>
+                </button>
                 <button
+                style={{zIndex:"1",backgroundColor:"white"}}
                 onClick={()=>{
                     sendP2PMessage(props.userUid, "audience")
                     props.onAnswered(props.currentQuestionId)
+                    setTimeout(() => {
+                        setClick(false);
+                        setClickStyle({zIndex:"1", backgroundColor:"#63BF8B"});
+                    }, 4000);
                 }}
-                >완료</button>
+                >
+                <span style={{color:"black"}} className="BMJUA">다음</span>
+                </button>
                 </>
                 :
-                <></>
+                <>
+                </>
                 }
                 </div>
             </div>

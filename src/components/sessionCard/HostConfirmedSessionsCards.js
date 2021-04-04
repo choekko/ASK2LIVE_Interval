@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router"
-
 import React, {useMemo} from 'react';
 import Moment from "react-moment";
 import Typography from '@material-ui/core/Typography';
@@ -69,7 +68,6 @@ const HostConfirmedSessionsCards = ({hostConfirmedSessions}) => {
                     <Typography className={classes.bullet} color="textSecondary">
                         {session.host_username} <br />
                     </Typography>
-
                 </div>
                 </CardContent>
             </Card>
