@@ -85,13 +85,10 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
                         {session.host_username}
                     </Typography>
                     <Typography variant="body2" component="p">
-                        라이브 중인 다른 방입니다.
+                        <p style={{margin:"0", color:"#D95032"}}> 라이브 중인 방입니다.</p>
                     </Typography>
                 </div>
                 </CardContent>
-                <CardActions>
-                <Button size="small">Learn More</Button>
-                </CardActions>
             </Card>
         </div>
         <br/>

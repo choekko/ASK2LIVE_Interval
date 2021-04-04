@@ -14,6 +14,7 @@ import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 import Grid from "@material-ui/core/Grid"
 import "../../styles/style.css";
 import {getUserInfo} from "../../actions/UserActions";
+import { SignalCellularNoSimOutlined } from '@material-ui/icons';
 
 
 function Alert(props) {
@@ -120,17 +121,32 @@ const LoginPage = (props) => {
     
     const dispatch = useDispatch();
 
-    const Login = async({loginId, loginPassword}) => {
 
+    /*
+    axios.patch(
+    "https://www.ask2live.me/api/reservation/hole/" + sessionId + "/wish",
+    data,
+    config,
+  ).then((response) => {
+    console.log("onClickWish 응답 받음", response)
+  }).catch((e) => {
+    console.log('error',e.response)
+    alert(e.response.data.detail)
+  })
+    */
+    const LoginApi = ({loginId, loginPassword}) => {
+      
+    }
+
+    const Login = async({loginId, loginPassword}) => {
       let dataToSubmit = {
         username : loginId,
         password : loginPassword
       }
-
-      const res = await axios.post('https://www.ask2live.me/api/user/login', dataToSubmit)
-      console.log('1 res : ', res)
-      if (res.data.response === "LOGIN SUCCESS" || res.data.response === "REGISTER SUCCESS")
-      {
+      axios.post('https://www.ask2live.me/api/user/login', 
+      dataToSubmit,
+      ).then((res) => {
+        console.log("res", res)
         window.localStorage.setItem('token', res.data.detail.token)
         dispatch(getUserInfo(res.data.detail.token));
         console.log(res);
@@ -138,9 +154,8 @@ const LoginPage = (props) => {
             history.push(props.location.before)
         else
             history.push('/main')
-      }
-      else
-        handleClick();
+      }).catch(
+        (err) => handleClick())
     }
 
     return (
@@ -153,8 +168,16 @@ const LoginPage = (props) => {
                              <div style={{display:"flex", paddingBottom: "4px", alignItems: "center"}}>
                                  <ContactSupportIcon style={{fontSize:40}}/>
                             </div>
+                            {/* <div style={{height: "30px",width : "30px"}}>
+                                <image src="/static/2.png"/>
+                            </div> */}
+
                             <p style={{margin : "10px 0 10px 0" , fontSize: "1.8em"}} className="Gmarket3">LIVE</p>
+                        </Grid>
+                        <Grid container justify="center">
                             <p className="NanumGothic3" style={{marginBottom:"0",fontSize : "0.8em"}}>궁금한 점을 자유롭게 물어보고</p>
+                        </Grid>
+                        <Grid container justify="center">
                             <p className="NanumGothic3" style={{marginTop: "8px", fontSize : "0.8em"}}>라이브로 생생한 답변을 들어보세요!</p>   
                         </Grid>
                         <div style={style.login}>

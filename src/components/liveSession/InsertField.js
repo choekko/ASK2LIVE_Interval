@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
   input: {
     marginLeft: theme.spacing(1),
+    // backgroundColor: "#D95032",
     color: "rgba(255, 255, 255, 0.6)",
     flex: 1,
   },
@@ -69,7 +70,6 @@ export default function CustomizedInputBase(props) {
   }
   return (
       <>
-
     <Paper className={classes.root}>
       <InputBase
         className={classes.input}

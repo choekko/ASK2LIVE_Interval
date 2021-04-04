@@ -265,7 +265,7 @@ background-color: grey;
     position: absolute;
     bottom: 0%;
     width: 95%;
-    height : 95%;
+    height : 88%;
     background-color: white;
     border-radius: 20px 20px 0 0;
     overflow: auto;
@@ -288,13 +288,13 @@ background-color: grey;
 
 .voiceCircle {
     position : fixed;
-    top: 16%;
+    top: 15%;
     left : 0%;
     right: 0%;
     margin-left: auto;
     margin-right: auto;
-    width : 10em;
-    height : 10em;
+    width : 9.5em;
+    height : 9.5em;
     border-radius: 100%;
     border: dotted 5px;
     border-color: rgba(255,255,255,0.3);
@@ -316,10 +316,11 @@ background-color: grey;
 
 .QuestioningWrapper{
     position:absolute;
+    top: 0;
     width : inherit;
-    border-radius: 0 0 15px 15px;
+    border-radius: 15px 15px 15px 15px;
     background-color: #D95032;
-    height: 3rem;
+    height: 80px;
     z-Index: 2;
     display: flex;
     align-items: center;
