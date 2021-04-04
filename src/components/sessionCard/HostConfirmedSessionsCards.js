@@ -3,7 +3,7 @@ import { useHistory } from "react-router"
 
 import React, {useMemo} from 'react';
 import Moment from "react-moment";
-
+import Typography from '@material-ui/core/Typography';
 
 import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
