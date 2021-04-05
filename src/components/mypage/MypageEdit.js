@@ -5,12 +5,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+// import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { SettingsInputAntenna } from "@material-ui/icons";
 import axios from "axios";
 import MypageNav from "./MypageNav";
 import { getUserInfo, updateUserInfo } from "../../actions/UserActions";
+
+import { Upload, Button, Space } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,19 +70,16 @@ const MypageEdit = (props) => {
 
   console.log(user);
 
+  const [image, setImage] = useState({ profile_image: user.profile_image });
   const [inputs, setInputs] = useState({
-    // email: "",
     work_field: user.work_field,
-    // profile_image: user.,
     username: user.username,
     work_company: user.work_company,
     bio: user.bio,
   });
 
   const {
-    email,
     work_field,
-    profile_image,
     username,
     work_company,
     bio,
@@ -87,40 +87,59 @@ const MypageEdit = (props) => {
 
   const dispatch = useDispatch();
   const onChange = useCallback((e) => {
-    const { name, value } = e.target;
-
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
+    console.log("e.target.name",e.target.name)
+    if(e.target.name === "image"){
+      setImage({
+        profile_image: e.target.files,
+      });
+      console.log("e.target.files",e.target.files);
+    }else{
+      const { name, value } = e.target;
+      setInputs({
+        ...inputs,
+        [name]: value,
+      });
+    }
+    
   });
 
-  const onClick = async () => {
-    console.log(localStorage.token);
+  const onClick = async (e) => {
+    e.preventDefault();
+
     const config = {
-      headers: { Authorization: "Token " + localStorage.token },
+      headers: { "Content-Type": "multipart/form-data", Authorization: "Token " + localStorage.token },
     };
     const data = {
-        // email: email,
         work_field: work_field,
-        // profile_image: profile_image,
         username: username,
         work_company: work_company,
         bio: bio,
     };
-    console.log("DATA", data);
+    const formData = new FormData();
+    formData.append('work_field', data.work_field);
+    formData.append('username', data.username);
+    formData.append('work_company', work_company);
+    formData.append('bio', bio);
+    console.log("default image", image);
+    formData.append('profile_image', image.profile_image[0]);
+
+    console.log("====DATA====", formData);
     const res = await axios.patch(
       "https://www.ask2live.me/api/user/update",
-      data,
-      config
-    );
-    console.log(res);
-    // dispatch(updateUserInfo(localStorage.token, data));
+      formData,
+      config,
+    )
+    console.log("업데이트 성공~", res.data);
     dispatch(getUserInfo(localStorage.token));
+    console.log("====DATA====", formData);
+
     history.push({
       pathname: '/mypage/' + username,
       state: user
     })
+    
+
+    
   };
 
   return (
@@ -143,9 +162,19 @@ const MypageEdit = (props) => {
             name="username"
           />
 
-          <br></br>
-          <br></br>
+          <br/>
+          <br/>
 
+          <input 
+            className="fileInput" 
+            type="file" 
+            name="image"
+            // accept="image/*"
+            required
+            onChange={onChange} />
+          <br/>
+
+          <br/>
           <div style={style.text}>이력</div>
           <TextField
             style={style.field}
@@ -176,7 +205,7 @@ const MypageEdit = (props) => {
           <TextField
             style={style.field}
             id="outlined-multiline-static"
-            label="짧은 자기소개    "
+            label="짧은 자기소개"
             multiline
             rows={4}
             defaultValue={user.bio}

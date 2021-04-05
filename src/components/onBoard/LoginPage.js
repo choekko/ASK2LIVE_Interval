@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import React, {useState, memo} from 'react';
 import axios from "axios";
+import cookie from 'react-cookies';
 
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -16,6 +17,8 @@ import "../../styles/style.css";
 import {getUserInfo} from "../../actions/UserActions";
 import { SignalCellularNoSimOutlined } from '@material-ui/icons';
 
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -146,12 +149,16 @@ const LoginPage = (props) => {
     }
 
     const Login = async({loginId, loginPassword}) => {
+      const config = {
+        headers: {"X-CSRFTOKEN": cookie.load("csrftoken")}
+      }
       let dataToSubmit = {
         username : loginId,
         password : loginPassword
       }
       axios.post('https://www.ask2live.me/api/user/login', 
       dataToSubmit,
+      config,
       ).then((res) => {
         console.log("res", res)
         window.localStorage.setItem('token', res.data.detail.token)
@@ -216,7 +223,7 @@ const LoginPage = (props) => {
                 </Grid>
                 <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="error">
-                    유효한 아이디가 아닙니다.
+                    이미 존재하는 아이디입니다.
                     </Alert>
                 </Snackbar>
                 <Snackbar 

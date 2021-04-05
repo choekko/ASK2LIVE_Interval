@@ -49,7 +49,7 @@ const circleStyle={
         style={circleStyle}>
       <Box position="relative" display="inline-flex">
         <div style={{color:"#D95032", width:"100%"}}>
-        <CircularProgress thickness="3" size="7rem" variant='determinate' color='inherit'  {...props} /></div>
+        <CircularProgress thickness="3" size="5rem" variant='determinate' color='inherit'  {...props} /></div>
         <Box
           top={0}
           left={0}
@@ -151,9 +151,11 @@ const PreQuestions = () => {
     return (
             <>
         <MypageNav text={'Live Q&A 상세'} />
-        <SessionDetail session={targetSession.session}/>
         
+        <SessionDetail session={targetSession.session}/>
+
         {Object.keys(questions.data).length > 0 ? <ListPreQuestions questions={questions} session={targetSession.session}/> : null}
+
         </>
     )
   

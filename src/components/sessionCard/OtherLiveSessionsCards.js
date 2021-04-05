@@ -286,41 +286,7 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
                         </span>
                     </div>
                 </div>
-                {/* <Typography className={classes.title} color="textSecondary" gutterBottom>
-                        {
-                        <>
-                        <Typography variant="body2">
-                        {console.log(toDate(session.reserve_date))}
-                        <Moment format="h시간 mm분 전 시작">
-                        {toDate(session.reserve_date) - now}
-                        </Moment>
-                        </Typography>
-                        </>}
-                </Typography>
-                <div className={classes.cursor} onClick={()=>{
-                  if(Object.keys(user.data).length === 0){
-                    alert('로그인이 필요합니다.')
-                  }else{
-                    history.push({
-                      pathname: "/session/live",
-                      search: "?holeId=" + session.id + "&channelNum=" + session.livehole_id,
-                      state : {
-                          hostName : session.host_username,
-                          hostImage : session.host_profile_image,
-                      }
-              })
-                  }
-                }}>
-                    <Typography variant="h5" component="h2">
-                        {session.title}ddddddddddddddddddd
-                    </Typography>
-                    <Typography className={classes.pos} color="textSecondary">
-                        {session.host_username}
-                    </Typography>
-                    <Typography variant="body2" component="p">
-                        <p style={{margin:"0", color:"#D95032"}}> 라ddddddddddddddddddd이브 중인 방입니다.</p>
-                    </Typography>
-                </div> */}
+               
                 
                 </CardContent>
             </Card>

@@ -1,18 +1,24 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
+import {getUserInfo} from '../actions/UserActions';
 
 export default (SpecialComponent, option, adminRoute=null) => {
 
   /* 
-     ¿¹)  option: null -> ´©±¸³ª ÃâÀÔÀÌ °¡´ÉÇÑ ÆäÀÌÁö (home)
-                 true -> ·Î±×ÀÎÇÑ À¯Àú¸¸ ÃâÀÔÀÌ °¡´ÉÇÑ ÆäÀÌÁö
-                 false -> ·Î±×ÀÎÇÑ À¯Àú´Â ÃâÀÔÀÌ ºÒ°¡´ÉÇÑ ÆäÀÌÁö
+     ï¿½ï¿½)  option: null -> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (home)
+                 true -> ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                 false -> ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                  
-        falseÀÎ ÆäÀÌÁö·Î ·Î±×ÀÎÇÑ À¯Àú°¡ Á¢¼ÓÇÒ ¼ö ÀÖ°Ô Â¥¸é ¾ÈµÇÁö¸¸, È¤½Ã³ª Á¢¼ÓÇßÀ» °æ¿ì¸é ¾Æ·¡ ÄÚµå ´ë·Î ·Î±×ÀÎÆäÁö·Î °¡°ÔµÈ´Ù.
-        µû·Î ¿¡·¯ ÆäÀÌÁöµµ ¸¸µé¾î¾ßÇÒµí??
+        falseï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö°ï¿½ Â¥ï¿½ï¿½ ï¿½Èµï¿½ï¿½ï¿½ï¿½ï¿½, È¤ï¿½Ã³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ·ï¿½ ï¿½Úµï¿½ ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÔµÈ´ï¿½.
+        ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½??
   */
   const AuthenticateCheck = (props) => {
+    // useDispatch(getUserInfo())
+    // const user = useSelector(state => state.user)
     const isLoggedIn = localStorage.getItem("token");
+    // const arrived = user.arrived
+    // console.log(isLoggedIn, arrived, option)
+
 
     useEffect(() => {
       if (!isLoggedIn && option) {
