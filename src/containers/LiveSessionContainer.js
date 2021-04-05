@@ -13,7 +13,7 @@ const LiveSessionContainer = (props) => {
 
     console.log("LiveSessionContainer Props", props.joinPass);
 
-    const [join, setJoin] = useState(props.joinPass); // ?—¬ê¸? ?•˜?“œì½”ë”©
+    const [join, setJoin] = useState(props.joinPass); // ?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½ì½”ë”©
 
     console.log(join);
 

@@ -134,8 +134,8 @@ const MypageEdit = (props) => {
     console.log("====DATA====", formData);
 
     history.push({
-    pathname: '/mypage/' + username,
-    state: user
+      pathname: '/mypage/' + username,
+      state: user
     })
     
 

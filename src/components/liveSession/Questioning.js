@@ -47,15 +47,19 @@ const style = {
     },
     questionbutton : {
         position: "absolute",
-        top: "0%",
-        right: "2.5%",
+        top: "-4%",
+        right: "-2%",
     },
     card : {
+        paddingTop:"4px",
+        position: "absolute",
+        width: "100%",
+        maxWidth:"42em",
         borderRadius : "15px 15px 0 0",
         backgroundColor: "#D95032",
-        height: "1.5rem",
+        height: "1.7em",
         // height: "20px",
-        padding: "0.3rem",
+        zIndex:"8",
         // padding: "3px",
     },
     submitbtn : {
@@ -85,29 +89,22 @@ const style = {
 const Questioning = (props) => {
 
     const classes = useStyles();
-    const [open, setOpen] = useState(false);
+
     const [ask, setAsk] = useState("")
-    const [voice, setVoice] = useState(false)
-    const [queStyle, setQueStyle] = useState({display : "none"})
+    const [voice, setVoice] = useState(true)
+    const [queStyle, setQueStyle] = useState({opacity: "1"})
 
     const myInfo = useSelector(state => state.user);
 
-    const handleClick = () => {
-        setOpen(true);
-      };
-    
-    const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-        return;
-    }
-    setOpen(false);
-    };
+
 
     const pressEnter = (e) => {
         if (e.key == 'Enter'){
             postApi(false, ask);
             setAsk("")
-            handleClick();
+            props.openQuestionAlert();
+            props.goQueUp({transform : "translate(0, 100%)"});
+            props.goDark({opacity: "0", animation: "golight 0.7s"}); 
         }
     }
 
@@ -152,12 +149,12 @@ const Questioning = (props) => {
                                 <span
                                 style={{marginLeft: "10px"}}
                                 className="BMJUA"
-                                >{myInfo.data.detail.nickname}</span>
+                                >{myInfo.data.detail.username}</span>
                                 :
                                 <span> 로딩중 </span>
                             }
                             <div style={{float:"right"}}>
-                                <span className="BMJUA" style={{fontSize: "0.8em"}}> 음성 질문 </span>
+                                <span className="BMJUA" style={{fontSize: "1em"}}> 텍스트로 질문하실래요? </span>
                                 <Checkbox
                                     style={{color: "black", right : "3px", padding: "0"}}
                                     size="small"
@@ -167,7 +164,7 @@ const Questioning = (props) => {
                             </div>
                         </div>
                         <div style={queStyle} className="QuestioningWrapper">
-                            <p className="NanumGothic3" style={{color: "white", marginLeft: "1em", fontSize:"0.8em"}}>차례가 되면 호스트가 음성 권한을 부여합니다.</p>
+                            <p className="NanumGothic3" style={{transform:"translate(0, 15px)", color: "white", marginLeft: "1em", fontSize:"0.8em"}}>차례가 되면 호스트가 음성 권한을 부여합니다.</p>
                         </div>
                         <input
                         type="text"
@@ -185,11 +182,17 @@ const Questioning = (props) => {
                                 {
                                     postApi(true, "(음성 질문입니다)"); 
                                     setAsk("");
-                                    handleClick();
+                                    props.openQuestionAlert();
+                                    props.goQueUp({transform : "translate(0, 100%)"}); 
+                                    props.goDark({opacity: "0", animation: "golight 0.7s"}); 
+                                    setTimeout(()=>{props.goDark({display: "none"})}, 700)
                                 }
                                 else 
                                     postApi(false, ask); setAsk("")
-                                    handleClick();
+                                    props.openQuestionAlert();
+                                    props.goQueUp({transform : "translate(0, 100%)"}); 
+                                    props.goDark({opacity: "0", animation: "golight 0.7s"}); 
+                                    setTimeout(()=>{props.goDark({display: "none"})}, 700)
                                 }} 
                             className={classes.iconButton} 
                             aria-label="send">
@@ -198,11 +201,6 @@ const Questioning = (props) => {
                         </div>
                     </Paper>
                 </div>
-                <Snackbar style={{position: "fixed", bottom:"50%"}} open={open} autoHideDuration={6000} onClose={handleClose}>
-                    <Alert onClose={handleClose} style={{boxShadow: "2px 2px 2px 2px #D95032", border: "solid 1px white", backgroundColor:"black"}} severity="success">
-                     <span style={{color:"white"}}>질문 등록 성공!</span>
-                    </Alert>
-                </Snackbar>
             </Grid>
         <IconButton style={style.questionbutton} onClick={()=>{props.goQueUp({transform : "translate(0, 100%)"}); props.goDark({opacity: "0", animation: "golight 0.7s"}); setTimeout(()=>{props.goDark({display: "none"})}, 700)}} aria-label="question_list">
             <CloseQuestioning fontSize="large" />

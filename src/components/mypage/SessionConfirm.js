@@ -53,7 +53,7 @@ const style = {
 
 const SessionConfirm = (props) => {
   console.log("SessionConfirm");
-  const { session, goListUp, goDark, setFlag } = props;
+  const { session, goListUp, goDark, handleClick } = props;
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -101,24 +101,9 @@ const SessionConfirm = (props) => {
             color="primary"
             size="large"
             onClick={() => 
-              
               {
                 postSessionToReserve(session);
-                console.log("클릭");
-                setFlag({display: 'flex'})
-                setTimeout(() => {
-                  setFlag({ display: 'none', animation: '0.7s' });
-                  dispatch(getUserSessionInfo(localStorage.token))
-                }, 500);
-
-                setTimeout(() => {
-                  goListUp({ transform: "translate(0, 100%)" });
-                  goDark({ animation: "golight 0.7s" });
-                  setTimeout(() => {
-                    goDark({ display: "none" });
-                  }, 700);
-                }, 500)
-                history.push("/mypage");
+                handleClick();
               }}
               >
             <div style={style.font3} color="030916">

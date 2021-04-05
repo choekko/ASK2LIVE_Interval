@@ -54,6 +54,17 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.Wemap {
+    font-family: "Wemakeprice-Bold";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.CookieRun {
+    font-family: "CookieRunOTF-Bold";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 @font-face {
     font-family: "gmarket3";         
     src: url("./styles/fonts/GmarketSansTTFBold.ttf"); 
@@ -67,4 +78,18 @@
 @font-face {
     font-family: "gmarket2";
     src: url("./styles/fonts/GmarketSansTTFMedium.ttf"); 
+}
+
+@font-face {
+    font-family: 'Wemakeprice-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/Wemakeprice-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'CookieRunOTF-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/CookieRunOTF-Bold00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }

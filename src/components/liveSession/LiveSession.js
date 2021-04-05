@@ -17,6 +17,7 @@ import Chat from "./chatting/Chat";
 import Question from "./Question";
 import Avatar from "../Avatar";
 import "../../index.css"
+import PlayerWrapper from "./agora/PlayerWrapper";
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
@@ -32,6 +33,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
+import MicIcon from '@material-ui/icons/Mic';
+
 import "../../styles/style.css"
 
 
@@ -164,6 +167,7 @@ const appid = "2e5346b36d1f40b1bbc62472116d96de";
 const client = AgoraRTC.createClient({ codec: "vp8", mode: "rtc" });
 const rtmClient = AgoraRTM.createInstance(appid);
 
+
 //^ =============================================================
 
 const LiveSession = (props) => {
@@ -229,6 +233,21 @@ const LiveSession = (props) => {
 
     const [room, setRoom] = useState({});
     const [open, setOpen] = useState(false);
+
+    const [questionAlert, setOuestionAlert] = useState(false);
+
+    const [hostExit, setHostExit] = useState(false);
+
+    const openQuestionAlert = () => {
+        setOuestionAlert(true);
+      };
+    
+    const closeQuestionAlert = (event, reason) => {
+    if (reason === 'clickaway') {
+        return;
+    }
+        setOuestionAlert(false);
+    };
     // const history = useHistory()
     
     let partiNum = "로딩중";
@@ -240,17 +259,19 @@ const LiveSession = (props) => {
          holeInfo.data.detail.participant.length + "명"
         : "로딩중"
 
-    // const [hostExit, setHostExit] = useState(false);
     // 여는 함수, onClick에 해당 함수 넣으면 클릭시 등장
     const handleClick = () => {
-        // setHostExit(true);       
+        console.log("호스트 나감2", hostExit)
         setOpen(true);
     };
-
-
+    
+    
     // 닫는 함수. 이미 아래에 자동적으로 사용되고 있음.
     const handleClose = (event, reason) => { 
-        history.push('/main');
+        setHostExit(true);
+        console.log("호스트 나감3", hostExit)
+        // window.location.replace('/main');
+        history.replace('/main')
         if (reason === 'clickaway') {
             return;
         }
@@ -279,53 +300,82 @@ const LiveSession = (props) => {
         rtmChannel = rtmClient.createChannel(props.channelNum);
         join(props.channelNum, null, rtmClient, rtmChannel, props.isHost);
         rtmChannel.on('ChannelMessage', (message, memberId) => {
-            // Your code.
             console.log(`Message ${message}, from ${memberId}`);
-            // setHostExit(1);
-            rtmClient.logout();
-            leave();
-            leavePatchApi();
-            clearInterval(liveInter);
+            // clearInterval(liveInter);
+            // rtmChannel.leave();
+            // rtmClient.logout();
+            // leave();
+            // leavePatchApi();
             handleClick();
         });
         if (props.isHost)
-            setTimeout(()=>{hostPostApi(client.uid)}, 3000);
+            setTimeout(()=>{hostPostApi(client.uid)}, 4000);
         else
-            setTimeout(()=>{audiencePutApi(client.uid)}, 3000);
+            setTimeout(()=>{audiencePutApi(client.uid)}, 4000);
         
         
-        if (props.isHost) return () => {
+        if (props.isHost)
+        {
             const unblock = history.block('정말 떠나시겠습니까?');
-            console.log("호스트여부: ", props.isHost)
-            rtmChannel.sendMessage({ text: "hostOut" }).then(() => {
-                // Your code for handling the event when the channel message is successfully sent.
-                    console.log('host is leaving')
-                }).catch(error => {
-                // Your code for handling the event when the channel message fails to be sent.
-                    console.log('host leaving error')
-                });
-            
-            rtmClient.logout();
-            leave();
-            leavePatchApi();
-            clearInterval(liveInter)
-            unblock();
-            
-            history.replace('/main');
-            // window.location.reload('/main');
-            
+            return () => {
+                console.log("호스트!!!: ", props.isHost)
+                console.log("호스트!!!: ", props.isHost)
+                console.log("호스트!!!: ", props.isHost)
+                rtmChannel.sendMessage({ text: "hostOut" }).then(() => {
+                    // Your code for handling the event when the channel message is successfully sent.
+                        console.log('host is leaving')
+                    }).catch(error => {
+                    // Your code for handling the event when the channel message fails to be sent.
+                        console.log('host leaving error')
+                    });
+                rtmChannel.leave();
+                rtmClient.logout();
+                leave();
+                leavePatchApi();
+                clearInterval(liveInter)
+                unblock();
+                
+                history.replace('/main');
+                // window.location.replace('/main');
+                
+            }
+
         }
         
+        // console.log("호스트 나감4", hostExit);
+        else if (hostExit){
+            console.log("호스트 나감5", hostExit)
+            return () => {
+                console.log("호스트가 나가서 나가지는 게스트!!!: ", hostExit)
+                console.log("호스트가 나가서 나가지는 게스트!!!: ", hostExit)
+                console.log("호스트가 나가서 나가지는 게스트!!!: ", hostExit)
+                rtmChannel.leave();
+                rtmClient.logout();
+                leave();
+                leavePatchApi();
+                clearInterval(liveInter)
+                
+                history.replace('/main');
+                // window.location.reload('/main');
+            }
+        }
         
-        return () => {
-            console.log("호스트여부: ", props.isHost)
-            rtmClient.logout();
-            leave();
-            // leavePatchApi();
-            clearInterval(liveInter)
-            
-            // history.replace('/main');
-            // window.location.reload('/main');
+        else if (!hostExit){
+            const unblock = history.block('정말 떠나시겠습니까?');
+            return () => {
+                console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
+                console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
+                console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
+                rtmChannel.leave();
+                rtmClient.logout();
+                leave();
+                leavePatchApi();
+                clearInterval(liveInter)
+                unblock();
+                
+                history.replace('/main');
+                // window.location.reload('/main');
+            }
         }
     }, [history])
 
@@ -342,7 +392,8 @@ const LiveSession = (props) => {
                             <td  rowspan="2">
                                 <div style={style.follow}>
                                     <CloseIcon
-                                    onClick={()=>{history.push('/')}}
+                                    style={{color: "white"}}
+                                    onClick={()=>{history.push('/main')}}
                                     />  
                                 </div>
                             </td>      
@@ -361,7 +412,7 @@ const LiveSession = (props) => {
                         <div className="horizentalmid" >
                             <div className="verticalmid">
                                 <tr>
-                                <StyledBadge badgeContent={<FavoriteBorder style={style.checkIcon}/>} color="error">
+                                <StyledBadge badgeContent={<MicIcon/>} color="error">
                                     <Avatar hostName={props.hostName} imageLink={props.hostImage}/>
                                 </StyledBadge>
                                 </tr>
@@ -408,7 +459,7 @@ const LiveSession = (props) => {
             <p style={{color: "rgba(0,0,0,0.7)", fontSize: "1em", position:"absolute", left:"5%", bottom:"6em", zIndex:"1"}}
             className="BMDOHYEON"
             > 질문을 등록하고 호스트와 대화하세요!</p>
-            <Questioning holeId={props.holeId} goQueUp = {setQueUp} goDark={setDark}/>
+            <Questioning openQuestionAlert={openQuestionAlert} holeId={props.holeId} goQueUp = {setQueUp} goDark={setDark}/>
         </div>
         }
         <div style={listup} className="hiddenlist">
@@ -425,6 +476,22 @@ const LiveSession = (props) => {
         <Alert onClose={handleClose} style={style.alert} severity="success">
             <span style={{color:"white"}}>호스트 {props.hostName}가<br/>세션을 종료하였습니다</span>
         </Alert>
+        </Snackbar>
+
+        <div className="host-player">
+            <PlayerWrapper
+                client={client}
+                rtmClient={rtmClient}
+                host={authority}
+                localAudioTrack={localAudioTrack}
+                remoteUsers={remoteUsers}
+                channelNum={props.channelNum}
+            />
+        </div>
+        <Snackbar style={{position: "fixed", bottom:"50%"}} open={questionAlert} autoHideDuration={6000} onClose={closeQuestionAlert}>
+            <Alert onClose={closeQuestionAlert} style={{ boxShadow: "2px 2px 2px 2px #D95032", border: "solid 1px white", backgroundColor:"black"}} severity="success">
+                <span style={{ color:"white"}}>질문 등록 성공!</span>
+            </Alert>
         </Snackbar>
         </>
     )

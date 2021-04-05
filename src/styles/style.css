@@ -279,7 +279,7 @@
   position: absolute;
   bottom: 0%;
   width: 95%;
-  height: 95%;
+  height: 88%;
   background-color: white;
   border-radius: 20px 20px 0 0;
   overflow: auto;
@@ -300,13 +300,13 @@
 
 .voiceCircle {
   position: fixed;
-  top: 16%;
+  top: 15%;
   left: 0%;
   right: 0%;
   margin-left: auto;
   margin-right: auto;
-  width: 10em;
-  height: 10em;
+  width: 9.5em;
+  height: 9.5em;
   border-radius: 100%;
   border: dotted 5px;
   border-color: rgba(255, 255, 255, 0.3);
@@ -328,13 +328,74 @@
 
 .QuestioningWrapper {
   position: absolute;
+  top: 0;
   width: inherit;
-  border-radius: 0 0 15px 15px;
+  border-radius: 15px 15px 15px 15px;
   background-color: #d95032;
-  height: 3rem;
+  height: 80px;
   z-index: 2;
   display: flex;
   align-items: center;
   opacity: 0;
   transition: opacity 1s;
+}
+
+.contentTitle {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  width: 8.5em;
+  height: 4em;
+  margin: 10px 0px;
+  overflow: hidden;
+  word-break: keep-all;
+  text-overflow: ellipsis;
+  line-height: 1.9em;
+  color: #f89f8b;
+}
+
+.myLiveWrapper {
+  display: inline;
+  width: 270px;
+  height: 270px;
+  overflow: hidden;
+}
+
+.swiperLeft {
+  position: absolute;
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 90px;
+  width: 40px;
+  transform: translate(-1.2em, -13em);
+  opacity: 0.5;
+}
+.swiperRight {
+  position: absolute;
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 90px;
+  width: 40px;
+  transform: translate(15.8em, -13em);
+  opacity: 0.5;
+}
+
+.myLive {
+  transition: transform 1s;
+}
+
+.fontGradi {
+  background: linear-gradient(to right, #f244b5, rgb(223, 45, 73));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.createBtn {
+  width: 80%;
+  max-width: 700px;
+  height: 6em;
+  margin: 0 0 2em 0;
+  border-radius: 25px;
+  box-shadow: 0 5px 20px 2px rgba(223, 45, 73, 0.2);
+  cursor: pointer;
 }

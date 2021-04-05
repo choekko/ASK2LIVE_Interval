@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch } from "react-redux";
 import QuestionList from "./QuestionList";
 import getQuestionList from "../../actions/QuestionListActions";
@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
   input: {
     marginLeft: theme.spacing(1),
+    // backgroundColor: "#D95032",
     color: "rgba(255, 255, 255, 0.6)",
     flex: 1,
   },
@@ -67,21 +68,26 @@ export default function CustomizedInputBase(props) {
           props.goMessageSend();
       }
   }
+  const [limit, setLimit] = useState(false)
   return (
       <>
-
     <Paper className={classes.root}>
       <InputBase
         className={classes.input}
         placeholder="채팅을 입력하세요"
         value={props.message}
         inputProps={{ 'aria-label': 'search google maps' }}
-        onChange={(e) => props.goSetMessage(e.target.value)}
+        onChange={(e) =>
+          {
+            if(e.target.value.length > 100)
+              alert('100자 이내로 입력이 가능합니다')
+            props.goSetMessage(e.target.value.substring(0, 100))}
+          }
         onKeyPress={pressEnter}
       />
     </Paper>
     <Paper className={classes.root2}>
-    <IconButton onClick={props.goMessageSend} className={classes.iconButton} aria-label="send">
+    <IconButton disabled={limit} onClick={props.goMessageSend} className={classes.iconButton} aria-label="send">
         <SendIcon/>
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />

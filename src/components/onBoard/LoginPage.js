@@ -85,6 +85,13 @@ const style = {
         top: "88%",
         right: "4%",
         cursor: "pointer",
+    },
+    logo : {
+        height: "2.3em",
+        width : "2.3em", 
+        backgroundImage:"url('/static/logo.png')",
+        backgroundPosition: "center",
+        backgroundSize: "contain",
     }
 }
 
@@ -172,11 +179,18 @@ const LoginPage = (props) => {
                     <div style={style.loginCard}>
                         <Grid container justify="center">
                              <p style={{margin : "10px 0 10px 0" , fontSize: "1.8em"}} className="Gmarket3">ASK</p>
-                             <div style={{display:"flex", paddingBottom: "4px", alignItems: "center"}}>
+                             {/* <div style={{display:"flex", paddingBottom: "4px", alignItems: "center"}}>
                                  <ContactSupportIcon style={{fontSize:40}}/>
+                            </div> */}
+                            <div style={style.logo}>
                             </div>
+
                             <p style={{margin : "10px 0 10px 0" , fontSize: "1.8em"}} className="Gmarket3">LIVE</p>
+                        </Grid>
+                        <Grid container justify="center">
                             <p className="NanumGothic3" style={{marginBottom:"0",fontSize : "0.8em"}}>궁금한 점을 자유롭게 물어보고</p>
+                        </Grid>
+                        <Grid container justify="center">
                             <p className="NanumGothic3" style={{marginTop: "8px", fontSize : "0.8em"}}>라이브로 생생한 답변을 들어보세요!</p>   
                         </Grid>
                         <div style={style.login}>

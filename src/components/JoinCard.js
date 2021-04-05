@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flex: '1 0 auto',
+    paddingTop: 0,
 },
 cover: {
     width: "20px",
@@ -45,6 +46,56 @@ cover: {
   }
 }));
 
+const style = {
+  loginCard : {
+      top : "20%",
+      // backgroundColor: "skyblue",
+      border: "1px solid black",
+      borderRadius: "15px",
+      boxShadow: "1px 1px 2px 2px black",
+      paddingTop: "1em",
+      paddingBottom: "1em",
+      maxWidth : "23em",
+      width : "16em",
+      height : "10.5em",
+      position : "fixed",
+  },
+  loginBtnWrapper : {
+      position: "absolute",
+      top : "88%",
+      backgroundColor: "black",
+      borderRadius: "15px",
+      color: "white",
+  },
+  mikeBtn : {
+    height: '2.5em',
+    width: '4em',
+    backgroundColor: "black",
+    boxShadow: "1px 1px 1px 1px black",
+    borderColor: "white",
+    borderRadius: "15px",
+    color: "white",
+  },
+  loginBtn : {
+      height: '2.5em',
+      width: '4em',
+      backgroundColor: "#EF5941",
+      boxShadow: "1px 1px 1px 1px black",
+      borderColor: "#EF5941",
+      borderRadius: "15px",
+      color: "white",
+  },
+  liveBtn : {
+    height: '2.5em',
+    width: '7em',
+    backgroundColor: "#EF5941",
+    boxShadow: "1px 1px 2px 2px black",
+    borderColor: "#EF5941",
+    borderRadius: "15px",
+    color: "white",
+},
+}
+
 const JoinCard = (props) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -63,8 +114,10 @@ const JoinCard = (props) => {
   }
 
   return (
+    <>
+    
 <Grid className={classes.top} container justify="center">
-    <Card className={classes.root}>
+    <Card style={style.loginCard}>
       <div className={classes.details}>
         <CardContent className={classes.content}>
           <Typography component="h6" variant="h6">
@@ -72,16 +125,17 @@ const JoinCard = (props) => {
           </Typography>
           {props.isHost ?  
           <p className="NanumGothic3">
-            {props.hostName}님의 라이브를 켭니다
-            {mike? <p>마이크 설정 완료</p> : <><p>마이크를 허용해주세요.</p> <button onClick={getMike}>허용</button></>}
+            [{props.hostName}]님의<br/>Live Q&A를 시작합니다
+            {mike? <p>마이크 설정 완료</p> : <><p>마이크를 허용해주세요.</p>
+            <button style={style.mikeBtn} onClick={getMike}>허용</button></>}
           </p>    
             :
           <p className="NanumGothic3">
-            {props.hostName}님의 방에 입장합니다
-            {mike? <p>마이크 설정 완료</p> : <><p>마이크를 허용해주세요.</p> <button onClick={getMike}>허용</button></>}
+            [{props.hostName}]님의<br/>Live Q&A에 입장합니다
+            {mike? <p>마이크 설정 완료</p> : <><p>마이크를 허용해주세요.</p>
+            <button style={style.mikeBtn} onClick={getMike}>허용</button></>}
           </p>
             }
-        </CardContent>
         <div>
           {console.log(props.isHost)}
             {props.isHost ?
@@ -99,14 +153,15 @@ const JoinCard = (props) => {
                             }
                         })
                     }}
-                    style={{margin:"0 0 1em 2em"}}
+                    // style={{margin:"0 0 1em 2em"}}
+                    style={style.liveBtn}
                     >라이브열기</button>
                 :
                 <></>
             :   
                 mike?
                 <button 
-                style={{margin:"0 0 1em 1em"}}
+                style={style.loginBtn}
                 onClick={()=>props.setJoin(1)} aria-label="play/pause">
                     입장
                 </button>
@@ -114,10 +169,12 @@ const JoinCard = (props) => {
                 <></>
             }
         </div>
+        </CardContent>
       </div>
     </Card>
 
 </Grid>
+</>
   );
 }
 

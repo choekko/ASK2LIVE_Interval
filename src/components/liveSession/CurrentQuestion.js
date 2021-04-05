@@ -67,7 +67,7 @@ const CurrentQuestion = (props) => {
             } 
 
             let currentQuestion = questionList[questionIdx];
-            let userNickName = currentQuestion.user_nickname;
+            let userNickName = currentQuestion.user_username;
             let isVoice = currentQuestion.is_voice;
             let userUid = currentQuestion.user_uid;
 

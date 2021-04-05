@@ -13,9 +13,6 @@ import MypageConfirmedSession from "../components/mypage/MypageConfirmedSession"
 import MypageNav from "../components/mypage/MypageNav";
 import { getUserSessionInfo } from "../actions/SessionActions";
 import { getUserInfo } from "../actions/UserActions";
-import IconButton from "@material-ui/core/IconButton";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 import { makeStyles } from "@material-ui/core/styles";
 import ListSubheader from "@material-ui/core/ListSubheader";
