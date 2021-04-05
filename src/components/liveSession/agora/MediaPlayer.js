@@ -16,7 +16,7 @@ export default function MediaPlayer(props) {
 
       return () => {
         audioTrack.setEnabled(false);
-        audioTrack.stop();
+        // audioTrack.stop();
       };
     }
 

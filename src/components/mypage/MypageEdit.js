@@ -63,7 +63,7 @@ const MypageEdit = (props) => {
 
   const classes = useStyles();
   const history = useHistory();
-  const user = props.location.state;
+  const user = props.routerInfo.location.state;
 
   console.log(user);
 
@@ -71,7 +71,7 @@ const MypageEdit = (props) => {
     // email: "",
     work_field: user.work_field,
     // profile_image: user.,
-    nickname: user.username,
+    username: user.username,
     work_company: user.work_company,
     bio: user.bio,
   });
@@ -80,7 +80,7 @@ const MypageEdit = (props) => {
     email,
     work_field,
     profile_image,
-    nickname,
+    username,
     work_company,
     bio,
   } = inputs;
@@ -104,7 +104,7 @@ const MypageEdit = (props) => {
         // email: email,
         work_field: work_field,
         // profile_image: profile_image,
-        username: nickname,
+        username: username,
         work_company: work_company,
         bio: bio,
     };
@@ -118,7 +118,7 @@ const MypageEdit = (props) => {
     // dispatch(updateUserInfo(localStorage.token, data));
     dispatch(getUserInfo(localStorage.token));
     history.push({
-      pathname: '/mypage/' + nickname,
+      pathname: '/mypage/' + username,
       state: user
     })
   };
@@ -133,14 +133,14 @@ const MypageEdit = (props) => {
             style={style.field}
             required
             id="outlined-required"
-            label="nickname"
+            label="username"
             defaultValue={user.username}
             variant="outlined"
             InputLabelProps={{
               shrink: true,
             }}
             onChange={onChange}
-            name="nickname"
+            name="username"
           />
 
           <br></br>

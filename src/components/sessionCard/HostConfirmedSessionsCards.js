@@ -2,12 +2,11 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router"
 import React, {useMemo} from 'react';
 import Moment from "react-moment";
+import Typography from '@material-ui/core/Typography';
 
 import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
 
-
-import Typography from "@material-ui/core/Typography";
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import "../../App.css"
