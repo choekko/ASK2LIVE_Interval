@@ -100,6 +100,8 @@ const ProfileDetail = (props) => {
 
   const user = useSelector((state) => state.user.data.detail);
   console.log("props", props)
+  console.log(user);
+
 
   let profile = {}
   if (props.routerInfo.location.state.host){
