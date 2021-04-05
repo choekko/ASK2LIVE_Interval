@@ -7,7 +7,6 @@ import MypageContainer from './containers/MypageContainer';
 import SessionCreateContainer from './containers/SessionCreateContainer';
 import ProfileDetail from './components/mypage/ProfileDetail';
 import MypageEdit from './components/mypage/MypageEdit';
-import MySessionEdit from './components/mypage/MySessionEdit'
 import PreQuestions from './components/sessionCard/PreQuestions';
 // import MainPage from "./components/MainPage" 
 // import 'fontsource-roboto'
@@ -56,9 +55,8 @@ const App = () => {
         </Switch>
         <Route exact path="/preQuestions/:pk" component={Auth(PreQuestions, true)}/>    
         <Route exact path="/mypage" component={Auth(MypageContainer, true)}/>
-        <Route exact path="/mypage/:nickname" component={Auth(ProfileDetail, true)}/>
-        <Route exact path="/mypage/:nickname/edit" component={Auth(MypageEdit, true)}/>
-        <Route exact path="/mypage/hole/:session/edit" component={Auth(MySessionEdit, true)}/>
+        <Route exact path="/mypage/:username" component={Auth(ProfileDetail, true)}/>
+        <Route exact path="/mypage/:username/edit" component={Auth(MypageEdit, true)}/>
         </>
 
     )

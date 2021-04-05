@@ -14,6 +14,8 @@ import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import EditIcon from "@material-ui/icons/Edit";
 import Grid from "@material-ui/core/Grid";
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 
 import "../../styles/style.css";
 import { SessionConfirm } from "./SessionConfirm";
@@ -88,6 +90,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const style = {
+  alert : {
+      boxShadow: "2px 2px 2px 2px #D95032",    // 섀도우 색
+      border: "solid 1px white",    // 테두리 색
+      backgroundColor:"black"      // 배경색
+  }
+}
+
 const MypageLiveSession = (props) => {
   const user = useSelector((state) => state.user.data.detail);
   const { session, setFlag } = props;
@@ -99,10 +109,30 @@ const MypageLiveSession = (props) => {
     transform: "translate(0, 100%)",
     display: "none",
   });
+  const [open, setOpen] = useState(false);
+
+  // 여는 함수, onClick에 해당 함수 넣으면 클릭시 등장
+  const handleClick = () => {       
+    setOpen(true);
+  };
+
+  // 닫는 함수. 이미 아래에 자동적으로 사용되고 있음.
+  const handleClose = async(event, reason) => {
+    await dispatch(getUserSessionInfo(localStorage.token))
+    setListUp({ transform: "translate(0, 100%)" });
+    setDark({ animation: "golight 0.7s" });
+    setTimeout(() => {
+    setDark({ display: "none" });
+    }, 700);
+    history.replace("/mypage");
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
 
   const onDelete = async () => {
     console.log("DELETE SESSION!");
-    // await postSessionDelete(session);
     const config = {
       headers: { Authorization: "Token " + localStorage.token },
     };
@@ -159,11 +189,9 @@ const MypageLiveSession = (props) => {
                   aria-label="settings"
                   onClick={() => {
                     <>
-                      {console.log("CLICK")}
-                      {console.log(session)}
                       {history.push({
-                        pathname: `mypage/hole/${session.id}/edit`,
-                        state: session,
+                        pathname: '/createSession',
+                        search: '?holeId=' + session.id,
                       })}
                     </>;
                   }}
@@ -221,10 +249,20 @@ const MypageLiveSession = (props) => {
           session={session}
           goListUp={setListUp}
           goDark={setDark}
-          setFlag={setFlag}
+          handleClick={handleClick}
         />
       </div>
       <div style={dark} className="mypagelayerfordark"></div>
+      <Snackbar
+        style={{ position: "fixed", bottom: "50%" }}
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} style={style.alert} severity="success">
+          <span style={{ color: "white" }}>Live Q&A 생성 완료!</span>
+        </Alert>
+      </Snackbar>
     </>
   );
 };
