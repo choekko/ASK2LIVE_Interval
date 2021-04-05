@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {MyLiveSessionsCards, OtherLiveSessionsCards, CurrentReserveSessionsCards, HostConfirmedSessionsCards} from '../components/sessionCard' 
 import {SessioinCreateButton} from '../components/SessionCreateButton';
+import  ProfileEditButton from "../components/ProfileEditButton";
 // material-ui
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
@@ -15,6 +16,7 @@ import {useHistory} from "react-router-dom"
 
 import "../styles/style.css"
 import "../App.css"
+import { Opacity } from '@material-ui/icons';
 
 let myLiveSessions = []
 let otherLiveSessions = []
@@ -23,10 +25,13 @@ let hosts = []
 let hostConfirmedSessions = []
 
 const style = {
-    title : {
-        color: "#030916",
-        fontSize: "1.5em",
-        paddingLeft : "1em"
+    mainLogo : {
+        backgroundImage : "url('/static/LogoWhite.png')",
+        backgroundSize : "contain",
+        backgroundRepeat : "no-repeat",
+        width : "8em",
+        height : "3em",
+        margin : "0.5em 0 0 1.5em"
     },
     mainOragne: {
         position : "absolute",
@@ -77,6 +82,19 @@ const style = {
         marginLeft: '-20%',
         fontWeight: 900,
     },
+    swiperLeft : {
+        backgroundImage: "url('/static/toLeft.png')",
+    },
+    swiperLeftHidden : {
+        display : "none"
+    },
+    swiperRight: {
+        backgroundImage: "url('/static/toRight.png')"
+    },
+    swiperRightHidden : {
+        display : "none"
+    },
+
 }
 
     
@@ -89,7 +107,13 @@ const SessionCardContainer = (props) => {
     const allUsersData = useSelector(state => state.allUsers);
     const mySession = useSelector(state => state.mySession.data);
     // console.log('allUsers.data.data.detail', allUsersData.data.data.detail);
-    
+
+    const wrapperCnt = (cnt) => {
+        let defaultSize = 270;
+        const rst = cnt * defaultSize;
+        return rst.toString() + "px";
+    }
+
     if(user.error){
         localStorage.clear()
         window.location.replace('/')
@@ -137,6 +161,29 @@ const SessionCardContainer = (props) => {
         })
     }
 
+    const [swiperCnt, setSwiperCnt] = useState(1);
+
+    const leftBtnTrigger = () => {
+        if (swiperCnt == 1){
+            return style.swiperLeftHidden
+        }
+        else 
+            return style.swiperLeft
+    }
+    const rightBtnTrigger = () => {
+        if (myLiveSessions.length == 1 || swiperCnt == myLiveSessions.length)
+            return style.swiperRightHidden
+        else
+            return style.swiperRight
+    }
+
+    const swipping = () => {
+        const where = swiperCnt == 1 ? "0" : ((swiperCnt - 1) * -270).toString() 
+        return "translate(" + where.toString(where) + "px, 0)"
+    } 
+
+
+
 
     return (
         <>
@@ -144,52 +191,78 @@ const SessionCardContainer = (props) => {
             <div style={style.cookie1} className="helloCookie"/>
         </div>
         <br></br>
-        <div className="BMDOHYEON" style={style.title}>
-                ASK2LIVE
-        </div>
-        <br/><br/>
-        
+        <div style={style.mainLogo}/>
             {
                 myLiveSessions.length == 0 ?
+                <>
+                <br/>
                 <div style={style.descript} className="NotoSans2">
-                다양한 사람들에게<br/>
-                궁금한 것들을 물어보세요!
+                어서오세요!<br/>
+                ASK2LIVE를 즐겨보세요!
                 </div>
+                </>
                 :
+                <>
+                <div
+                style={{
+                    backgroundImage: "url('/static/mainLive.png')",
+                    backgroundSize : "contain",
+                    backgroundRepeat : "no-repeat",
+                    width: "25px",
+                    height :"25px",
+                    marginLeft : "1.5em",
+                }}/>
                 <div style={style.descript} className="NotoSans2">
                 찜했던<br/>
                 Live Q&A가 시작했어요!
                 </div>
+                </>
             } 
         
         <br/>
 
-    <br></br>
-        <SessioinCreateButton/>
+ 
 
-
-        <Grid container direction="row" justify="center" alignItems="center">
             { myLiveSessions.length != 0 ?
             <> 
-            <MyLiveSessionsCards myLiveSessions={myLiveSessions} />
-            <div className="center divider">
-              <Divider variant="middle"/>
-            </div>
+                <Grid container justify="center">
+                    <div className="myLiveWrapper">
+                        <div className="myLive" style={{display:"block", height: "300px", width: wrapperCnt(myLiveSessions.length), transform: swipping()}}>
+                            <MyLiveSessionsCards myLiveSessions={myLiveSessions} />
+                        </div>
+                        <div
+                        style={leftBtnTrigger()}
+                        onClick={()=>{
+                            setSwiperCnt((prev) => prev - 1)
+                        }}
+                        className="swiperLeft"/>
+                        <div
+                        style={rightBtnTrigger()}
+                        onClick={()=>{
+                            setSwiperCnt((prev) => prev + 1)
+                        }}
+                        className="swiperRight"/>
+                    </div>
+                </Grid>
             </>
             : <></>
             }
-        </Grid>
 
-        <p style={style.descript2} className="Gmarket2">LIVE 중인 다른 Q&A</p>
+        <br></br>
+        <SessioinCreateButton noMyLive={myLiveSessions.length == 0}/>
+
+
+
+        <p style={style.descript2} className="Gmarket2">LIVE 중인 Q&A</p>
         <Grid style={{paddingLeft : "6em", paddingRight : "6em"}} container direction="row" justify="center" alignItems="center">
             { otherLiveSessions.length != 0 ? <OtherLiveSessionsCards otherLiveSessions={otherLiveSessions}/> : <p>라이브 중인 다른 세션이 없어요</p> }
         </Grid>
     
-        <div className="center divider">
-            <Divider variant="middle"/>
-        </div>
+        <br/>
+        <ProfileEditButton userName={user.data.detail?.username}/>
 
         <p style={style.descript2} className="Gmarket2">다가오는 LIVE Q&A</p>
+
         <Grid style={{paddingLeft : "6em", paddingRight : "6em"}} container direction="row" justify="center" alignItems="center">
             { hostConfirmedSessions.length != 0 ? <HostConfirmedSessionsCards hostConfirmedSessions={hostConfirmedSessions}/> : <p>예정된 다른 세션이 없어요</p> }
         </Grid>
@@ -198,14 +271,11 @@ const SessionCardContainer = (props) => {
             <Divider variant="middle"/>
         </div>
 
+
         <p style={style.descript2} className="Gmarket2">오픈 신청중인 LIVE Q&A</p>
         <Grid style={{paddingLeft : "6em", paddingRight : "6em"}} container direction="row" justify="center" alignItems="center">
             { currentReserveSessions.length != 0 ? <CurrentReserveSessionsCards currentReserveSessions={currentReserveSessions} setFlag={setFlag}/> : <p>요청 받고있는 다른 세션이 없어요</p>}
         </Grid>
-
-        <div className="center divider">
-            <Divider variant="middle"/>
-        </div>
 
         {/* <Grid style={{paddingLeft : "6em", paddingRight : "6em"}} container direction="row" justify="center" alignItems="center">
             { hosts.length != 0 ? <HostCards hosts={hosts}/> : <p>등록된 호스트가 없어요</p>}
