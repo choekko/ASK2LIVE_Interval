@@ -1,11 +1,14 @@
+import { useEffect } from 'react'
 import { useHistory } from "react-router-dom";
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import MypageNav from "./MypageNav";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import Button from '@material-ui/core/Button';
+
+import { getUserInfo } from '../../actions/UserActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -96,17 +99,21 @@ const style = {
 
 const ProfileDetail = (props) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const classes = useStyles();
 
-  const user = useSelector((state) => state.user.data.detail);
-  console.log("props", props)
+  const user = props.routerInfo.location.state
+
+  useEffect(() => {
+    dispatch(getUserInfo(localStorage.token))
+  })
 
   let profile = {}
   if (props.routerInfo.location.state.host){
     const host = props.routerInfo.location.state.host;
     console.log("host : ", host)
-    if (!host.work_company.length) host.work_company = "회사 이름";
-    if (!host.work_field.length) host.work_field = "분야";
+    if (!host.work_company.length) host.work_company = "[회사 이름]을 입력해주세요";
+    if (!host.work_field.length) host.work_field = "[분야]를 입력해주세요";
 
     profile = {
       username: host.username,
@@ -115,8 +122,8 @@ const ProfileDetail = (props) => {
       bio: host.bio,
     }
   } else {
-    if (!user.work_company.length) user.work_company = "회사 이름";
-    if (!user.work_field.length) user.work_field = "분야";
+    if (!user.work_company.length) user.work_company = "[회사 이름]을 입력해주세요";
+    if (!user.work_field.length) user.work_field = "[분야]를 입력해주세요";
     profile = {
       username: user.username,
       work_company: user.work_company,
@@ -167,7 +174,7 @@ const ProfileDetail = (props) => {
       <div className={classes.root2}>
         <div style={style.paper} className="BMDOHYEON">
           소개
-        </div>
+        </div>2
         <div style={style.bio} className="NotoSans2">
           {profile.bio}
         </div>

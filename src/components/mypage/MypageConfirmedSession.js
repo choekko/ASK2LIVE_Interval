@@ -182,11 +182,9 @@ const MypageConfirmedSession = ({ session }) => {
                   aria-label="settings"
                   onClick={() => {
                     <>
-                      {console.log("CLICK")}
-                      {console.log(session)}
                       {history.push({
-                        pathname: `mypage/hole/${session.id}/edit`,
-                        state: session,
+                        pathname: '/createSession',
+                        search: '?holeId=' + session.id,
                       })}
                     </>;
                   }}
@@ -231,23 +229,12 @@ const MypageConfirmedSession = ({ session }) => {
                     삭제하기
                   </Typography>
                 </Button>
-                
-                
                 </>
               )}
             </CardActions>
           </CardContent>
         </Card>
       </Grid>
-      
-      <div style={listup} className="hiddenlist" maxWidth="">
-        <SessionConfirm
-          session={session}
-          goListUp={setListUp}
-          goDark={setDark}
-        />
-      </div>
-      <div style={dark} className="mypagelayerfordark"></div>
     </>
   );
 };

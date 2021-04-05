@@ -39,7 +39,11 @@ const ProfileEditButton = (props) => {
                 {marginTop:"1.5em", backgroundColor: "#4CC0D0"}
             }
             onClick={() => {
-                history.push("/mypage/" + props.userName + "/edit");
+                history.push({
+                    pathname :"/mypage/" + props.user.data.detail.username,
+                    state : props.user.data.detail
+                    });
+
             }}
             className="createBtn">
                 <Grid container justify="center">

@@ -8,7 +8,7 @@ export const onMessagesValueChange = data => ({ type: ON_MESSAGES_VALUE_CHANGE, 
 export const onRoomMessagesRead = holeId => dispatch => {
   dispatch({ type: ON_MESSAGES_READING });
 
-  const socket = new ReconnectingWebSocket(`${WS_ENDPOINT()}/hole/${holeId}`);
+  const socket = new ReconnectingWebSocket(`${WS_ENDPOINT()}/hole/${holeId}/`);
   socket.debug = true;
   socket.timeoutInterval = 4400;
 

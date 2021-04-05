@@ -259,7 +259,7 @@ const SessionCardContainer = (props) => {
         </Grid>
     
         <br/>
-        <ProfileEditButton userName={user.data.detail?.username}/>
+        <ProfileEditButton user={user}/>
 
         <p style={style.descript2} className="Gmarket2">다가오는 LIVE Q&A</p>
 
