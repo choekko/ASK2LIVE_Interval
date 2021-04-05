@@ -11,15 +11,18 @@ import CardHeader from '@material-ui/core/CardHeader';
 import { red } from '@material-ui/core/colors';
 import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
+import Grid from "@material-ui/core/Grid";
 import "../../styles/style.css";
-
+import "../../App.css";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      minWidth: 250,
-      maxWidth: 500,
+      width: 250,
+      height: 250,
       borderRadius: "20px",
       boxShadow: "1px 1px 8px 0px rgb(0, 0, 0, 0.3)",
+      float :"left",
+      margin:"10px 10px",
     },
     media: {
         cursor: "pointer",
@@ -44,8 +47,8 @@ const useStyles = makeStyles((theme) => ({
     },
     cookieWrapper: {
         display : "block",
-        width: "6em",
-        height: "6em",
+        width: "6.3em",
+        height: "6.3em",
         marginLeft: "1em",
         backgroundPosition : "center center",
         backgroundSize: "100%",
@@ -55,17 +58,64 @@ const useStyles = makeStyles((theme) => ({
         
     },
     useCookie: {
-        position: "absolute",
         margin: "auto",
         backgroundImage: "url('/static/cookieMould.png')",
         backgroundPosition : "center center",
         backgroundSize: "100%",
-        width: "6em",
-        height : "6em",
+        width: "6.3em",
+        height : "6.3em",
         overflow: "hidden",
     },
+    living : {
+        background: "url('/static/living.gif') no-repeat",
+        width : "17px",
+        height: "17px",
+        backgroundSize: "contain",
+        position:"absolute",
+        transform : "translate(13.2em, -13.7em)",
+    }
   }));
   
+
+const style = {
+    contentWrapper : {
+        // backgroundColor : "skyblue",
+        width : "13.5em",
+        height : "6em",
+        margin : "0.7em 1.05em 1.05em 1.05em",
+    },
+    contentTime : {
+        // backgroundColor : "pink",
+        width : "13.5em",
+        height : "1.8em",
+    },
+    contentTitle : {
+        // backgroundColor : "coral",
+        width : "13.5em",
+        height : "1.8em",
+        whiteSpace : ""
+    },
+    contentName : {
+        // backgroundColor : "yellow",
+        width : "13.5em",
+        height : "1em",
+        marginBottom : "3px"
+    },
+    contentWork : {
+        // backgroundColor : "green",
+        width : "13.5em",
+        height : "1em",
+    },
+    live2 : {
+        display: "inline-block",
+        backgroundImage : "url('/static/Live_2.png')",
+        backgroundSize : "contain",
+        backgroundRepeat: "no-repeat",
+        width : "40px",
+        height : "28px",
+    },
+
+}
 
 const MyLiveSessionsCard = ({session}) => {
     const classes = useStyles();
@@ -76,13 +126,20 @@ const MyLiveSessionsCard = ({session}) => {
         setExpanded(!expanded);
     };
 
+    
+    let now = new Date();
+
+    const toDate = (reserve_date) => {
+        let date = new Date(reserve_date);
+        return date;
+    } 
+
   return (
     <>
     {/* <div className="padding" onClick={() => {history.push({
         pathname: "/session?state=mylive&i_r_d="+ session.roomId + "&channelNum=" + session.channelNum" 
     })}}> */}
     <div 
-    className="padding" 
     onClick={()=>{
                 history.push({
                     pathname: "/session/live",
@@ -100,6 +157,64 @@ const MyLiveSessionsCard = ({session}) => {
             className={classes.cookieWrapper}
 
             ><div className={classes.useCookie}></div> </div>
+            <div style={style.contentWrapper}>
+                <div style={style.contentTime}>
+                    <Grid container alignItems="center">
+
+                    <div
+                    style={style.live2}
+                    />
+                    <span
+                    style={{fontSize:"0.8em"}}
+                    className="NanumGothic3"
+                    >
+                        {session.count_participant}명
+                    </span>
+                    <span 
+                    className="NanumGothic3"
+                    style={{fontSize: "0.8em", color:"rgba(0, 0, 0, 0.4)", margin : "0px 3px"}}>
+                        ·
+                    </span>
+                    <span className="fontGradi BMJUA" style={{fontSize:"0.9em"}}>
+                        <Moment format="mm분 전 시작">
+                             {toDate(session.reserve_date) - now}
+                        </Moment>
+                    </span>
+                    </Grid>
+                </div>
+                <div style={style.contentTitle}>
+                    <span className="BMDOHYEON" style={{fontSize:"1em"}}>
+                        {session.title}
+                    </span>
+                </div>
+                <div style={style.contentName}>
+                    <span className= "NanumGothic3" style={{fontSize : "0.8em"}}>
+                        {session.host_username}
+                    </span>
+                </div>
+                <div style={style.contentWork}>
+                    <span className= "NanumGothic3" style={{color: "rgba(0, 0, 0, 0.5)", fontSize : "0.8em"}}>
+                            {session.host_work_company ? 
+                            <>
+                             {session.host_work_company} |
+                            </>
+                             : null}
+                            {session.host_work_field ? 
+                            <>
+                             {session.host_work_field}
+                            </>
+                             : null}
+                             {
+                                !session.host_work_company && !session.host_work_field ?
+                                <>ASK2LIVE | Live Q&A</>
+                                :
+                                <></>
+                             }
+                        </span>
+                </div>
+
+
+            </div>
             {/* <CardMedia
             className={classes.media}
             image={"/static/live_IU.png"}
@@ -108,7 +223,8 @@ const MyLiveSessionsCard = ({session}) => {
                 history.push("/session/live?roomId=" + session.livehole_id + "&channelNum=" + session.livehole_id)
             }}
             /> */}
-            <CardHeader
+            {/* <div 
+             <CardHeader
             avatar={
                 <Avatar aria-label="recipe" className={classes.avatar}>
                 {session.host_username}
@@ -123,8 +239,8 @@ const MyLiveSessionsCard = ({session}) => {
             subheader={
                 <>
                 <Typography variant="body2">
-                <Moment format="MM.DD hh시 mm분">
-                {session.reserve_date}
+                <Moment format="mm분 전 시작">
+                {toDate(session.reserve_date) - now}
                 </Moment>
                 </Typography>
                 </>}
@@ -135,8 +251,8 @@ const MyLiveSessionsCard = ({session}) => {
                         {session.description}
                     </Typography>
                 </div>
-            </CardContent>
-            {/* <CardActions disableSpacing>
+            </CardContent> 
+             <CardActions disableSpacing>
             <IconButton aria-label="add to favorites">
                 <FavoriteIcon />
             </IconButton>
@@ -161,10 +277,9 @@ const MyLiveSessionsCard = ({session}) => {
                 </Typography>
             </CardContent>
             </Collapse> */}
+        <div className={classes.living}/>
         </Card>
-        <br />
     </div>
-    <br/>
     </>
   );
 }
