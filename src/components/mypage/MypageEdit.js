@@ -69,7 +69,7 @@ const MypageEdit = (props) => {
 
   console.log(user);
 
-  const [image, setImage] = useState({ profile_image: { 0 :"https://www.ask2live.me"+user.profile_image }});
+  const [image, setImage] = useState();
   const [inputs, setInputs] = useState({
     work_field: user.work_field,
     username: user.username,
