@@ -91,13 +91,14 @@ const ProfileDetail = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
+  console.log("PROPS", props);
   const user = props.routerInfo.location.state;
 
+  let profile = {};
   useEffect(() => {
     dispatch(getUserInfo(localStorage.token));
   });
 
-  let profile = {};
   if (props.routerInfo.location.state.host) {
     const host = props.routerInfo.location.state.host;
     console.log("host : ", host);

@@ -125,19 +125,24 @@ const MypageEdit = (props) => {
     }
     
     console.log("====DATA====", formData);
-    const res = await axios.patch(
+    const resPatch = await axios.patch(
       "https://www.ask2live.me/api/user/update",
       formData,
       config,
     )
-    console.log("업데이트 성공~", res.data);
+    console.log("업데이트 성공~", resPatch.data);
     dispatch(getUserInfo(localStorage.token));
+    const resGet = await axios.get(
+      "https://www.ask2live.me/api/user/read",
+      config,
+    )
+    console.log("업데이트 유저 불러오기", resGet)
     console.log("====DATA====", formData);
 
     history.push({
-      pathname: '/mypage/' + username,
-      state: user
-    })
+      pathname: "/mypage/" + username,
+      state: resGet.data.detail
+    });
   };
 
   return (
