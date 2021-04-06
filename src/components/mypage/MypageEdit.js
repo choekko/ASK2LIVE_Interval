@@ -5,15 +5,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
-// import Button from "@material-ui/core/Button";
+import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { SettingsInputAntenna } from "@material-ui/icons";
+
 import axios from "axios";
 import MypageNav from "./MypageNav";
 import { getUserInfo, updateUserInfo } from "../../actions/UserActions";
 
-import { Upload, Button, Space } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,7 +69,7 @@ const MypageEdit = (props) => {
 
   console.log(user);
 
-  const [image, setImage] = useState({ profile_image: user.profile_image });
+  const [image, setImage] = useState({ profile_image: { 0 :"https://www.ask2live.me"+user.profile_image }});
   const [inputs, setInputs] = useState({
     work_field: user.work_field,
     username: user.username,
@@ -120,7 +119,7 @@ const MypageEdit = (props) => {
     formData.append('username', data.username);
     formData.append('work_company', work_company);
     formData.append('bio', bio);
-    console.log("default image", image);
+    console.log("default image", image.profile_image[0]);
     formData.append('profile_image', image.profile_image[0]);
 
     console.log("====DATA====", formData);
@@ -137,9 +136,6 @@ const MypageEdit = (props) => {
       pathname: '/mypage/' + username,
       state: user
     })
-    
-
-    
   };
 
   return (
@@ -164,17 +160,16 @@ const MypageEdit = (props) => {
 
           <br/>
           <br/>
-
+          <div style={style.text}>
+          기존 프로필 : <a href={`https://www.ask2live.me${user.profile_image}`}>{user.profile_image}</a><br/>
           <input 
             className="fileInput" 
             type="file" 
             name="image"
             // accept="image/*"
-            required
             onChange={onChange} />
-          <br/>
+          </div>
 
-          <br/>
           <div style={style.text}>이력</div>
           <TextField
             style={style.field}

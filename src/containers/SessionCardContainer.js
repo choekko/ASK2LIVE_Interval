@@ -109,20 +109,6 @@ const SessionCardContainer = (props) => {
     const history = useHistory();
     const allUsersData = useSelector(state => state.allUsers);
     const mySession = useSelector(state => state.mySession.data);
-
-    function info() {
-        Modal.info({
-            title:'',
-            content: (
-            <div className="NanumGothic3">
-                <br />
-                <p>호스트가 정해둔 찜 개수에 도달하면 라이브가 열려요</p>
-              <p>호스트에게 라이브를 기다리고 있다는 사실을 알려주세요!</p>
-            </div>
-          ),
-          onOk() {},
-        });
-      }
     
     // console.log('allUsers.data.data.detail', allUsersData.data.data.detail);
 
@@ -289,7 +275,7 @@ const SessionCardContainer = (props) => {
             <Divider variant="middle"/>
         </div>
 
-        <p style={style.descript2} className="Gmarket2">오픈 신청중인 LIVE Q&A <span style={{position: "relative",top: "5px"}}><InfoIcon onClick={info}/></span></p>
+        <p style={style.descript2} className="Gmarket2">오픈 신청중인 LIVE Q&A</p>
         <Grid style={{paddingLeft : "6em", paddingRight : "6em"}} container direction="row" justify="center" alignItems="center">
             { currentReserveSessions.length != 0 ? <CurrentReserveSessionsCards currentReserveSessions={currentReserveSessions} setFlag={setFlag}/> : <p>요청 받고있는 다른 세션이 없어요</p>}
         </Grid>

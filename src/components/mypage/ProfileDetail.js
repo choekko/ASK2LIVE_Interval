@@ -126,6 +126,7 @@ const ProfileDetail = (props) => {
     if (!user.work_field.length) user.work_field = "[분야]를 입력해주세요";
     profile = {
       username: user.username,
+      profile_image: user.profile_image,
       work_company: user.work_company,
       work_field: user.work_field,
       bio: user.bio,
@@ -140,6 +141,7 @@ const ProfileDetail = (props) => {
       state: user});
   }
   if (!user || !profile) return<p> 로딩중 </p>
+
   return (
     <>
     <div >
@@ -163,11 +165,11 @@ const ProfileDetail = (props) => {
         <Typography className={classes.work_field}>
           {profile.work_field}
         </Typography>
-
+        {console.log("profile_image", profile.profile_image)}
         <Avatar
           className={classes.avatar}
           aria-label="recipe"
-          src="../static/live_IU2.png"
+          src={`https://ask2live.me${profile.profile_image}`}
         ></Avatar>
       </div>
 
