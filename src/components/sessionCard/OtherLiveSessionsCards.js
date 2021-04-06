@@ -227,6 +227,11 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
                     <div style={style.contentTitle}>
                         <div className="contentTitle">
                             <span className="BMDOHYEON" style={{color: "#1C418C", fontSize: "1.1em"}}>
+                                {/* {session.title.indexOf(" ") > 7 ? 
+                                session.title.splice(7, 0, " ")
+                                :
+                                null                            
+                                } */}
                                 {session.title}
                             </span>
                         </div>
@@ -286,7 +291,7 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
                 style={{position:"fixed", top: "0%"}}
                 open={open} autoHideDuration={6000} onClose={handleClose}>
                     <Alert 
-                    style={{color: "black", backgroundColor:"white"}}
+                    style={{color: "black", backgroundColor:"white", border:"2px solid #4CC0D0", boxShadow:"2px 2px 15px 10px rgba(0, 0, 0, 0.6)"}}
                     onClose={handleClose} severity="error">
                     <span className="BMJUA">제목 :</span> {title} <br/>
                     <span className="BMJUA">설명 :</span> {subtitle}
