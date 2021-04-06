@@ -15,6 +15,7 @@ import Button from '@material-ui/core/Button';
 import Grid from "@material-ui/core/Grid";
 import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
 import Box from "@material-ui/core/Box";
 import "../../styles/style.css"
 import getQuestionlist from "../../actions/QuestionListActions";
@@ -24,6 +25,7 @@ import CommentIcon from '@material-ui/icons/Comment';
 import Avatar from '@material-ui/core/Avatar';
 import CheckIcon from '@material-ui/icons/Check';
 import InfoIcon from '@material-ui/icons/Info';
+import { CardActions } from "@material-ui/core";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +47,8 @@ const useStyles = makeStyles((theme) => ({
       justifyContent:"center",
       paddingTop: "0.5em",
       maxWidth: "20em",
-      minWidth: "17em"
+      minWidth: "17em",
+      cursor:"pointer",
 
     },
     title: {
@@ -172,7 +175,10 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
             {currentReserveSessions.map((session) => (
                 <>
                 {console.log(session)}
-                <Paper className={classes.paper} page={i++}>
+                <Paper className={classes.paper} onClick={() => {
+                  history.push('/preQuestions/'+session.id)
+                  dispatch(getQuestionlist(session.id))
+                }}>
                 <Grid container justify="center">
                   <Progress 
                     className={classes.progress}
@@ -291,6 +297,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                         </div>
                         </Grid>
                 </Paper>
+
                 <br/>
             </>
             ))
