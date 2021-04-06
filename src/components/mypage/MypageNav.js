@@ -12,14 +12,13 @@ const style = {
     position: "fixed",
     fontSize: "1.2em",
     // margin: "auto",
-    height: "5%",
+    height: "7%",
     width: "100%",
     maxWidth: "66em",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fff8ef",
-    borderBottom: "solid",
-    // backgroundColor: 'blue',
+    borderBottom: "2px solid",
     zIndex: "1",
   },
 };
@@ -29,7 +28,7 @@ const MypageNav = ({ text }) => {
 
   return (
     <>
-      <Grid container justify="center">
+
         <div className="BMDOHYEON" style={style.title}>
           <IconButton
             style={{position: "absolute", left:0}}
@@ -38,10 +37,9 @@ const MypageNav = ({ text }) => {
           >
             <ArrowBackIosIcon />
           </IconButton>
-          {text}
+          <span style={{transform:"translate(0, 2px)"}}>{text}</span>
         </div>
-        
-      </Grid>
+
     </>
   );
 };

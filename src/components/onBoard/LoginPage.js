@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import React, {useState, memo} from 'react';
 import axios from "axios";
 
-
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import LoginButton from '@material-ui/core/Button';
@@ -151,7 +150,6 @@ const LoginPage = (props) => {
       }
       axios.post('https://www.ask2live.me/api/user/login', 
       dataToSubmit,
-      // config,
       ).then((res) => {
         console.log("res", res)
         window.localStorage.setItem('token', res.data.detail.token)
