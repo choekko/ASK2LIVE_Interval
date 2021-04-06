@@ -19,25 +19,27 @@ const ParticipantList = (props) => {
 
     return (
         <>
-        <p style={{position:"absolute", marginTop: "1.5em"}}>
+        <p className="NanumGothic3" style={{position:"absolute", marginTop: "1.5em"}}>
             {participants.arrived?
-                participants.data.detail.participant.length+"명이나 듣고 있어요"
+                participants.data.detail.participant.length+"명이 듣고 있어요"
                 :
                 <></>
             }
         </p>
-        <Paper style={style.participantlist} elevation={0}>
-         <br/>
-         {participants.arrived ? 
-            participants.data.detail.participant.map((participant) => 
-            <Participant 
-            nickName={participant.username}
-            workField={participant.work_field}
-            workCompany={participant.work_company}
-            profileImage={participant.profile_image_url}/>)
-            : 
-            <p>로딩중</p>}
-        </Paper>
+            <Paper style={style.participantlist} elevation={0}>
+                <br/>
+                <div style={{position:"absolute", height:"100%", width:"100%", overflow:"auto"}}>
+                    {participants.arrived ? 
+                        participants.data.detail.participant.map((participant) => 
+                        <Participant 
+                        nickName={participant.username}
+                        workField={participant.work_field}
+                        workCompany={participant.work_company}
+                        profileImage={participant.profile_image_url}/>)
+                        : 
+                        <p>로딩중</p>}
+                </div>
+            </Paper>
         </>
     )
 

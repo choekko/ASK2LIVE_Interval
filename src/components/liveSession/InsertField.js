@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "none",
     width: "100%",
     height: "2.5em",
+    borderRadius: "15px",
   },
   root2: {
     padding: '0 0 0 10px',
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     backgroundColor: "rgba(0, 0, 0, 0.0)",
     boxShadow: "none",
-    Width : "7em",
+    Width : "6em",
     height: "2.5em",
   },
   input: {
@@ -45,19 +46,30 @@ const useStyles = makeStyles((theme) => ({
     color: "rgba(255, 255, 255, 0.6)",
     flex: 1,
   },
-  iconButton: {
-    backgroundColor: "white",
-    padding: "8.5px",
-  },
-  iconButton2: {
-    backgroundColor: "#D95032",
-    padding: "8.5px",
-  },
   divider: {
     height: 35,
     margin: 4,
   },
+
 }));
+
+const style = {
+    questioningBtn : {
+        width: "1.8em",
+        height:"1.8em",
+        marginRight:"5px", 
+        backgroundImage:"url('/static/questionPlus.png')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "contain",
+      },
+    questionListBtn : {
+    width: "1.8em",
+    height:"1.8em",
+    backgroundImage:"url('/static/questionList.png')",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "contain",
+    },
+}
 
 export default function CustomizedInputBase(props) {
 
@@ -68,15 +80,13 @@ export default function CustomizedInputBase(props) {
           props.goMessageSend();
       }
   }
-  const [limit, setLimit] = useState(false)
   return (
       <>
     <Paper className={classes.root}>
       <InputBase
         className={classes.input}
-        placeholder="채팅을 입력하세요"
+        placeholder="내용 입력하기"
         value={props.message}
-        inputProps={{ 'aria-label': 'search google maps' }}
         onChange={(e) =>
           {
             if(e.target.value.length > 100)
@@ -85,24 +95,29 @@ export default function CustomizedInputBase(props) {
           }
         onKeyPress={pressEnter}
       />
+        <IconButton onClick={props.goMessageSend} aria-label="send">
+        <SendIcon style={{color:"white"}}/>
+      </IconButton>
     </Paper>
     <Paper className={classes.root2}>
-    <IconButton disabled={limit} onClick={props.goMessageSend} className={classes.iconButton} aria-label="send">
-        <SendIcon/>
-      </IconButton>
-      <Divider className={classes.divider} orientation="vertical" />
+      {/* <Divider className={classes.divider} orientation="vertical" /> */}
       {props.isHost?
         <IconButton className={classes.iconButton} aria-label="participants"  onClick={()=>{dispatch(getEnteredSession(props.channelNum)); props.goUserUp(); props.goDark({display: "block", animation: "godark 0.7s"})}}>
          <ParticipantsButton/>
         </IconButton>
       :
-      <IconButton onClick={()=>{props.goQueUp(); props.goDark({display: "block", animation: "godark 0.7s"})}} className={classes.iconButton} aria-label="question">
-        <QuestionButton/>
+      <IconButton 
+      onClick={()=>{props.goQueUp(); props.goDark({display: "block", animation: "godark 0.7s"})}} className={classes.iconButton} aria-label="question"
+      style={style.questioningBtn}
+      >
+        {/* <QuestionButton/> */}
       </IconButton>
       }
-      <Divider className={classes.divider} orientation="vertical" />
-      <IconButton onClick={()=>{console.log("press button"); props.goListUp(); props.goDark({display: "block", animation: "godark 0.7s"})}} className={classes.iconButton2} aria-label="question_list">
-        <QuestionListButton/>
+      {/* <Divider className={classes.divider} orientation="vertical" /> */}
+      <IconButton 
+      style={style.questionListBtn}
+      onClick={()=>{console.log("press button"); props.goListUp(); props.goDark({display: "block", animation: "godark 0.7s"})}} className={classes.iconButton2} aria-label="question_list">
+        {/* <QuestionListButton/> */}
       </IconButton>
     </Paper>
     </>

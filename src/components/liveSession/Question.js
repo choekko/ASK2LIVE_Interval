@@ -30,8 +30,11 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     myPaper : {
-        border : "2px solid white",
-        boxShadow: "0px 0px 4px 2px black"
+        border : "3px solid white",
+        boxShadow: "0px 0px 2px 3px black"
+    },
+    otherPaper: {
+        border : "2px solid black",
     }
   }));
 
@@ -51,13 +54,32 @@ export default function SimplePaper(props) {
 const classes = useStyles();
 
 return (
+    <>
+    {props.isFirst?
+    <div style={{marginLeft: "10px", marginBottom:"10px"}}>
+     <div style={{borderRadius:"100%", display:"inline-block", backgroundColor:"#d95032", width:"10px", height:"10px"}}></div>
+    <span className="CookieRun" style={{marginLeft: "8px",marginBottom:"10px"}}>
+       지금 답변중!</span>
+    </div>
+    :
+    null
+    }
     <div className={classes.root}>
-    <Paper className={props.myQuestion? classes.myPaper : null} style={props.isVoice? {backgroundColor:"#D95032"} : null} elevation={2} >
+    <Paper className={props.myQuestion? classes.myPaper : classes.otherPaper} style={props.isVoice? {backgroundColor:"#D95032"} : null} elevation={2} >
         <div style={style.card}>
-            <p style={{marginTop:"4px", padding :"0"}}className="BMDOHYEON">{props.userName}</p>
+            <p style={{margin:"4px 0 0 4px", padding :"0"}}className="BMDOHYEON">{props.userName}</p>
         </div>
-            <p style={{margin:"4px 0 0 4px", padding :"0"}}className="NanumGothic2">{props.value}</p>
+            <p style={{margin:"4px 0 0 8px", padding :"0"}}className="NanumGothic2">{props.value}</p>
     </Paper>
     </div>
+    {props.isFirst? 
+    <>
+    <div style={{width:"100%", borderBottom:"1px solid rgba(0, 0, 0, 0.5)"}}/>
+    <br/>
+    </>
+    :
+    null
+    }
+    </>
 );
 }

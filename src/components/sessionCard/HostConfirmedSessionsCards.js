@@ -23,7 +23,7 @@ function Alert(props) {
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "17em",
-    height: "10.5em",
+    height: "11.5em",
     borderBottom : "0.4px solid #3B568C",
     borderRadius: "0px",
     boxShadow: "0 0 0 0",

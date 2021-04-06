@@ -9,7 +9,8 @@ const style = {
         backgroundColor : "white",
         borderRadius : "20px",
         margin: "0 0 0.6em 1em",
-        padding: "0.5em 0.8em",
+        padding: "0.4em 0.8em",
+        fontSize: "0.9em"
     },
     audience1 : {
         margin: "5px 0 5px 5px",
@@ -51,7 +52,7 @@ const StringQuestion = (props) => {
     
     while (true)
     {
-        if (questionStrAry.length === 3)
+        if (questionStrAry.length === 2)
             break;
         if (questionStr.length <= maxNum)
         {

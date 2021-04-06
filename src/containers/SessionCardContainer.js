@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from "axios";
 import { useSelector } from 'react-redux';
 import {MyLiveSessionsCards, OtherLiveSessionsCards, CurrentReserveSessionsCards, HostConfirmedSessionsCards} from '../components/sessionCard' 
 import {SessioinCreateButton} from '../components/SessionCreateButton';
@@ -10,12 +11,9 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Icon from '@material-ui/core/Icon';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import InfoIcon from '@material-ui/icons/Info';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import {useHistory} from "react-router-dom"
-
-import { Modal } from 'antd';
 
 import "../styles/style.css"
 import "../App.css"
@@ -97,7 +95,13 @@ const style = {
     swiperRightHidden : {
         display : "none"
     },
-
+    logOut : {
+        position :"absolute",
+        transform:"translate(-2em, -3em)",
+        right: "0%",
+        color: "white",
+        cursor:"pointer",
+    }
 }
 
     
@@ -109,7 +113,6 @@ const SessionCardContainer = (props) => {
     const history = useHistory();
     const allUsersData = useSelector(state => state.allUsers);
     const mySession = useSelector(state => state.mySession.data);
-    
     // console.log('allUsers.data.data.detail', allUsersData.data.data.detail);
 
     const wrapperCnt = (cnt) => {
@@ -128,16 +131,16 @@ const SessionCardContainer = (props) => {
         if(user.data.detail){
             userDetail = user.data.detail
         }else{
-            userDetail = {id:-1}
+            userDetail = {id:-1} // 반찬고 >_<
         }
         myLiveSessions = []
         otherLiveSessions = []
         currentReserveSessions = []
         hostConfirmedSessions = []
         hosts = []
-        console.log(sessions)
+
         sessions.map((session) => {
-            
+            console.log(session)
             if (session.status == "DOING" && session.hole_reservations && (session.hole_reservations).guests.indexOf(userDetail.id) != -1) {
                 myLiveSessions = [...myLiveSessions, session];
                 console.log("myLiveSEssion:",myLiveSessions)
@@ -186,6 +189,15 @@ const SessionCardContainer = (props) => {
         return "translate(" + where.toString(where) + "px, 0)"
     } 
 
+    const Logout = async() => {
+        const headers = {
+          'Authorization': 'Token ' + localStorage.token
+        }
+        const data = {}
+        const res = await axios.post('https://www.ask2live.me/api/user/logout', data, {headers:headers})
+        // window.location.replace('/')
+      }
+
 
 
 
@@ -196,6 +208,15 @@ const SessionCardContainer = (props) => {
         </div>
         <br></br>
         <div style={style.mainLogo}/>
+        <span 
+        className="BMJUA" 
+        style={style.logOut}
+        onClick={()=> {
+            Logout()
+            localStorage.clear()
+            window.location.replace('/')
+            }}
+        >로그아웃</span>
             {
                 myLiveSessions.length == 0 ?
                 <>
