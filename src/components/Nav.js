@@ -56,7 +56,8 @@ const useStyles = makeStyles((theme) => ({
         margin : "auto",
         backgroundColor: "#eb4e27",
         borderRadius: "15px", 
-        maxWidth: "80em",
+        width: "90%",
+        maxWidth: "44em",
         zIndex: "1"
       },
   }));
@@ -91,14 +92,14 @@ const NavOfGuest = (props) => { // 지금은 쓰지 않는다
   );
 }
 
-const Logout = async() => {
-  const headers = {
-    'Authorization': 'Token ' + localStorage.token
-  }
-  const data = {}
-  const res = await axios.post('https://www.ask2live.me/api/user/logout', data, {headers:headers})
-  // window.location.replace('/')
-}
+// const Logout = async() => {
+//   const headers = {
+//     'Authorization': 'Token ' + localStorage.token
+//   }
+//   const data = {}
+//   const res = await axios.post('https://www.ask2live.me/api/user/logout', data, {headers:headers})
+//   // window.location.replace('/')
+// }
 
 const NavOfUser = (props) => {
     
@@ -136,7 +137,7 @@ const NavOfUser = (props) => {
                         </IconButton>
                     </Grid>
                     </td>
-                    <td >
+                    {/* <td >
                     <Grid container justify="center" alignItems="center">
                         <IconButton style={{padding: "0", }} color="inherit" aria-label="logout">
                         <ExitButton onClick={()=> {
@@ -146,12 +147,12 @@ const NavOfUser = (props) => {
                           }}/>
                          </IconButton>
                     </Grid>
-                    </td>
+                    </td> */}
                 </tr>                
                 <tr>
                     <td style={{fontSize : "0.5em"}}>Home</td>
                     <td style={{fontSize : "0.5em"}}>Mypage</td>
-                    <td style={{fontSize : "0.5em"}}>Logout</td>
+                    {/* <td style={{fontSize : "0.5em"}}>Logout</td> */}
                 </tr>                
             </table>
             </Toolbar>

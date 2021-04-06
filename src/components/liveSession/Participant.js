@@ -72,10 +72,26 @@ const Participant = (props) => {
                     </div>
                     <div style={style.tmp}>
                         <p style={{marginBottom:"5px"}}>{props.nickName}</p>
-                        <span>{props.workCompany ? props.workCompany : ""} | </span>
-                        <span>{props.workField ? props.workField : ""}</span>
+                        <span className= "NanumGothic3" style={{color: "rgba(0, 0, 0, 0.5)", fontSize : "0.8em"}}>
+                            {props.workCompany ? 
+                            <>
+                             {props.workCompany} |
+                            </>
+                             : null}
+                            {props.workField ? 
+                            <>
+                             {props.workField}
+                            </>
+                             : null}
+                             {
+                                !props.workCompany && !props.workField ?
+                                <>ASK2LIVE | Live Q&A</>
+                                :
+                                <></>
+                             }
+                        </span>
                     </div>
-                    <div style={style.follow}>follow</div>
+                    {/* <div style={style.follow}>follow</div> */}
                 </Card>
             </Grid>
         </>

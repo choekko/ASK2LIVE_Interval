@@ -55,9 +55,11 @@ const QuestionList = (props) => {
                     null
                 :
                     questionInfo.user_username === myName?
-                    <Question  isVoice={questionInfo.is_voice} userName={questionInfo.user_username} value={questionInfo.question} myQuestion="true"/>
+                    <Question  isVoice={questionInfo.is_voice} userName={questionInfo.user_username} value={questionInfo.question} myQuestion={true}
+                    isFirst={questionInfo === questionAry.data.detail[questionAry.data.detail.findIndex((value) => value.is_answered === false)]}/>
                     :
-                    <Question isVoice={questionInfo.is_voice} userName={questionInfo.user_username} value={questionInfo.question} myQuestion="false"/>
+                    <Question isVoice={questionInfo.is_voice} userName={questionInfo.user_username} value={questionInfo.question} myQuestion={false}
+                    isFirst={questionInfo === questionAry.data.detail[questionAry.data.detail.findIndex((value) => value.is_answered === false)]}/>
             )
 
             : <p>로딩중</p>}
@@ -70,9 +72,9 @@ const QuestionList = (props) => {
             questionAry.data.detail.map((questionInfo) =>
                 questionInfo.is_answered ?
                     questionInfo.user_username === myName?
-                    <Question  isVoice={questionInfo.is_voice} userName={questionInfo.user_username} value={questionInfo.question} myQuestion="true"/>
+                    <Question  isVoice={questionInfo.is_voice} userName={questionInfo.user_username} value={questionInfo.question} myQuestion={true}/>
                     :       
-                    <Question isVoice={questionInfo.is_voice} userName={questionInfo.user_username} value={questionInfo.question} myQuestion="false"/>
+                    <Question isVoice={questionInfo.is_voice} userName={questionInfo.user_username} value={questionInfo.question} myQuestion={false}/>
                 :
                     null
             )

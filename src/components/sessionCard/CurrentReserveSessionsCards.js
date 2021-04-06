@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import Moment from "react-moment"
 
-import 'antd/dist/antd.css';
+// import 'antd/dist/antd.css';
 import { Progress, Badge } from 'antd';
 
 import CircularProgress from "@material-ui/core/CircularProgress";
