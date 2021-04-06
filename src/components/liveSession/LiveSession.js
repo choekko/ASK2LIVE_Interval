@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef, useCallback} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory} from "react-router-dom"
 import axios from "axios"
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 import getEnteredSession from "../../actions/EnteredSessionActions"
 import getQuestionList from "../../actions/QuestionListActions";
 
@@ -270,6 +271,7 @@ const LiveSession = (props) => {
     const [open, setOpen] = useState(false);
 
     const [questionAlert, setOuestionAlert] = useState(false);
+    const [copiedAlert, setCopiedAlert] = useState(false);
 
     const [hostExit, setHostExit] = useState(false);
 
@@ -282,6 +284,17 @@ const LiveSession = (props) => {
         return;
     }
         setOuestionAlert(false);
+    };
+
+    const openCopiedAlert = () => {
+        setCopiedAlert(true);
+      };
+    
+    const closeCopiedAlert = (event, reason) => {
+    if (reason === 'clickaway') {
+        return;
+    }
+        setCopiedAlert(false);
     };
     // const history = useHistory()
     
@@ -390,7 +403,7 @@ const LiveSession = (props) => {
                 leavePatchApi();
                 clearInterval(liveInter)
                 
-                history.replace('/main');
+                // history.replace('/main');
                 // window.location.reload('/main');
             }
         }
@@ -425,6 +438,18 @@ const LiveSession = (props) => {
                         <tr>
                             <td  colspan="2" className="NanumGothic4" style={style.td1} >{props.holeTitle}</td>
                             <td  rowspan="2">
+                                <Grid container justify='center' alignItems='center'>
+                                    <CopyToClipboard
+                                        onCopy={openCopiedAlert}
+                                        text={window.location.href}
+                                    >
+                                        <div className="verticalmid" style={{backgroundColor: "grey", borderRadius: "8px"}}
+                                            // onClick={openCopiedAlert}
+                                        >
+                                            <img src="/static/copyLink.png"/>
+                                        </div>
+                                    </CopyToClipboard>
+                                </Grid>
                                 <div style={style.follow}>
                                 <div
                                     style={style.closeBtn}
@@ -440,6 +465,7 @@ const LiveSession = (props) => {
                                     <div style={style.linkBtn}/>
                                 </div>
                                 
+
                                 </div>
                                 
                             </td>      
@@ -537,6 +563,12 @@ const LiveSession = (props) => {
         <Snackbar style={{position: "fixed", bottom:"50%"}} open={questionAlert} autoHideDuration={6000} onClose={closeQuestionAlert}>
             <Alert onClose={closeQuestionAlert} style={{ boxShadow: "2px 2px 2px 2px #D95032", border: "solid 1px white", backgroundColor:"black"}} severity="success">
                 <span style={{ color:"white"}}>질문 등록 성공!</span>
+            </Alert>
+        </Snackbar>
+
+        <Snackbar style={{position: "fixed", bottom:"50%"}} open={copiedAlert} autoHideDuration={1500} onClose={closeCopiedAlert}>
+            <Alert onClose={closeCopiedAlert} style={{ boxShadow: "2px 2px 2px 2px #D95032", border: "solid 1px white", backgroundColor:"black"}} severity="success">
+                <span style={{ color:"white"}}>링크 복사 완료</span>
             </Alert>
         </Snackbar>
         </>
