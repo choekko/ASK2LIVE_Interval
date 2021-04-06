@@ -34,6 +34,7 @@ import Grid from '@material-ui/core/Grid';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import MicIcon from '@material-ui/icons/Mic';
+import LaunchIcon from '@material-ui/icons/Launch';
 
 import "../../styles/style.css"
 
@@ -157,6 +158,40 @@ const style = {
         boxShadow: "2px 2px 2px 2px #D95032",    // 섀도우 색
         border: "solid 1px white",    // 테두리 색
         backgroundColor:"black"      // 배경색
+    },
+
+    closeBtn : {
+        borderRadius:"10px",
+        position:"absolute",
+        top: "1em",
+        right: "1em",
+        width: "2em",
+        height: "2em",
+        background:"rgba(255, 255, 255, 0.2)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "white",
+    },
+    linkBtnWrap : {
+        borderRadius:"10px",
+        position:"absolute",
+        top: "1em",
+        right: "3.5em",
+        width: "2em",
+        height: "2em",
+        backgroundColor:"rgba(255, 255, 255, 0.2)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    linkBtn : {
+        marginLeft: "1px",
+        width: "1.8em",
+        height: "1.8em",
+        backgroundImage: "url('/static/linkBtn.png')",
+        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat"
     }
    
 }
@@ -335,7 +370,7 @@ const LiveSession = (props) => {
                 clearInterval(liveInter)
                 unblock();
                 
-                history.replace('/main');
+                // history.replace('/main');
                 // window.location.replace('/main');
                 
             }
@@ -373,7 +408,7 @@ const LiveSession = (props) => {
                 clearInterval(liveInter)
                 unblock();
                 
-                history.replace('/main');
+                // history.replace('/main');
                 // window.location.reload('/main');
             }
         }
@@ -391,11 +426,22 @@ const LiveSession = (props) => {
                             <td  colspan="2" className="NanumGothic4" style={style.td1} >{props.holeTitle}</td>
                             <td  rowspan="2">
                                 <div style={style.follow}>
-                                    <CloseIcon
-                                    style={{color: "white"}}
+                                <div
+                                    style={style.closeBtn}
                                     onClick={()=>{history.push('/main')}}
-                                    />  
+                                    >
+                                        <span 
+                                        className="NanumGothic2"
+                                        style={{fontSize: "0.6em"}}>종료</span>
                                 </div>
+                                <div
+                                style={style.linkBtnWrap}
+                                >
+                                    <div style={style.linkBtn}/>
+                                </div>
+                                
+                                </div>
+                                
                             </td>      
                         </tr>
                         <tr>

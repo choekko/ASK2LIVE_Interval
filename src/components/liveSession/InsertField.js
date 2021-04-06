@@ -63,11 +63,18 @@ const style = {
         backgroundSize: "contain",
       },
     questionListBtn : {
-    width: "1.8em",
-    height:"1.8em",
-    backgroundImage:"url('/static/questionList.png')",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "contain",
+        width: "1.8em",
+        height:"1.8em",
+        backgroundImage:"url('/static/questionList.png')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "contain",
+    },
+    participantBtn : {
+        width: "1.8em",
+        height:"1.8em",
+        backgroundImage:"url('/static/participant.png')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "contain",
     },
 }
 
@@ -102,8 +109,10 @@ export default function CustomizedInputBase(props) {
     <Paper className={classes.root2}>
       {/* <Divider className={classes.divider} orientation="vertical" /> */}
       {props.isHost?
-        <IconButton className={classes.iconButton} aria-label="participants"  onClick={()=>{dispatch(getEnteredSession(props.channelNum)); props.goUserUp(); props.goDark({display: "block", animation: "godark 0.7s"})}}>
-         <ParticipantsButton/>
+        <IconButton
+        style={style.participantBtn}
+        aria-label="participants" 
+        onClick={()=>{dispatch(getEnteredSession(props.channelNum)); props.goUserUp(); props.goDark({display: "block", animation: "godark 0.7s"})}}>
         </IconButton>
       :
       <IconButton 
