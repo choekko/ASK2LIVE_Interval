@@ -103,8 +103,8 @@ const ProfileDetail = (props) => {
     const host = props.routerInfo.location.state.host;
     console.log("host : ", host);
     if (!host.work_company.length)
-      host.work_company = "회사 이름을 입력해주세요";
-    if (!host.work_field.length) host.work_field = "분야를 입력해주세요";
+      host.work_company = "ASK2LIVE";
+    if (!host.work_field.length) host.work_field = "Live Q&A";
 
     profile = {
       username: host.username,
@@ -115,8 +115,8 @@ const ProfileDetail = (props) => {
     };
   } else {
     if (!user.work_company.length)
-      user.work_company = "회사 이름을 입력해주세요";
-    if (!user.work_field.length) user.work_field = "분야를 입력해주세요";
+      user.work_company = "ASK2LIVE";
+    if (!user.work_field.length) user.work_field = "Live Q&A";
     profile = {
       username: user.username,
       profile_image: user.profile_image,

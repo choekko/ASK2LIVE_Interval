@@ -173,7 +173,7 @@ const MypageEdit = (props) => {
             className="fileInput" 
             type="file" 
             name="image"
-            // accept="image/*"
+            accept="*/*"
             onChange={onChange} />
           </div>
 

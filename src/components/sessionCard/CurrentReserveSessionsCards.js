@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
       display:"flex",
       justifyContent:"center",
       paddingTop: "0.5em",
+      // paddingBottom: "1em",
       maxWidth: "20em",
       minWidth: "17em",
       cursor:"pointer",
@@ -57,11 +58,18 @@ const useStyles = makeStyles((theme) => ({
       justifyContent:"center",
       // paddingBottom: "1em"
     },
+    successContent: {
+      width: "80%",
+      position: "relative",
+      // top: "5px",
+      transform: "translate(0,-2em)",
+      // display: "inline-Block",
+    },
     content: {
       width: "80%",
       position: "relative",
-      top: "5px",
-
+      // top: "5px",
+      transform: "translate(0,-2em)",
       // display: "inline-Block",
     },
     date: {
@@ -106,16 +114,24 @@ const useStyles = makeStyles((theme) => ({
       position: "absolute",
       paddingTop: "110px"
     },
-    progress : {
-      
-    },
+
     wishButton : {
-      width:"80%",
+      width:"250px",
       height: "35px",
       textAlign: "center",
-      backgroundColor: '#F24822', 
+      backgroundColor: '#F24822',
       marginTop: '7px',
+      zIndex: "1",
+      transform : "translate(0,-4.5em)",
     },
+    commingSoon : {
+      width : "10em",
+      height: "2em",
+      backgroundImage:"url('/static/commingSoon.png')",
+      backgroundSize: "contain",
+      backgroundRepeat : "no-repeat",
+      transform : "translate(-4em,-10em)",
+    }
 
 
 
@@ -175,7 +191,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
             {currentReserveSessions.map((session) => (
                 <>
                 {console.log(session)}
-                <Paper className={classes.paper} onClick={() => {
+                <Paper elevation={3} className={classes.paper} onClick={() => {
                   history.push('/preQuestions/'+session.id)
                   dispatch(getQuestionlist(session.id))
                 }}>
@@ -193,9 +209,9 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                           <>
                           <div className={classes.avatarWrapper}>
                             <Avatar className={classes.avatar} src={`https://www.ask2live.me${session.host_profile_image}`} />
+                            
+                            {/* <CheckIcon size="large" style={{fontSize: "55", opacity: 0.6, position:"absolute", top:"25", left:"30"}} color='error'/> */}
                           </div>
-                          <CheckIcon size="large" style={{fontSize: "40",  position:"absolute", top:"32", left:"52"}} color='error'/>
-                          {/* <span className="NanumGothic3" style={{color: "red", fontSize: ""}}>성공!</span> */}
                           </>
                         )
                       }else{
@@ -210,51 +226,50 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                         )}
                       
                       }}
-                    success = {{strokeColor:"blue"}}
                     percent={(session.hole_reservations) ? 
-                            Math.ceil(
-                              session.hole_reservations.guests.length / session.hole_reservations.target_demand <= 1 ?
-                              session.hole_reservations.guests.length / session.hole_reservations.target_demand * 100 : 100) : 0}/>
-                        {/* <CircularProgressWithLabel 
-                          key={session.id} 
-                          session = {session}
-                          value={(session.hole_reservations) ? 
-                            Math.ceil(
-                              session.hole_reservations.guests.length / session.hole_reservations.target_demand <= 1 ?
-                              session.hole_reservations.guests.length / session.hole_reservations.target_demand * 100 : 100) : 0} 
-                          current={(session.hole_reservations) ? session.hole_reservations.guests.length  : 0 }
-                          dispatch = {dispatch}/> */}
-                          <Grid container className={classes.chipGrid} justify="center" alignItems="center">
-                            <Chip 
-                              size="small"  
-                              color="default" 
-                              label={<>
-                            <span className="NanumGothic3">{session.hole_reservations.target_demand == 0? 
-                              100 : Math.ceil(session.hole_reservations.guests.length / session.hole_reservations.target_demand * 100)}%달성</span></>} 
-                            />
-                          </Grid>
+                      Math.ceil(
+                        session.hole_reservations.guests.length / session.hole_reservations.target_demand <= 1 ?
+                        session.hole_reservations.guests.length / session.hole_reservations.target_demand * 100 : 100) : 0}/>
                           
+                        {session.hole_reservations.target_demand === 0 || session.hole_reservations.guests.length / session.hole_reservations.target_demand >= 1 ?
+                          <>
+                          {console.log("hihi")}
+                          <div className={classes.commingSoon}></div>
+                          </>
+                          :
+                          <>
+                          </>
+                        }
+                        <Grid container className={classes.chipGrid} justify="center" alignItems="center">
+                          <Chip 
+                            size="small"  
+                            color="default" 
+                            label={<>
+                          <span className="NanumGothic3">{session.hole_reservations.target_demand == 0? 
+                            100 : Math.ceil(session.hole_reservations.guests.length / session.hole_reservations.target_demand * 100)}%달성</span></>} 
+                          />
+                        </Grid>
+                        
                         <Grid justify="flex-start" className={classes.content}>
                             <span className="NanumGothic4">
                                 {session.title}
                             </span>
-                            <Typography variant='caption' component="div" color="textSecondary">
+                          <Typography variant='caption' component="div" color="textSecondary">
                             {session.host_username? session.host_username : "익명"} 
                             <span className={classes.work_field}>
                             {session.host_work_company? session.host_work_company : " "}
                             {session.host_work_field? " | "+session.host_work_field : " "}
                             </span>
-                            </Typography>
-                            <Grid item className={classes.date}>
-                            <Typography variant='caption' component="p" >
+                          </Typography>
+                          <Grid item className={classes.date}>
+                          <Typography variant='caption' component="p" >
                               <span className="NanumGothic3">{`예정일자 `}</span>
                             <Moment format="MM.DD hh:mm">
                               {session.reserve_date}
                             </Moment>
-                            </Typography>
-                            
+                          </Typography>
 
-                            <Grid container alignItems="stretch" >
+                          <Grid container alignItems="stretch" >
                             <div style={{color:"#F24822", paddingTop:"0.4em"}}><FavoriteBorderIcon fontSize="small"></FavoriteBorderIcon></div>
                             <p className={classes.wish} >
                             <span className="NanumGothic3">찜 {session.hole_reservations.guests.length}/{session.hole_reservations.target_demand}</span>
@@ -263,40 +278,40 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                             <p className={classes.questions}>
                             <span className="NanumGothic3">질문 {session.count_questions}개</span>
                             </p>
-                            </Grid>
-                            </Grid>
+                          </Grid>
+                        </Grid>
                             
                         </Grid>
-                        <Grid container justify="center">
-                          <Button 
-                          className={classes.wishButton}
-                          variant="contained"
-                          color="primary"
-                          clickable='true' 
-                          startIcon={<FavoriteBorderIcon fontSize="small"></FavoriteBorderIcon>}
-                          onClick={() => {
-                            if(Object.keys(user.data).length === 0){
-                              alert('로그인이 필요합니다.')
-                            }else{
-                              session.hole_reservations.guests.indexOf(user.data.detail.id) === -1 ?
-                            <>
-                            {onClickWish(session.id)}
-                            {setTimeout((()=> dispatch(getSessionInfo())),200)}
-                            </>
-                            : 
-                            <>
-                            {onClickWishCancel(session.id)}
-                            {setTimeout((()=> dispatch(getSessionInfo())),200)}
-                            </>}
-                            }
-                            }
-                            
-                            >{Object.keys(user.data).length != 0 && session.hole_reservations.guests.indexOf(user.data.detail.id) != -1 ? "취소하기" : "찜하기"}</Button>
-                          </Grid>
-                        <div>
-                        </div>
+                        
+                          
                         </Grid>
                 </Paper>
+
+                <Grid style={{width:"100%", margin: "auto", height: "1em", display: "flex", justifyContent: "center",}}>       
+                <Button 
+                className={classes.wishButton}
+                variant="contained"
+                color="primary"
+                clickable='true' 
+                startIcon={<FavoriteBorderIcon fontSize="small"></FavoriteBorderIcon>}
+                onClick={() => {
+                  if(Object.keys(user.data).length === 0){
+                    alert('로그인이 필요합니다.')
+                  }else{
+                    session.hole_reservations.guests.indexOf(user.data.detail.id) === -1 ?
+                  <>
+                  {onClickWish(session.id)}
+                  {setTimeout((()=> dispatch(getSessionInfo())),200)}
+                  </>
+                  : 
+                  <>
+                  {onClickWishCancel(session.id)}
+                  {setTimeout((()=> dispatch(getSessionInfo())),200)}
+                  </>}
+                  }
+                  }
+                  >{Object.keys(user.data).length != 0 && session.hole_reservations.guests.indexOf(user.data.detail.id) != -1 ? "취소하기" : "찜하기"}</Button>
+                  </Grid> 
 
                 <br/>
             </>

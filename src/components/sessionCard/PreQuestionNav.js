@@ -20,6 +20,48 @@ import Paper from '@material-ui/core/Paper';
 import SendIcon from '@material-ui/icons/Send';
 import IconButton from '@material-ui/core/IconButton';
 import getQuestionlist from '../../actions/QuestionListActions';
+import TextField from '@material-ui/core/TextField';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    maxWidth: "1000",
+    backgroundColor: "#E2D8CF",
+    paddingBottom: "3em",
+  },
+  margin: {
+    margin: theme.spacing(1),
+  },
+}));
+
+const style = {
+
+  submitbtn : {
+      display: "flex",
+      justifyContent: "center",
+      float: "right",
+      right: "3px",
+      width: "10%",
+      top: "2.4em",
+      height: "2.4em",
+      zIndex: "2",
+  },
+  insert : {
+      top: "3.2em",
+      left : "9px",
+      height: "2.5em",
+      width:"86%",
+      borderBottom : "1px solid",
+      borderTop: "0px",
+      borderLeft : "0",
+      borderRight: "0",
+  },
+  card : {
+    border: "5px solid red",
+  }
+
+}
+
 
 const MyQuestionCards = () => {
   let [myQuestions, setMyQuestions] = useState([])
@@ -81,7 +123,7 @@ const MyQuestionSend = ({session}) => {
 }
   return (
     <>
-    
+
     <div style={{paddingBottom:"1em"}}>
     <input
     type="text"
@@ -112,12 +154,10 @@ const QuestionCard = ({question}) => {
     console.log(question)
     return(
         <>
-        <Card key={question.id} className={classes.card}>
-        <CardHeader
-            subheader={question.user_username}/>
-        <CardContent>
+        <Card key={question.id} style={{border: "1px solid #F24822", marginBottom:"0.5em"}}>
+          <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-            {question.question}
+          {question.user_username} : {question.question}
         </Typography>
         </CardContent>
         </Card>
@@ -172,39 +212,7 @@ const LinkTab = (props) => {
   );
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    maxWidth: "1000",
-    backgroundColor: "#E2D8CF",
-    paddingBottom: "3em",
-  },
-}));
 
-const style = {
-
-  submitbtn : {
-      display: "flex",
-      justifyContent: "center",
-      float: "right",
-      right: "3px",
-      width: "10%",
-      top: "2.4em",
-      height: "2.4em",
-      zIndex: "2",
-  },
-  insert : {
-      top: "3.2em",
-      left : "9px",
-      height: "2em",
-      width:"86%",
-      borderBottom : "1px solid",
-      borderTop: "0px",
-      borderLeft : "0",
-      borderRight: "0",
-  }
-
-}
 
 const PreQuestionNav = ({session}) => {
   const classes = useStyles();

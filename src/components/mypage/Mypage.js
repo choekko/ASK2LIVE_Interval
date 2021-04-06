@@ -1,6 +1,5 @@
 import React, { useCallback } from "react"
 import ProfileGate from './ProfileGate'
-import Moment from "react-moment"
 import { makeStyles } from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
 
