@@ -84,6 +84,7 @@ const style = {
         float : "right",
         width : "9em",
         height : "10em",
+        paddingRight: "5px",
         // backgroundColor : "skyblue",
     },
     contentTime: {
@@ -181,61 +182,31 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
             <Card 
             key={session.livehole_id} 
             className={classes.root}
-            onClick={()=>{
-                if(Object.keys(user.data).length === 0){
-                  alert('로그인이 필요합니다.')
-                }else{
-                  history.push({
-                    pathname: "/session/live",
-                    search: "?holeId=" + session.id + "&channelNum=" + session.livehole_id,
-                    state : {
-                        hostName : session.host_username,
-                        hostImage : session.host_profile_image,
-                    }
-            })
-            }}}
             >
-                <CardContent style={{padding : "5px 5px 20px 5px", backgroundColor : "rgba(255,255,255,0)"}}>
+                <CardContent 
+                onClick={()=>{
+                    if(Object.keys(user.data).length === 0){
+                    alert('로그인이 필요합니다.')
+                    }else{
+                    history.push({
+                        pathname: "/session/live",
+                        search: "?holeId=" + session.id + "&channelNum=" + session.livehole_id,
+                        state : {
+                            hostName : session.host_username,
+                            hostImage : session.host_profile_image,
+                        }
+                })
+                }}}
+                style={{padding : "5px 5px 20px 5px", backgroundColor : "rgba(255,255,255,0)"}}>
                 <div style={style.imageWrapper}>
-                <div style={style.profileimage}>
-                     <div className={classes.avatarRoot}>
-                        <Avatar alt="Remy Sharp" src="/static/reigns/1.jpg" className={classes.large} />
+                    <div style={style.profileimage}>
+                        <div className={classes.avatarRoot}>
+                            <Avatar alt="Remy Sharp" src="/static/reigns/1.jpg" className={classes.large} />
+                        </div>
+                        <div style={style.livelogo1_back}/>
+                        <div style={style.livelogo1}/>
                     </div>
-                    <div style={style.livelogo1_back}/>
-                    <div style={style.livelogo1}/>
-                </div>
-                <div style={style.buttonWrapper}>
-                    <div 
-                    style={{posision: "absolute",width:"5em", paddingLeft:"0.9em",marginTop: "2em"}}>
-                    <Grid container justify="center">
-                        {/* <EnterIcon 
-                        style={{cursor : "pointer", color: "rgba(255,255,255,0.9)", borderRadius: "100%", padding : "2px", backgroundColor: "#1C418C", marginRight:"8px"}}
-                        onClick={()=>{
-                            if(Object.keys(user.data).length === 0){
-                              alert('로그인이 필요합니다.')
-                            }else{
-                              history.push({
-                                pathname: "/session/live",
-                                search: "?holeId=" + session.id + "&channelNum=" + session.livehole_id,
-                                state : {
-                                    hostName : session.host_username,
-                                    hostImage : session.host_profile_image,
-                                }
-                        })
-                        }}}
-                        /> */}
-                        <HelpIcon 
-                        onClick={()=>{
-                            setTitle(session.title);
-                            setSubtitle(session.description);
-                            handleClick();
-                        }}
-                        style={{color: "rgba(255,255,255,0.9)", borderRadius: "100%", padding : "2px", backgroundColor: "#1C418C" }}/>
 
-
-                    </Grid>
-                    </div>
-                </div>
                 </div>
                 <div style={style.content}>
                     <div style={style.contentTime}>
@@ -289,7 +260,23 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
                
                 
                 </CardContent>
+                    <div 
+                    style={{position: "absolute", transform:"translate(2.8em, -3.5em)"}}>
+             
+                        <HelpIcon 
+                        onClick={()=>{
+                            setTitle(session.title);
+                            setSubtitle(session.description);
+                            handleClick();
+                        }}
+                        style={{color: "rgba(255,255,255,0.9)", borderRadius: "100%", padding : "2px", backgroundColor: "#1C418C" }}/>
+
+
+                
+                    </div>
             </Card>
+  
+   
         </div>
         <br/>
         </>

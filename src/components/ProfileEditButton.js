@@ -52,7 +52,7 @@ const ProfileEditButton = (props) => {
                         className="CookieRun"
                         style={
                             {color: "white", margin : "-3px 0 0 0", fontSize : "0.9em"}
-                        }>프로필을 완성해보세요!</p>
+                        }>프로필 완성하셨나요?</p>
                         <p
                         className="NanumGothic2"
                         style={

@@ -13,7 +13,7 @@
   margin: auto;
   height: 100%;
 }
-/* ���� �θ��??; �Ʒ��� �ڽ����� �ϸ� ����, ��������  */
+/* ���� �θ��???; �Ʒ��� �ڽ����� �ϸ� ����, ��������  */
 .verticalmid {
   display: table-cell;
   vertical-align: middle;
@@ -209,7 +209,7 @@
   background-color: #2f3041;
   width: 100%;
   bottom: 4.5em;
-  height: 35%;
+  height: 32%;
   max-width: 45em;
   overflow: auto;
   z-index: 1;
@@ -221,7 +221,7 @@
   background-color: #2f3041;
   width: 100%;
   bottom: 4.5em;
-  height: 35%;
+  height: 34%;
   max-width: 45em;
   overflow: auto;
   z-index: 1;
