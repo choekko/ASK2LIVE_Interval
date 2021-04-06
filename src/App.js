@@ -36,7 +36,7 @@ const App = () => {
 
     dispatch(getSessionInfo());
 
-    dispatch(getAllUsersInfo());
+    // dispatch(getAllUsersInfo());
 
 
 

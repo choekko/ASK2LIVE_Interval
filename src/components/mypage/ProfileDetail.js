@@ -108,6 +108,7 @@ const ProfileDetail = (props) => {
 
     profile = {
       username: host.username,
+      profile_image: host.profile_image,
       work_company: host.work_company,
       work_field: host.work_field,
       bio: host.bio,
@@ -155,7 +156,7 @@ const ProfileDetail = (props) => {
             <Avatar
               className={classes.avatar}
               aria-label="recipe"
-              src="../static/live_IU2.png"
+              src={`https://www.ask2live.me${profile.profile_image}`}
             ></Avatar>
           </div>
 

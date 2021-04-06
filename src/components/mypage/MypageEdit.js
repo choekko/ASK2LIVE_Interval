@@ -69,7 +69,7 @@ const MypageEdit = (props) => {
 
   console.log(user);
 
-  const [image, setImage] = useState({ profile_image: { 0 :"https://www.ask2live.me"+user.profile_image }});
+  const [image, setImage] = useState({});
   const [inputs, setInputs] = useState({
     work_field: user.work_field,
     username: user.username,
@@ -119,9 +119,11 @@ const MypageEdit = (props) => {
     formData.append('username', data.username);
     formData.append('work_company', work_company);
     formData.append('bio', bio);
-    console.log("default image", image.profile_image[0]);
-    formData.append('profile_image', image.profile_image[0]);
 
+    if(Object.keys(image).length != 0){
+      formData.append('profile_image', image.profile_image[0]);
+    }
+    
     console.log("====DATA====", formData);
     const resPatch = await axios.patch(
       "https://www.ask2live.me/api/user/update",
