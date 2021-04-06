@@ -117,6 +117,7 @@ const ProfileDetail = (props) => {
     if (!user.work_field.length) user.work_field = "분야를 입력해주세요";
     profile = {
       username: user.username,
+      profile_image: user.profile_image,
       work_company: user.work_company,
       work_field: user.work_field,
       bio: user.bio,
@@ -127,10 +128,10 @@ const ProfileDetail = (props) => {
     console.log("click");
     history.push({
       pathname: `${profile.username}/edit`,
-      state: user,
-    });
-  };
-  if (!user || !profile) return <p> 로딩중 </p>;
+      state: user});
+  }
+  if (!user || !profile) return<p> 로딩중 </p>
+
   return (
     <>
       <div>

@@ -143,10 +143,6 @@ const LoginPage = (props) => {
     alert(e.response.data.detail)
   })
     */
-    const LoginApi = ({loginId, loginPassword}) => {
-      
-    }
-
     const Login = async({loginId, loginPassword}) => {
       let dataToSubmit = {
         username : loginId,
