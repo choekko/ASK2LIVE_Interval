@@ -7,10 +7,8 @@ import { useHistory } from "react-router";
 import Mypage from "../components/mypage/Mypage";
 // import Profile from '../components/mypage/Profile';
 import SessionCardContainer from "./SessionCardContainer";
-import { SessioinCreateButton } from "../components/SessionCreateButton";
 import MypageLiveSession from "../components/mypage/MypageLiveSession";
 import MypageConfirmedSession from "../components/mypage/MypageConfirmedSession";
-import MypageNav from "../components/mypage/MypageNav";
 import { getUserSessionInfo } from "../actions/SessionActions";
 import { getUserInfo } from "../actions/UserActions";
 
@@ -142,18 +140,10 @@ const MyPageContainer = (props) => {
 
   return (
     <>
-      <MypageNav text={"프로필"} />
-      <Grid container direction="row" justify="center" alignItems="center">
-        <Mypage user={user} />
-        <SessioinCreateButton />
-      </Grid>
-      <div style={flag}>
-        <Alert style={style.alert} onClose={() => {}}>
-          This is a success alert — check it out!
-        </Alert>
-      </div>
+      <Mypage user={user} />
 
-      <Grid container direction="row" justify="center" alignItems="center">
+
+      <Grid container justify="center" alignItems="center">
         <div
           style={{ display: "inline-block", width: "100%", maxWidth: "73em" }}
         >
@@ -177,7 +167,6 @@ const MyPageContainer = (props) => {
                   <>
                     <MypageConfirmedSession
                       session={session}
-                      setFlag={setFlag}
                     />
                   </>
                 ))}
@@ -202,7 +191,7 @@ const MyPageContainer = (props) => {
               {myLiveSessions.length != 0 &&
                 myLiveSessions.map((session) => (
                   <>
-                    <MypageLiveSession session={session} setFlag={setFlag} />
+                    <MypageLiveSession session={session} />
                   </>
                 ))}
             </List>
@@ -226,7 +215,7 @@ const MyPageContainer = (props) => {
               {myDoneSessions.length != 0 &&
                 myDoneSessions.map((session) => (
                   <>
-                    <MypageLiveSession session={session} setFlag={setFlag} />
+                    <MypageLiveSession session={session} />
                   </>
                 ))}
             </List>
@@ -250,7 +239,7 @@ const MyPageContainer = (props) => {
               {myWishSessions.length != 0 &&
                 myWishSessions.map((session) => (
                   <>
-                    <MypageLiveSession session={session} setFlag={setFlag} />
+                    <MypageLiveSession session={session} />
                   </>
                 ))}
             </List>

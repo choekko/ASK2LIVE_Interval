@@ -56,7 +56,7 @@ const ProfileGate = (props) => {
       <Grid container justify="center">
         <Card className={classes.profile}>
           <CardActionArea onClick={goToDetail}>
-            {/* <CardActions > */}
+
             <CardHeader
               fontSize="large"
               avatar={
@@ -71,7 +71,7 @@ const ProfileGate = (props) => {
               title={<Typography variant="body1" style={{ fontWeight: 800 }}>{props.user.detail.username}</Typography>}
               // subheader="September 14, 2016"
             />
-            {/* </CardActions> */}
+
           </CardActionArea>
         </Card>
       </Grid>
