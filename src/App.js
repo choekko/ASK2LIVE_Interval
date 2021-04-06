@@ -51,11 +51,11 @@ const App = () => {
             <Route exact path="/session/:state" component={Auth(SessionMatchContainer, true)}/>
             {/* <Route exact path="/session/:state" render={(matchProps) => <SessionMatchContainer {...matchProps}/>}/>  */}
             <Route exact path="/createSession" component={Auth(SessionCreateContainer, true)}/>
+            <Route exact path="/mypage/:username" component={Auth(ProfileDetail, true)}/>
             <Route path="/" component={NavContainer}/>
         </Switch>
         <Route exact path="/preQuestions/:pk" component={Auth(PreQuestions, true)}/>    
         <Route exact path="/mypage" component={Auth(MypageContainer, true)}/>
-        <Route exact path="/mypage/:username" component={Auth(ProfileDetail, true)}/>
         <Route exact path="/mypage/:username/edit" component={Auth(MypageEdit, true)}/>
         </>
 

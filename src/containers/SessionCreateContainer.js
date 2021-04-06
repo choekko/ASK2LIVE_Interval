@@ -16,7 +16,6 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 
-import { increment, decrement } from "../reducers/counter";
 import axios from "axios";
 import { getSessionInfo, getUserSessionInfo } from "../actions/SessionActions";
 import MypageNav from "../components/mypage/MypageNav";
@@ -42,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
+    fontSize: '0.8em'
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -73,7 +73,7 @@ const SessionCreateContainer = (props) => {
   const [descriptionValid, setDescriptionValid] = useState(false);
   const [reserveDate, setReserveDate] = useState("");
   const [reserveDateValid, setReserveDateValid] = useState(false);
-  let counter = useSelector((state) => state.counter, []);
+  const [count, setCount] = useState(0)
 
   const toDate = (reserve_date) => {
     let date = new Date(reserve_date);
@@ -86,11 +86,12 @@ const SessionCreateContainer = (props) => {
         .get("https://www.ask2live.me/api/hole/read/" + holeId)
         .then((res) => {
           const session = res.data.detail;
+          console.log(session)
           setTitle(session.title);
           setDescription(session.description);
           let date = session.reserve_date.split(":");
           setReserveDate(date[0] + ":" + date[1]);
-          counter = session.target_demand;
+          setCount(session.hole_reservations.target_demand);
         });
     }
   }, [holeId]);
@@ -102,8 +103,8 @@ const SessionCreateContainer = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const onIncrease = useCallback(() => dispatch(increment()), [dispatch]);
-  const onDecrease = useCallback(() => dispatch(decrement()), [dispatch]);
+  const onIncrease = () => setCount(count + 1);
+  const onDecrease = () => count > 0 ? setCount(count - 1) : null;
 
   // 여는 함수, onClick에 해당 함수 넣으면 클릭시 등장
   const handleClick = () => {
@@ -130,7 +131,7 @@ const SessionCreateContainer = (props) => {
       title: title,
       description: description,
       reserve_date: reserveDate,
-      target_demand: counter,
+      target_demand: count,
     };
     console.log(data);
     if (holeId) {
@@ -293,7 +294,7 @@ const SessionCreateContainer = (props) => {
                   id="target_demand"
                   name="target_demand"
                   inputProps={{ min: 0, style: { textAlign: "center" } }}
-                  value={counter}
+                  value={count}
                   name="userCount"
                 />
 
