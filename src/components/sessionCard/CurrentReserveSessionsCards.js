@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import Moment from "react-moment"
 
-// import 'antd/dist/antd.css';
 import { Progress, Badge } from 'antd';
 
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -86,12 +85,13 @@ const useStyles = makeStyles((theme) => ({
       display: "table",
       marginLeft: "auto",
       marginRight: "auto",
-
+      transform: "translate(0,-4.9em)",
     },
     avatar : {
       width: theme.spacing(14),
       height: theme.spacing(14),
-      opacity: 0.6,
+      // opacity: 0.7,
+      
     },
     check : {
       position: "absolute",
@@ -186,7 +186,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                         return(
                           <>
                           <div className={classes.avatarWrapper}>
-                            <Avatar className={classes.avatar} src="/static/live_IU2.png" />
+                            <Avatar className={classes.avatar} src={`https://www.ask2live.me${session.host_profile_image}`} />
                           </div>
                           <CheckIcon size="large" style={{fontSize: "40",  position:"absolute", top:"32", left:"52"}} color='error'/>
                           {/* <span className="NanumGothic3" style={{color: "red", fontSize: ""}}>성공!</span> */}
@@ -197,7 +197,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                           <>
                           {/* {percent} Days */}
                           <div className={classes.avatarWrapper}>
-                            <Avatar className={classes.avatar} src="/static/live_IU2.png" />
+                            <Avatar className={classes.avatar} src={`https://www.ask2live.me${session.host_profile_image}`} />
                           </div>
                           {/* <div className="NotoSans3" style={{fontSize:"large", position:"absolute", transform:"translate(1em, -3em)"}}>안녕안녕</div> */}
                           </>
@@ -248,12 +248,12 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                             </Typography>
                             
 
-                            <Grid container >
-                            <div style={{color:"#F24822"}}><FavoriteBorderIcon fontSize="small"></FavoriteBorderIcon></div>
+                            <Grid container alignItems="stretch" >
+                            <div style={{color:"#F24822", paddingTop:"0.4em"}}><FavoriteBorderIcon fontSize="small"></FavoriteBorderIcon></div>
                             <p className={classes.wish} >
                             <span className="NanumGothic3">찜 {session.hole_reservations.guests.length}/{session.hole_reservations.target_demand}</span>
                             </p>
-                            <div className={classes.questionIcon} style={{color:"#F24822"}}><CommentIcon fontSize="small"></CommentIcon></div>
+                            <div className={classes.questionIcon} style={{color:"#F24822", paddingTop:"0.5em"}}><CommentIcon fontSize="small"></CommentIcon></div>
                             <p className={classes.questions}>
                             <span className="NanumGothic3">질문 {session.count_questions}개</span>
                             </p>
