@@ -330,7 +330,7 @@ const LiveSession = (props) => {
             return;
         }
         setOpen(false);
-        setTimeout(window.location.replace('/main'), 500);
+        setTimeout(window.location.replace('/main'), 300);
     };
     
     //^ =============================================================
@@ -345,6 +345,7 @@ const LiveSession = (props) => {
         remoteUsers,
         authority,
     } = useAgora(client);
+
     
     
     useEffect(() => {
@@ -361,6 +362,12 @@ const LiveSession = (props) => {
             clearInterval(liveInter);
         };
         window.addEventListener("beforeunload", refreshOut);
+        window.onpageshow =  function(event) { // BFCahe
+            if (event.persisted) {
+                refreshOut();
+                window.location.replace('/main')
+            }
+        }
 
         rtmChannel = rtmClient.createChannel(props.channelNum);
         join(props.channelNum, null, rtmClient, rtmChannel, props.isHost);
@@ -404,7 +411,7 @@ const LiveSession = (props) => {
                 unblock();
                 
                 // history.replace('/main');
-                setTimeout(window.location.replace('/main'), 500);
+                setTimeout(window.location.replace('/main'), 300);
                 
             }
 
@@ -427,7 +434,7 @@ const LiveSession = (props) => {
                 unblock();
                 
                 // history.replace('/main');
-                setTimeout(window.location.replace('/main'), 500);
+                setTimeout(window.location.replace('/main'), 300);
             }
         }
     }, [history])
