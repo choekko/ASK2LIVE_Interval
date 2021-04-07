@@ -158,12 +158,23 @@ const MypageConfirmedSession = ({ session }) => {
         <Card key={session.livehole_id} className={classes.root}>
           <br></br>
 
+          {session.host_profile_image? 
+          <>
           <div
-            style={{ backgroundImage: "url('/static/live_IU2.png')" }}
+            style={{ backgroundImage: `url('https://ask2live.me${session.host_profile_image}')`}}
             className={classes.cookieWrapper}
           >
             <div className={classes.useCookie}></div>{" "}
           </div>
+          </>
+            :
+            <div
+            style={{ backgroundImage: `url('/static/reigns/1.jpg')`}}
+            className={classes.cookieWrapper}
+          >
+            <div className={classes.useCookie}></div>{" "}
+          </div>
+          }
 
           <CardHeader
             style={{ padding: "10px 8px 0 8px" }}

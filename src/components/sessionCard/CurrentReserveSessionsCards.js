@@ -25,7 +25,7 @@ import CommentIcon from '@material-ui/icons/Comment';
 import Avatar from '@material-ui/core/Avatar';
 import CheckIcon from '@material-ui/icons/Check';
 import InfoIcon from '@material-ui/icons/Info';
-import { CardActions } from "@material-ui/core";
+import { CardActions, Divider } from "@material-ui/core";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
       display:"flex",
       justifyContent:"center",
+      fontSize: "14",
       // paddingBottom: "1em"
     },
     successContent: {
@@ -124,6 +125,17 @@ const useStyles = makeStyles((theme) => ({
       zIndex: "1",
       transform : "translate(0,-5.5em)",
     },
+    hostProfile : {
+      width:"110px",
+      height: "110px",
+      textAlign: "center",
+      borderRadius: "50%",
+      marginTop: '7px',
+      zIndex: "1",
+      transform : "translate(0,-21.5em)",
+      opacity: "0",
+      cursor:"pointer",
+    }
     // commingSoon : {
     //   width : "10em",
     //   height: "2em",
@@ -221,7 +233,9 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                           <>
                           {/* {percent} Days */}
                           <div className={classes.avatarWrapper}>
-                            <Avatar className={classes.avatar} src={`https://www.ask2live.me${session.host_profile_image}`} />
+                          <Avatar className={classes.avatar} src={session.host_profile_image?
+                            `https://www.ask2live.me${session.host_profile_image}`
+                            : "/static/reigns/1.jpg"} />
                           </div>
                           {/* <div className="NotoSans3" style={{fontSize:"large", position:"absolute", transform:"translate(1em, -3em)"}}>안녕안녕</div> */}
                           </>
@@ -235,7 +249,6 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                           
                         {session.hole_reservations.target_demand === 0 || session.hole_reservations.guests.length / session.hole_reservations.target_demand >= 1 ?
                           <>
-                          {console.log("hihi")}
                           <div className={classes.commingSoon}></div>
                           </>
                           :
@@ -253,7 +266,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                         </Grid>
                         
                         <Grid justify="flex-start" className={classes.content}>
-                            <span className="NanumGothic4">
+                            <span className="BMDOHYEON" style={{color: "#1C418C", fontSize: "1.1em"}}>
                                 {session.title}
                             </span>
                           <Typography variant='caption' component="div" color="textSecondary">
@@ -265,10 +278,11 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                           </Typography>
                           <Grid item className={classes.date}>
                           <Typography variant='caption' component="p" >
-                              <span className="NanumGothic3">{`예정일자 `}</span>
+                            <span className="fontGradi NanumGothic3" style={{fontSize: "1.2em", color: "#D95032"}}>
+                              <span >{`예정일자 `}</span>
                             <Moment format="MM.DD hh:mm">
                               {session.reserve_date}
-                            </Moment>
+                            </Moment></span>
                           </Typography>
 
                           <Grid container alignItems="stretch" >
@@ -281,11 +295,8 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                             <span className="NanumGothic3">질문 {session.count_questions}개</span>
                             </p>
                           </Grid>
+                        </Grid> 
                         </Grid>
-                            
-                        </Grid>
-                        
-                          
                         </Grid>
                 </Paper>
 
@@ -314,8 +325,16 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                   }
                   >{Object.keys(user.data).length != 0 && session.hole_reservations.guests.indexOf(user.data.detail.id) != -1 ? "취소하기" : "찜하기"}</Button>
                   </Grid> 
-
-                <br/>
+                  <Grid style={{width:"100%", margin: "auto", height: "1em", display: "flex", justifyContent: "center",}}>  
+                  <div className={classes.hostProfile} onClick={() => {
+                    history.push({
+                      pathname: '/mypage/' + session.host_username,
+                      state:{host : session}})
+                  }}>
+                  
+                  </div>
+                  </Grid>
+                  
             </>
             ))
             }

@@ -31,7 +31,7 @@ const App = () => {
     const token = localStorage.getItem('token')
     if(token){
         dispatch(getUserInfo(token));
-        dispatch(getUserSessionInfo(token));
+        // dispatch(getUserSessionInfo(token));
     }
 
     dispatch(getSessionInfo());

@@ -59,6 +59,8 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "1em",
     },
     desc : {
+      display: "flex",
+      flexDirection: 'column',
       paddingLeft: "1em",
       paddingBottom: "1em",
       fontFamily: "NanumGothic",
@@ -97,16 +99,26 @@ const SessionDetail = ({session}) => {
           gapDegree = "85"
           width={70}
           format={percent => {
+            // 여기 수정 필요
             if(percent == 100){
               return(
                 <>
-                  <Avatar className={classes.avatar} src={`https://www.ask2live.me${session.host_profile_image}`} />
+                {session.host_profile_image?
+                <Avatar className={classes.avatar} src={`https://www.ask2live.me${session.host_profile_image}`} />
+              :
+                <Avatar className={classes.avatar} src="/static/reigns/1.jpg" />
+              }
+                  
                 </>
               )
             }else{
               return(
                 <>
-                  <Avatar className={classes.avatar} src={`https://www.ask2live.me${session.host_profile_image}`} />
+                  {session.host_profile_image?
+                <Avatar className={classes.avatar} src={`https://www.ask2live.me${session.host_profile_image}`} />
+              :
+                <Avatar className={classes.avatar} src="static/reigns/1.jpg" />
+              }
                 </>
               )}
             
@@ -116,17 +128,17 @@ const SessionDetail = ({session}) => {
                     session.hole_reservations.guests.length / session.hole_reservations.target_demand <= 1 ?
                     session.hole_reservations.guests.length / session.hole_reservations.target_demand * 100 : 100) : 0}/>
         </Grid>
-        <div>
-        <div className={classes.time}>라이브 예정 일자 : {``}
-          <Moment format="MM.DD hh시 mm분">
-                {session.reserve_date}
-          </Moment></div>
-        </div>
-        <div>
-        <div className={classes.desc}>라이브 주제 : {``} {session.description}</div>
-        </div>
-        </Grid>
+        <Grid container direction="column" justify="flex-start" alignItems="flex-start">
+          <div className={classes.time}>라이브 예정 일자 : {``}
+            <Moment format="MM.DD hh시 mm분">
+                  {session.reserve_date}
+            </Moment></div>
 
+
+          <div className={classes.desc}>라이브 주제 : {``} {session.description}</div>
+
+        </Grid>
+        </Grid>
         </>
     )
 }

@@ -114,16 +114,16 @@ const ProfileDetail = (props) => {
   if (props.routerInfo.location.state.host) {
     const host = props.routerInfo.location.state.host;
     console.log("host : ", host);
-    if (!host.work_company.length)
-      host.work_company = "";
-    if (!host.work_field.length) host.work_field = "";
+    if (!host.host_work_company.length)
+      host.host_work_company = "";
+    if (!host.host_work_field.length) host.host_work_field = "";
 
     profile = {
-      username: host.username,
-      profile_image: host.profile_image,
-      work_company: host.work_company,
-      work_field: host.work_field,
-      bio: host.bio,
+      username: host.host_username,
+      profile_image: host.host_profile_image,
+      work_company: host.host_work_company,
+      work_field: host.host_work_field,
+      bio: host.host_bio,
     };
   } else {
     if (!user.work_company.length)
@@ -167,11 +167,20 @@ const ProfileDetail = (props) => {
         <div className={classes.root2}>
           <div>
             <p className={classes.username}>{profile.username}</p>
+            {profile.profile_image?
             <Avatar
-              className={classes.avatar}
-              aria-label="recipe"
-              src={`https://www.ask2live.me${profile.profile_image}`}
-            ></Avatar>
+            className={classes.avatar}
+            aria-label="recipe"
+            src={`https://www.ask2live.me${profile.profile_image}`}
+          ></Avatar>
+          :
+          <Avatar
+            className={classes.avatar}
+            aria-label="recipe"
+            src="/static/reigns/1.jpg"
+          ></Avatar>
+          }
+            
           </div>
 
           <p className={classes.work_company}>

@@ -201,7 +201,10 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
                 <div style={style.imageWrapper}>
                     <div style={style.profileimage}>
                         <div className={classes.avatarRoot}>
-                            <Avatar alt="Remy Sharp" src="/static/reigns/1.jpg" className={classes.large} />
+                        <Avatar alt="Remy Sharp" className={classes.large} src={session.host_profile_image?
+                            `https://www.ask2live.me${session.host_profile_image}`
+                            : "/static/reigns/1.jpg"} />
+                            
                         </div>
                         <div style={style.livelogo1_back}/>
                         <div style={style.livelogo1}/>
