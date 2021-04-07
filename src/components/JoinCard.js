@@ -10,6 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import CardMedia from '@material-ui/core/CardMedia';
 import Grid from "@material-ui/core/Grid";
 import Card from '@material-ui/core/Card';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -96,11 +98,16 @@ const style = {
 },
 }
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const JoinCard = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
   const [mike, setMike] = useState(0);
+  const [open, setOpen] = useState(false);
 
   const getMike = () => {
       navigator.mediaDevices.getUserMedia({ audio: true })
@@ -109,8 +116,19 @@ const JoinCard = (props) => {
         setMike(1);
       })
       .catch(function(err) {
-        history.push('/');
+        handleOpen();
       });
+  }
+
+  const handleOpen = () => {
+    setOpen(true);
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway'){
+      return;
+    }
+    setOpen(false);
   }
 
   return (
@@ -174,6 +192,13 @@ const JoinCard = (props) => {
     </Card>
 
 </Grid>
+  <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+      <Alert style={{width: "100%"}} onClose={handleClose} severity="warning">
+        [마이크 권한]이 차단되었습니다<br/><br/>
+        브라우저 상단에서<br/>
+        [마이크 권한]을 허용해주세요!
+      </Alert>
+  </Snackbar>
 </>
   );
 }

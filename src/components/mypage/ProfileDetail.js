@@ -41,16 +41,16 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     position: "absolute",
     top: "8%",
-    right: "8%",
+    right: "5%",
     width: theme.spacing(9),
     height: theme.spacing(9),
   },
   username: {
     position: "absolute",
     fontFamily: "BMDOHYEON",
-    fontSize: "1.5em",
-    top: "8%",
-    left: "8%",
+    fontSize: "1.3em",
+    top: "9%",
+    left: "5%",
   },
   work_company: {
     position: "absolute",
@@ -75,15 +75,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const style = {
-  edit: {
-    fontFamily: "BMJUA",
-    fontSize: "1em",
-    top: 0,
+  editWrapper: {
+    height: "7%",
+    left: 0,
     right: 0,
     position: "fixed",
-    zIndex: 2,
+    margin: "auto",
+    width: "100%",
+    // maxWidth: "73em",
+    top: 0,
+    zIndex: 1,
+    pointerEvents: "none",
   },
-
+  editBtn: {
+    pointerEvents:"auto",
+    position: "absolute",
+    right:0,
+    height: "100%",
+    fontFamily: "BMJUA",
+    fontSize: "1em",
+    transform: "translate(0, 1px)",
+  },
 };
 
 const ProfileDetail = (props) => {
@@ -103,8 +115,8 @@ const ProfileDetail = (props) => {
     const host = props.routerInfo.location.state.host;
     console.log("host : ", host);
     if (!host.work_company.length)
-      host.work_company = "회사 이름을 입력해주세요";
-    if (!host.work_field.length) host.work_field = "분야를 입력해주세요";
+      host.work_company = "";
+    if (!host.work_field.length) host.work_field = "";
 
     profile = {
       username: host.username,
@@ -115,8 +127,8 @@ const ProfileDetail = (props) => {
     };
   } else {
     if (!user.work_company.length)
-      user.work_company = "회사 이름을 입력해주세요";
-    if (!user.work_field.length) user.work_field = "분야를 입력해주세요";
+      user.work_company = "";
+    if (!user.work_field.length) user.work_field = "";
     profile = {
       username: user.username,
       profile_image: user.profile_image,
@@ -126,9 +138,12 @@ const ProfileDetail = (props) => {
     };
   }
 
+  let editFlag = false;
+  if(user.username === profile.username) editFlag = true
+
   const goToEdit = () => {
     console.log("click");
-    history.push({
+    history.replace({
       pathname: `${profile.username}/edit`,
       state: user});
   }
@@ -136,18 +151,17 @@ const ProfileDetail = (props) => {
 
   return (
     <>
-      <div>
-        <MypageNav text={"프로필"} />
+        <MypageNav text={"프로필"} editFlag={editFlag} />
         {user.username === profile.username && (
-          <Button
-            // className="BMJUA"
-            style={style.edit}
-            onClick={goToEdit}
-          >
-            <span>편집</span>
-          </Button>
+          <>
+          <div style={style.editWrapper}>
+            <Button onClick={goToEdit} style={style.editBtn}>
+              <span>편집</span>
+            </Button>
+          </div>
+          </>
         )}
-      </div>
+
 
       <div className={classes.root}>
         <div className={classes.root2}>
@@ -181,41 +195,8 @@ const ProfileDetail = (props) => {
             </p>
             <div className="bioWrapper">
                 
-              <p style={{marginTop: 0}}>
+              <p style={{fontFamily: "BMJUA", marginTop: 0, whiteSpace: "pre-wrap"}}>
                 {profile.bio}
-                첫 번째 줄: useState Hook을 React에서 가져옵니다. 네 번째 줄:
-                useState Hook을 이용하면 state 변수와 해당 state를 갱신할 수
-                있는 함수가 만들어집니다. 또한, useState의 인자의 값으로 0을
-                넘겨주면 count 값을 0으로 초기화할 수 있습니다. 아홉 번째 줄:
-                사용자가 버튼 클릭을 하면 setConut 함수를 호출하여 state 변수를
-                갱신합니다. React는 새로운 count 변수를 Example 컴포넌트에
-                넘기며 해당 컴포넌트를 리렌더링합니다. 많은 것들이 있기 때문에
-                처음에는 다소 어려울 수 있습니다. 설명이 이해가 잘 안 된다면,
-                위의 코드를 천천히 다시 읽어보세요. 클래스 컴포넌트에서 사용하던
-                state 동작 방식을 잊고, 새로운 눈으로 위의 코드를 보면 분명히
-                이해가 갈 것입니다.
-                첫 번째 줄: useState Hook을 React에서 가져옵니다. 네 번째 줄:
-                useState Hook을 이용하면 state 변수와 해당 state를 갱신할 수
-                있는 함수가 만들어집니다. 또한, useState의 인자의 값으로 0을
-                넘겨주면 count 값을 0으로 초기화할 수 있습니다. 아홉 번째 줄:
-                사용자가 버튼 클릭을 하면 setConut 함수를 호출하여 state 변수를
-                갱신합니다. React는 새로운 count 변수를 Example 컴포넌트에
-                넘기며 해당 컴포넌트를 리렌더링합니다. 많은 것들이 있기 때문에
-                처음에는 다소 어려울 수 있습니다. 설명이 이해가 잘 안 된다면,
-                위의 코드를 천천히 다시 읽어보세요. 클래스 컴포넌트에서 사용하던
-                state 동작 방식을 잊고, 새로운 눈으로 위의 코드를 보면 분명히
-                이해가 갈 것입니다.
-                첫 번째 줄: useState Hook을 React에서 가져옵니다. 네 번째 줄:
-                useState Hook을 이용하면 state 변수와 해당 state를 갱신할 수
-                있는 함수가 만들어집니다. 또한, useState의 인자의 값으로 0을
-                넘겨주면 count 값을 0으로 초기화할 수 있습니다. 아홉 번째 줄:
-                사용자가 버튼 클릭을 하면 setConut 함수를 호출하여 state 변수를
-                갱신합니다. React는 새로운 count 변수를 Example 컴포넌트에
-                넘기며 해당 컴포넌트를 리렌더링합니다. 많은 것들이 있기 때문에
-                처음에는 다소 어려울 수 있습니다. 설명이 이해가 잘 안 된다면,
-                위의 코드를 천천히 다시 읽어보세요. 클래스 컴포넌트에서 사용하던
-                state 동작 방식을 잊고, 새로운 눈으로 위의 코드를 보면 분명히
-                이해가 갈 것입니다.
               </p>
             </div>
           </div>

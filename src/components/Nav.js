@@ -159,7 +159,7 @@ const NavOfUser = (props) => {
             </Grid>
         </AppBar>
       </HideOnScroll>
-      <Toolbar />
+      {/* <Toolbar /> */}
     </>
   );
 }

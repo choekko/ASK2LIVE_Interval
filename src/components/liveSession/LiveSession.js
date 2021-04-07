@@ -279,6 +279,7 @@ const LiveSession = (props) => {
 
     const [questionAlert, setOuestionAlert] = useState(false);
     const [copiedAlert, setCopiedAlert] = useState(false);
+    const [refreshAlert, setRefreshAlert] = useState(false)
 
     const [hostExit, setHostExit] = useState(false);
 
@@ -320,18 +321,18 @@ const LiveSession = (props) => {
         setOpen(true);
     };
     
-    
     // 닫는 함수. 이미 아래에 자동적으로 사용되고 있음.
     const handleClose = (event, reason) => { 
         setHostExit(true);
-        console.log("호스트 나감3", hostExit)
-        // window.location.replace('/main');
-        history.replace('/main')
+
+        // history.replace('/main')
         if (reason === 'clickaway') {
             return;
         }
         setOpen(false);
+        setTimeout(window.location.replace('/main'), 500);
     };
+    
     //^ =============================================================
     let rtmChannel;
     const [channel, setChannel] = useState();
@@ -346,29 +347,38 @@ const LiveSession = (props) => {
     } = useAgora(client);
     
     
-    
     useEffect(() => {
+        
         const liveInter = setInterval(()=>{
             dispatch(getEnteredSession(props.channelNum))
             dispatch(getQuestionList(props.holeId))
         }, 5000);
+        
+        const refreshOut = () => {
+            rtmClient.logout();
+            leave();
+            leavePatchApi();
+            clearInterval(liveInter);
+        };
+        window.addEventListener("beforeunload", refreshOut);
+
         rtmChannel = rtmClient.createChannel(props.channelNum);
         join(props.channelNum, null, rtmClient, rtmChannel, props.isHost);
         rtmChannel.on('ChannelMessage', (message, memberId) => {
             console.log(`Message ${message}, from ${memberId}`);
-            // clearInterval(liveInter);
-            // rtmChannel.leave();
-            // rtmClient.logout();
-            // leave();
-            // leavePatchApi();
+            
+            rtmClient.logout();
+            leave();
+            leavePatchApi();
+            clearInterval(liveInter);
             handleClick();
         });
+
         if (props.isHost)
             setTimeout(()=>{hostPostApi(client.uid)}, 4000);
         else
             setTimeout(()=>{audiencePutApi(client.uid)}, 4000);
-        
-        
+             
         if (props.isHost)
         {
             const unblock = history.block('정말 떠나시겠습니까?');
@@ -377,8 +387,8 @@ const LiveSession = (props) => {
                 dispatch({type: ENTEREDSESSION_DELETE})
 
                 console.log("호스트!!!: ", props.isHost)
-                console.log("호스트!!!: ", props.isHost)
-                console.log("호스트!!!: ", props.isHost)
+                window.removeEventListener("beforeunload", refreshOut);
+
                 rtmChannel.sendMessage({ text: "hostOut" }).then(() => {
                     // Your code for handling the event when the channel message is successfully sent.
                         console.log('host is leaving')
@@ -386,7 +396,7 @@ const LiveSession = (props) => {
                     // Your code for handling the event when the channel message fails to be sent.
                         console.log('host leaving error')
                     });
-                rtmChannel.leave();
+
                 rtmClient.logout();
                 leave();
                 leavePatchApi();
@@ -394,43 +404,22 @@ const LiveSession = (props) => {
                 unblock();
                 
                 // history.replace('/main');
-                // window.location.replace('/main');
+                setTimeout(window.location.replace('/main'), 500);
                 
             }
 
         }
         
-        // console.log("호스트 나감4", hostExit);
-        else if (hostExit){
-            console.log("호스트 나감5", hostExit)
-            return () => {
-                dispatch({type: QUESTIONLIST_DELETE})
-                dispatch({type: ENTEREDSESSION_DELETE})
-
-                console.log("호스트가 나가서 나가지는 게스트!!!: ", hostExit)
-                console.log("호스트가 나가서 나가지는 게스트!!!: ", hostExit)
-                console.log("호스트가 나가서 나가지는 게스트!!!: ", hostExit)
-                rtmChannel.leave();
-                rtmClient.logout();
-                leave();
-                leavePatchApi();
-                clearInterval(liveInter)
-                
-                // history.replace('/main');
-                // window.location.reload('/main');
-            }
-        }
-        
-        else if (!hostExit){
+        else {
             const unblock = history.block('정말 떠나시겠습니까?');
             return () => {
                 dispatch({type: QUESTIONLIST_DELETE})
                 dispatch({type: ENTEREDSESSION_DELETE})
 
                 console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
-                console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
-                console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
-                rtmChannel.leave();
+                window.removeEventListener("beforeunload", refreshOut);
+
+                // rtmChannel.leave();
                 rtmClient.logout();
                 leave();
                 leavePatchApi();
@@ -438,7 +427,7 @@ const LiveSession = (props) => {
                 unblock();
                 
                 // history.replace('/main');
-                // window.location.reload('/main');
+                setTimeout(window.location.replace('/main'), 500);
             }
         }
     }, [history])
@@ -578,7 +567,7 @@ const LiveSession = (props) => {
                 channelNum={props.channelNum}
             />
         </div>
-        <Snackbar style={{position: "fixed", bottom:"50%"}} open={questionAlert} autoHideDuration={6000} onClose={closeQuestionAlert}>
+        <Snackbar style={{position: "fixed", bottom:"50%"}} open={questionAlert} autoHideDuration={1500} onClose={closeQuestionAlert}>
             <Alert onClose={closeQuestionAlert} style={{ boxShadow: "2px 2px 2px 2px #D95032", border: "solid 1px white", backgroundColor:"black"}} severity="success">
                 <span style={{ color:"white"}}>질문 등록 성공!</span>
             </Alert>

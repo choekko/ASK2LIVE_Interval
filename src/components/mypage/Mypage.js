@@ -1,21 +1,26 @@
-import React, { useCallback } from "react"
-import ProfileGate from './ProfileGate'
-import Moment from "react-moment"
-import { makeStyles } from "@material-ui/core/styles"
-import Grid from "@material-ui/core/Grid"
+import React, { useCallback } from "react";
+import ProfileGate from "./ProfileGate";
+import MypageNav from "./MypageNav";
+import { SessioinCreateButton } from "../SessionCreateButton";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    maxWidth: "70em",
+    position: "absolute",
+    width: "100%",
+    top: "9%",
+    backgroundColor: "#EF5941",
   },
   my: {
     padding: theme.spacing(2),
+    paddingTop: theme.spacing(6),
     textAlign: "left",
     // color: theme.palette.text.secondary,
-    backgroundColor: "lightgray",
+    backgroundColor: "#EF5941",
+    width: "100%",
+    // maxWidth: "43em",
+    // borderRadius: "15px",
   },
   myBottomCard: {
     padding: theme.spacing(2),
@@ -28,38 +33,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const MyPage = (props) => {
   const classes = useStyles();
   console.log(props);
 
   return (
     <>
-      <Grid container justify="center">
-        <div className={classes.root}>
-          <Grid container spacing={3}>
-            <Grid item className={classes.my} xs={12}>
-              <ProfileGate user={props.user}/>
-              {/* <Paper className={classes.paper}>xs=12</Paper> */}
-              {/* <Grid container spacing={3}>
-                <Grid item className={classes.myBottomCard} xs>
-                  24명 <br />
-                  팔로우
-                </Grid>
-                <Grid item xs>
-                  17명 <br />
-                  팔로잉
-                </Grid>
-                <Grid item xs>
-                  14개 <br />
-                  미리 찜하기
-                </Grid>
-              </Grid> */}
-            </Grid>
-          </Grid>
-          <h3>Live QnA</h3>
+      <MypageNav text={"프로필"} />
+      {/* <div className={classes.root}>{}</div> */}
+      <Grid container justify="center" >
+        <div className={classes.my}>
+
+            <ProfileGate user={props.user} />
+
         </div>
       </Grid>
+      <div style={{ position: "relative", top: "50%" }}>
+        <SessioinCreateButton />
+      </div>
+      <div style={{ padding: "0 16px", margin: "auto", maxWidth: "43em" }}>
+        <h3 className="CookieRun">Live QnA</h3>
+      </div>
     </>
   );
 };

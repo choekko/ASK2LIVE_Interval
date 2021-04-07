@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,14 +19,11 @@ const useStyles = makeStyles((theme) => ({
   },
   profile: {
     flexGrow: 1,
-    // paddingLeft: theme.spacing(2),
-    // paddingRight: theme.spacing(2),
-    maxWidth: "50em",
-    // margin: "5%",
+    maxWidth: "43em",
     display: "flex",
     height: 80,
     alignItems: "center",
-    // justifyContent: 'center',
+    elevation: 3,
   },
   large: {
     width: theme.spacing(7),
@@ -44,19 +42,20 @@ const ProfileGate = (props) => {
     const goToDetail = () => {
         console.log('onClick');
         history.push({
-            pathname: '/mypage/' + props.user.detail.username,
-            state: props.user.detail});
+          pathname: '/mypage/' + props.user.detail.username,
+          state: props.user.detail});
+
     }
 
   return (
     <>
-      <div>
-        <h2>My</h2>
+      <div style={{margin: "auto", maxWidth: "43em"}}>
+        <h2 className="CookieRun" style={{color: "#FFFFFF"}}>My Page</h2>
       </div>
       <Grid container justify="center">
         <Card className={classes.profile}>
           <CardActionArea onClick={goToDetail}>
-            {/* <CardActions > */}
+
             <CardHeader
               fontSize="large"
               avatar={
@@ -68,10 +67,11 @@ const ProfileGate = (props) => {
                 ></Avatar>
               }
               // titleTypographyProps={{variant:'h1' }}
-              title={<Typography variant="body1" style={{ fontWeight: 800 }}>{props.user.detail.username}</Typography>}
+              title={<p className="BMDOHYEON" style={{ fontSize: "1.2em", transform: "translate(0, 1.5px)"}}>{props.user.detail.username}</p>}
               // subheader="September 14, 2016"
-            />
-            {/* </CardActions> */}
+              />
+
+              <ExitToAppIcon style={{ position: "absolute", right: 0, top: "36%", marginRight: "4%", color: "rgba(0, 0, 0, 0.6)"}}/>
           </CardActionArea>
         </Card>
       </Grid>
