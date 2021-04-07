@@ -71,8 +71,8 @@ const ProfileGate = (props) => {
               // subheader="September 14, 2016"
               />
 
+              <ExitToAppIcon style={{ position: "absolute", right: 0, top: "36%", marginRight: "4%", color: "rgba(0, 0, 0, 0.6)"}}/>
           </CardActionArea>
-              <ExitToAppIcon style={{ marginRight: "4%", color: "rgba(0, 0, 0, 0.6)"}}/>
         </Card>
       </Grid>
     </>
