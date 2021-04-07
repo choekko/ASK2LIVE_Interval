@@ -65,8 +65,8 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(3),
   },
   large: {
-    width: theme.spacing(11),
-    height: theme.spacing(11),
+    width: theme.spacing(10),
+    height: theme.spacing(10),
     border : "1px solid rgba(0,0,0,0.3)",
   },
 
@@ -121,15 +121,15 @@ const style = {
         overflow: "auto",
     },
     profileimage : {
-        width : "6em",
-        height : "6em",
+        width : "5em",
+        height : "5em",
     },
     livelogo1: {
         backgroundImage : "url('/static/Live_1.png')",
         backgroundSize : "contain",
         width : "40px",
         height: "25px",
-        transform: "translate(2.1em, -2.1em)",
+        transform: "translate(2.1em, -1.6em)",
         zIndex : "3",
     },
     livelogo1_back: {
@@ -137,7 +137,7 @@ const style = {
         backgroundSize : "contain",
         width : "22px",
         height: "12px",
-        transform: "translate(2.7em, -1em)",
+        transform: "translate(2.7em, -0.5em)",
         zIndex : "0",
     }
 }
@@ -201,7 +201,7 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
                 <div style={style.imageWrapper}>
                     <div style={style.profileimage}>
                         <div className={classes.avatarRoot}>
-                        <Avatar alt="Remy Sharp" className={classes.large} src={session.host_profile_image?
+                        <Avatar alt="Remy Sharp" style={{transform:"translate(5px, 8px)"}} className={classes.large} src={session.host_profile_image?
                             `https://www.ask2live.me${session.host_profile_image}`
                             : "/static/reigns/1.jpg"} />
                             

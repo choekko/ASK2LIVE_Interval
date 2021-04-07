@@ -214,7 +214,7 @@ const MypageLiveSession = (props) => {
 
           <CardHeader
             style={{ padding: "0 8px 0 8px", transform: "translate(0, -5px)" }}
-            title={<Typography variant="body2">{session.title}</Typography>}
+            title={<Typography style={{whiteSpace:"nowrap",width:"13em", overflow:"hidden", textOverflow:"ellipsis"}} variant="body2">{session.title}</Typography>}
             subheader={
                 <>
                 <Typography variant="body2">

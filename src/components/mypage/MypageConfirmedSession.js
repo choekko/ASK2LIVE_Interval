@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     margin: "2%",
     width: "100%",
-    height: "8em",
+    height: "6.8em",
     maxWidth: "30em",
     borderRadius: "20px",
     boxShadow: "1px 1px 8px 0px rgb(0, 0, 0, 0.3)",
@@ -59,8 +59,8 @@ const useStyles = makeStyles((theme) => ({
   },
   cookieWrapper: {
     float: "left",
-    width: "5em",
-    height: "5em",
+    width: "4em",
+    height: "4em",
     marginLeft: "1em",
     backgroundPosition: "center center",
     backgroundSize: "100%",
@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: "url('/static/cookieMould.png')",
     backgroundPosition: "center center",
     backgroundSize: "100%",
-    width: "5em",
+    width: "4em",
     height: "inherit",
     overflow: "hidden",
   },
@@ -150,7 +150,7 @@ const MypageConfirmedSession = ({ session }) => {
         justify="center"
         style={{
           width: "100%",
-          maxWidth: "30em",
+          maxWidth: "21em",
           float: "left",
           margin: "auto",
         }}
@@ -177,8 +177,8 @@ const MypageConfirmedSession = ({ session }) => {
           }
 
           <CardHeader
-            style={{ padding: "10px 8px 0 8px" }}
-            title={<Typography variant="body1">{session.title}</Typography>}
+            style={{ padding: "0 8px 0 8px", transform: "translate(0, -5px)" }}
+            title={<Typography style={{whiteSpace:"nowrap",width:"13em", overflow:"hidden", textOverflow:"ellipsis"}}variant="body2">{session.title}</Typography>}
             subheader={
                 <>
                 <Typography variant="body2">
@@ -201,16 +201,17 @@ const MypageConfirmedSession = ({ session }) => {
                     </>;
                   }}
                 >
-                  <EditIcon />
+                  <EditIcon fontSize="small"/>
                 </IconButton>
               )
             }
           />
           <CardContent style={{padding:0}}>
-            <CardActions style={{ paddingLeft:0 }}>
+            <CardActions style={{paddingLeft: 4, paddingTop: 0}}>
               {user.id === parseInt(session.host) && (
                 <>
                 <Button
+                  style={{ backgroundColor: "#3f51b5", paddingTop: 0, paddingBottom: 0 }}
                   size="normal"
                   color="primary"
                   onClick={() => {
@@ -220,11 +221,12 @@ const MypageConfirmedSession = ({ session }) => {
                     })
                   }}
                 >
-                  <Typography variant="body2" style={{ fontWeight: 600 }}>
+                  <span className="BMJUA" style={{color: "#FFFFFF"}}>
                     라이브하기
-                  </Typography>
+                  </span>
                 </Button>
                 <Button
+                 style={{borderColor: "#3f51b5", marginLeft: "1.5em",}}
                   size="normal"
                   color="primary"
                   onClick={() => {
@@ -237,9 +239,9 @@ const MypageConfirmedSession = ({ session }) => {
                     </>;
                   }}
                 >
-                  <Typography variant="body2" style={{ fontWeight: 600 }}>
+                  <span className="BMJUA" color="#3f51b5">
                     삭제하기
-                  </Typography>
+                  </span>
                 </Button>
                 </>
               )}

@@ -490,7 +490,7 @@ const LiveSession = (props) => {
                                 <div className="forLiveVoice">
                                     <tr>
                                     <StyledBadge badgeContent={<MicIcon/>} color="error">
-                                        <Avatar hostName={props.hostName} imageLink={props.hostImage}/>
+                                        <Avatar hostName={props.hostName} imageLink={props.imageLink}/>
                                     </StyledBadge>
                                     </tr>
                                     <tr className="centered">
