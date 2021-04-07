@@ -74,14 +74,12 @@ const style = {
         display : "inline-block",
         width : "6em",
         height : "10em",
-        // backgroundColor : "skyblue",
     },
     content : {
         display : "inline-block",
         float : "right",
         width : "9em",
         height : "10em",
-        // backgroundColor : "skyblue",
     },
     contentTime: {
         display: "flex",
@@ -177,8 +175,10 @@ const HostConfirmedSessionsCards = ({hostConfirmedSessions}) => {
                 <CardContent style={{padding : "5px 5px 20px 5px", backgroundColor : "rgba(255,255,255,0)"}}>
                 <div style={style.imageWrapper}>
                 <div style={style.profileimage}>
-                     <div className={classes.avatarRoot}>
-                        <Avatar alt="Remy Sharp" src="/static/reigns/2.jpg" className={classes.large} />
+                    <div className={classes.avatarRoot}>
+                        <Avatar alt="Remy Sharp" className={classes.large} src={session.host_profile_image?
+                        `https://www.ask2live.me${session.host_profile_image}`
+                        : "/static/reigns/1.jpg"} />
                     </div>
                 </div>
                 <div style={style.buttonWrapper}>

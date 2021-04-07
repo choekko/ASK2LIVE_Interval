@@ -104,8 +104,16 @@ const CurrentQuestion = (props) => {
                 if (props.liveVoice)
                     props.setLiveVoice(false);
                 let userQuestion = currentQuestion.question;
+          
                 return (
-                <StringQuestion userNickName={userNickName} userQuestion={userQuestion} isHost={props.isHost} onAnswered={onAnswered} currentQuestionId={currentQuestion.id}/>
+                <StringQuestion 
+                userNickName={userNickName} 
+                userQuestion={userQuestion} 
+                isHost={props.isHost} 
+                onAnswered={onAnswered}
+                currentQuestionId={currentQuestion.id}
+                imageLink={imageLink}
+                />
                 )
             }
         }

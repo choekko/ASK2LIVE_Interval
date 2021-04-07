@@ -16,7 +16,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import Grid from "@material-ui/core/Grid";
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
-
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Box from '@material-ui/core/Box';
 
 import "../../styles/style.css";
 import { SessionConfirm } from "./SessionConfirm";
@@ -24,6 +25,7 @@ import {
   getSessionInfo,
   getUserSessionInfo,
 } from "../../actions/SessionActions";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -99,6 +101,21 @@ const style = {
   }
 }
 
+function LinearProgressWithLabel(props) {
+  return (
+    <Box display="flex" alignItems="center" >
+      <Box width="100%" mr={1} style={{marginLeft:"0.8em"}}>
+        <LinearProgress variant="determinate" {...props} />
+      </Box>
+      <Box minWidth={35}>
+        <Typography variant="body2" color="textSecondary">{`${Math.round(
+          props.value,
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
+
 const MypageLiveSession = (props) => {
   const user = useSelector((state) => state.user.data.detail);
   const { session, setFlag } = props;
@@ -157,7 +174,7 @@ const MypageLiveSession = (props) => {
     console.log("hole deleted: ", res);
     history.push("/mypage");
   };
-
+  console.log('session!',session)
   if (!session) return null;
   return (
     <>
@@ -176,17 +193,28 @@ const MypageLiveSession = (props) => {
         <Card key={session.livehole_id} className={classes.root} >
           <br></br>
 
+          {session.host_profile_image? 
+          <>
           <div
-            style={{ backgroundImage: "url('/static/live_IU2.png')"}}
+            style={{ backgroundImage: `url('https://ask2live.me${session.host_profile_image}')`}}
             className={classes.cookieWrapper}
           >
             <div className={classes.useCookie}></div>{" "}
           </div>
+          </>
+            :
+            <div
+            style={{ backgroundImage: `url('/static/reigns/1.jpg')`}}
+            className={classes.cookieWrapper}
+          >
+            <div className={classes.useCookie}></div>{" "}
+          </div>
+          }
+          
 
           <CardHeader
-            
             style={{ padding: "0 8px 0 8px", transform: "translate(0, -5px)" }}
-            title={<Typography variant="body2">{session.title}</Typography>}
+            title={<Typography style={{whiteSpace:"nowrap",width:"13em", overflow:"hidden", textOverflow:"ellipsis"}} variant="body2">{session.title}</Typography>}
             subheader={
                 <>
                 <Typography variant="body2">
@@ -215,6 +243,15 @@ const MypageLiveSession = (props) => {
               )
             }
           />
+          {/* 게이지바 추가 */}
+          <div style={{width: "18em"}}>
+            <LinearProgressWithLabel 
+            value={(session) ?
+              Math.ceil(
+                session.current_demand / session.target_demand <= 1 ?
+                session.current_demand / session.target_demand * 100 : 100) : 0}/>
+           </div>
+
           <CardContent style={{padding: 0, }}>
             <CardActions style={{paddingLeft: 4, paddingTop: 0}}>
               {session.status != "DONE" && user.id === parseInt(session.host) && (

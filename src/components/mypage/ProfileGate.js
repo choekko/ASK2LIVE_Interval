@@ -55,8 +55,8 @@ const ProfileGate = (props) => {
       <Grid container justify="center">
         <Card className={classes.profile}>
           <CardActionArea onClick={goToDetail}>
-
-            <CardHeader
+            {props.user.detail.profile_image?
+              <CardHeader
               fontSize="large"
               avatar={
                 <Avatar
@@ -70,6 +70,23 @@ const ProfileGate = (props) => {
               title={<p className="BMDOHYEON" style={{ fontSize: "1.2em", transform: "translate(0, 1.5px)"}}>{props.user.detail.username}</p>}
               // subheader="September 14, 2016"
               />
+            :
+              <CardHeader
+              fontSize="large"
+              avatar={
+                <Avatar
+                  aria-label="recipe"
+                  src="static/reigns/1.jpg"
+                  // className={classes.avatar}
+                  className={classes.large}
+                ></Avatar>
+              }
+              // titleTypographyProps={{variant:'h1' }}
+              title={<p className="BMDOHYEON" style={{ fontSize: "1.2em", transform: "translate(0, 1.5px)"}}>{props.user.detail.username}</p>}
+              // subheader="September 14, 2016"
+              />
+            }
+            
 
               <ExitToAppIcon style={{ position: "absolute", right: 0, top: "36%", marginRight: "4%", color: "rgba(0, 0, 0, 0.6)"}}/>
           </CardActionArea>
