@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     margin: "2%",
     width: "100%",
-    height: "8em",
+    height: "7.5em",
     maxWidth: "30em",
     borderRadius: "20px",
     boxShadow: "1px 1px 8px 0px rgb(0, 0, 0, 0.3)",
@@ -57,8 +57,8 @@ const useStyles = makeStyles((theme) => ({
   },
   cookieWrapper: {
     float: "left",
-    width: "5em",
-    height: "5em",
+    width: "4em",
+    height: "4em",
     marginLeft: "1em",
     backgroundPosition: "center center",
     backgroundSize: "100%",
@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: "url('/static/cookieMould.png')",
     backgroundPosition: "center center",
     backgroundSize: "100%",
-    width: "5em",
+    width: "4em",
     height: "inherit",
     overflow: "hidden",
   },
@@ -156,24 +156,25 @@ const MypageLiveSession = (props) => {
         justify="center"
         style={{
           width: "100%",
-          maxWidth: "30em",
+          maxWidth: "21em",
           float: "left",
           margin: "auto",
         }}
       >
-        <Card key={session.livehole_id} className={classes.root}>
+        <Card key={session.livehole_id} className={classes.root} >
           <br></br>
 
           <div
-            style={{ backgroundImage: "url('/static/live_IU2.png')" }}
+            style={{ backgroundImage: "url('/static/live_IU2.png')"}}
             className={classes.cookieWrapper}
           >
             <div className={classes.useCookie}></div>{" "}
           </div>
 
           <CardHeader
-            style={{ padding: "10px 8px 0 8px" }}
-            title={<Typography variant="body1">{session.title}</Typography>}
+            
+            style={{ padding: "0 8px 0 8px", transform: "translate(0, -5px)" }}
+            title={<Typography variant="body2">{session.title}</Typography>}
             subheader={
                 <>
                 <Typography variant="body2">
@@ -197,15 +198,16 @@ const MypageLiveSession = (props) => {
                     </>;
                   }}
                 >
-                  <EditIcon />
+                  <EditIcon fontSize="small"/>
                 </IconButton>
               )
             }
           />
-          <CardContent style={{padding: 0}}>
-            <CardActions style={{paddingLeft: 0}}>
+          <CardContent style={{padding: 0, }}>
+            <CardActions style={{paddingLeft: 4, paddingTop: 0}}>
               {session.status != "DONE" && user.id === parseInt(session.host) && (
                 <Button
+                  style={{ backgroundColor: "#3f51b5", paddingTop: 0, paddingBottom: 0 }}
                   size="normal"
                   color="primary"
                   onClick={() => {
@@ -213,14 +215,17 @@ const MypageLiveSession = (props) => {
                     setDark({ animation: "godark 0.7s" });
                   }}
                 >
-                  <Typography variant="body2" style={{ fontWeight: 600 }}>
+                  {/* <Typography variant="body2" style={{ fontWeight: 600 }}> */}
+                  <span className="BMJUA" style={{color: "#FFFFFF"}}>
                     예약 확정하기
-                  </Typography>
+                  </span>
+                  {/* </Typography> */}
                 </Button>
               )}
               {user.id === parseInt(session.host) && (
                 <>
                 <Button
+                  style={{borderColor: "#3f51b5", marginLeft: "1.5em",}}
                   size="normal"
                   color="primary"
                   onClick={() => {
@@ -233,9 +238,11 @@ const MypageLiveSession = (props) => {
                     </>;
                   }}
                 >
-                  <Typography variant="body2" style={{ fontWeight: 600 }}>
+                  {/* <Typography variant="body2" style={{ fontWeight: 600 }}> */}
+                  <span className="BMJUA" color="#3f51b5">
                     삭제하기
-                  </Typography>
+                  </span>
+                  {/* </Typography> */}
                 </Button>
                 
                 </>
