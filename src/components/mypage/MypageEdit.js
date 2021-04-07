@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -131,17 +131,28 @@ const MypageEdit = (props) => {
   const user = props.routerInfo.location.state;
 
   console.log(user);
+  
+  const [username, setUsername] = useState(user.username);
+  console.log(username);
+  const [profileImage, setProfileImage] = useState("https://www.ask2live.me" + user.profile_image)
+  const [workField, setWorkField] = useState(user.work_field);
+  const [workCompany, setWorkCompany] = useState(user.work_company);
+  const [bio, setBio] = useState(user.bio);
+  const [usernameValid, setUsernameValid] = useState(false);
 
+  // useEffect(() => {
+  //   setUsername(user.username);
+  // }, [])
   const [image, setImage] = useState({});
-  const [inputs, setInputs] = useState({
-    username: user.username,
-    profile_image: "https://www.ask2live.me" + user.profile_image,
-    work_field: user.work_field,
-    work_company: user.work_company,
-    bio: user.bio,
-  });
+  // const [inputs, setInputs] = useState({
+    // username: user.username,
+  //   profile_image: "https://www.ask2live.me" + user.profile_image,
+  //   work_field: user.work_field,
+  //   work_company: user.work_company,
+  //   bio: user.bio,
+  // });
 
-  const { username, profile_image, work_field, work_company, bio } = inputs;
+  // const {  profile_image, work_field, work_company, bio } = inputs;
 
   const dispatch = useDispatch();
   const onChange = useCallback((e) => {
@@ -155,13 +166,14 @@ const MypageEdit = (props) => {
         });
         console.log("e.target.files",e.target.files);
       }  
-    }else{
-      const { name, value } = e.target;
-      setInputs({
-        ...inputs,
-        [name]: value,
-      });
     }
+    // else{
+    //   const { name, value } = e.target;
+    //   setInputs({
+    //     ...inputs,
+    //     [name]: value,
+    //   });
+    // }
   });
 
   const onClick = async (e) => {
@@ -174,18 +186,19 @@ const MypageEdit = (props) => {
       },
     };
     const data = {
-      work_field: work_field,
+      work_field: workField,
       username: username,
-      work_company: work_company,
+      work_company: workCompany,
       bio: bio.replace("\r\n", "<br/>"),
     };
     console.log("data", data);
     const formData = new FormData();
     formData.append("work_field", data.work_field);
     formData.append("username", data.username);
-    formData.append("work_company", work_company);
-    formData.append("bio", bio);
+    formData.append("work_company", data.work_company);
+    formData.append("bio", data.bio);
 
+    console.log(image);
     if (Object.keys(image).length != 0) {
       formData.append("profile_image", image.profile_image[0]);
     }
@@ -229,18 +242,25 @@ const MypageEdit = (props) => {
                   borderRadius: "5px",
                 }}
                 required
-                error
+                autoComplete="off"
+                oninvalid={usernameValid}
                 defaultValue={username}
+                value={username}
                 placeholder="이름을 입력하세요"
                 name="username"
-                onChange={onChange}
+                onChange={(e) => {
+                  if (e.target.value.length > 6)
+                    alert("이름은 6글자 이내로 입력이 가능합니다!");
+                  setUsername(e.target.value.substring(0, 6));
+                  setUsernameValid(false)
+                }}
               />
             </p>
 
             <Avatar
               className={classes.avatar}
               aria-label="recipe"
-              src={profile_image}
+              src={profileImage}
             ></Avatar>
             <input
               style={style.file}
@@ -263,10 +283,11 @@ const MypageEdit = (props) => {
                 backgroundColor: "rgba(0, 0, 0, 0.05)",
                 borderRadius: "5px",
               }}
-              defaultValue={work_company}
+              defaultValue={workCompany}
+              value={workCompany}
               placeholder="회사 이름을 입력해주세요"
               name="work_company"
-              onChange={onChange}
+              onChange={(e) => setWorkCompany(e.target.value)}
             />
           </p>
           <p className={classes.work_field}>
@@ -281,10 +302,11 @@ const MypageEdit = (props) => {
                 backgroundColor: "rgba(0, 0, 0, 0.05)",
                 borderRadius: "5px",
               }}
-              defaultValue={work_field}
+              defaultValue={workField}
+              value={workField}
               placeholder="일하는 분야를 입력해주세요"
               name="work_field"
-              onChange={onChange}
+              onChange={(e) => setWorkField(e.target.value)}
             />
           </p>
 
@@ -315,9 +337,10 @@ const MypageEdit = (props) => {
                   borderRadius: "5px",
                 }}
                 defaultValue={bio}
+                value={bio}
                 placeholder="소개를 입력해주세요"
                 name="bio"
-                onChange={onChange}
+                onChange={(e)=> setBio(e.target.value)}
                 // onKeyPress={pressEnter}
               />
               {/* </p> */}

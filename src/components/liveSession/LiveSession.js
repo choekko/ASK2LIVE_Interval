@@ -272,6 +272,7 @@ const LiveSession = (props) => {
 
     const [questionAlert, setOuestionAlert] = useState(false);
     const [copiedAlert, setCopiedAlert] = useState(false);
+    const [refreshAlert, setRefreshAlert] = useState(false)
 
     const [hostExit, setHostExit] = useState(false);
 
@@ -317,13 +318,14 @@ const LiveSession = (props) => {
     const handleClose = (event, reason) => { 
         setHostExit(true);
 
-        setTimeout(window.location.replace('/main'), 500);
         // history.replace('/main')
         if (reason === 'clickaway') {
             return;
         }
         setOpen(false);
+        setTimeout(window.location.replace('/main'), 500);
     };
+    
     //^ =============================================================
     let rtmChannel;
     const [channel, setChannel] = useState();
@@ -338,12 +340,21 @@ const LiveSession = (props) => {
     } = useAgora(client);
     
     
-    
     useEffect(() => {
+        
         const liveInter = setInterval(()=>{
             dispatch(getEnteredSession(props.channelNum))
             dispatch(getQuestionList(props.holeId))
         }, 5000);
+        
+        const refreshOut = () => {
+            rtmClient.logout();
+            leave();
+            leavePatchApi();
+            clearInterval(liveInter);
+        };
+        window.addEventListener("beforeunload", refreshOut);
+
         rtmChannel = rtmClient.createChannel(props.channelNum);
         join(props.channelNum, null, rtmClient, rtmChannel, props.isHost);
         rtmChannel.on('ChannelMessage', (message, memberId) => {
@@ -355,17 +366,18 @@ const LiveSession = (props) => {
             clearInterval(liveInter);
             handleClick();
         });
+
         if (props.isHost)
             setTimeout(()=>{hostPostApi(client.uid)}, 4000);
         else
             setTimeout(()=>{audiencePutApi(client.uid)}, 4000);
-        
-        
+             
         if (props.isHost)
         {
             const unblock = history.block('정말 떠나시겠습니까?');
             return () => {
                 console.log("호스트!!!: ", props.isHost)
+                window.removeEventListener("beforeunload", refreshOut);
 
                 rtmChannel.sendMessage({ text: "hostOut" }).then(() => {
                     // Your code for handling the event when the channel message is successfully sent.
@@ -392,8 +404,9 @@ const LiveSession = (props) => {
             const unblock = history.block('정말 떠나시겠습니까?');
             return () => {
                 console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
+                window.removeEventListener("beforeunload", refreshOut);
 
-                rtmChannel.leave();
+                // rtmChannel.leave();
                 rtmClient.logout();
                 leave();
                 leavePatchApi();
@@ -531,7 +544,7 @@ const LiveSession = (props) => {
                 channelNum={props.channelNum}
             />
         </div>
-        <Snackbar style={{position: "fixed", bottom:"50%"}} open={questionAlert} autoHideDuration={6000} onClose={closeQuestionAlert}>
+        <Snackbar style={{position: "fixed", bottom:"50%"}} open={questionAlert} autoHideDuration={1500} onClose={closeQuestionAlert}>
             <Alert onClose={closeQuestionAlert} style={{ boxShadow: "2px 2px 2px 2px #D95032", border: "solid 1px white", backgroundColor:"black"}} severity="success">
                 <span style={{ color:"white"}}>질문 등록 성공!</span>
             </Alert>

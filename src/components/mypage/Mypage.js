@@ -7,14 +7,10 @@ import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // flexGrow: 1,
-    // paddingLeft: theme.spacing(2),
-    // paddingRight: theme.spacing(2),
-    position: "fixed",
+    position: "absolute",
     width: "100%",
-    height: "10%",
+    top: "9%",
     backgroundColor: "#EF5941",
-    // borderRadius: "15px",
   },
   my: {
     padding: theme.spacing(2),
@@ -47,7 +43,9 @@ const MyPage = (props) => {
       {/* <div className={classes.root}>{}</div> */}
       <Grid container justify="center" >
         <div className={classes.my}>
-          <ProfileGate user={props.user} />
+
+            <ProfileGate user={props.user} />
+
         </div>
       </Grid>
       <div style={{ position: "relative", top: "50%" }}>
