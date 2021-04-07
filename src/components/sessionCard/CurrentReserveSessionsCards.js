@@ -122,16 +122,16 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: '#F24822',
       marginTop: '7px',
       zIndex: "1",
-      transform : "translate(0,-4.5em)",
+      transform : "translate(0,-5.5em)",
     },
-    commingSoon : {
-      width : "10em",
-      height: "2em",
-      backgroundImage:"url('/static/commingSoon.png')",
-      backgroundSize: "contain",
-      backgroundRepeat : "no-repeat",
-      transform : "translate(-4em,-10em)",
-    }
+    // commingSoon : {
+    //   width : "10em",
+    //   height: "2em",
+    //   backgroundImage:"url('/static/commingSoon.png')",
+    //   backgroundSize: "contain",
+    //   backgroundRepeat : "no-repeat",
+    //   transform : "translate(-4em,-10em)",
+    // }
 
 
 
@@ -208,7 +208,9 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                         return(
                           <>
                           <div className={classes.avatarWrapper}>
-                            <Avatar className={classes.avatar} src={`https://www.ask2live.me${session.host_profile_image}`} />
+                            <Avatar className={classes.avatar} src={session.host_profile_image?
+                            `https://www.ask2live.me${session.host_profile_image}`
+                            : "/static/reigns/1.jpg"} />
                             
                             {/* <CheckIcon size="large" style={{fontSize: "55", opacity: 0.6, position:"absolute", top:"25", left:"30"}} color='error'/> */}
                           </div>

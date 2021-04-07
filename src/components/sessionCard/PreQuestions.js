@@ -127,58 +127,6 @@ const SessionDetail = ({session}) => {
         </div>
         </Grid>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-      {/* <div className={classes.root}>
-      <Grid container spacing={1}>
-        <Grid item xs={9} className={classes.paper}>
-          <p className={classes.title}>{session.title}</p>
-          라이브 예정 일자 : 
-          <Moment format="MM.DD hh시 mm분">
-                {session.reserve_date}
-          </Moment><br/>
-          찜 {session.hole_reservations.guests.length} / {session.hole_reservations.target_demand}
-          {session.hole}
-        </Grid>
-        <Progress 
-          className={classes.progress}
-          strokeWidth="5"
-          type="dashboard"
-          strokeColor="#F24822"
-          gapDegree = "85"
-          width={70}
-          format={percent => {
-            if(percent == 100){
-              return(
-                <>
-                  <Avatar className={classes.avatar} src={`https://www.ask2live.me${session.host_profile_image}`} />
-                </>
-              )
-            }else{
-              return(
-                <>
-                  <Avatar className={classes.avatar} src={`https://www.ask2live.me${session.host_profile_image}`} />
-                </>
-              )}
-            
-            }}
-          percent={(session.hole_reservations) ? 
-                  Math.ceil(
-                    session.hole_reservations.guests.length / session.hole_reservations.target_demand <= 1 ?
-                    session.hole_reservations.guests.length / session.hole_reservations.target_demand * 100 : 100) : 0}/>
-        </Grid>
-        </div> */}
         </>
     )
 }

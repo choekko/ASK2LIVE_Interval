@@ -88,10 +88,14 @@ const MypageEdit = (props) => {
   const onChange = useCallback((e) => {
     console.log("e.target.name",e.target.name)
     if(e.target.name === "image"){
-      setImage({
-        profile_image: e.target.files,
-      });
-      console.log("e.target.files",e.target.files);
+      if(e.target.files[0].size > 6000000){
+        alert("6MB 이상의 파일은 업로드되지 않습니다.")
+      }else{
+        setImage({
+          profile_image: e.target.files,
+        });
+        console.log("e.target.files",e.target.files);
+      }  
     }else{
       const { name, value } = e.target;
       setInputs({
@@ -138,8 +142,8 @@ const MypageEdit = (props) => {
     )
     console.log("업데이트 유저 불러오기", resGet)
     console.log("====DATA====", formData);
-
-    history.push({
+    
+    history.replace({
       pathname: "/mypage/" + username,
       state: resGet.data.detail
     });

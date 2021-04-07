@@ -21,6 +21,7 @@ import SendIcon from '@material-ui/icons/Send';
 import IconButton from '@material-ui/core/IconButton';
 import getQuestionlist from '../../actions/QuestionListActions';
 import TextField from '@material-ui/core/TextField';
+import { red } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,10 +29,25 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "1000",
     backgroundColor: "#E2D8CF",
     paddingBottom: "3em",
+    fontFamily: "NanumGothic",
   },
   margin: {
     margin: theme.spacing(1),
   },
+  card : {
+    border: "1px solid #F24822", 
+    marginBottom:"0.5em",
+  },
+  cardText : {
+    position: "relative",
+    top: "6.5px",
+  },
+  labelBMJUA : {
+  fontFamily: "BMJUA",
+  fontStyle: "normal",
+  fontWeight: "normal",
+  fontSize: "1.3em"
+  }
 }));
 
 const style = {
@@ -55,10 +71,13 @@ const style = {
       borderTop: "0px",
       borderLeft : "0",
       borderRight: "0",
+    '::placeholder' : {
+      color : "red",
+    }
   },
-  card : {
-    border: "5px solid red",
-  }
+  
+
+
 
 }
 
@@ -88,7 +107,7 @@ const MyQuestionCards = () => {
   return (
     <>
       {myQuestions.length === 0 ? 
-        <div>질문을 등록해주세요</div> :
+        <div className="NanumGothic3">질문을 등록해주세요</div> :
         
         myQuestions.map((question) => 
         <>
@@ -154,11 +173,11 @@ const QuestionCard = ({question}) => {
     console.log(question)
     return(
         <>
-        <Card key={question.id} style={{border: "1px solid #F24822", marginBottom:"0.5em"}}>
+        <Card key={question.id} className={classes.card}>
           <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {question.user_username} : {question.question}
-        </Typography>
+        <div className="NanumGothic3">
+          <span className={classes.cardText}>{question.user_username} : {question.question}</span>
+        </div>
         </CardContent>
         </Card>
         </>
@@ -203,7 +222,6 @@ const a11yProps = (index) => {
 const LinkTab = (props) => {
   return (
     <Tab
-      component="a"
       onClick={(event) => {
         event.preventDefault();
       }}
@@ -230,15 +248,24 @@ const PreQuestionNav = ({session}) => {
           variant="fullWidth"
           value={value}
           onChange={handleChange}
-          aria-label="nav tabs example"
         >
-          <LinkTab label="등록된 질문" href="/drafts" {...a11yProps(0)} />
-          <LinkTab label="질문하기" href="/trash" {...a11yProps(1)} />
+        <Tab
+        onClick={(event) => {
+          event.preventDefault();
+          }}
+          {...a11yProps(0)}
+          label={<span className={classes.labelBMJUA}>등록된 질문</span>}/>
+          <Tab
+        onClick={(event) => {
+          event.preventDefault();
+          }}
+          {...a11yProps(1)}
+          label={<span className={classes.labelBMJUA}>질문하기</span>}/>
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
       {questions.data.detail.length === 0 ? 
-        <div>질문을 등록해주세요</div> :
+        <div className="NanumGothic3">질문을 등록해주세요</div> :
         
         questions.data.detail.map((question) => 
         <>
