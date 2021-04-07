@@ -7,16 +7,24 @@ import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    maxWidth: "70em",
+    // flexGrow: 1,
+    // paddingLeft: theme.spacing(2),
+    // paddingRight: theme.spacing(2),
+    position: "fixed",
+    width: "100%",
+    height: "10%",
+    backgroundColor: "#EF5941",
+    // borderRadius: "15px",
   },
   my: {
     padding: theme.spacing(2),
+    paddingTop: theme.spacing(6),
     textAlign: "left",
     // color: theme.palette.text.secondary,
-    backgroundColor: "lightgray",
+    backgroundColor: "#EF5941",
+    width: "100%",
+    // maxWidth: "43em",
+    // borderRadius: "15px",
   },
   myBottomCard: {
     padding: theme.spacing(2),
@@ -29,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const MyPage = (props) => {
   const classes = useStyles();
   console.log(props);
@@ -37,17 +44,18 @@ const MyPage = (props) => {
   return (
     <>
       <MypageNav text={"프로필"} />
-      <Grid container justify="center">
-        <div className={classes.root}>
-          <Grid container spacing={3}>
-            <Grid item className={classes.my} xs={12}>
-              <ProfileGate user={props.user}/>
-            </Grid>
-          </Grid>
-          <h3>Live QnA</h3>
+      {/* <div className={classes.root}>{}</div> */}
+      <Grid container justify="center" >
+        <div className={classes.my}>
+          <ProfileGate user={props.user} />
         </div>
       </Grid>
-          <SessioinCreateButton />
+      <div style={{ position: "relative", top: "50%" }}>
+        <SessioinCreateButton />
+      </div>
+      <div style={{ padding: "0 16px", margin: "auto", maxWidth: "43em" }}>
+        <h3 className="CookieRun">Live QnA</h3>
+      </div>
     </>
   );
 };

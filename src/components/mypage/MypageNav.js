@@ -12,7 +12,7 @@ const style = {
     right: 0,
     position: "fixed",
     margin: "auto",
-    maxWidth: "73em",
+    // maxWidth: "73em",
     fontFamily: "BMDOHYEON",
     backgroundColor: "#fff8ef",
     borderBottom: "2px solid",

@@ -53,8 +53,8 @@ const useStyles = makeStyles((theme) => ({
   username: {
     position: "absolute",
     fontFamily: "BMDOHYEON",
-    fontSize: "1.5em",
-    top: "8%",
+    fontSize: "1.3em",
+    top: "9%",
     left: "5%",
     // top: "12%",
     // left: "6.6%",
@@ -93,18 +93,33 @@ const style = {
     justifyContent: "center",
   },
   file: {
-    fontWeight: "bold",
+    fontFamily: "BMJUA",
+    // fontWeight: "bold",
     position: "absolute",
     top: "23%",
-    right: 0,
+    left: "5%",
     overflow: "hidden",
   },
   button: {
     position: "relative",
-    padding: "3px",
+    fontFamily: "BMDOHYEON",
+    fontWeight: "lighter",
+    padding: "1px",
     width: "40%",
     maxWidth: "25em",
     margin: "auto 2%",
+    color: "#EF5941",
+    borderColor: "#EF5941",
+  },
+  button2: {
+    position: "relative",
+    fontFamily: "BMDOHYEON",
+    padding: "1px",
+    width: "40%",
+    maxWidth: "25em",
+    margin: "auto 2%",
+    backgroundColor: "#EF5941",
+    opacity: "0.9",
   },
 };
 
@@ -158,7 +173,7 @@ const MypageEdit = (props) => {
       work_field: work_field,
       username: username,
       work_company: work_company,
-      bio: bio,
+      bio: bio.replace("\r\n", "<br/>"),
     };
     console.log("data", data);
     const formData = new FormData();
@@ -186,7 +201,7 @@ const MypageEdit = (props) => {
     console.log("업데이트 유저 불러오기", resGet);
     console.log("====DATA====", formData);
 
-    history.push({
+    history.replace({
       pathname: "/mypage/" + username,
       state: resGet.data.detail,
     });
@@ -201,19 +216,18 @@ const MypageEdit = (props) => {
             <p className={classes.username}>
               <input
                 // className={classes.username}
+                className="BMDOHYEON"
                 style={{
                   fontSize: "1em",
-                  maxWidth: "6.9em",
+                  maxWidth: "8em",
                   border: "none",
-                  fontFamily: "BMDOHYEON",
-                  // borderBottom: "1px solid",
-                  backgroundColor: "#FFEBE8",
+                  backgroundColor: "rgba(0, 0, 0, 0.05)",
                   borderRadius: "5px",
                 }}
                 required
                 error
                 defaultValue={username}
-                placeholder="이름을 입력해주세요"
+                placeholder="이름을 입력하세요"
                 name="username"
                 onChange={onChange}
               />
@@ -241,7 +255,8 @@ const MypageEdit = (props) => {
                 border: "none",
                 fontFamily: "BMJUA",
                 // borderBottom: "1px solid",
-                backgroundColor: "#FFEBE8",
+                // backgroundColor: "#FFEBE8",
+                backgroundColor: "rgba(0, 0, 0, 0.05)",
                 borderRadius: "5px",
               }}
               defaultValue={work_company}
@@ -258,11 +273,12 @@ const MypageEdit = (props) => {
                 border: "none",
                 fontFamily: "BMJUA",
                 color: "grey",
-                backgroundColor: "#FFEBE8",
+                // backgroundColor: "#FFEBE8",
+                backgroundColor: "rgba(0, 0, 0, 0.05)",
                 borderRadius: "5px",
               }}
               defaultValue={work_field}
-              placeholder="일하시는 분야를 입력해주세요"
+              placeholder="일하는 분야를 입력해주세요"
               name="work_field"
               onChange={onChange}
             />
@@ -285,17 +301,20 @@ const MypageEdit = (props) => {
               <textarea
                 className="bioWrapper"
                 style={{
-                  border: "none",
+                  border: "1px solid",
+                  borderColor: "rgba(0, 0, 0, 0.3)",
                   width: "89%",
                   height: "80%",
                   // backgroundColor: "#F2AC57",
-                  backgroundColor: "rgba(0, 0, 0, 0.05)",
+                  fontFamily: "BMJUA",
+                  // backgroundColor: "rgba(0, 0, 0, 0.05)",
                   borderRadius: "5px",
                 }}
                 defaultValue={bio}
                 placeholder="소개를 입력해주세요"
                 name="bio"
                 onChange={onChange}
+                // onKeyPress={pressEnter}
               />
               {/* </p> */}
             </div>
@@ -305,25 +324,27 @@ const MypageEdit = (props) => {
             <Button
               style={style.button}
               variant="outlined"
-              color="primary"
-              size="large"
+              // color="#EF5941"
+              size="normal"
               onClick={() => {
                 history.goBack();
               }}
             >
-              <span color="030916">
+              <span style={{transform: "translate(0, 1px)", color: "#EF5941"}}>
                 취소하기
               </span>
             </Button>
 
             <Button
-              style={style.button}
+              style={style.button2}
               variant="contained"
-              color="primary"
+              // color="primary"
+              // backgroundColor="#EF5941"
+              // backgroundColor='#0063cc'
               size="large"
               onClick={onClick}
             >
-              <span color="030916">
+              <span style={{transform: "translate(0, 1px)", color: "#FFFFFF"}}>
                 확정하기
               </span>
             </Button>

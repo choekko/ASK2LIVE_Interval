@@ -48,8 +48,8 @@ const useStyles = makeStyles((theme) => ({
   username: {
     position: "absolute",
     fontFamily: "BMDOHYEON",
-    fontSize: "1.5em",
-    top: "8%",
+    fontSize: "1.3em",
+    top: "9%",
     left: "5%",
   },
   work_company: {
@@ -82,7 +82,7 @@ const style = {
     position: "fixed",
     margin: "auto",
     width: "100%",
-    maxWidth: "73em",
+    // maxWidth: "73em",
     top: 0,
     zIndex: 1,
     pointerEvents: "none",
@@ -115,8 +115,8 @@ const ProfileDetail = (props) => {
     const host = props.routerInfo.location.state.host;
     console.log("host : ", host);
     if (!host.work_company.length)
-      host.work_company = " ";
-    if (!host.work_field.length) host.work_field = " ";
+      host.work_company = "";
+    if (!host.work_field.length) host.work_field = "";
 
     profile = {
       username: host.username,
@@ -127,8 +127,8 @@ const ProfileDetail = (props) => {
     };
   } else {
     if (!user.work_company.length)
-      user.work_company = " ";
-    if (!user.work_field.length) user.work_field = " ";
+      user.work_company = "";
+    if (!user.work_field.length) user.work_field = "";
     profile = {
       username: user.username,
       profile_image: user.profile_image,
@@ -195,7 +195,7 @@ const ProfileDetail = (props) => {
             </p>
             <div className="bioWrapper">
                 
-              <p style={{marginTop: 0}}>
+              <p style={{fontFamily: "BMJUA", marginTop: 0, whiteSpace: "pre-wrap"}}>
                 {profile.bio}
               </p>
             </div>
