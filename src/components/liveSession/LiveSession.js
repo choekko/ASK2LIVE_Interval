@@ -313,7 +313,6 @@ const LiveSession = (props) => {
         setOpen(true);
     };
     
-    
     // 닫는 함수. 이미 아래에 자동적으로 사용되고 있음.
     const handleClose = (event, reason) => { 
         setHostExit(true);

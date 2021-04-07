@@ -143,7 +143,7 @@ const ProfileDetail = (props) => {
 
   const goToEdit = () => {
     console.log("click");
-    history.push({
+    history.replace({
       pathname: `${profile.username}/edit`,
       state: user});
   }

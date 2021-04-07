@@ -15,6 +15,12 @@ import Grid from "@material-ui/core/Grid";
 import Chip from '@material-ui/core/Chip';
 import Box from "@material-ui/core/Box";
 
+import { Progress, Badge, Divider } from 'antd';
+import Avatar from '@material-ui/core/Avatar';
+import Moment from "react-moment";
+import "../../styles/style.css";
+import "../../App.css";
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,48 +35,41 @@ const useStyles = makeStyles((theme) => ({
     paper: {
       padding: theme.spacing(2),
     },
-    card: {
-        maxWidth: "30em",
+    avatar : {
+      width: theme.spacing(7),
+      height: theme.spacing(7),
+      transform: "translate(0.35em,-3.35em)"
+      // opacity: 0.7,
+    },
+    title : {
+      paddingLeft: "1em",
+      fontFamily: "NanumGothic",
+      fontStyle: "normal",
+      fontWeight: "500",
+      fontSize: "1.1em",
+      paddingTop: "0.8em",
+      paddingBottom: "1em",
+    },
+    time : {
+      paddingLeft: "1em",
+      paddingBottom: "1em",
+      fontFamily: "NanumGothic",
+      fontStyle: "normal",
+      fontWeight: "500",
+      fontSize: "1em",
+    },
+    desc : {
+      paddingLeft: "1em",
+      paddingBottom: "1em",
+      fontFamily: "NanumGothic",
+      fontStyle: "normal",
+      fontWeight: "500",
+      fontSize: "1em",
     }
+
   }));
 
-const circleStyle={
-    backgroundColor:"#E2D8CF",
-    width : "77px",
-    height : "77px",
-    borderRadius: "38px",
-  }
 
-  function CircularProgressWithLabel(props) {
-      const session = props.session
-      console.log(session)
-    return (
-      <Button 
-        style={circleStyle}>
-      <Box position="relative" display="inline-flex">
-        <div style={{color:"#D95032", width:"100%"}}>
-        <CircularProgress thickness="3" size="5rem" variant='determinate' color='inherit'  {...props} /></div>
-        <Box
-          top={0}
-          left={0}
-          bottom={0}
-          right={0}
-          position="absolute"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-             <Grid container justify="center" alignItems="center">
-                <Chip size="small" variant="outlined" label={`
-                ${session.hole_reservations.target_demand == 0? 
-                    100 : Math.ceil(session.hole_reservations.guests.length / session.hole_reservations.target_demand * 100)}%`} />
-            </Grid>
-        </Box>
-      </Box>
-      </Button>
-  
-    );
-  }
 
 const SessionDetail = ({session}) => {
   const history = useHistory();
@@ -83,34 +82,51 @@ const SessionDetail = ({session}) => {
         </>
       )
     }
-    
-    
     return(
         <>
-        <div className={classes.root}>
-      <Grid container spacing={1}>
-        <Grid item xs={9} className={classes.paper}>
-          {session.title}<br/>
-          {session.reserve_date}<br/>
-          찜 {session.hole_reservations.guests.length} / {session.hole_reservations.target_demand}
-          {session.hole}
+        <Grid container spacing={0}>
+        <Grid item xs={8}>
+        <p className={classes.title}>{session.title}</p>
         </Grid>
-        <Grid item xs={3}>
-        <CircularProgressWithLabel 
-            className={classes.paper}
-            key={session.id} 
-            session = {session}
-            value={(session.hole_reservations) ? 
-              Math.ceil(
-                session.hole_reservations.guests.length / session.hole_reservations.target_demand <= 1 ?
-                session.hole_reservations.guests.length / session.hole_reservations.target_demand * 100 : 100) : 0} 
-            current={(session.hole_reservations) ? session.hole_reservations.guests.length  : 0 }
-        />
+        <Grid item xs={4}>
+        <Progress 
+          className={classes.progress}
+          strokeWidth="5"
+          type="dashboard"
+          strokeColor="#F24822"
+          gapDegree = "85"
+          width={70}
+          format={percent => {
+            if(percent == 100){
+              return(
+                <>
+                  <Avatar className={classes.avatar} src={`https://www.ask2live.me${session.host_profile_image}`} />
+                </>
+              )
+            }else{
+              return(
+                <>
+                  <Avatar className={classes.avatar} src={`https://www.ask2live.me${session.host_profile_image}`} />
+                </>
+              )}
+            
+            }}
+          percent={(session.hole_reservations) ? 
+                  Math.ceil(
+                    session.hole_reservations.guests.length / session.hole_reservations.target_demand <= 1 ?
+                    session.hole_reservations.guests.length / session.hole_reservations.target_demand * 100 : 100) : 0}/>
         </Grid>
-        
-      </Grid>
-        
+        <div>
+        <div className={classes.time}>라이브 예정 일자 : {``}
+          <Moment format="MM.DD hh시 mm분">
+                {session.reserve_date}
+          </Moment></div>
         </div>
+        <div>
+        <div className={classes.desc}>라이브 주제 : {``} {session.description}</div>
+        </div>
+        </Grid>
+
         </>
     )
 }
@@ -151,11 +167,13 @@ const PreQuestions = () => {
     return (
             <>
         <MypageNav text={'Live Q&A 상세'} />
-        
-        <SessionDetail session={targetSession.session}/>
-
-        {Object.keys(questions.data).length > 0 ? <ListPreQuestions questions={questions} session={targetSession.session}/> : null}
-
+        {/* <div style={{position : "absolute", height:"12em", width: "100%", backgroundColor:"skyblue"}}>{""}</div> */}
+        <div style={{display:"flex", justifyContent:"center", position:"absolute", top:"9%" , width:"100%"}}>
+          <div style={{width:"100%", maxWidth:"50em"}}>
+          <SessionDetail session={targetSession.session}/>
+          {Object.keys(questions.data).length > 0 ? <ListPreQuestions questions={questions} session={targetSession.session}/> : null}
+          </div>
+        </div>
         </>
     )
   
