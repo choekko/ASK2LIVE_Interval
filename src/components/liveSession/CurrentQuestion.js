@@ -53,6 +53,9 @@ const CurrentQuestion = (props) => {
         let questionIdx = forQuestionidx(questionList);
         //이걸 매번 돌리기엔 비효율적.. useEffect를 쓰면 될까??
         if (questionIdx == -1)
+        {
+            if (props.liveVoice)
+                props.setLiveVoice(false);
             return (
                 <>
                 <div style={style.wait} className="BMJUA">
@@ -60,6 +63,7 @@ const CurrentQuestion = (props) => {
                 </div>
                 </>
             )
+        }   
         else 
         {
             const onAnswered = (questionId) => {
@@ -70,13 +74,18 @@ const CurrentQuestion = (props) => {
             let userNickName = currentQuestion.user_username;
             let isVoice = currentQuestion.is_voice;
             let userUid = currentQuestion.user_uid;
+            let imageLink = currentQuestion.user_profile_image_url
 
             if (isVoice)
+            {
+                if (!props.liveVoice)
+                    props.setLiveVoice(true)
                 return (
                 <>
                 <VoiceQuestion 
                 userUid={userUid} 
                 userNickName={userNickName} 
+                imageLink={imageLink}
                 isHost={props.isHost} 
                 onAnswered={onAnswered} 
                 currentQuestionId={currentQuestion.id}
@@ -89,8 +98,11 @@ const CurrentQuestion = (props) => {
                 />
                 </>
                 )
+            }
 
             else {
+                if (props.liveVoice)
+                    props.setLiveVoice(false);
                 let userQuestion = currentQuestion.question;
                 return (
                 <StringQuestion userNickName={userNickName} userQuestion={userQuestion} isHost={props.isHost} onAnswered={onAnswered} currentQuestionId={currentQuestion.id}/>

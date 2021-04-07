@@ -1,7 +1,8 @@
 import {
     ENTEREDSESSION_GET_PENDING,
     ENTEREDSESSION_GET_SUCCESS,
-    ENTEREDSESSION_GET_ERROR
+    ENTEREDSESSION_GET_ERROR,
+    ENTEREDSESSION_DELETE,
   } from '../actions/types';
 
 const initialState = {
@@ -36,6 +37,11 @@ const enteredSession = (state = initialState, action) => {
                 arrived: false,
                 pending: false,
                 error: true
+            }
+        case ENTEREDSESSION_DELETE:
+            return {
+                ...state,
+                ...initialState,
             }
         default:
             return state;

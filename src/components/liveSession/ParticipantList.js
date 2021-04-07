@@ -7,8 +7,8 @@ import axios from "axios"
 const style = {
     participantlist : {
         width: "100%",
-        paddingTop: "1.5em",
         borderRadius : "15px",
+        padding: "0",
     }
 }
 
@@ -19,16 +19,18 @@ const ParticipantList = (props) => {
 
     return (
         <>
-        <p className="NanumGothic3" style={{position:"absolute", marginTop: "1.5em"}}>
-            {participants.arrived?
-                participants.data.detail.participant.length+"명이 듣고 있어요"
-                :
-                <></>
-            }
-        </p>
+        <div style={{display:"flex", position:"absolute", height:"9%", alignItems:"flex-end", justifyContent:"center" }}>
+
+            <p className="NanumGothic3" style={{borderBottom:"1px solid black", margin:"0"}}>
+                {participants.arrived?
+                    participants.data.detail.participant.length+"명이 듣고 있어요"
+                    :
+                    <></>
+                }
+            </p>
+        </div>
             <Paper style={style.participantlist} elevation={0}>
-                <br/>
-                <div style={{position:"absolute", height:"100%", width:"100%", overflow:"auto"}}>
+                <div style={{position:"absolute", top: "10%", height:"90%", width:"100%", overflow:"auto"}}>
                     {participants.arrived ? 
                         participants.data.detail.participant.map((participant) => 
                         <Participant 

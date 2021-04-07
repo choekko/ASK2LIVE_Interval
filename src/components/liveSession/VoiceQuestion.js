@@ -3,6 +3,7 @@ import Avatar from "../Avatar"
 import Grid from "@material-ui/core/Grid"
 import {makeStyles} from "@material-ui/core/styles"
 import "../../styles/style.css"
+import SendIcon from '@material-ui/icons/Send';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,7 +28,16 @@ const VoiceQuestion = (props) => {
     console.log("무야호", props)
     const classes = useStyles();
     const [click, setClick] = useState(false)
-    const [clickStyle, setClickStyle] = useState({zIndex:"1", backgroundColor:"#63BF8B"})
+    const [clickStyle, setClickStyle] = useState({color: "#EF5941"})
+    const [finish, setFinish] = useState(false);
+    const [exitClick, setExitClick] = useState(false);
+
+    const [hidden, setHidden] = useState("0")
+
+
+    useEffect(()=>{
+        setTimeout(()=>{setHidden("1")}, 1000);
+    })
 
     const sendP2PMessage = useCallback((recipientUID, peerMsg) => {
         console.log("sendP2PMessage");
@@ -59,46 +69,127 @@ const VoiceQuestion = (props) => {
 
     return (
         <>
-        <div style={{position:"absolute", width:"100%", display:"flex", justifyContent:"center", top:"0"}}>
-            <div>
-                <div className={classes.root}>
-                    <Avatar alt={props.userNickName} src={props.imageLink} className={classes.large}/>
+        <div style={{
+            zIndex: "1",
+            position:"fixed",
+            top:"5%",
+            display:"flex",
+            maxWidth:"45em",
+            width:"100%",
+            height:"25%",
+            justifyContent:"center",
+            alignItems:"center",
+            transform:"translate(25%,71%)",
+            transition : "opacity 1s",
+            opacity:hidden}}>
+
+            <div style={{
+                zIndex: "1",
+                marginTop:"13px",
+                width:"6em"}}>
+                <div style={{zIndex: "1",width:"5.6em"}}>
+                <Avatar style={{zIndex: "1"}} alt={props.userNickName} imageLink={props.imageLink} className={classes.large}/>
                 </div>
-                <div className={classes.root}>
-                 <p style={{color:"rgba(255,255,255,0.6)"}}>{props.userNickName}</p>
+                <div style={{display:"flex", justifyContent:"center"}}>
+                    <p className="BMDOHYEON" style={{marginTop:"5px", marginLeft:"-8px", color:"rgba(255,255,255,0.8)"}}>{props.userNickName}</p>
                 </div>
-                <div className={classes.root}>
+            </div>
+        </div>
+        <div style={{
+            transition : "opacity 1s",
+            opacity:hidden, 
+            zIndex: "0",
+            top:"22.5%",
+            position:"fixed", 
+            height: "25%",
+            display:"flex", 
+            alignItems:"center", 
+            justifyContent:"center", 
+            width:"100%", 
+            maxWidth:"45em"}}>
+
+            <div style={{}} className="voicePlane">
+                <div style={{
+                    border: "1px solid #EF5941",
+                    position:"absolute",
+                    width:"100%",
+                    height:"4em",
+
+                }}>
+                <div className="voicePlaneC1">
+                    <div style={{
+                        width :"1.5em",
+                        height:"1.5em",
+                        backgroundImage: "url('/static/wave2.jpg')",
+                        backgroundSize:"contain",
+                    }}/>
+                    {/* <SendIcon/>     */}
+                </div> 
+                <div className="voicePlaneC2">
+                    <div style={{
+                        width :"1.5em",
+                        height:"1.5em",
+                        backgroundImage: "url('/static/wave2.jpg')",
+                        backgroundSize:"contain",
+                    }}/>
+                    {/* <SendIcon/> */}
+                </div>
+
+                </div>
+            </div>
+            <div style={{
+            display:"flex",
+            justifyContent:"center",
+            alignItems:"flex-end",
+            width:"12em", 
+            height:"145%"}}>
                 {props.isHost?
                 <>
                 <button
+                className="audienceLink"
                 disabled={click}
-                style={clickStyle}
-                onClick={()=>{setClickStyle({zIndex:"1", backgroundColor:"grey"});setClick(true); sendP2PMessage(props.userUid, "host")}}
+                onClick={()=>{setClickStyle({color:"grey"});setClick(true); sendP2PMessage(props.userUid, "host")}}
                 >
-                    <span style={{color:"black"}} className="BMJUA">연결</span>
+                    <span style={clickStyle} className="NanumGothic3">연결하기</span>
                 </button>
                 <button
-                style={{zIndex:"1",backgroundColor:"white"}}
+                className="linkExit"
+                disabled={exitClick}
+                style={{zIndex:"1",backgroundColor:"#3B3B3B"}}
                 onClick={()=>{
+                    setClick(true);
+                    setFinish(true);
+                    setExitClick(true);
                     sendP2PMessage(props.userUid, "audience")
                     props.onAnswered(props.currentQuestionId)
                     setTimeout(() => {
+                        setFinish(false);
+                        setExitClick(false);
                         setClick(false);
-                        setClickStyle({zIndex:"1", backgroundColor:"#63BF8B"});
+                        setClickStyle({color:"#EF5941"});
                     }, 4000);
                 }}
                 >
-                <span style={{color:"black"}} className="BMJUA">다음</span>
+                {   finish?
+                    <div style={{display:"flex", justifyContent:"center"}}>
+                        <div className="loadingCircle"></div> 
+
+                    </div>
+                    :
+                    <span style={{color: "white"}} className="NanumGothic3">답변완료</span>
+
+                }
                 </button>
                 </>
                 :
                 <>
                 </>
                 }
-                </div>
             </div>
+
+
         </div>
-        <div className="voiceCircle"/> 
+
         </>
     )
 

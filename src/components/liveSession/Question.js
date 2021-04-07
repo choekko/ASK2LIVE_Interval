@@ -69,7 +69,9 @@ return (
         <div style={style.card}>
             <p style={{margin:"4px 0 0 4px", padding :"0"}}className="BMDOHYEON">{props.userName}</p>
         </div>
+        <div className="questionWrap">
             <p style={{margin:"4px 0 0 8px", padding :"0"}}className="NanumGothic2">{props.value}</p>
+        </div>
     </Paper>
     </div>
     {props.isFirst? 

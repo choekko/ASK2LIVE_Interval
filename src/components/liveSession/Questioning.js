@@ -29,9 +29,10 @@ const useStyles = makeStyles((theme) => ({
           
         // margin: theme.spacing(2),
         width : "100%",
-        height: theme.spacing(10),
+        height: "11em",
         // height: "70px",
-        borderRadius : "15px",
+        borderRadius : "30px",
+        border: "1px solid #EF5941",
       },
     },
   }));
@@ -43,46 +44,57 @@ const style = {
         width: "100%",
         height : "100%",
         backgroundColor: "white",
-        borderRadius: "20px 20px 0 0 "
+        borderRadius: "30px 30px 0 0 "
     },
     questionbutton : {
+        width : "100%",
+        display : "flex",
+        justifyContent : "center",
         position: "absolute",
-        top: "-4%",
-        right: "-2%",
+        top : "-0.7em",
+        zIndex:"3",
+        height:"1px",
     },
     card : {
+        transform:"translate(-1px, -1px)",
         paddingTop:"4px",
         position: "absolute",
         width: "100%",
         maxWidth:"42em",
-        borderRadius : "15px 15px 0 0",
-        backgroundColor: "#D95032",
-        height: "1.7em",
+        borderRadius : "30px 30px 0 0",
+        backgroundColor: "#EF5941",
+        height: "3em",
         // height: "20px",
-        zIndex:"8",
+        zIndex:"3",
         // padding: "3px",
     },
     submitbtn : {
         position: "absolute",
         display: "flex",
         justifyContent: "center",
-        float: "right",
-        right: "5px",
+        right: "1em",
         width: "10%",
-        top: "2.4em",
+        top: "0.5em",
         height: "2.4em",
-        zIndex: "2",
+        zIndex: "3",
     },
     insert : {
-        position:"absolute",
-        top: "3.2em",
+        marginTop: "10px",
+        display : "block",
+
+        top: "4em",
         left : "10px",
+        height: "7em",
+        width:"90%",
+        border : "none",
+    },
+    nav : {
+        display: "table",
+        position:"absolute",
+        top:"0%",
+        zIndex:"3",
+        width:"100%",
         height: "2em",
-        width:"86%",
-        borderBottom : "1px solid",
-        borderTop: "0px",
-        borderLeft : "0",
-        borderRight: "0",
     }
 }
 
@@ -104,7 +116,8 @@ const Questioning = (props) => {
             setAsk("")
             props.openQuestionAlert();
             props.goQueUp({transform : "translate(0, 100%)"});
-            props.goDark({opacity: "0", animation: "golight 0.7s"}); 
+            props.goDark({opacity: "0", animation: "golight 0.7s"});
+            setTimeout(()=>{props.goDark({display: "none"})}, 700)
         }
     }
 
@@ -136,47 +149,87 @@ const Questioning = (props) => {
             {headers:headers}
           );
     }
+    const [click1, setClick1] = useState({borderBottom:"2px solid #EF5941"})
+    const [click2, setClick2] = useState();
 
     return (
         <>
-        <Paper style={style.paper} elevation={1}>
+        <div style={style.nav}>
+            <td style={{width:"50%"}}>
+                <div style={{display:"flex",  justifyContent : "center"}}>
+                <p 
+                style={click1} 
+                onClick={()=>{
+                    setVoice(true); 
+                    setQueStyle({opacity: "1"});
+                    setClick2(); 
+                    setClick1({borderBottom:"2px solid #EF5941"})}}
+                className="Gmarket3">음성 질문</p>
+                </div>
+            </td>
+            <td>
+                <div style={{display:"flex",  justifyContent : "center"}}>
+                <p 
+                style={click2}
+                onClick={()=>{
+                    setVoice(false); 
+                    setQueStyle({opacity: "0", display : "none"}) ;
+                    setClick1(); 
+                    setClick2({borderBottom:"2px solid #EF5941"})}}
+                className="Gmarket3">텍스트 질문</p>
+                </div>
+            </td>
+        </div>
+        <Paper style={style.paper} elevation={0}>
             <Grid container justify="center">
                 <div className={classes.root}>
-                    <Paper elevation={2} >
+                    <Paper elevation={0} >
                         <div style={style.card}>
                             {
                                 myInfo.arrived?
-                                <span
-                                style={{marginLeft: "10px"}}
-                                className="BMJUA"
-                                >{myInfo.data.detail.username}</span>
+        
+                                <div 
+                                style={{position:"absolute", marginLeft: "1.5em", marginTop: "0.7em"}}>
+                                    <span
+                                    style={{color:"white"}}
+                                    className="BMJUA"
+                                    >{myInfo.data.detail.username}</span>
+                                    <span
+                                    style={{marginLeft: "5px", fontSize: "0.8em", color:"white"}}
+                                    >님의 질문</span>
+                                </div>
+    
                                 :
                                 <span> 로딩중 </span>
                             }
-                            <div style={{float:"right"}}>
-                                <span className="BMJUA" style={{fontSize: "1em"}}> 텍스트로 질문하실래요? </span>
-                                <Checkbox
-                                    style={{color: "black", right : "3px", padding: "0"}}
-                                    size="small"
-                                    inputProps={{ 'aria-label': 'checkbox with small size' }}
-                                    onClick={voiceClick}
-                                />
-                            </div>
                         </div>
                         <div style={queStyle} className="QuestioningWrapper">
-                            <p className="NanumGothic3" style={{transform:"translate(0, 15px)", color: "white", marginLeft: "1em", fontSize:"0.8em"}}>차례가 되면 호스트가 음성 권한을 부여합니다.</p>
+                            <p className="Gmarket1" style={{margin:"2em 0 0 0", color: "white", fontSize:"1em"}}>
+                                음성으로 물어볼래요!
+                            </p>
+                            <p className="NanumGothic2" style={{margin:"1em 0 0 0",color: "white", fontSize:"0.7em"}}>
+                                차례가 됐을 때 호스트가
+                            </p>
+                            <p className="NanumGothic2" style={{margin:"0",color: "white", fontSize:"0.7em"}}>
+                                음성권한을 부여할 수 있습니다
+                            </p>
                         </div>
-                        <input
-                        type="text"
-                        maxLength="60"
-                        value={ask}
-                        style={style.insert}
-                        placeholder="최대 글자수는 60자입니다."
-                        onChange={(e) => setAsk(e.target.value)}
-                        onKeyPress={pressEnter}
-                        />
+                        <div style={{
+                            display: "flex", justifyContent:"center",
+                            width:"100%", height:"8em", transform:"translate(0, 3em)"}}>
+                            <textarea
+                            value={ask}
+                            style={style.insert}
+                            className="Gmarket2"
+                            placeholder="질문을 입력하세요!"
+                            maxLength="99"
+                            onChange={(e) => setAsk(e.target.value)}
+                            onKeyPress={pressEnter}
+                            />
+                        </div>
                         <div style={style.submitbtn}>
-                        <IconButton 
+                        <IconButton
+                            style = {{color: "white", fontSize: "1em"}}
                             onClick={()=>{
                                 if (voice)
                                 {
@@ -187,24 +240,33 @@ const Questioning = (props) => {
                                     props.goDark({opacity: "0", animation: "golight 0.7s"}); 
                                     setTimeout(()=>{props.goDark({display: "none"})}, 700)
                                 }
-                                else 
+                                else if (!voice && ask.length >= 1)
+                                {
                                     postApi(false, ask); setAsk("")
                                     props.openQuestionAlert();
                                     props.goQueUp({transform : "translate(0, 100%)"}); 
                                     props.goDark({opacity: "0", animation: "golight 0.7s"}); 
                                     setTimeout(()=>{props.goDark({display: "none"})}, 700)
-                                }} 
-                            className={classes.iconButton} 
+                                }}}
+                            className="BMJUA" 
                             aria-label="send">
-                            <SendIcon/>
+                            등록
                         </IconButton>
+                        </div>
+                        <div style={{display:"block", zIndex: "1"}}>
+                        <span style={{
+                            fontSize: "13px", position:"absolute", zIndex:"1", right:"0", bottom:"0", transform:"translate(-2.5em, -0.5em)"
+                        }}>{ask.length}/100</span>
+
                         </div>
                     </Paper>
                 </div>
             </Grid>
-        <IconButton style={style.questionbutton} onClick={()=>{props.goQueUp({transform : "translate(0, 100%)"}); props.goDark({opacity: "0", animation: "golight 0.7s"}); setTimeout(()=>{props.goDark({display: "none"})}, 700)}} aria-label="question_list">
-            <CloseQuestioning fontSize="large" />
-        </IconButton>
+        <div style={style.questionbutton}>
+            <IconButton style={{transform:"translate(0, 1em)"}} onClick={()=>{props.goQueUp({transform : "translate(0, 100%)"}); props.goDark({opacity: "0", animation: "golight 0.7s"}); setTimeout(()=>{props.goDark({display: "none"})}, 700)}} aria-label="question_list">
+                <CloseQuestioning fontSize="large" />
+            </IconButton>
+        </div>
         </Paper>
         </>
     )
