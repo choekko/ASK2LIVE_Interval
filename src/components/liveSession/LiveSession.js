@@ -5,6 +5,12 @@ import axios from "axios"
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import getEnteredSession from "../../actions/EnteredSessionActions"
 import getQuestionList from "../../actions/QuestionListActions";
+import {
+    QUESTIONLIST_DELETE,
+    ENTEREDSESSION_DELETE
+} from "../../actions/types.js";
+
+
 
 import ParticipantList from "./ParticipantList";
 import CurrentQuestion from "./CurrentQuestion";
@@ -81,10 +87,11 @@ const style = {
         left: "0",
         right: "0",
         margin: "auto",
-        backgroundColor: "#2F3041",
+        backgroundColor: "#252525",
     },
 
     session_top: {
+        zIndex:"4",
         position: "relative",
         minHeight: "3em",
         height: "5%",
@@ -104,7 +111,7 @@ const style = {
         bottom: "0%",
         height: " 40%",
         width: "100%",
-        backgroundColor: "#20202C",
+        backgroundColor: "#252525",
         zIndex:"0",
         // backgroundColor: "rgb(255, 248, 225)"
     },
@@ -122,7 +129,7 @@ const style = {
     },
 
     td2: {
-        width: "5%",
+        width: "9em",
         padding: "0 0 0 10px",
     },
     lavel : {
@@ -272,6 +279,7 @@ const LiveSession = (props) => {
 
     const [questionAlert, setOuestionAlert] = useState(false);
     const [copiedAlert, setCopiedAlert] = useState(false);
+    const [refreshAlert, setRefreshAlert] = useState(false)
 
     const [hostExit, setHostExit] = useState(false);
 
@@ -317,13 +325,14 @@ const LiveSession = (props) => {
     const handleClose = (event, reason) => { 
         setHostExit(true);
 
-        setTimeout(window.location.replace('/main'), 500);
         // history.replace('/main')
         if (reason === 'clickaway') {
             return;
         }
         setOpen(false);
+        setTimeout(window.location.replace('/main'), 500);
     };
+    
     //^ =============================================================
     let rtmChannel;
     const [channel, setChannel] = useState();
@@ -338,12 +347,21 @@ const LiveSession = (props) => {
     } = useAgora(client);
     
     
-    
     useEffect(() => {
+        
         const liveInter = setInterval(()=>{
             dispatch(getEnteredSession(props.channelNum))
             dispatch(getQuestionList(props.holeId))
         }, 5000);
+        
+        const refreshOut = () => {
+            rtmClient.logout();
+            leave();
+            leavePatchApi();
+            clearInterval(liveInter);
+        };
+        window.addEventListener("beforeunload", refreshOut);
+
         rtmChannel = rtmClient.createChannel(props.channelNum);
         join(props.channelNum, null, rtmClient, rtmChannel, props.isHost);
         rtmChannel.on('ChannelMessage', (message, memberId) => {
@@ -355,17 +373,21 @@ const LiveSession = (props) => {
             clearInterval(liveInter);
             handleClick();
         });
+
         if (props.isHost)
             setTimeout(()=>{hostPostApi(client.uid)}, 4000);
         else
             setTimeout(()=>{audiencePutApi(client.uid)}, 4000);
-        
-        
+             
         if (props.isHost)
         {
             const unblock = history.block('정말 떠나시겠습니까?');
             return () => {
+                dispatch({type: QUESTIONLIST_DELETE})
+                dispatch({type: ENTEREDSESSION_DELETE})
+
                 console.log("호스트!!!: ", props.isHost)
+                window.removeEventListener("beforeunload", refreshOut);
 
                 rtmChannel.sendMessage({ text: "hostOut" }).then(() => {
                     // Your code for handling the event when the channel message is successfully sent.
@@ -391,9 +413,13 @@ const LiveSession = (props) => {
         else {
             const unblock = history.block('정말 떠나시겠습니까?');
             return () => {
-                console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
+                dispatch({type: QUESTIONLIST_DELETE})
+                dispatch({type: ENTEREDSESSION_DELETE})
 
-                rtmChannel.leave();
+                console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
+                window.removeEventListener("beforeunload", refreshOut);
+
+                // rtmChannel.leave();
                 rtmClient.logout();
                 leave();
                 leavePatchApi();
@@ -407,6 +433,8 @@ const LiveSession = (props) => {
     }, [history])
 
     // ^ =============================================================
+    
+    const [liveVoice,setLiveVoice] = useState(false);
 
     return (
         <>
@@ -444,31 +472,42 @@ const LiveSession = (props) => {
                         <tr>
                             <td style={style.td2}>
                                 <img className="live_img" src="/static/live.png"/>
+                                <span style={{marginLeft:"9px", color:"rgba(255, 255, 255, 0.6)"}} className="NotoSans3">{partiNum}</span>
                             </td>
-                            <td style={{color:"rgba(255, 255, 255, 0.6)"}}className="NotoSans3">{partiNum}</td>
+                            <td></td>
                         </tr>
 
                     </table>  
                 </div>
                 <div style={style.session_mid}>
                     <div style={{position:"relative", height:"40%"}}>
-                        <div className="horizentalmid" >
-                            <div className="verticalmid">
-                                <tr>
-                                <StyledBadge badgeContent={<MicIcon/>} color="error">
-                                    <Avatar hostName={props.hostName} imageLink={props.hostImage}/>
-                                </StyledBadge>
-                                </tr>
-                                <tr className="centered">
-                                    <span style={{color: "rgba(255,255,255,0.8)"}}className="BMDOHYEON">{props.hostName}</span>
-                                </tr>
-                            </div>
+                        <div className="forLiveWrapper" 
+                        style={liveVoice?
+                        {transform:"translate(-25%, 70%)"}
+                        :
+                        null
+                        }>
+                                <div className="forLiveVoice">
+                                    <tr>
+                                    <StyledBadge badgeContent={<MicIcon/>} color="error">
+                                        <Avatar hostName={props.hostName} imageLink={props.hostImage}/>
+                                    </StyledBadge>
+                                    </tr>
+                                    <tr className="centered">
+                                        <span style={{color: "rgba(255,255,255,0.8)"}}className="BMDOHYEON">{props.hostName}</span>
+                                    </tr>
+                                </div>
+
                         </div>
+        
+                     
                     </div>
-                    <div style={{position:"relative", height:"50%", display:"flex", alignItems: "center"}}>
+                    <div style={{position:"relative", height:"50%"}}>
                         {/* <Grid container justify="center"> */}
                             <div>
                                  <CurrentQuestion 
+                                 setLiveVoice={setLiveVoice}
+                                 liveVoice={liveVoice}
                                  holeId={props.holeId} 
                                  isHost={props.isHost}
                                  client={client}
@@ -499,9 +538,6 @@ const LiveSession = (props) => {
         </div>
         :   
         <div style={queUp} className="hiddenQue">
-            <p style={{color: "rgba(0,0,0,0.7)", fontSize: "1em", position:"absolute", left:"5%", bottom:"6em", zIndex:"1"}}
-            className="BMDOHYEON"
-            > 질문을 등록하고 호스트와 대화하세요!</p>
             <Questioning openQuestionAlert={openQuestionAlert} holeId={props.holeId} goQueUp = {setQueUp} goDark={setDark}/>
         </div>
         }
@@ -531,7 +567,7 @@ const LiveSession = (props) => {
                 channelNum={props.channelNum}
             />
         </div>
-        <Snackbar style={{position: "fixed", bottom:"50%"}} open={questionAlert} autoHideDuration={6000} onClose={closeQuestionAlert}>
+        <Snackbar style={{position: "fixed", bottom:"50%"}} open={questionAlert} autoHideDuration={1500} onClose={closeQuestionAlert}>
             <Alert onClose={closeQuestionAlert} style={{ boxShadow: "2px 2px 2px 2px #D95032", border: "solid 1px white", backgroundColor:"black"}} severity="success">
                 <span style={{ color:"white"}}>질문 등록 성공!</span>
             </Alert>

@@ -128,6 +128,7 @@ const MypageLiveSession = (props) => {
     display: "none",
   });
   const [open, setOpen] = useState(false);
+  const [demand, setDemand] = useState(false);
 
   // 여는 함수, onClick에 해당 함수 넣으면 클릭시 등장
   const handleClick = () => {       
@@ -148,6 +149,17 @@ const MypageLiveSession = (props) => {
     }
     setOpen(false);
   };
+
+  const handleDemand = () => {
+    setDemand(true);
+  }
+
+  const handleDemandClose = (event, reason) => {
+    if (reason === 'clickaway'){
+      return;
+    }
+    setDemand(false);
+  }
 
   const onDelete = async () => {
     console.log("DELETE SESSION!");
@@ -248,8 +260,13 @@ const MypageLiveSession = (props) => {
                   size="normal"
                   color="primary"
                   onClick={() => {
-                    setListUp({ transform: "translate(0, 50%)" });
-                    setDark({ animation: "godark 0.7s" });
+                    console.log(session)
+                    if(session.current_demand === session.target_demand){
+                      setListUp({ transform: "translate(0, 50%)" });
+                      setDark({ animation: "godark 0.7s" });
+                    } else {
+                      handleDemand();
+                    }
                   }}
                 >
                   {/* <Typography variant="body2" style={{ fontWeight: 600 }}> */}
@@ -308,6 +325,15 @@ const MypageLiveSession = (props) => {
           <span style={{ color: "white" }}>Live Q&A 생성 완료!</span>
         </Alert>
       </Snackbar>
+
+    <Snackbar open={demand} autoHideDuration={1500} onClose={handleDemandClose}>
+      <Alert style={{width: "100%", backgroundColor: "black", color: "white"}} onClose={handleDemandClose} severity="info">
+        아직 목표 인원 수에<br/>
+        도달하지 않았습니다.<br/><br/>
+        다른 유저가 찜하는 것을<br/>
+        기다려 주세요!
+      </Alert>
+    </Snackbar>
     </>
   );
 };

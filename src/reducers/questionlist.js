@@ -1,7 +1,8 @@
 import {
     QUESTIONLIST_GET_PENDING,
     QUESTIONLIST_GET_SUCCESS,
-    QUESTIONLIST_GET_ERROR
+    QUESTIONLIST_GET_ERROR,
+    QUESTIONLIST_DELETE
   } from '../actions/types';
 
 const initialState = {
@@ -36,6 +37,11 @@ const questionlist = (state = initialState, action) => {
                 arrived: false,
                 pending: false,
                 error: true
+            }
+        case QUESTIONLIST_DELETE:
+            return {
+                ...state,
+                ...initialState
             }
         default:
             return state;

@@ -23,8 +23,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
-    backgroundColor: "rgba(0, 0, 0, 0.0)",
-    border: "1px solid rgba(255, 255, 255, 0.5)",
+    backgroundColor: "#3B3B3B",
     boxShadow: "none",
     width: "100%",
     height: "2.5em",
@@ -44,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
     // backgroundColor: "#D95032",
     color: "rgba(255, 255, 255, 0.6)",
+    backgroundColor: "#3B3B3B",
     flex: 1,
   },
   divider: {
@@ -82,8 +82,10 @@ export default function CustomizedInputBase(props) {
 
     const dispatch = useDispatch();
    const classes = useStyles();
-  const pressEnter = (e) => {
+
+  const pressEnter = (e, length) => {
       if (e.key == 'Enter'){
+          if (length >= 1)
           props.goMessageSend();
       }
   }
@@ -100,9 +102,13 @@ export default function CustomizedInputBase(props) {
               alert('100자 이내로 입력이 가능합니다')
             props.goSetMessage(e.target.value.substring(0, 100))}
           }
-        onKeyPress={pressEnter}
+        onKeyPress={(e) => {pressEnter(e, props.message.length)}}
       />
-        <IconButton onClick={props.goMessageSend} aria-label="send">
+        <IconButton onClick={()=>{
+            if(props.message.length >= 1)
+                props.goMessageSend() 
+        }} 
+            aria-label="send">
         <SendIcon style={{color:"white"}}/>
       </IconButton>
     </Paper>
