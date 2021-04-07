@@ -47,8 +47,9 @@ const style = {
         zIndex:"8",
     },
     top : {
+        zIndex:"2",
         position : "absolute",
-        top : "25%",
+        top : "15%",
     }
 
 }
@@ -56,6 +57,10 @@ const style = {
 const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
+      justifyContent:"center",
+      alignItems:"center",
+      flexDirection: "column",
+      color:"rgba(239, 89, 65, 0.6)",
       '& > * + *': {
         marginLeft: theme.spacing(2),
       },
@@ -121,7 +126,8 @@ const Chat = props => {
         <>
     <Grid style={style.top} container justify="center">
         <div  className={classes.root}>
-            <CircularProgress />
+            <CircularProgress color="inherit"/>
+            <p style={{color:"black", margin:"5px 0 0 0"}}>Loading Chat</p>
         </div>
     </Grid>
         </>

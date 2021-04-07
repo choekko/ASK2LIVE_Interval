@@ -65,7 +65,7 @@ const Participant = (props) => {
             <Grid container justify="center">
                 <Card style={style.participant} className={classes.root}>
                     <div
-                        style={{ backgroundImage: "url('/static/live_IU2.png')" }}
+                        style={{backgroundImage: props.profileImage ? "url('https://www.ask2live.me" + props.profileImage +"')" : "url('/static/reigns/1.jpg')" }}
                         className={classes.cookieWrapper}
                     >
                         <div className={classes.useCookie}></div>
@@ -80,7 +80,7 @@ const Participant = (props) => {
                              : null}
                             {props.workField ? 
                             <>
-                             {props.workField}
+                             {" " + props.workField}
                             </>
                              : null}
                              {

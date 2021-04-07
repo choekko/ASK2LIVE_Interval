@@ -45,6 +45,10 @@ const useStyles = makeStyles((theme) => ({
 const style = {
     login : {
         position : "absolute",
+        display:"flex",
+        width:"100%",
+        justifyContent:"center",
+        flexDirection: "column",
         top : "43%",
     },
     loginWrapper : {
@@ -54,7 +58,7 @@ const style = {
         height : "100%",
     },
     loginCard : {
-        top : "20%",
+        top : "18%",
         // backgroundColor: "skyblue",
         border: "1px solid black",
         borderRadius: "15px",
@@ -62,7 +66,7 @@ const style = {
         paddingTop: "1em",
         maxWidth : "23em",
         width : "16em",
-        height : "20em",
+        height : "21em",
         position : "fixed",
     },
     loginBtnWrapper : {
@@ -143,6 +147,9 @@ const LoginPage = (props) => {
     alert(e.response.data.detail)
   })
     */
+
+    const [id, setId] = useState("") 
+
     const Login = async({loginId, loginPassword}) => {
       let dataToSubmit = {
         username : loginId,
@@ -185,15 +192,24 @@ const LoginPage = (props) => {
                             <p className="NanumGothic3" style={{marginTop: "8px", fontSize : "0.8em"}}>라이브로 생생한 답변을 들어보세요!</p>   
                         </Grid>
                         <div style={style.login}>
-                            <Grid container justify="center">
+                            <Grid style={{height: "5em"}} container justify="center">
                                 <TextField 
+                                errer={loginId.length > 5}
+                                helperText={loginId.length > 5 ? "닉네임은 6자까지만 가능합니다" : ""}
+                                value={loginId}
+                                placeholder="닉네임"
                                 size="1em"
                                 style= {{marginBottom : "1em"}}
-                                id="outlined-search" label="닉네임" type="search" variant="outlined"
-                                onChange={(event) => setLoginId(event.target.value)}
+                                id="outlined-search" type="search" variant="outlined"
+                                onChange={(event) => 
+                                    setLoginId(event.target.value.substring(0, 6))
+                                }
                                 />
-                                <TextField 
-                                id="outlined-search" label="패스워드" type="password" variant="outlined"
+                            </Grid>
+                            <Grid container justify="center">
+                                <TextField
+                                style={{position:"absolute"}}
+                                id="outlined-search" placeholder="패스워드" type="password" variant="outlined"
                                 onChange={(event) => setLoginPassword(event.target.value)}
                                 />
                             </Grid>

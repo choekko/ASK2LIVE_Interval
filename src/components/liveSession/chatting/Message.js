@@ -18,7 +18,7 @@ const Message = memo(props => {
     //   </>}
     // />
     <div style={{display:"flex", width: "100%"}}>
-        <div style={{color: "rgba(255,255,255,0.5)", display:"flex", width: "7em", margin: "0 1em 15px 0"}}>
+        <div style={{color: "rgba(255,255,255,0.5)", display:"flex", width: "9em", margin: "0 1em 15px 0"}}>
             {sender}
         </div>
         <div style={{position:"relative", width: "100%", maxWidth : "37em", display:"flex", wordBreak: "break-all" , textAlign: 'left' }}>
