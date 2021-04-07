@@ -41,16 +41,16 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     position: "absolute",
     top: "8%",
-    right: "8%",
+    right: "5%",
     width: theme.spacing(9),
     height: theme.spacing(9),
   },
   username: {
     position: "absolute",
     fontFamily: "BMDOHYEON",
-    fontSize: "1.5em",
-    top: "8%",
-    left: "8%",
+    fontSize: "1.3em",
+    top: "9%",
+    left: "5%",
   },
   work_company: {
     position: "absolute",
@@ -75,15 +75,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const style = {
-  edit: {
-    fontFamily: "BMJUA",
-    fontSize: "1em",
-    top: 0,
+  editWrapper: {
+    height: "7%",
+    left: 0,
     right: 0,
     position: "fixed",
-    zIndex: 2,
+    margin: "auto",
+    width: "100%",
+    // maxWidth: "73em",
+    top: 0,
+    zIndex: 1,
+    pointerEvents: "none",
   },
-
+  editBtn: {
+    pointerEvents:"auto",
+    position: "absolute",
+    right:0,
+    height: "100%",
+    fontFamily: "BMJUA",
+    fontSize: "1em",
+    transform: "translate(0, 1px)",
+  },
 };
 
 const ProfileDetail = (props) => {
@@ -103,8 +115,8 @@ const ProfileDetail = (props) => {
     const host = props.routerInfo.location.state.host;
     console.log("host : ", host);
     if (!host.work_company.length)
-      host.work_company = "ASK2LIVE";
-    if (!host.work_field.length) host.work_field = "Live Q&A";
+      host.work_company = "";
+    if (!host.work_field.length) host.work_field = "";
 
     profile = {
       username: host.username,
@@ -115,8 +127,8 @@ const ProfileDetail = (props) => {
     };
   } else {
     if (!user.work_company.length)
-      user.work_company = "ASK2LIVE";
-    if (!user.work_field.length) user.work_field = "Live Q&A";
+      user.work_company = "";
+    if (!user.work_field.length) user.work_field = "";
     profile = {
       username: user.username,
       profile_image: user.profile_image,
@@ -125,6 +137,9 @@ const ProfileDetail = (props) => {
       bio: user.bio,
     };
   }
+
+  let editFlag = false;
+  if(user.username === profile.username) editFlag = true
 
   const goToEdit = () => {
     console.log("click");
@@ -136,18 +151,17 @@ const ProfileDetail = (props) => {
 
   return (
     <>
-      <div>
-        <MypageNav text={"프로필"} />
+        <MypageNav text={"프로필"} editFlag={editFlag} />
         {user.username === profile.username && (
-          <Button
-            // className="BMJUA"
-            style={style.edit}
-            onClick={goToEdit}
-          >
-            <span>편집</span>
-          </Button>
+          <>
+          <div style={style.editWrapper}>
+            <Button onClick={goToEdit} style={style.editBtn}>
+              <span>편집</span>
+            </Button>
+          </div>
+          </>
         )}
-      </div>
+
 
       <div className={classes.root}>
         <div className={classes.root2}>
@@ -181,9 +195,8 @@ const ProfileDetail = (props) => {
             </p>
             <div className="bioWrapper">
                 
-              <p style={{marginTop: 0}}>
+              <p style={{fontFamily: "BMJUA", marginTop: 0, whiteSpace: "pre-wrap"}}>
                 {profile.bio}
-                
               </p>
             </div>
           </div>

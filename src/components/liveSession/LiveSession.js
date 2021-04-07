@@ -316,9 +316,9 @@ const LiveSession = (props) => {
     // 닫는 함수. 이미 아래에 자동적으로 사용되고 있음.
     const handleClose = (event, reason) => { 
         setHostExit(true);
-        console.log("호스트 나감3", hostExit)
-        // window.location.replace('/main');
-        history.replace('/main')
+
+        setTimeout(window.location.replace('/main'), 500);
+        // history.replace('/main')
         if (reason === 'clickaway') {
             return;
         }
@@ -348,11 +348,11 @@ const LiveSession = (props) => {
         join(props.channelNum, null, rtmClient, rtmChannel, props.isHost);
         rtmChannel.on('ChannelMessage', (message, memberId) => {
             console.log(`Message ${message}, from ${memberId}`);
-            // clearInterval(liveInter);
-            // rtmChannel.leave();
-            // rtmClient.logout();
-            // leave();
-            // leavePatchApi();
+            
+            rtmClient.logout();
+            leave();
+            leavePatchApi();
+            clearInterval(liveInter);
             handleClick();
         });
         if (props.isHost)
@@ -366,8 +366,7 @@ const LiveSession = (props) => {
             const unblock = history.block('정말 떠나시겠습니까?');
             return () => {
                 console.log("호스트!!!: ", props.isHost)
-                console.log("호스트!!!: ", props.isHost)
-                console.log("호스트!!!: ", props.isHost)
+
                 rtmChannel.sendMessage({ text: "hostOut" }).then(() => {
                     // Your code for handling the event when the channel message is successfully sent.
                         console.log('host is leaving')
@@ -375,7 +374,7 @@ const LiveSession = (props) => {
                     // Your code for handling the event when the channel message fails to be sent.
                         console.log('host leaving error')
                     });
-                rtmChannel.leave();
+
                 rtmClient.logout();
                 leave();
                 leavePatchApi();
@@ -383,36 +382,17 @@ const LiveSession = (props) => {
                 unblock();
                 
                 // history.replace('/main');
-                // window.location.replace('/main');
+                setTimeout(window.location.replace('/main'), 500);
                 
             }
 
         }
         
-        // console.log("호스트 나감4", hostExit);
-        else if (hostExit){
-            console.log("호스트 나감5", hostExit)
-            return () => {
-                console.log("호스트가 나가서 나가지는 게스트!!!: ", hostExit)
-                console.log("호스트가 나가서 나가지는 게스트!!!: ", hostExit)
-                console.log("호스트가 나가서 나가지는 게스트!!!: ", hostExit)
-                rtmChannel.leave();
-                rtmClient.logout();
-                leave();
-                leavePatchApi();
-                clearInterval(liveInter)
-                
-                // history.replace('/main');
-                // window.location.reload('/main');
-            }
-        }
-        
-        else if (!hostExit){
+        else {
             const unblock = history.block('정말 떠나시겠습니까?');
             return () => {
                 console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
-                console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
-                console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
+
                 rtmChannel.leave();
                 rtmClient.logout();
                 leave();
@@ -421,7 +401,7 @@ const LiveSession = (props) => {
                 unblock();
                 
                 // history.replace('/main');
-                // window.location.reload('/main');
+                setTimeout(window.location.replace('/main'), 500);
             }
         }
     }, [history])

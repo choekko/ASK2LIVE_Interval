@@ -167,9 +167,12 @@ const PreQuestions = () => {
     return (
             <>
         <MypageNav text={'Live Q&A 상세'} />
-        <div style={{maxWidth: "50em", margin: "auto"}}>
+        {/* <div style={{position : "absolute", height:"12em", width: "100%", backgroundColor:"skyblue"}}>{""}</div> */}
+        <div style={{display:"flex", justifyContent:"center", position:"absolute", top:"9%" , width:"100%"}}>
+          <div style={{width:"100%", maxWidth:"50em"}}>
           <SessionDetail session={targetSession.session}/>
           {Object.keys(questions.data).length > 0 ? <ListPreQuestions questions={questions} session={targetSession.session}/> : null}
+          </div>
         </div>
         </>
     )
