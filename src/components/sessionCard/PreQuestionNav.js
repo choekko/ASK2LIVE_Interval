@@ -145,6 +145,7 @@ const MyQuestionSend = ({session}) => {
 
     <div style={{paddingBottom:"1em"}}>
     <input
+    className="BMDOHYEON"
     type="text"
     maxLength="60"
     value={ask}
