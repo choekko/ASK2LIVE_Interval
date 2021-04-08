@@ -15,10 +15,17 @@ import Avatar from "@material-ui/core/Avatar";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import HelpIcon from '@material-ui/icons/HelpOutline';
 
 import axios from "axios";
 import { getSessionInfo, getUserSessionInfo } from "../actions/SessionActions";
 import MypageNav from "../components/mypage/MypageNav";
+
+import MuiAlert from '@material-ui/lab/Alert';
+function NumAlert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,8 +78,10 @@ const SessionCreateContainer = (props) => {
   const [titleValid, setTitleValid] = useState(false);
   const [description, setDescription] = useState("");
   const [descriptionValid, setDescriptionValid] = useState(false);
+  
   const [reserveDate, setReserveDate] = useState("");
   const [reserveDateValid, setReserveDateValid] = useState(false);
+  const [earlyDateValid, setEarlyDateValid] = useState(false);
   const [count, setCount] = useState(0)
 
   const toDate = (reserve_date) => {
@@ -97,6 +106,7 @@ const SessionCreateContainer = (props) => {
   }, [holeId]);
 
   const [open, setOpen] = useState(0);
+  const [open2, setOpen2] = useState(0);
   const [disable, setDisable] = useState(false)
 
   const classes = useStyles();
@@ -120,7 +130,20 @@ const SessionCreateContainer = (props) => {
     setOpen(false);
   };
 
+  const handleClick2 = () => {
+    setOpen2(true);
+  };
+
+  const handleClose2 = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen2(false);
+  };
+
   const onClick = async () => {
+    if (earlyDateValid)
+        return;
     setDisable(true)
     const config = {
       headers: { Authorization: "Token " + localStorage.token },
@@ -230,8 +253,9 @@ const SessionCreateContainer = (props) => {
               margin="normal"
               required
               fullWidth
-              error={reserveDateValid}
-              helperText={reserveDateValid ? "예약 일자를 입력해 주세요" : ""}
+              error={reserveDateValid || earlyDateValid}
+              helperText={reserveDateValid ? "예약 일자를 입력해 주세요" : 
+                            earlyDateValid ? "이전 날짜로는 입력할 수 없어요" : ""}
               id="reserveDate"
               label="Live Q&A 진행 예정일"
               name="reserveDate"
@@ -244,11 +268,15 @@ const SessionCreateContainer = (props) => {
                 setReserveDate(e.target.value);
                 let cur_date = new Date();
                 console.log(reserveDate);
-                console.log("설정한시간", toDate(reserveDate).getTime());
+                console.log("설정한시간", toDate(e.target.value).getTime());
                 console.log("현재시간", cur_date.getTime());
                 console.log(
-                  (toDate(reserveDate).getTime() - cur_date.getTime()) / 1000
+                  (toDate(e.target.value).getTime() - cur_date.getTime()) / 1000
                 );
+                if (toDate(e.target.value).getTime() - cur_date.getTime() < 0)
+                    setEarlyDateValid(true)
+                else
+                    setEarlyDateValid(false)
                 setReserveDateValid(false);
               }}
               InputLabelProps={{
@@ -273,7 +301,11 @@ const SessionCreateContainer = (props) => {
                   }}
                   variant="body2"
                 >
-                  <AccountCircleIcon /> &nbsp; 목표 인원 수
+                  <HelpIcon
+                    onClick={()=>
+                        handleClick2()
+                    }
+                  /> &nbsp; 목표 인원 수
                 </div>
               </Grid>
 
@@ -371,6 +403,21 @@ const SessionCreateContainer = (props) => {
           )}
         </Alert>
       </Snackbar>
+      <Snackbar 
+                style={{position:"fixed", top: "0%"}}
+                open={open2} autoHideDuration={6000} onClose={handleClose2}>
+                    <NumAlert 
+                    style={{color: "black", backgroundColor:"white", border:"2px solid #4CC0D0", boxShadow:"2px 2px 15px 10px rgba(0, 0, 0, 0.6)"}}
+                    onClose={handleClose2} severity="error">
+                    <span style={{fontSize:"1.1em"}} className="BMJUA">목표인원</span> 
+                    을 달성하면 <br/>
+                    <span style={{fontSize:"1.1em"}} className="BMJUA">예약 확정하기</span>
+                    를 할 수 있어요.<br/>
+                    예약을 확정하면
+                    <span style={{fontSize:"0.9em"}} className="Gmarket3"> Live Q&A</span>
+                    를 열 수 있어요.
+                    </NumAlert>
+        </Snackbar>
     </>
   );
 };
