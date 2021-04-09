@@ -192,8 +192,8 @@ const JoinCard = (props) => {
     </Card>
 
 </Grid>
-  <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-      <Alert style={{width: "100%"}} onClose={handleClose} severity="warning">
+  <Snackbar style={{top: "40%"}} open={open} autoHideDuration={6000} onClose={handleClose}>
+      <Alert style={{width: "90%"}} onClose={handleClose} severity="warning">
         [마이크 권한]이 차단되었습니다<br/><br/>
         브라우저 상단에서<br/>
         [마이크 권한]을 허용해주세요!

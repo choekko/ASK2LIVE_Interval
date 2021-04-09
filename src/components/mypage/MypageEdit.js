@@ -2,19 +2,15 @@ import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import InputBase from "@material-ui/core/InputBase";
-import InputLabel from "@material-ui/core/InputLabel";
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
-import Grid from "@material-ui/core/Grid";
-import { SettingsInputAntenna } from "@material-ui/icons";
 
 import "../../styles/style.css";
 
 import axios from "axios";
 import MypageNav from "./MypageNav";
 import { getUserInfo, updateUserInfo } from "../../actions/UserActions";
+import { CheckSpaceNSpecial, ReplaceSpaceNSpecial } from "../CheckString";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,13 +48,13 @@ const useStyles = makeStyles((theme) => ({
   },
   username: {
     position: "absolute",
-    fontFamily: "BMDOHYEON",
-    fontSize: "1.3em",
+    // fontFamily: "BMDOHYEON",
+    // fontSize: "1.3em",
     top: "9%",
     left: "5%",
     // top: "12%",
     // left: "6.6%",
-    maxWidth: "6em",
+    // maxWidth: "6em",
   },
   work_company: {
     position: "absolute",
@@ -96,7 +92,7 @@ const style = {
     fontFamily: "BMJUA",
     // fontWeight: "bold",
     position: "absolute",
-    top: "23%",
+    top: "24%",
     left: "5%",
     overflow: "hidden",
   },
@@ -132,6 +128,7 @@ const MypageEdit = (props) => {
 
   console.log(user);
   
+  let usernameValue;
   const [username, setUsername] = useState(user.username);
   console.log(username);
   const [profileImage, setProfileImage] = useState("https://www.ask2live.me" + user.profile_image)
@@ -139,6 +136,7 @@ const MypageEdit = (props) => {
   const [workCompany, setWorkCompany] = useState(user.work_company);
   const [bio, setBio] = useState(user.bio);
   const [usernameValid, setUsernameValid] = useState(false);
+  const [uniqueUserValid, setUniqueUserValid] = useState(false);
 
   // useEffect(() => {
   //   setUsername(user.username);
@@ -208,20 +206,24 @@ const MypageEdit = (props) => {
       "https://www.ask2live.me/api/user/update",
       formData,
       config
+    ).then(() => {
+      console.log("업데이트 성공~", resPatch.data);
+      dispatch(getUserInfo(localStorage.token));
+      const resGet = axios.get(
+        "https://www.ask2live.me/api/user/read",
+        config
+      );
+      console.log("업데이트 유저 불러오기", resGet);
+      console.log("====DATA====", formData);
+      
+      history.replace({
+        pathname: "/mypage/" + username,
+        state: resGet.data.detail,
+      });
+    }).catch((err) => {
+      alert("중복되지 않은 닉네임으로 변경이 가능합니다");
+    }
     );
-    console.log("업데이트 성공~", resPatch.data);
-    dispatch(getUserInfo(localStorage.token));
-    const resGet = await axios.get(
-      "https://www.ask2live.me/api/user/read",
-      config
-    );
-    console.log("업데이트 유저 불러오기", resGet);
-    console.log("====DATA====", formData);
-    
-    history.replace({
-      pathname: "/mypage/" + username,
-      state: resGet.data.detail,
-    });
   };
 
   return (
@@ -235,7 +237,7 @@ const MypageEdit = (props) => {
                 // className={classes.username}
                 className="BMDOHYEON"
                 style={{
-                  fontSize: "1em",
+                  fontSize: "1.3em",
                   maxWidth: "8em",
                   border: "none",
                   backgroundColor: "rgba(0, 0, 0, 0.05)",
@@ -249,12 +251,25 @@ const MypageEdit = (props) => {
                 placeholder="이름을 입력하세요"
                 name="username"
                 onChange={(e) => {
-                  if (e.target.value.length > 6)
-                    alert("이름은 6글자 이내로 입력이 가능합니다!");
-                  setUsername(e.target.value.substring(0, 6));
+                  usernameValue = e.target.value
+
+                  if (usernameValue.length > 6){
+                    alert("이름은 6글자 이내로 입력이 가능합니다");
+                    usernameValue = usernameValue.substring(0, 6)
+                  }
+
+                  if (CheckSpaceNSpecial(usernameValue)){
+                    alert("공백/특수문자는 입력이 불가합니다");
+                    usernameValue = ReplaceSpaceNSpecial(usernameValue)
+                  }
+
+                  console.log(usernameValue)
+                  setUsername(usernameValue);
                   setUsernameValid(false)
                 }}
-              />
+                />
+                <br/>
+                <small className="Gmarket2" style={{fontSize: "0.7em"}}>* 공백/특수문자 제외 6글자 이내</small>
             </p>
 
             <Avatar
