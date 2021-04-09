@@ -147,9 +147,9 @@ const MyQuestionSend = ({session}) => {
 }
   return (
     <>
-
     <div style={{paddingBottom:"1em"}}>
     <input
+    className="BMDOHYEON"
     type="text"
     maxLength="60"
     value={ask}
@@ -234,7 +234,6 @@ const LinkTab = (props) => {
     />
   );
 }
-
 
 
 const PreQuestionNav = ({session}) => {

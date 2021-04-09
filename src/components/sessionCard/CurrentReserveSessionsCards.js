@@ -1,28 +1,22 @@
-import React, {useState} from "react";
-import { getSessionInfo } from '../../actions/SessionActions'
+import getQuestionlist from "../../actions/QuestionListActions";
+import { getSessionInfo } from '../../actions/SessionActions';
 import { useSelector,useDispatch } from 'react-redux';
 import { useHistory } from "react-router";
-import PropTypes from "prop-types";
+import { Progress } from 'antd';
+import React, {useState} from "react";
+import Moment from "react-moment";
 import axios from "axios";
-import Moment from "react-moment"
 
-import { Progress, Badge } from 'antd';
-
-import CircularProgress from "@material-ui/core/CircularProgress";
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from '@material-ui/core/Button';
-import Grid from "@material-ui/core/Grid";
-import Chip from '@material-ui/core/Chip';
-import Paper from '@material-ui/core/Paper';
-import Card from '@material-ui/core/Card';
-import Box from "@material-ui/core/Box";
-import "../../styles/style.css"
-import getQuestionlist from "../../actions/QuestionListActions";
-import { Block } from "@material-ui/icons";
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import CommentIcon from '@material-ui/icons/Comment';
 import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import Chip from '@material-ui/core/Chip';
+import Grid from "@material-ui/core/Grid";
+import "../../styles/style.css";
 import CheckIcon from '@material-ui/icons/Check';
 import InfoIcon from '@material-ui/icons/Info';
 import { CardActions, Divider } from "@material-ui/core";
@@ -34,7 +28,6 @@ import MuiAlert from '@material-ui/lab/Alert';
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
-
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -119,7 +112,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     chipGrid : {
-      width: "100%",
+      width: "15%",
       position: "absolute",
       paddingTop: "110px"
     },
@@ -143,17 +136,7 @@ const useStyles = makeStyles((theme) => ({
       transform : "translate(0,-21.5em)",
       opacity: "0",
       cursor:"pointer",
-    }
-    // commingSoon : {
-    //   width : "10em",
-    //   height: "2em",
-    //   backgroundImage:"url('/static/commingSoon.png')",
-    //   backgroundSize: "contain",
-    //   backgroundRepeat : "no-repeat",
-    //   transform : "translate(-4em,-10em)",
-    // }
-
-
+    },
 
   }));
 

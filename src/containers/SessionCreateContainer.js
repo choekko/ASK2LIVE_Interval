@@ -1,4 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
+import { postSessionToReserve } from '../actions/SessionToReserveActions';
+
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,6 +18,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import HelpIcon from '@material-ui/icons/HelpOutline';
+import { Checkbox } from 'antd';
 
 import axios from "axios";
 import { getSessionInfo, getUserSessionInfo } from "../actions/SessionActions";
@@ -72,6 +75,10 @@ const SessionCreateContainer = (props) => {
   let urlSearchParams = new URLSearchParams(
     props.routerInfo.location.search.slice(1)
   );
+
+  let defaultDate = new Date().toISOString()
+  console.log("defaultDate", defaultDate)
+
   const holeId = urlSearchParams.get("holeId");
 
   const [title, setTitle] = useState("");
@@ -79,10 +86,12 @@ const SessionCreateContainer = (props) => {
   const [description, setDescription] = useState("");
   const [descriptionValid, setDescriptionValid] = useState(false);
   
-  const [reserveDate, setReserveDate] = useState("");
+  const [reserveDate, setReserveDate] = useState(defaultDate);
   const [reserveDateValid, setReserveDateValid] = useState(false);
   const [earlyDateValid, setEarlyDateValid] = useState(false);
   const [count, setCount] = useState(0)
+
+  const [skipValid, setSkipValid] = useState(false);
 
   const toDate = (reserve_date) => {
     let date = new Date(reserve_date);
@@ -149,7 +158,9 @@ const SessionCreateContainer = (props) => {
       headers: { Authorization: "Token " + localStorage.token },
     };
     console.log(localStorage.token);
-
+    
+    let session = {}
+    
     const data = {
       title: title,
       description: description,
@@ -178,7 +189,24 @@ const SessionCreateContainer = (props) => {
           if (description.length === 0) setDescriptionValid(true);
           setDisable(false)
         });
-    } else {
+    } else if(skipValid){
+      // sessionCreate
+      await axios
+      .post("https://www.ask2live.me/api/hole/create", data, config)
+        .then((res) => {
+          console.log("hole created: ", res);
+          session = res.data.detail
+        })
+      // sessionToReserve
+      postSessionToReserve(session);
+      console.log("postSessionToReserve success")
+      // 라이브 하기
+      history.push({
+        pathname: "/session/reserve",
+        search: "?holeId=" + session.id,
+    })
+      
+    }else {
       await axios
         .post("https://www.ask2live.me/api/hole/create", data, config)
         .then((res) => {
@@ -248,43 +276,131 @@ const SessionCreateContainer = (props) => {
                 shrink: true,
               }}
             />
-            <TextField
-              // variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              error={reserveDateValid || earlyDateValid}
-              helperText={reserveDateValid ? "예약 일자를 입력해 주세요" : 
-                            earlyDateValid ? "이전 날짜로는 입력할 수 없어요" : ""}
-              id="reserveDate"
-              label="Live Q&A 진행 예정일"
-              name="reserveDate"
-              type="datetime-local"
-              // autoComplete="title"
-              autoFocus
-              value={reserveDate}
-              // defaultValue={reserveDate}
-              onChange={(e) => {
-                setReserveDate(e.target.value);
-                let cur_date = new Date();
-                console.log(reserveDate);
-                console.log("설정한시간", toDate(e.target.value).getTime());
-                console.log("현재시간", cur_date.getTime());
-                console.log(
-                  (toDate(e.target.value).getTime() - cur_date.getTime()) / 1000
-                );
-                if (toDate(e.target.value).getTime() - cur_date.getTime() < 0)
-                    setEarlyDateValid(true)
-                else
-                    setEarlyDateValid(false)
-                setReserveDateValid(false);
-              }}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
+            
+            <Checkbox onChange={(e) => {
+              console.log("e.target.checked", e.target.checked)
+              if(e.target.checked){
+                setSkipValid(true)
+                console.log("skipValid-true", skipValid)
+              }else{
+                setSkipValid(false)
+                console.log("skipValid-false", skipValid)
+              }
+            }}><span style={{fontSize:"small"}} className="BMDOHYEON">지금 당장 라이브 세션 열기</span></Checkbox>
+            
+            {skipValid ? 
+            
+            <>
+                <TextField
+                margin="normal"
+                disabled="true"
+                fullWidth
+                id="reserveDate"
+                label="Live Q&A 진행 예정일"
+                name="reserveDate"
+                type="datetime-local"
+                autoFocus
+                value={reserveDate}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
 
-            <Grid
+              <Grid
+              style={{ height: "6em" }}
+              container
+              spacing={3}
+              justify="flex-end"
+            >
+              <Grid justify="center" justifyContents="center" item xs={6}>
+                <div
+                  style={{
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    float: "right",
+                    fontFamily: "BMJUA",
+                  }}
+                  variant="body2"
+                >
+                  <HelpIcon
+                    color="disabled"
+                    onClick={()=>
+                        handleClick2()
+                    }
+                  /><span style={{color:"gray"}}> &nbsp; 목표 인원 수</span>
+                </div>
+              </Grid>
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginRight: "1em",
+                }}
+              >
+                <IconButton disabled="true" size="small" onClick={onDecrease}>
+                  <RemoveCircleIcon />
+                </IconButton>
+
+                <TextField
+                disabled="true"
+                  // margin="normal"
+                  style={{ width: "4em" }}
+                  id="target_demand"
+                  name="target_demand"
+                  inputProps={{ min: 0, style: { textAlign: "center" } }}
+                  value={count}
+                  name="userCount"
+                />
+
+                <IconButton disabled="true" size="small" onClick={onIncrease}>
+                  <AddCircleIcon />
+                </IconButton>
+              </div>
+            </Grid>
+              </>
+              
+            :
+            <>
+              <TextField
+                // variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                error={reserveDateValid || earlyDateValid}
+                helperText={reserveDateValid ? "예약 일자를 입력해 주세요" : 
+                              earlyDateValid ? "이전 날짜로는 입력할 수 없어요" : ""}
+                id="reserveDate"
+                label="Live Q&A 진행 예정일"
+                name="reserveDate"
+                type="datetime-local"
+                // autoComplete="title"
+                autoFocus
+                value={reserveDate}
+                // defaultValue={reserveDate}
+                onChange={(e) => {
+                  setReserveDate(e.target.value);
+                  let cur_date = new Date();
+                  console.log(reserveDate);
+                  console.log("설정한시간", toDate(e.target.value).getTime());
+                  console.log("현재시간", cur_date.getTime());
+                  console.log(
+                    (toDate(e.target.value).getTime() - cur_date.getTime()) / 1000
+                  );
+                  if (toDate(e.target.value).getTime() - cur_date.getTime() < 0)
+                      setEarlyDateValid(true)
+                  else
+                      setEarlyDateValid(false)
+                  setReserveDateValid(false);
+                }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+
+              <Grid
+              disabled="true"
               style={{ height: "6em" }}
               container
               spacing={3}
@@ -335,6 +451,11 @@ const SessionCreateContainer = (props) => {
                 </IconButton>
               </div>
             </Grid>
+              </>
+            }
+            
+            
+            
 
             <TextField
               variant="outlined"
@@ -363,7 +484,8 @@ const SessionCreateContainer = (props) => {
                 shrink: true,
               }}
             />
-            {holeId ? (
+            {holeId ? 
+            <>
               <Button
                 type="submit"
                 fullWidth
@@ -374,18 +496,35 @@ const SessionCreateContainer = (props) => {
               >
                 수정하기
               </Button>
-            ) : (
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                className={classes.submit}
-                onClick={onClick}
-                disabled={disable}
-              >
-                Live Q&A 만들기
-              </Button>
-            )}
+            </>
+             : 
+            <>
+            {skipValid?
+            <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            className={classes.submit}
+            onClick={onClick}
+            disabled={disable}
+          >
+            Live Q&A 세션 바로 만들기
+            </Button>
+            :
+            <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            className={classes.submit}
+            onClick={onClick}
+            disabled={disable}
+          >
+            Live Q&A 만들기
+            </Button>
+            }
+              
+            </>
+            }
           </div>
         </div>
       </Container>
