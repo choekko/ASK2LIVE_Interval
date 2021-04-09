@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
       height: "30px",
     },
     cookieWrapper: {
+      backgroundColor:"#EEAC4B",
       float: "left",
       marginLeft: "2%",
       width: "5em",

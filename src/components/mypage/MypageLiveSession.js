@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
     height: "inherit",
   },
   cookieWrapper: {
+    backgroundColor:"#EEAC4B",
     float: "left",
     width: "4em",
     height: "4em",

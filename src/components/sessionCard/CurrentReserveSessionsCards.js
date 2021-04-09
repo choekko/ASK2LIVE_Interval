@@ -2,7 +2,7 @@ import getQuestionlist from "../../actions/QuestionListActions";
 import { getSessionInfo } from '../../actions/SessionActions';
 import { useSelector,useDispatch } from 'react-redux';
 import { useHistory } from "react-router";
-import { Progress, Badge } from 'antd';
+import { Progress } from 'antd';
 import React, {useState} from "react";
 import Moment from "react-moment";
 import axios from "axios";
@@ -17,7 +17,17 @@ import Paper from '@material-ui/core/Paper';
 import Chip from '@material-ui/core/Chip';
 import Grid from "@material-ui/core/Grid";
 import "../../styles/style.css";
+import CheckIcon from '@material-ui/icons/Check';
+import InfoIcon from '@material-ui/icons/Info';
+import { CardActions, Divider } from "@material-ui/core";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
+
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -127,14 +137,7 @@ const useStyles = makeStyles((theme) => ({
       opacity: "0",
       cursor:"pointer",
     },
-    // commingSoon : {
-    //   width : "10em",
-    //   height: "2em",
-    //   backgroundImage:"url('/static/commingSoon.png')",
-    //   backgroundSize: "contain",
-    //   backgroundRepeat : "no-repeat",
-    //   transform : "translate(-4em,-10em)",
-    // }
+
   }));
 
 const onClickWish = (sessionId) => {
@@ -178,6 +181,21 @@ const onClickWishCancel = (sessionId) => {
 
 const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
   console.log("컴포넌트 시작 Enter : CurrentReserveSessionsCards")
+
+
+    const [open, setOpen] = useState(false);
+
+    const handleClick = () => {       
+         setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -302,6 +320,7 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
                     session.hole_reservations.guests.indexOf(user.data.detail.id) === -1 ?
                   <>
                   {onClickWish(session.id)}
+                  {handleClick()}
                   {setTimeout((()=> dispatch(getSessionInfo())),200)}
                   </>
                   : 
@@ -327,6 +346,15 @@ const CurrentReserveSessionsCards = ({currentReserveSessions}) => {
             ))
             }
         </div>
+        <Snackbar 
+                style={{position:"fixed", top: "0%"}}
+                open={open} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert 
+                    style={{color: "black", backgroundColor:"white", border:"2px solid #4CC0D0", boxShadow:"2px 2px 15px 10px rgba(0, 0, 0, 0.6)"}}
+                    onClose={handleClose} severity="error">
+                    <span className="BMJUA">라이브가 열리면 알려줄게요! </span>
+                    </Alert>
+        </Snackbar>
         </>
     );
 }

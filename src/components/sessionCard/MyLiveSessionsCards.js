@@ -48,12 +48,13 @@ const useStyles = makeStyles((theme) => ({
         height: "30px"
     },
     cookieWrapper: {
+        backgroundColor:"#EEAC4B",
+        backgroundPosition:"center center",
         display : "block",
         width: "6.3em",
         height: "6.3em",
         marginLeft: "1em",
-        backgroundPosition : "center center",
-        backgroundSize: "100%",
+        backgroundSize: "contain",
         backgroundRepeat: "no-repeat",
         overflow: "hidden",
 
@@ -155,7 +156,7 @@ const MyLiveSessionsCard = ({session}) => {
         <Card key={session.livehole_id} className={classes.root}>
             <br/>
             <div
-            style={{backgroundImage: "url('/static/live_IU2.png')"}}
+            style={{backgroundImage: session.host_profile_image? "url('https://www.ask2live.me"+session.host_profile_image + "')" : "url('/static/reigns/1.jpg')"}}
             className={classes.cookieWrapper}
 
             ><div className={classes.useCookie}></div> </div>

@@ -142,7 +142,6 @@ const MyQuestionSend = ({session}) => {
 }
   return (
     <>
-
     <div style={{paddingBottom:"1em"}}>
     <input
     className="BMDOHYEON"
@@ -230,7 +229,6 @@ const LinkTab = (props) => {
     />
   );
 }
-
 
 
 const PreQuestionNav = ({session}) => {

@@ -12,11 +12,11 @@ import PeopleIcon from '@material-ui/icons/People';
 import EnterIcon from '@material-ui/icons/MeetingRoom';
 import HelpIcon from '@material-ui/icons/HelpOutline';
 import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
 
 import Avatar from "@material-ui/core/Avatar";
 import Card from '@material-ui/core/Card';
 import { useSelector } from "react-redux";
+import MuiAlert from '@material-ui/lab/Alert';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -248,12 +248,12 @@ const OtherLiveSessionsCards = ({otherLiveSessions}) => {
                         <span className= "NanumGothic3" style={{color: "rgba(0, 0, 0, 0.5)", fontSize : "0.8em"}}>
                             {session.host_work_company ? 
                             <>
-                             {session.host_work_company} |
+                             {session.host_work_company}
                             </>
                              : null}
                             {session.host_work_field ? 
                             <>
-                             {session.host_work_field}
+                             {" | " + session.host_work_field}
                             </>
                              : null}
                              {

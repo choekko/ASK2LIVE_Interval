@@ -1,4 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
+import { postSessionToReserve } from '../actions/SessionToReserveActions';
+
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -15,10 +17,18 @@ import Avatar from "@material-ui/core/Avatar";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import HelpIcon from '@material-ui/icons/HelpOutline';
+import { Checkbox } from 'antd';
 
 import axios from "axios";
 import { getSessionInfo, getUserSessionInfo } from "../actions/SessionActions";
 import MypageNav from "../components/mypage/MypageNav";
+
+import MuiAlert from '@material-ui/lab/Alert';
+function NumAlert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,15 +75,23 @@ const SessionCreateContainer = (props) => {
   let urlSearchParams = new URLSearchParams(
     props.routerInfo.location.search.slice(1)
   );
+
+  let defaultDate = new Date().toISOString()
+  console.log("defaultDate", defaultDate)
+
   const holeId = urlSearchParams.get("holeId");
 
   const [title, setTitle] = useState("");
   const [titleValid, setTitleValid] = useState(false);
   const [description, setDescription] = useState("");
   const [descriptionValid, setDescriptionValid] = useState(false);
-  const [reserveDate, setReserveDate] = useState("");
+  
+  const [reserveDate, setReserveDate] = useState(defaultDate);
   const [reserveDateValid, setReserveDateValid] = useState(false);
+  const [earlyDateValid, setEarlyDateValid] = useState(false);
   const [count, setCount] = useState(0)
+
+  const [skipValid, setSkipValid] = useState(false);
 
   const toDate = (reserve_date) => {
     let date = new Date(reserve_date);
@@ -97,6 +115,7 @@ const SessionCreateContainer = (props) => {
   }, [holeId]);
 
   const [open, setOpen] = useState(0);
+  const [open2, setOpen2] = useState(0);
   const [disable, setDisable] = useState(false)
 
   const classes = useStyles();
@@ -120,13 +139,28 @@ const SessionCreateContainer = (props) => {
     setOpen(false);
   };
 
+  const handleClick2 = () => {
+    setOpen2(true);
+  };
+
+  const handleClose2 = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen2(false);
+  };
+
   const onClick = async () => {
+    if (earlyDateValid)
+        return;
     setDisable(true)
     const config = {
       headers: { Authorization: "Token " + localStorage.token },
     };
     console.log(localStorage.token);
-
+    
+    let session = {}
+    
     const data = {
       title: title,
       description: description,
@@ -155,7 +189,24 @@ const SessionCreateContainer = (props) => {
           if (description.length === 0) setDescriptionValid(true);
           setDisable(false)
         });
-    } else {
+    } else if(skipValid){
+      // sessionCreate
+      await axios
+      .post("https://www.ask2live.me/api/hole/create", data, config)
+        .then((res) => {
+          console.log("hole created: ", res);
+          session = res.data.detail
+        })
+      // sessionToReserve
+      postSessionToReserve(session);
+      console.log("postSessionToReserve success")
+      // 라이브 하기
+      history.push({
+        pathname: "/session/reserve",
+        search: "?holeId=" + session.id,
+    })
+      
+    }else {
       await axios
         .post("https://www.ask2live.me/api/hole/create", data, config)
         .then((res) => {
@@ -225,38 +276,37 @@ const SessionCreateContainer = (props) => {
                 shrink: true,
               }}
             />
-            <TextField
-              // variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              error={reserveDateValid}
-              helperText={reserveDateValid ? "예약 일자를 입력해 주세요" : ""}
-              id="reserveDate"
-              label="Live Q&A 진행 예정일"
-              name="reserveDate"
-              type="datetime-local"
-              // autoComplete="title"
-              autoFocus
-              value={reserveDate}
-              // defaultValue={reserveDate}
-              onChange={(e) => {
-                setReserveDate(e.target.value);
-                let cur_date = new Date();
-                console.log(reserveDate);
-                console.log("설정한시간", toDate(reserveDate).getTime());
-                console.log("현재시간", cur_date.getTime());
-                console.log(
-                  (toDate(reserveDate).getTime() - cur_date.getTime()) / 1000
-                );
-                setReserveDateValid(false);
-              }}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
+            
+            <Checkbox onChange={(e) => {
+              console.log("e.target.checked", e.target.checked)
+              if(e.target.checked){
+                setSkipValid(true)
+                console.log("skipValid-true", skipValid)
+              }else{
+                setSkipValid(false)
+                console.log("skipValid-false", skipValid)
+              }
+            }}><span style={{fontSize:"small"}} className="BMDOHYEON">지금 당장 라이브 세션 열기</span></Checkbox>
+            
+            {skipValid ? 
+            
+            <>
+                <TextField
+                margin="normal"
+                disabled="true"
+                fullWidth
+                id="reserveDate"
+                label="Live Q&A 진행 예정일"
+                name="reserveDate"
+                type="datetime-local"
+                autoFocus
+                value={reserveDate}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
 
-            <Grid
+              <Grid
               style={{ height: "6em" }}
               container
               spacing={3}
@@ -273,7 +323,105 @@ const SessionCreateContainer = (props) => {
                   }}
                   variant="body2"
                 >
-                  <AccountCircleIcon /> &nbsp; 목표 인원 수
+                  <HelpIcon
+                    color="disabled"
+                    onClick={()=>
+                        handleClick2()
+                    }
+                  /><span style={{color:"gray"}}> &nbsp; 목표 인원 수</span>
+                </div>
+              </Grid>
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginRight: "1em",
+                }}
+              >
+                <IconButton disabled="true" size="small" onClick={onDecrease}>
+                  <RemoveCircleIcon />
+                </IconButton>
+
+                <TextField
+                disabled="true"
+                  // margin="normal"
+                  style={{ width: "4em" }}
+                  id="target_demand"
+                  name="target_demand"
+                  inputProps={{ min: 0, style: { textAlign: "center" } }}
+                  value={count}
+                  name="userCount"
+                />
+
+                <IconButton disabled="true" size="small" onClick={onIncrease}>
+                  <AddCircleIcon />
+                </IconButton>
+              </div>
+            </Grid>
+              </>
+              
+            :
+            <>
+              <TextField
+                // variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                error={reserveDateValid || earlyDateValid}
+                helperText={reserveDateValid ? "예약 일자를 입력해 주세요" : 
+                              earlyDateValid ? "이전 날짜로는 입력할 수 없어요" : ""}
+                id="reserveDate"
+                label="Live Q&A 진행 예정일"
+                name="reserveDate"
+                type="datetime-local"
+                // autoComplete="title"
+                autoFocus
+                value={reserveDate}
+                // defaultValue={reserveDate}
+                onChange={(e) => {
+                  setReserveDate(e.target.value);
+                  let cur_date = new Date();
+                  console.log(reserveDate);
+                  console.log("설정한시간", toDate(e.target.value).getTime());
+                  console.log("현재시간", cur_date.getTime());
+                  console.log(
+                    (toDate(e.target.value).getTime() - cur_date.getTime()) / 1000
+                  );
+                  if (toDate(e.target.value).getTime() - cur_date.getTime() < 0)
+                      setEarlyDateValid(true)
+                  else
+                      setEarlyDateValid(false)
+                  setReserveDateValid(false);
+                }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+
+              <Grid
+              disabled="true"
+              style={{ height: "6em" }}
+              container
+              spacing={3}
+              justify="flex-end"
+            >
+              <Grid justify="center" justifyContents="center" item xs={6}>
+                <div
+                  style={{
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    float: "right",
+                    fontFamily: "BMJUA",
+                  }}
+                  variant="body2"
+                >
+                  <HelpIcon
+                    onClick={()=>
+                        handleClick2()
+                    }
+                  /> &nbsp; 목표 인원 수
                 </div>
               </Grid>
 
@@ -303,6 +451,11 @@ const SessionCreateContainer = (props) => {
                 </IconButton>
               </div>
             </Grid>
+              </>
+            }
+            
+            
+            
 
             <TextField
               variant="outlined"
@@ -331,7 +484,8 @@ const SessionCreateContainer = (props) => {
                 shrink: true,
               }}
             />
-            {holeId ? (
+            {holeId ? 
+            <>
               <Button
                 type="submit"
                 fullWidth
@@ -342,18 +496,35 @@ const SessionCreateContainer = (props) => {
               >
                 수정하기
               </Button>
-            ) : (
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                className={classes.submit}
-                onClick={onClick}
-                disabled={disable}
-              >
-                Live Q&A 만들기
-              </Button>
-            )}
+            </>
+             : 
+            <>
+            {skipValid?
+            <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            className={classes.submit}
+            onClick={onClick}
+            disabled={disable}
+          >
+            Live Q&A 세션 바로 만들기
+            </Button>
+            :
+            <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            className={classes.submit}
+            onClick={onClick}
+            disabled={disable}
+          >
+            Live Q&A 만들기
+            </Button>
+            }
+              
+            </>
+            }
           </div>
         </div>
       </Container>
@@ -371,6 +542,21 @@ const SessionCreateContainer = (props) => {
           )}
         </Alert>
       </Snackbar>
+      <Snackbar 
+                style={{position:"fixed", top: "0%"}}
+                open={open2} autoHideDuration={6000} onClose={handleClose2}>
+                    <NumAlert 
+                    style={{color: "black", backgroundColor:"white", border:"2px solid #4CC0D0", boxShadow:"2px 2px 15px 10px rgba(0, 0, 0, 0.6)"}}
+                    onClose={handleClose2} severity="error">
+                    <span style={{fontSize:"1.1em"}} className="BMJUA">목표인원</span> 
+                    을 달성하면 <br/>
+                    <span style={{fontSize:"1.1em"}} className="BMJUA">예약 확정하기</span>
+                    를 할 수 있어요.<br/>
+                    예약을 확정하면
+                    <span style={{fontSize:"0.9em"}} className="Gmarket3"> Live Q&A</span>
+                    를 열 수 있어요.
+                    </NumAlert>
+        </Snackbar>
     </>
   );
 };
