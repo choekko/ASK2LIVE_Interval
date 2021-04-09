@@ -349,17 +349,23 @@ const LiveSession = (props) => {
     
     
     useEffect(() => {
+
+        dispatch({type: QUESTIONLIST_DELETE})
+        dispatch({type: ENTEREDSESSION_DELETE})
         
         const liveInter = setInterval(()=>{
             dispatch(getEnteredSession(props.channelNum))
             dispatch(getQuestionList(props.holeId))
         }, 5000);
+
+        
         
         const refreshOut = () => {
             rtmClient.logout();
             leave();
             leavePatchApi();
             clearInterval(liveInter);
+            // clearInterval(volumeInter);
         };
         window.addEventListener("beforeunload", refreshOut);
         window.onpageshow =  function(event) { // BFCahe
@@ -378,6 +384,7 @@ const LiveSession = (props) => {
             leave();
             leavePatchApi();
             clearInterval(liveInter);
+            // clearInterval(volumeInter);
             handleClick();
         });
 
@@ -390,8 +397,8 @@ const LiveSession = (props) => {
         {
             const unblock = history.block('정말 떠나시겠습니까?');
             return () => {
-                dispatch({type: QUESTIONLIST_DELETE})
-                dispatch({type: ENTEREDSESSION_DELETE})
+                // dispatch({type: QUESTIONLIST_DELETE})
+                // dispatch({type: ENTEREDSESSION_DELETE})
 
                 console.log("호스트!!!: ", props.isHost)
                 window.removeEventListener("beforeunload", refreshOut);
@@ -408,6 +415,7 @@ const LiveSession = (props) => {
                 leave();
                 leavePatchApi();
                 clearInterval(liveInter)
+                // clearInterval(volumeInter);
                 unblock();
                 
                 // history.replace('/main');
@@ -420,8 +428,8 @@ const LiveSession = (props) => {
         else {
             const unblock = history.block('정말 떠나시겠습니까?');
             return () => {
-                dispatch({type: QUESTIONLIST_DELETE})
-                dispatch({type: ENTEREDSESSION_DELETE})
+                // dispatch({type: QUESTIONLIST_DELETE})
+                // dispatch({type: ENTEREDSESSION_DELETE})
 
                 console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
                 window.removeEventListener("beforeunload", refreshOut);
@@ -431,6 +439,7 @@ const LiveSession = (props) => {
                 leave();
                 leavePatchApi();
                 clearInterval(liveInter)
+                // clearInterval(volumeInter);
                 unblock();
                 
                 // history.replace('/main');
@@ -567,11 +576,11 @@ const LiveSession = (props) => {
         <div className="host-player">
             <PlayerWrapper
                 client={client}
-                rtmClient={rtmClient}
-                host={authority}
+                // rtmClient={rtmClient}
+                // host={authority}
                 localAudioTrack={localAudioTrack}
                 remoteUsers={remoteUsers}
-                channelNum={props.channelNum}
+                // channelNum={props.channelNum}
             />
         </div>
         <Snackbar style={{position: "fixed", bottom:"50%"}} open={questionAlert} autoHideDuration={1500} onClose={closeQuestionAlert}>

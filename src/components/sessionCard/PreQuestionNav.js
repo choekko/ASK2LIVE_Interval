@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector, useDispatch} from 'react-redux';
 import axios from 'axios';
+
+import {QUESTIONLIST_DELETE} from "../../actions/types";
 
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -92,6 +94,9 @@ const MyQuestionCards = () => {
   
   const userId = user.data.detail.id
   const questionsList = questions.data.detail
+
+  const dispatch = useDispatch()
+
 
   if(Object.keys(questionsList).length != 0){
     questionsList.map((question) => {

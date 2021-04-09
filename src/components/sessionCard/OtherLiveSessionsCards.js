@@ -113,6 +113,9 @@ const style = {
         width : "inherit",
         height : "1.5em",
         // backgroundColor : "green",
+        textOverflow:"ellipsis",
+        whiteSpace: "nowrap",
+        overflow:"hidden",
     },
     buttonWrapper : {
         width : "6em",

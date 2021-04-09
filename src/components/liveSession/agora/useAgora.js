@@ -21,7 +21,8 @@ export default function useAgora(client) {
 
   async function createLocalTracks() {
     const microphoneTrack = await AgoraRTC.createMicrophoneAudioTrack(
-      MicrophoneAudioTrackInitConfig
+      // MicrophoneAudioTrackInitConfig
+      { AEC: true, ANS: true }
     );
     setLocalAudioTrack(microphoneTrack);
     return microphoneTrack;
@@ -67,18 +68,14 @@ export default function useAgora(client) {
           console.log("make host");
 
           client.publish(microphoneTrack);
-          localAudioTrack.stop();
-          localAudioTrack.setEnabled(true);
+          // localAudioTrack.stop();
+          // localAudioTrack.setEnabled(true);
 
         } else if (msg.text === "audience") {
           console.log("make audience");
           
           client.unpublish();
-          localAudioTrack.play();
-
-        } else if (msg.text === "hostOut") {
-          console.log("[Host Out] the session is closed");
-          leave();
+          // localAudioTrack.play();
 
         } else {
           console.log("[Warning] unknown message:", msg);
