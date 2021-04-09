@@ -13,7 +13,7 @@
   margin: auto;
   height: 100%;
 }
-/* ���� �θ��???; �Ʒ��� �ڽ����� �ϸ� ����, ��������  */
+/* ���� �θ��????; �Ʒ��� �ڽ����� �ϸ� ����, ��������  */
 .verticalmid {
   display: table-cell;
   vertical-align: middle;
@@ -233,12 +233,17 @@
 }
 .chatting::-webkit-scrollbar-thumb {
   /* visibility: hidden; */
-  background-color: #2f3542;
+  background-color: grey;
+  border-radius: 15px;
+  /* background-color: #2f3542; */
 }
 .chatting::-webkit-scrollbar-track {
   /* visibility: hidden; */
-  background-color: grey;
+  background-color: #3B3B3B;
+  /* background-color: grey; */
 }
+
+    
 
 .comment-list {
   margin-left: -1em;
@@ -299,7 +304,7 @@
     width:50%;
     max-width: 22em;
     height:6em;
-    overflow-y:hidden;
+    overflow:hidden;
 }
 .voicePlane::-webkit-scrollbar {
     display:none;

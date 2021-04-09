@@ -348,6 +348,9 @@ const LiveSession = (props) => {
     
     
     useEffect(() => {
+
+        dispatch({type: QUESTIONLIST_DELETE})
+        dispatch({type: ENTEREDSESSION_DELETE})
         
         const liveInter = setInterval(()=>{
             dispatch(getEnteredSession(props.channelNum))
@@ -383,8 +386,8 @@ const LiveSession = (props) => {
         {
             const unblock = history.block('정말 떠나시겠습니까?');
             return () => {
-                dispatch({type: QUESTIONLIST_DELETE})
-                dispatch({type: ENTEREDSESSION_DELETE})
+                // dispatch({type: QUESTIONLIST_DELETE})
+                // dispatch({type: ENTEREDSESSION_DELETE})
 
                 console.log("호스트!!!: ", props.isHost)
                 window.removeEventListener("beforeunload", refreshOut);
@@ -413,8 +416,8 @@ const LiveSession = (props) => {
         else {
             const unblock = history.block('정말 떠나시겠습니까?');
             return () => {
-                dispatch({type: QUESTIONLIST_DELETE})
-                dispatch({type: ENTEREDSESSION_DELETE})
+                // dispatch({type: QUESTIONLIST_DELETE})
+                // dispatch({type: ENTEREDSESSION_DELETE})
 
                 console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
                 window.removeEventListener("beforeunload", refreshOut);

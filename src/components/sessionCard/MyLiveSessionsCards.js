@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
         width: "6.3em",
         height: "6.3em",
         marginLeft: "1em",
-        backgroundSize: "contain",
+        backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         overflow: "hidden",
 
@@ -107,7 +107,10 @@ const style = {
     contentWork : {
         // backgroundColor : "green",
         width : "13.5em",
-        height : "1em",
+        height : "1.2em",
+        textOverflow:"ellipsis",
+        whiteSpace: "nowrap",
+        overflow:"hidden",
     },
     live2 : {
         display: "inline-block",
@@ -199,12 +202,12 @@ const MyLiveSessionsCard = ({session}) => {
                     <span className= "NanumGothic3" style={{color: "rgba(0, 0, 0, 0.5)", fontSize : "0.8em"}}>
                             {session.host_work_company ? 
                             <>
-                             {session.host_work_company} |
+                             {session.host_work_company}
                             </>
                              : null}
                             {session.host_work_field ? 
                             <>
-                             {session.host_work_field}
+                             {" | " + session.host_work_field}
                             </>
                              : null}
                              {

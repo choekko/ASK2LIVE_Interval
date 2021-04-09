@@ -105,6 +105,9 @@ const style = {
         width : "inherit",
         height : "1.5em",
         // backgroundColor : "green",
+        textOverflow:"ellipsis",
+        whiteSpace: "nowrap",
+        overflow:"hidden",
     },
     buttonWrapper : {
         width : "6em",
@@ -228,12 +231,12 @@ const HostConfirmedSessionsCards = ({hostConfirmedSessions}) => {
                         <span className= "NanumGothic3" style={{color: "rgba(0, 0, 0, 0.5)", fontSize : "0.8em"}}>
                             {session.host_work_company ? 
                             <>
-                             {session.host_work_company} |
+                             {session.host_work_company}
                             </>
                              : null}
                             {session.host_work_field ? 
                             <>
-                             {session.host_work_field}
+                             {" | " + session.host_work_field}
                             </>
                              : null}
                              {

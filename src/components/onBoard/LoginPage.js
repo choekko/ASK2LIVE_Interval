@@ -230,7 +230,7 @@ const LoginPage = (props) => {
                 </Grid>
                 <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="error">
-                    이미 존재하는 아이디입니다.
+                    유효하지 않은 정보입니다.
                     </Alert>
                 </Snackbar>
                 <Snackbar 
