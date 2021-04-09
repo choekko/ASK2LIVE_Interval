@@ -32,6 +32,7 @@ import Button from "@material-ui/core/Button";
 
 // material-ui
 import Grid from "@material-ui/core/Grid";
+import { SpeakerNotesOffOutlined } from "@material-ui/icons";
 const useStyles = makeStyles((theme) => ({
   // root: {
   //   width: "100%",
@@ -162,20 +163,26 @@ const MyPageContainer = (props) => {
             {/* <ListItemIcon> */}
               <Emoji symbol="🔊" />
             {/* </ListItemIcon> */}
-            <p className="BMJUA" style={style.itemText} >진행 확정된 QnA</p>
+            <p className="BMJUA" style={style.itemText} >진행 확정된 Q&A</p>
             {openConfirm ? <ExpandMore /> : <ExpandLess />}
           </ListItem>
 
           <Collapse in={!openConfirm} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              {myConfirmSessions.length != 0 &&
+              {myConfirmSessions.length != 0 ?
                 myConfirmSessions.map((session) => (
                   <>
                     <MypageConfirmedSession
                       session={session}
                     />
                   </>
-                ))}
+                )) :
+                  <>
+                    <div style={{display: "flex", justifyContent: "center"}}>
+                      <p className="Gmarket2" style={{color: "#3f51b5"}}> 진행 확정된 Q&A가 없습니다</p>
+                    </div>
+                  </>
+                }
             </List>
           </Collapse>
 
@@ -185,18 +192,25 @@ const MyPageContainer = (props) => {
             className={classes.nested}
           >
             <Emoji symbol="💬" />
-            <p className="BMJUA" style={style.itemText} >모집 중인 QnA</p>
+            <p className="BMJUA" style={style.itemText} >모집 중인 Q&A</p>
             {open ? <ExpandMore /> : <ExpandLess />}
           </ListItem>
 
           <Collapse in={!open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              {myLiveSessions.length != 0 &&
+              {myLiveSessions.length != 0 ?
                 myLiveSessions.map((session) => (
                   <>
                     <MypageLiveSession session={session} />
                   </>
-                ))}
+                ))
+                :
+                  <>
+                    <div style={{display: "flex", justifyContent: "center"}}>
+                      <p className="Gmarket2" style={{color: "#3f51b5"}}> 모집 중인 Q&A가 없습니다</p>
+                    </div>
+                  </>
+                }
             </List>
           </Collapse>
 
@@ -207,18 +221,25 @@ const MyPageContainer = (props) => {
           >
             <Emoji symbol="❤️" />
 
-            <p className="BMJUA" style={style.itemText} >찜한 QnA</p>
+            <p className="BMJUA" style={style.itemText} >찜한 Q&A</p>
             {openWish ? <ExpandMore /> : <ExpandLess />}
           </ListItem>
 
           <Collapse in={!openWish} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              {myWishSessions.length != 0 &&
+              {myWishSessions.length != 0 ?
                 myWishSessions.map((session) => (
                   <>
                     <MypageLiveSession session={session} />
                   </>
-                ))}
+                ))
+                :
+                <>
+                  <div style={{display: "flex", justifyContent: "center"}}>
+                    <p className="Gmarket2" style={{color: "#3f51b5"}}> 찜한 Q&A가 없습니다</p>
+                  </div>
+                </>
+              }
             </List>
           </Collapse>
 
@@ -230,18 +251,25 @@ const MyPageContainer = (props) => {
 
               <Emoji symbol="🔇" />
 
-            <p className="BMJUA" style={style.itemText} >진행 완료 QnA</p>
+            <p className="BMJUA" style={style.itemText} >진행 완료 Q&A</p>
             {openDone ? <ExpandMore /> : <ExpandLess />}
           </ListItem>
 
           <Collapse in={!openDone} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              {myDoneSessions.length != 0 &&
+              {myDoneSessions.length != 0 ?
                 myDoneSessions.map((session) => (
                   <>
                     <MypageLiveSession session={session} />
                   </>
-                ))}
+                ))
+                :
+                <>
+                  <div style={{display: "flex", justifyContent: "center"}}>
+                    <p className="Gmarket2" style={{color: "#3f51b5"}}> 진행 완료한 Q&A가 없습니다</p>
+                  </div>
+                </>
+                }
             </List>
           </Collapse>
 

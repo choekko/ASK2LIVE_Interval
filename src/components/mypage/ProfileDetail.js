@@ -77,24 +77,24 @@ const useStyles = makeStyles((theme) => ({
 const style = {
   editWrapper: {
     height: "7%",
-    left: 0,
+    // left: 0,
     right: 0,
-    position: "fixed",
+    position: "absolute",
     margin: "auto",
-    width: "100%",
+    // width: "100%",
     // maxWidth: "73em",
-    top: 0,
-    zIndex: 1,
-    pointerEvents: "none",
+    bottom: 0,
+    // zIndex: 1,
+    // pointerEvents: "none",
   },
   editBtn: {
-    pointerEvents:"auto",
-    position: "absolute",
-    right:0,
+    // pointerEvents:"auto",
+    // position: "absolute",
+    // right:0,
     height: "100%",
-    fontFamily: "BMJUA",
+    // fontFamily: "BMJUA",
     fontSize: "1em",
-    transform: "translate(0, 1px)",
+    // transform: "translate(0, 1px)",
   },
 };
 
@@ -152,19 +152,19 @@ const ProfileDetail = (props) => {
   return (
     <>
         <MypageNav text={"프로필"} editFlag={editFlag} />
+        
+
+      <div className={classes.root}>
+        <div className={classes.root2}>
         {user.username === profile.username && (
           <>
           <div style={style.editWrapper}>
             <Button onClick={goToEdit} style={style.editBtn}>
-              <span>편집</span>
+              <span className="CookieRun">편집</span>
             </Button>
           </div>
           </>
         )}
-
-
-      <div className={classes.root}>
-        <div className={classes.root2}>
           <div>
             <p className={classes.username}>{profile.username}</p>
             {profile.profile_image?
@@ -180,6 +180,7 @@ const ProfileDetail = (props) => {
             src="/static/reigns/1.jpg"
           ></Avatar>
           }
+
             
           </div>
 

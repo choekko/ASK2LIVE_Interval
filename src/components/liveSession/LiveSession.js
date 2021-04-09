@@ -356,12 +356,15 @@ const LiveSession = (props) => {
             dispatch(getEnteredSession(props.channelNum))
             dispatch(getQuestionList(props.holeId))
         }, 5000);
+
+        
         
         const refreshOut = () => {
             rtmClient.logout();
             leave();
             leavePatchApi();
             clearInterval(liveInter);
+            // clearInterval(volumeInter);
         };
         window.addEventListener("beforeunload", refreshOut);
 
@@ -374,6 +377,7 @@ const LiveSession = (props) => {
             leave();
             leavePatchApi();
             clearInterval(liveInter);
+            // clearInterval(volumeInter);
             handleClick();
         });
 
@@ -404,6 +408,7 @@ const LiveSession = (props) => {
                 leave();
                 leavePatchApi();
                 clearInterval(liveInter)
+                // clearInterval(volumeInter);
                 unblock();
                 
                 // history.replace('/main');
@@ -427,6 +432,7 @@ const LiveSession = (props) => {
                 leave();
                 leavePatchApi();
                 clearInterval(liveInter)
+                // clearInterval(volumeInter);
                 unblock();
                 
                 // history.replace('/main');
@@ -563,11 +569,11 @@ const LiveSession = (props) => {
         <div className="host-player">
             <PlayerWrapper
                 client={client}
-                rtmClient={rtmClient}
-                host={authority}
+                // rtmClient={rtmClient}
+                // host={authority}
                 localAudioTrack={localAudioTrack}
                 remoteUsers={remoteUsers}
-                channelNum={props.channelNum}
+                // channelNum={props.channelNum}
             />
         </div>
         <Snackbar style={{position: "fixed", bottom:"50%"}} open={questionAlert} autoHideDuration={1500} onClose={closeQuestionAlert}>
