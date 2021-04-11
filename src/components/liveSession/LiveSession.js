@@ -7,7 +7,8 @@ import getEnteredSession from "../../actions/EnteredSessionActions"
 import getQuestionList from "../../actions/QuestionListActions";
 import {
     QUESTIONLIST_DELETE,
-    ENTEREDSESSION_DELETE
+    ENTEREDSESSION_DELETE,
+    CLEAR_VOLUME,
 } from "../../actions/types.js";
 
 
@@ -282,6 +283,7 @@ const LiveSession = (props) => {
     const [refreshAlert, setRefreshAlert] = useState(false)
 
     const [hostExit, setHostExit] = useState(false);
+    const [liveVoice,setLiveVoice] = useState(false);
 
     const openQuestionAlert = () => {
         setOuestionAlert(true);
@@ -352,6 +354,8 @@ const LiveSession = (props) => {
 
         dispatch({type: QUESTIONLIST_DELETE})
         dispatch({type: ENTEREDSESSION_DELETE})
+        dispatch({type: CLEAR_VOLUME});
+        setLiveVoice(false)
         
         const liveInter = setInterval(()=>{
             dispatch(getEnteredSession(props.channelNum))
@@ -397,8 +401,6 @@ const LiveSession = (props) => {
         {
             const unblock = history.block('정말 떠나시겠습니까?');
             return () => {
-                // dispatch({type: QUESTIONLIST_DELETE})
-                // dispatch({type: ENTEREDSESSION_DELETE})
 
                 console.log("호스트!!!: ", props.isHost)
                 window.removeEventListener("beforeunload", refreshOut);
@@ -419,7 +421,7 @@ const LiveSession = (props) => {
                 unblock();
                 
                 // history.replace('/main');
-                setTimeout(window.location.replace('/main'), 300);
+                // setTimeout(window.location.replace('/main'), 300);
                 
             }
 
@@ -428,8 +430,8 @@ const LiveSession = (props) => {
         else {
             const unblock = history.block('정말 떠나시겠습니까?');
             return () => {
-                // dispatch({type: QUESTIONLIST_DELETE})
-                // dispatch({type: ENTEREDSESSION_DELETE})
+                dispatch({type: QUESTIONLIST_DELETE})
+                dispatch({type: ENTEREDSESSION_DELETE})
 
                 console.log("게스트가 스스로 나가는경우!!!!!!!!!!", hostExit)
                 window.removeEventListener("beforeunload", refreshOut);
@@ -450,7 +452,7 @@ const LiveSession = (props) => {
 
     // ^ =============================================================
     
-    const [liveVoice,setLiveVoice] = useState(false);
+    
 
     return (
         <>
@@ -506,7 +508,7 @@ const LiveSession = (props) => {
                                 <div className="forLiveVoice">
                                     <tr>
                                     <StyledBadge badgeContent={<MicIcon/>} color="error">
-                                        <Avatar hostName={props.hostName} imageLink={props.imageLink}/>
+                                        <Avatar isHostAvatar={true} hostName={props.hostName} imageLink={props.imageLink}/>
                                     </StyledBadge>
                                     </tr>
                                     <tr className="centered">

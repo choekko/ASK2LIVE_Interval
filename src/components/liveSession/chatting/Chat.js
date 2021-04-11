@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback} from 'react';
+import React, { useRef, useState, useEffect, useCallback, memo} from 'react';
 import PropTypes from 'prop-types';
 import { List, PageHeader, Spin } from 'antd';
 import { connect } from 'react-redux';
@@ -157,7 +157,7 @@ const Chat = props => {
 return (
     <React.Fragment>
       
-      <div style={{ height: windowHeight - windowPadding }}>
+      <div style={{ height: windowHeight}}>
         {renderList()}
 
       </div >

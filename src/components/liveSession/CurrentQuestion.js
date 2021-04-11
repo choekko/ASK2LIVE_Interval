@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from "react"
+import React, {useState, useCallback, memo} from "react"
 import { useSelector } from "react-redux"
 import axios from "axios"
 import StringQuestion from "./StringQuestion";
@@ -15,7 +15,7 @@ const style = {
     }
 }
 
-const CurrentQuestion = (props) => {
+const CurrentQuestion = memo((props) => {
     
     const questionPatchApi = async(questionId) =>  {
         const headers = {
@@ -160,7 +160,7 @@ const CurrentQuestion = (props) => {
     //     }
     // }
    
-}
+})
 
 
 export default CurrentQuestion

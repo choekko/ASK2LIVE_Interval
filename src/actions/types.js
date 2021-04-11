@@ -36,3 +36,7 @@ export const ENTEREDSESSION_GET_PENDING = 'enteredSession/ENTEREDSESSION_GET_PEN
 export const ENTEREDSESSION_GET_SUCCESS = 'enteredSession/ENTEREDSESSION_GET_SUCCESS';
 export const ENTEREDSESSION_GET_ERROR = 'enteredSession/ENTEREDSESSION_GET_ERROR';
 export const ENTEREDSESSION_DELETE = 'enteredSession/ENTEREDSESSION_DELETE'
+
+// Volume Type
+export const PATCH_VOLUME = 'volume/PATCH_VOLUME';
+export const CLEAR_VOLUME = 'volume/CLEAR_VOLUME';
